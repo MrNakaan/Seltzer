@@ -1,3 +1,11 @@
+logs/
+.metadata/
+.recommenders/
+RemoteSystemsTempFiles/
+.settings/
+target/
+.project
+
 *.class
 
 # Mobile Tools for Java (J2ME)
