@@ -24,7 +24,7 @@ import hall.caleb.selenium.objects.SeleniumResponse;
 public class ServerSocketListener implements Runnable {
 	private static Logger logger = LogManager.getLogger(ServerSocketListener.class);
 	
-	private static ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 8, 3000, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
+	private static ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 8, 3000, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 	
 	private int port;
 	private int connections;
