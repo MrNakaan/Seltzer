@@ -4,7 +4,7 @@
 
 	<groupId>hall.caleb.selenium</groupId>
 	<artifactId>command-response</artifactId>
-	<version>0.9.0</version>
+	<version>0.10.0</version>
 	<packaging>bundle</packaging>
 
 	<name>Command/Response</name>
@@ -24,7 +24,7 @@
 				<configuration>
 					<instructions>
 						<Import-Package>*</Import-Package>
-						<Export-Package>hall.caleb.selenium.objects,hall.caleb.selenium.enums</Export-Package>
+						<Export-Package>hall.caleb.selenium.objects.command,hall.caleb.selenium.objects.response,hall.caleb.selenium.enums</Export-Package>
 						<Bundle-SymbolicName>command-response</Bundle-SymbolicName>
 					</instructions>
 				</configuration>
@@ -40,7 +40,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<dependencies>
-	</dependencies>
 </project>

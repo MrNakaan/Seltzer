@@ -5,6 +5,7 @@ RemoteSystemsTempFiles/
 .settings/
 target/
 .project
+*.log
 
 *.class
 

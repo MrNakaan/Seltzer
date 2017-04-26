@@ -272,6 +272,7 @@ public class CommandProcessor {
 		
 				response.setSuccess(true);
 				response.setAttribute(attributeText != null ? attributeText : "");
+				return response;
 			} catch (NoSuchElementException e) {
 				tryNumber++;
 				sleep(e, tryNumber);
@@ -293,6 +294,7 @@ public class CommandProcessor {
 
 				response.setSuccess(true);
 				response.setText(text);
+				return response;
 			} catch (NoSuchElementException e) {
 				tryNumber++;
 				sleep(e, tryNumber);
