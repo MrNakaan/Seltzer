@@ -9,7 +9,7 @@ public class Command {
 	protected UUID id;
 	
 	public Command() {
-		
+		super();
 	}
 
 	public Command(CommandType commandType) {
