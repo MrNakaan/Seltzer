@@ -9,6 +9,7 @@ public class FillFieldCommand extends SelectorCommand {
 	
 	public FillFieldCommand() {
 		super();
+		this.commandType = CommandType.FillField;
 	}
 
 	public FillFieldCommand(CommandType commandType) {
