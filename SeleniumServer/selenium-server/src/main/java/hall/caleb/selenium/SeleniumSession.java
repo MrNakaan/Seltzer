@@ -10,8 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import hall.caleb.selenium.objects.SeleniumCommand;
-import hall.caleb.selenium.objects.SeleniumResponse;
+import hall.caleb.selenium.objects.command.Command;
+import hall.caleb.selenium.objects.response.Response;
 
 public class SeleniumSession implements Closeable {
 	private static List<SeleniumSession> sessions = new ArrayList<>();
@@ -92,7 +92,7 @@ public class SeleniumSession implements Closeable {
 		sessions.remove(this);
 	}
 	
-	public SeleniumResponse executeCommand(SeleniumCommand command) {
+	public Response executeCommand(Command command) {
 		this.lastUsed = System.currentTimeMillis();
 		
 		return CommandProcessor.processCommand(driver, command);

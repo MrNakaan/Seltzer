@@ -26,7 +26,7 @@ public class CommandFactory {
 	}
 	
 	public static GoToCommand newGoToCommand(UUID id, String url) {
-		return new GoToCommand(CommandType.GetUrl, id, url);
+		return new GoToCommand(CommandType.GoTo, id, url);
 	}
 	
 	public static SelectorCommand newClickCommand(UUID id, SelectorType type, String selector) {
@@ -48,27 +48,27 @@ public class CommandFactory {
 	}
 
 	public static SelectorCommand newDeleteCommand(UUID id, String selector) {
-		SelectorCommand command = new SelectorCommand(CommandType.FormSubmit, id);
+		SelectorCommand command = new SelectorCommand(CommandType.Delete, id);
 		command.setSelector(selector, SelectorType.Xpath);
 		return command;
 	}
 
 	public static FillFieldCommand newFillFieldCommand(UUID id, SelectorType type, String selector, String text) {
-		FillFieldCommand command = new FillFieldCommand(CommandType.FormSubmit, id);
+		FillFieldCommand command = new FillFieldCommand(CommandType.FillField, id);
 		command.setSelector(selector, type);
 		command.setText(text);
 		return command;
 	}
 
-	public static MultiResultSelectorCommand newMultiResultSelectorCommand(UUID id, SelectorType type, String selector, int maxResults) {
-		MultiResultSelectorCommand command = new MultiResultSelectorCommand(CommandType.FormSubmit, id);
+	public static MultiResultSelectorCommand newReadTextCommand(UUID id, SelectorType type, String selector, int maxResults) {
+		MultiResultSelectorCommand command = new MultiResultSelectorCommand(CommandType.ReadText, id);
 		command.setSelector(selector, type);
 		command.setMaxResults(maxResults);
 		return command;
 	}
 
 	public static ReadAttributeCommand newReadAttributeCommand(UUID id, SelectorType type, String selector, int maxResults, String attribute) {
-		ReadAttributeCommand command = new ReadAttributeCommand(CommandType.FormSubmit, id);
+		ReadAttributeCommand command = new ReadAttributeCommand(CommandType.ReadAttribute, id);
 		command.setSelector(selector, type);
 		command.setMaxResults(maxResults);
 		command.setAttribute(attribute);
