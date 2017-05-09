@@ -36,20 +36,15 @@ public class CommandProcessorTest {
 
 	@BeforeClass
 	public static void prepareClass() throws FileNotFoundException {
-		String repoPath = System.getProperty("repo.path");
-
-		if (repoPath == null) {
-			throw new IllegalArgumentException("Property repo.path not found!");
-		}
-
-		if (new File("web_drivers/chromedriver.exe").exists()) {
-			System.setProperty("webdriver.chrome.driver", "web_drivers/chromedriver.exe");
-		} else {
-			throw new FileNotFoundException("Web driver not found!");
-		}
+		SeleniumServer.configureBase();
 
 		session = new SeleniumSession();
-
+		
+		String repoPath = System.getProperty("repo.path");
+        if (repoPath == null) {
+            throw new IllegalArgumentException("Property repo.path not found!");
+        }
+        	
 		homeUrl = "file:///" + repoPath + "/SeleniumServer/selenium-server/src/test/resources/testHome.htm";
 	}
 

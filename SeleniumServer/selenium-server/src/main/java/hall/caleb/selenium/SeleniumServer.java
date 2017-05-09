@@ -50,10 +50,20 @@ public class SeleniumServer {
 		logger.info("Configuring server..");
 		
 		logger.debug("Configuring web driver location.");
-		logger.debug("Web driver should exist at \"web_drivers/chromedriver.exe\".");
 		
-		if (new File("web_drivers/chromedriver.exe").exists()) {
-			System.setProperty("webdriver.chrome.driver", "web_drivers/chromedriver.exe");
+		String repoPath = System.getProperty("repo.path");
+		String driverPath;
+		if (repoPath == null) {
+			logger.warn("repo.path system property not found, assuming relative path");
+			driverPath = "web_drivers/chromedriver.exe";
+		} else {
+			driverPath = repoPath + "/SeleniumServer/web_drivers/chromedriver.exe";
+		}
+		
+		logger.debug("Web driver should exist at \"" + driverPath + "\".");
+		
+		if (new File(driverPath).exists()) {
+			System.setProperty("webdriver.chrome.driver", driverPath);
 		} else {
 			throw new FileNotFoundException("Web driver not found!");
 		}
