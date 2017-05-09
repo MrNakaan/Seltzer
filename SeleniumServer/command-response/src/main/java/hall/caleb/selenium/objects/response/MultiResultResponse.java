@@ -1,5 +1,6 @@
 package hall.caleb.selenium.objects.response;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,10 +16,12 @@ public class MultiResultResponse extends Response {
 
 	public MultiResultResponse(UUID id) {
 		super(id, ResponseType.MultiResult);
+		results = new ArrayList<>();
 	}
 	
 	public MultiResultResponse(UUID id, boolean success) {
 		super(id, success, ResponseType.MultiResult);
+		results = new ArrayList<>();
 	}
 
 	@Override

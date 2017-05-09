@@ -10,21 +10,13 @@ public class ChainCommand extends Command {
 	protected List<Command> commands;
 
 	public ChainCommand() {
-		super();
+		super(CommandType.Chain);
 		commands = new ArrayList<>();
-		this.commandType = CommandType.Chain;
 	}
 
-	public ChainCommand(CommandType commandType) {
-		super(commandType);
+	public ChainCommand(UUID id) {
+		super(CommandType.Chain, id);
 		commands = new ArrayList<>();
-		this.commandType = CommandType.Chain;
-	}
-
-	public ChainCommand(CommandType commandType, UUID id) {
-		super(commandType, id);
-		commands = new ArrayList<>();
-		this.commandType = CommandType.Chain;
 	}
 
 	public boolean addCommand(Command command) {

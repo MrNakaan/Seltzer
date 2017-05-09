@@ -165,6 +165,7 @@ public class CommandProcessor {
 			try {
 				driver.findElement(getSelector(command)).click();
 				response.setSuccess(true);
+				break;
 			} catch (NoSuchElementException | StaleElementReferenceException e) {
 				tryNumber++;
 				sleep(e, tryNumber);
@@ -190,11 +191,16 @@ public class CommandProcessor {
 			String selector = command.getSelector().replace("\"", "\\\"");
 
 			StringBuilder removeScript = new StringBuilder();
-			removeScript.append("var e = document.evaluate(\"");
+			removeScript.append("while (true) {");
+			removeScript.append("e = document.evaluate(\"");
 			removeScript.append(selector);
 			removeScript.append("\", document.documentElement); ");
 			removeScript.append("e = e.iterateNext(); ");
+			removeScript.append("if (e == null) {");
+			removeScript.append("break;");
+			removeScript.append("}");
 			removeScript.append("e.parentNode.removeChild(e);");
+			removeScript.append("}");
 
 			JavascriptExecutor executor = (JavascriptExecutor) driver;
 			executor.executeScript(removeScript.toString());
@@ -216,6 +222,7 @@ public class CommandProcessor {
 				field.click();
 				field.sendKeys(command.getText());
 				response.setSuccess(true);
+				break;
 			} catch (NoSuchElementException | StaleElementReferenceException e) {
 				tryNumber++;
 				sleep(e, tryNumber);
@@ -235,6 +242,7 @@ public class CommandProcessor {
 				WebElement form = driver.findElement(getSelector(command));
 				form.submit();
 				response.setSuccess(true);
+				break;
 			} catch (NoSuchElementException e) {
 				tryNumber++;
 				sleep(e, tryNumber);
@@ -273,17 +281,17 @@ public class CommandProcessor {
 
 		By selector = getSelector(command);
 		int maxResults = -1;
-		if (command.getMaxResults() <= 0) {
-			while (tryNumber < RETRIES) {
-				try {
-					maxResults = driver.findElements(selector).size();
-				} catch (NoSuchElementException e) {
-					tryNumber++;
-					sleep(e, tryNumber);
-				}
+		while (tryNumber < RETRIES) {
+			try {
+				maxResults = driver.findElements(selector).size();
+				break;
+			} catch (NoSuchElementException e) {
+				tryNumber++;
+				sleep(e, tryNumber);
 			}
 		}
 
+		maxResults = (command.getMaxResults() <= 0 ? maxResults : Math.min(maxResults, command.getMaxResults()));
 		if (maxResults < 0) {
 			return new MultiResultResponse(command.getId(), false);
 		}
@@ -295,22 +303,20 @@ public class CommandProcessor {
 			while (tryNumber < RETRIES) {
 				try {
 					for (String attribute : attributes) {
-						tmpResult = driver.findElement(getSelector(command)).getAttribute(attribute.trim());
+						tmpResult = driver.findElements(getSelector(command)).get(i).getAttribute(attribute.trim());
 
-						if (tmpResult != null) {
+						if (tmpResult != null && !tmpResult.isEmpty()) {
 							break;
 						}
 					}
+					break;
 				} catch (NoSuchElementException e) {
 					tryNumber++;
 					sleep(e, tryNumber);
 				}
 			}
-			
-			if (tmpResult == null) {
-				response.setSuccess(false);
-				break;
-			} else {
+
+			if (tmpResult != null && !tmpResult.isEmpty()) {
 				response.getResults().add(tmpResult);
 				tmpResult = null;
 			}
@@ -326,17 +332,17 @@ public class CommandProcessor {
 
 		By selector = getSelector(command);
 		int maxResults = -1;
-		if (command.getMaxResults() <= 0) {
-			while (tryNumber < RETRIES) {
-				try {
-					maxResults = driver.findElements(selector).size();
-				} catch (NoSuchElementException e) {
-					tryNumber++;
-					sleep(e, tryNumber);
-				}
+		while (tryNumber < RETRIES) {
+			try {
+				maxResults = driver.findElements(selector).size();
+				break;
+			} catch (NoSuchElementException e) {
+				tryNumber++;
+				sleep(e, tryNumber);
 			}
 		}
 
+		maxResults = (command.getMaxResults() <= 0 ? maxResults : Math.min(maxResults, command.getMaxResults()));
 		if (maxResults < 0) {
 			return new MultiResultResponse(command.getId(), false);
 		}
@@ -347,7 +353,8 @@ public class CommandProcessor {
 		for (int i = 0; i < maxResults; i++) {
 			while (tryNumber < RETRIES) {
 				try {
-					tmpResult = driver.findElement(getSelector(command)).getText();
+					tmpResult = driver.findElements(getSelector(command)).get(i).getText();
+					break;
 				} catch (NoSuchElementException e) {
 					tryNumber++;
 					sleep(e, tryNumber);

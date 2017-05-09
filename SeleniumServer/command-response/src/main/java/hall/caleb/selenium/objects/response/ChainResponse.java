@@ -12,11 +12,14 @@ public class ChainResponse extends Response {
 	public ChainResponse() {
 		super();
 		responses = new ArrayList<>();
+		this.success = true;
+		this.type = ResponseType.Chain;
 	}
 
 	public ChainResponse(UUID id) {
 		super(id, ResponseType.Chain);
 		responses = new ArrayList<>();
+		this.success = true;
 	}
 	
 	public ChainResponse(UUID id, boolean success) {
