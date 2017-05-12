@@ -38,14 +38,14 @@ public class CommandProcessor {
 	private static final int RETRY_WAIT = 8;
 
 	public static Response processCommand(WebDriver driver, Command command) {
-		if (command.getCommandType() != CommandType.Chain) {
+		if (command.getType() != CommandType.Chain) {
 			logger.info("Processing command:");
 			logger.info(gson.toJson(command));
 		}
 
-		Response response = new Response(command.getId(), false, ResponseType.Basic);
+		Response response = new Response(command.getId(), false);
 
-		switch (command.getCommandType()) {
+		switch (command.getType()) {
 			case Back:
 				response = back(driver, command);
 				break;
@@ -129,19 +129,21 @@ public class CommandProcessor {
 	private static Response back(WebDriver driver, Command command) {
 		driver.navigate().back();
 
-		return new Response(command.getId(), true, ResponseType.Basic);
+		return new Response(command.getId(), true);
 	}
 
 	private static ChainResponse processChain(WebDriver driver, ChainCommand command) {
 		logger.info("Processing chain:");
 		logger.info(gson.toJson(command));
 
+		command.deserialize();
+		
 		ChainResponse response = new ChainResponse();
 
 		Response tempResponse;
 		for (Command subCommand : command.getCommands()) {
 			if (!subCommand.getId().equals(command.getId())) {
-				tempResponse = new Response(command.getId(), false, ResponseType.Basic);
+				tempResponse = new Response(command.getId(), false);
 			} else {
 				tempResponse = processCommand(driver, subCommand);
 			}
@@ -159,7 +161,7 @@ public class CommandProcessor {
 	private static Response click(WebDriver driver, SelectorCommand command) {
 		int tryNumber = 0;
 
-		Response response = new Response(command.getId(), false, ResponseType.Basic);
+		Response response = new Response(command.getId(), false);
 
 		while (tryNumber < RETRIES) {
 			try {
@@ -186,7 +188,7 @@ public class CommandProcessor {
 	}
 
 	private static Response delete(WebDriver driver, SelectorCommand command) {
-		Response response = new Response(command.getId(), false, ResponseType.Basic);
+		Response response = new Response(command.getId(), false);
 		if (command.getSelectorType() == SelectorType.Xpath && driver instanceof JavascriptExecutor) {
 			String selector = command.getSelector().replace("\"", "\\\"");
 
@@ -214,7 +216,7 @@ public class CommandProcessor {
 	private static Response fillField(WebDriver driver, FillFieldCommand command) {
 		int tryNumber = 0;
 
-		Response response = new Response(command.getId(), false, ResponseType.Basic);
+		Response response = new Response(command.getId(), false);
 
 		while (tryNumber < RETRIES) {
 			try {
@@ -235,7 +237,7 @@ public class CommandProcessor {
 	private static Response formSubmit(WebDriver driver, SelectorCommand command) {
 		int tryNumber = 0;
 
-		Response response = new Response(command.getId(), false, ResponseType.Basic);
+		Response response = new Response(command.getId(), false);
 
 		while (tryNumber < RETRIES) {
 			try {
@@ -255,7 +257,7 @@ public class CommandProcessor {
 	private static Response forward(WebDriver driver, Command command) {
 		driver.navigate().forward();
 
-		return new Response(command.getId(), true, ResponseType.Basic);
+		return new Response(command.getId(), true);
 	}
 
 	private static SingleResultResponse getUrl(WebDriver driver, Command command) {
@@ -269,7 +271,7 @@ public class CommandProcessor {
 	private static Response goTo(WebDriver driver, GoToCommand command) {
 		driver.get(command.getUrl());
 
-		return new Response(command.getId(), true, ResponseType.Basic);
+		return new Response(command.getId(), true);
 	}
 
 	private static MultiResultResponse readAttribute(WebDriver driver, ReadAttributeCommand command) {

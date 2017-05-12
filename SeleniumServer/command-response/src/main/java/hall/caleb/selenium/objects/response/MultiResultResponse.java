@@ -15,13 +15,15 @@ public class MultiResultResponse extends Response {
 	}
 
 	public MultiResultResponse(UUID id) {
-		super(id, ResponseType.MultiResult);
+		super(id);
 		results = new ArrayList<>();
+		this.type = ResponseType.MultiResult;
 	}
 	
 	public MultiResultResponse(UUID id, boolean success) {
-		super(id, success, ResponseType.MultiResult);
+		super(id, success);
 		results = new ArrayList<>();
+		this.type = ResponseType.MultiResult;
 	}
 
 	@Override

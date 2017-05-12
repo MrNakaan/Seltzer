@@ -29,7 +29,7 @@ public class SelectorCommand extends Command {
 	@Override
 	public String toString() {
 		return "SelectorSeleniumCommand [selectorType=" + selectorType + ", selector=" + selector + ", commandType="
-				+ commandType + ", id=" + id + "]";
+				+ type + ", id=" + id + "]";
 	}
 
 	@Override

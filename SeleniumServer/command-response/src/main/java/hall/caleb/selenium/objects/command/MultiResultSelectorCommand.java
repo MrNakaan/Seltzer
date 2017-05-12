@@ -22,7 +22,7 @@ public class MultiResultSelectorCommand extends SelectorCommand {
 	@Override
 	public String toString() {
 		return "MultiResultSelectorCommand [maxResults=" + maxResults + ", selectorType=" + selectorType + ", selector="
-				+ selector + ", commandType=" + commandType + ", id=" + id + "]";
+				+ selector + ", commandType=" + type + ", id=" + id + "]";
 	}
 
 	@Override

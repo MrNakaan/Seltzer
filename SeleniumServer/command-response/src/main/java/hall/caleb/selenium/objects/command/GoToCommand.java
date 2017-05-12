@@ -26,7 +26,7 @@ public class GoToCommand extends Command {
 
 	@Override
 	public String toString() {
-		return "GoToCommand [url=" + url + ", commandType=" + commandType + ", id=" + id + "]";
+		return "GoToCommand [url=" + url + ", commandType=" + type + ", id=" + id + "]";
 	}
 
 	@Override

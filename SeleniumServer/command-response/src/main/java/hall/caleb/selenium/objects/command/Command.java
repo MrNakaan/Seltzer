@@ -5,7 +5,7 @@ import java.util.UUID;
 import hall.caleb.selenium.enums.CommandType;
 
 public class Command {
-	protected CommandType commandType;
+	protected CommandType type;
 	protected UUID id;
 	
 	public Command() {
@@ -14,25 +14,25 @@ public class Command {
 
 	public Command(CommandType commandType) {
 		super();
-		this.commandType = commandType;
+		this.type = commandType;
 	}
 
 	public Command(CommandType commandType, UUID id) {
 		super();
-		this.commandType = commandType;
+		this.type = commandType;
 		this.id = id;
 	}
 
 	@Override
 	public String toString() {
-		return "SeleniumCommand [commandType=" + commandType + ", id=" + id + "]";
+		return "SeleniumCommand [commandType=" + type + ", id=" + id + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((commandType == null) ? 0 : commandType.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
@@ -46,7 +46,7 @@ public class Command {
 		if (getClass() != obj.getClass())
 			return false;
 		Command other = (Command) obj;
-		if (commandType != other.commandType)
+		if (type != other.type)
 			return false;
 		if (id == null) {
 			if (other.id != null)
@@ -56,12 +56,12 @@ public class Command {
 		return true;
 	}
 
-	public CommandType getCommandType() {
-		return commandType;
+	public CommandType getType() {
+		return type;
 	}
 
-	public void setCommandType(CommandType commandType) {
-		this.commandType = commandType;
+	public void setType(CommandType type) {
+		this.type = type;
 	}
 
 	public UUID getId() {

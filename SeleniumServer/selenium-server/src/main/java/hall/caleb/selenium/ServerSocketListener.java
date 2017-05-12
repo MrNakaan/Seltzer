@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.gson.Gson;
 
 import hall.caleb.selenium.enums.CommandType;
+import hall.caleb.selenium.enums.ResponseType;
 import hall.caleb.selenium.objects.command.ChainCommand;
 import hall.caleb.selenium.objects.command.Command;
 import hall.caleb.selenium.objects.command.FillFieldCommand;
@@ -89,7 +90,7 @@ public class ServerSocketListener implements Runnable {
 			Command baseCommand = new Gson().fromJson(json, Command.class);
 			Class<? extends Command> commandClass;
 			
-			switch (baseCommand.getCommandType()) {
+			switch (baseCommand.getType()) {
 				case Start:
 				case Exit:
 				case Forward:
@@ -126,10 +127,10 @@ public class ServerSocketListener implements Runnable {
 			
 			Response response = new Response();
 
-			if (command.getCommandType() == CommandType.Start) {
+			if (command.getType() == CommandType.Start) {
 				response.setId(new SeleniumSession().getId());
 				response.setSuccess(true);
-			} else if (command.getCommandType() == CommandType.Exit) {
+			} else if (command.getType() == CommandType.Exit) {
 				SeleniumSession.findSession(command.getId()).close();
 				response.setSuccess(true);
 			} else {
@@ -167,6 +168,10 @@ public class ServerSocketListener implements Runnable {
 		private void writeResponse(Socket socket, Response response) throws IOException {
 			OutputStreamWriter writer = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
 
+			if (response.getType() == ResponseType.Chain) {
+				((ChainResponse) response).serialize();
+			}
+			
 			Class<? extends Response> responseClass;
 			switch (response.getType()) {
 				case Chain:

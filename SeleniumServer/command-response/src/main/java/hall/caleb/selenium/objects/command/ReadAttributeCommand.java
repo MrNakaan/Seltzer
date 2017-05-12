@@ -22,7 +22,7 @@ public class ReadAttributeCommand extends MultiResultSelectorCommand {
 	@Override
 	public String toString() {
 		return "ReadAttributeCommand [attribute=" + attribute + ", maxResults=" + maxResults + ", selectorType="
-				+ selectorType + ", selector=" + selector + ", commandType=" + commandType + ", id=" + id + "]";
+				+ selectorType + ", selector=" + selector + ", commandType=" + type + ", id=" + id + "]";
 	}
 
 	@Override

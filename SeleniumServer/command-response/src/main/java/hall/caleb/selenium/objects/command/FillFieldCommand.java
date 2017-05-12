@@ -9,7 +9,7 @@ public class FillFieldCommand extends SelectorCommand {
 	
 	public FillFieldCommand() {
 		super();
-		this.commandType = CommandType.FillField;
+		this.type = CommandType.FillField;
 	}
 
 	public FillFieldCommand(CommandType commandType) {
@@ -23,7 +23,7 @@ public class FillFieldCommand extends SelectorCommand {
 	@Override
 	public String toString() {
 		return "FillFieldCommand [text=" + text + ", selectorType=" + selectorType + ", selector=" + selector
-				+ ", commandType=" + commandType + ", id=" + id + "]";
+				+ ", commandType=" + type + ", id=" + id + "]";
 	}
 
 	@Override

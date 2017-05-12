@@ -13,11 +13,13 @@ public class SingleResultResponse extends Response {
 	}
 
 	public SingleResultResponse(UUID id) {
-		super(id, ResponseType.SingleResult);
+		super(id);
+		this.type = ResponseType.SingleResult;
 	}
 	
 	public SingleResultResponse(UUID id, boolean success) {
-		super(id, success, ResponseType.SingleResult);
+		super(id, success);
+		this.type = ResponseType.SingleResult;
 	}
 
 	@Override

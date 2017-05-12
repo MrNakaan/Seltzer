@@ -18,7 +18,7 @@ public class CommandFactoryTest {
 
 		result = CommandFactory.newStartCommand();
 		
-		Assert.assertEquals("Make sure the command type is Start.", result.getCommandType(), CommandType.Start);
+		Assert.assertEquals("Make sure the command type is Start.", result.getType(), CommandType.Start);
 		Assert.assertNull("Make sure the ID is null.", result.getId());
 	}
 
@@ -29,7 +29,7 @@ public class CommandFactoryTest {
 
 		result = CommandFactory.newExitCommand(id);
 		
-		Assert.assertEquals("Make sure the command type is Exit.", result.getCommandType(), CommandType.Exit);
+		Assert.assertEquals("Make sure the command type is Exit.", result.getType(), CommandType.Exit);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
 	}
 
@@ -40,7 +40,7 @@ public class CommandFactoryTest {
 
 		result = CommandFactory.newBackCommand(id);
 		
-		Assert.assertEquals("Make sure the command type is Back.", result.getCommandType(), CommandType.Back);
+		Assert.assertEquals("Make sure the command type is Back.", result.getType(), CommandType.Back);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
 	}
 
@@ -51,7 +51,7 @@ public class CommandFactoryTest {
 
 		result = CommandFactory.newForwardCommand(id);
 		
-		Assert.assertEquals("Make sure the command type is Forward.", result.getCommandType(), CommandType.Forward);
+		Assert.assertEquals("Make sure the command type is Forward.", result.getType(), CommandType.Forward);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
 	}
 
@@ -62,7 +62,7 @@ public class CommandFactoryTest {
 
 		result = CommandFactory.newGetUrlCommand(id);
 		
-		Assert.assertEquals("Make sure the command type is GetUrl.", result.getCommandType(), CommandType.GetUrl);
+		Assert.assertEquals("Make sure the command type is GetUrl.", result.getType(), CommandType.GetUrl);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
 	}
 
@@ -74,7 +74,7 @@ public class CommandFactoryTest {
 
 		result = CommandFactory.newGoToCommand(id, url);
 		
-		Assert.assertEquals("Make sure the command type is GoTo.", result.getCommandType(), CommandType.GoTo);
+		Assert.assertEquals("Make sure the command type is GoTo.", result.getType(), CommandType.GoTo);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
 		Assert.assertEquals("Make sure the URL matches.", result.getUrl(), url);
 	}
@@ -88,7 +88,7 @@ public class CommandFactoryTest {
 
 		result = CommandFactory.newClickCommand(id, type, selector);
 		
-		Assert.assertEquals("Make sure the command type is Click.", result.getCommandType(), CommandType.Click);
+		Assert.assertEquals("Make sure the command type is Click.", result.getType(), CommandType.Click);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
 		Assert.assertEquals("Make sure the selector type is ClassName.", result.getSelectorType(), type);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
@@ -103,7 +103,7 @@ public class CommandFactoryTest {
 
 		result = CommandFactory.newCountCommand(id, type, selector);
 		
-		Assert.assertEquals("Make sure the command type is Count.", result.getCommandType(), CommandType.Count);
+		Assert.assertEquals("Make sure the command type is Count.", result.getType(), CommandType.Count);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
 		Assert.assertEquals("Make sure the selector type is CssSelector.", result.getSelectorType(), type);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
@@ -118,7 +118,7 @@ public class CommandFactoryTest {
 
 		result = CommandFactory.newFormSubmitCommand(id, type, selector);
 		
-		Assert.assertEquals("Make sure the command type is FormSubmit.", result.getCommandType(), CommandType.FormSubmit);
+		Assert.assertEquals("Make sure the command type is FormSubmit.", result.getType(), CommandType.FormSubmit);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
 		Assert.assertEquals("Make sure the selector type is Id.", result.getSelectorType(), type);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
@@ -132,7 +132,7 @@ public class CommandFactoryTest {
 
 		result = CommandFactory.newDeleteCommand(id, selector);
 		
-		Assert.assertEquals("Make sure the command type is Delete.", result.getCommandType(), CommandType.Delete);
+		Assert.assertEquals("Make sure the command type is Delete.", result.getType(), CommandType.Delete);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
 		Assert.assertEquals("Make sure the selector type is Xpath.", result.getSelectorType(), SelectorType.Xpath);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
@@ -148,7 +148,7 @@ public class CommandFactoryTest {
 
 		result = CommandFactory.newFillFieldCommand(id, type, selector, text);
 		
-		Assert.assertEquals("Make sure the command type is FillField.", result.getCommandType(), CommandType.FillField);
+		Assert.assertEquals("Make sure the command type is FillField.", result.getType(), CommandType.FillField);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
 		Assert.assertEquals("Make sure the selector type is Name.", result.getSelectorType(), SelectorType.Name);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
@@ -165,7 +165,7 @@ public class CommandFactoryTest {
 
 		result = CommandFactory.newReadTextCommand(id, type, selector, maxResults);
 		
-		Assert.assertEquals("Make sure the command type is ReadText.", result.getCommandType(), CommandType.ReadText);
+		Assert.assertEquals("Make sure the command type is ReadText.", result.getType(), CommandType.ReadText);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
 		Assert.assertEquals("Make sure the selector type is LinkText.", result.getSelectorType(), SelectorType.LinkText);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
@@ -183,7 +183,7 @@ public class CommandFactoryTest {
 
 		result = CommandFactory.newReadAttributeCommand(id, type, selector, maxResults, attribute);
 		
-		Assert.assertEquals("Make sure the command type is ReadAttribute.", result.getCommandType(), CommandType.ReadAttribute);
+		Assert.assertEquals("Make sure the command type is ReadAttribute.", result.getType(), CommandType.ReadAttribute);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
 		Assert.assertEquals("Make sure the selector type is TagName.", result.getSelectorType(), SelectorType.TagName);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
