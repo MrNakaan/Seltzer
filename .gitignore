@@ -25,4 +25,3 @@ target/
 .project
 *.log
 !Releases/**/*.jar
-
