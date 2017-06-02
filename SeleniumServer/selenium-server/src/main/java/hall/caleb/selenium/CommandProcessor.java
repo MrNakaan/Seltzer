@@ -11,12 +11,13 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import hall.caleb.selenium.enums.CommandType;
-import hall.caleb.selenium.enums.ResponseType;
 import hall.caleb.selenium.enums.SelectorType;
 import hall.caleb.selenium.objects.command.ChainCommand;
 import hall.caleb.selenium.objects.command.Command;
@@ -25,6 +26,7 @@ import hall.caleb.selenium.objects.command.GoToCommand;
 import hall.caleb.selenium.objects.command.MultiResultSelectorCommand;
 import hall.caleb.selenium.objects.command.ReadAttributeCommand;
 import hall.caleb.selenium.objects.command.SelectorCommand;
+import hall.caleb.selenium.objects.command.WaitCommand;
 import hall.caleb.selenium.objects.response.ChainResponse;
 import hall.caleb.selenium.objects.response.MultiResultResponse;
 import hall.caleb.selenium.objects.response.Response;
@@ -81,6 +83,9 @@ public class CommandProcessor {
 				break;
 			case ReadText:
 				response = readText(driver, (MultiResultSelectorCommand) command);
+				break;
+			case Wait:
+				response = wait(driver, (WaitCommand) command);
 				break;
 			default:
 				response.setSuccess(false);
@@ -372,6 +377,15 @@ public class CommandProcessor {
 			}
 		}
 
+		return response;
+	}
+	
+	private static SingleResultResponse wait(WebDriver driver, WaitCommand command) {
+		SingleResultResponse response = new SingleResultResponse(command.getId());
+		
+		WebElement e = new WebDriverWait(driver, command.getSeconds()).until(ExpectedConditions.elementToBeClickable(getSelector(command)));
+		response.setSuccess(e != null);
+		
 		return response;
 	}
 

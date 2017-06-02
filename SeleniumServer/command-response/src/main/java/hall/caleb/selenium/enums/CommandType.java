@@ -14,5 +14,6 @@ public enum CommandType {
 	GoTo,
 	ReadAttribute,
 	ReadText,
-	Start
+	Start,
+	Wait
 }

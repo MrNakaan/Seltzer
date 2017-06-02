@@ -4,7 +4,7 @@
 
 	<groupId>hall.caleb.selenium</groupId>
 	<artifactId>command-response</artifactId>
-	<version>0.11.0</version>
+	<version>0.12.0</version>
 	<packaging>bundle</packaging>
 
 	<name>Command/Response</name>
