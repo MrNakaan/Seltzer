@@ -44,7 +44,7 @@ public class CommandProcessorTest {
             throw new IllegalArgumentException("Property repo.path not found!");
         }
         	
-		homeUrl = "file:///" + repoPath + "/SeleniumServer/selenium-server/src/test/resources/testHome.htm";
+		homeUrl = "file:///" + repoPath.replace(" ", "%20") + "/SeleniumServer/selenium-server/src/test/resources/testHome.htm";
 	}
 
 	@AfterClass
