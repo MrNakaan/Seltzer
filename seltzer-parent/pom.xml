@@ -19,5 +19,6 @@
 	<modules>
 		<module>seltzer-cr</module>
 		<module>seltzer-core</module>
+		<module>seltzer-util</module>
 	</modules>
 </project>
