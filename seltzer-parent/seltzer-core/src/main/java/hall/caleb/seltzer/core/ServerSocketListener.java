@@ -1,4 +1,4 @@
-package hall.caleb.seltzer;
+package hall.caleb.seltzer.core;
 
 import java.io.BufferedReader;
 import java.io.IOException;

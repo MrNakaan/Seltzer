@@ -38,7 +38,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>hall.caleb.seltzer.Seltzer</mainClass>
+							<mainClass>hall.caleb.seltzer.core.Seltzer</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

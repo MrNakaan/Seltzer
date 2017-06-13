@@ -1,4 +1,4 @@
-package hall.caleb.seltzer;
+package hall.caleb.seltzer.core;
 
 public class SessionCleaner implements Runnable {
 	private int sessionsCleaned = 0;
