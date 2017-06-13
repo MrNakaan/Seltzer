@@ -1,1 +1,1 @@
-mvn -Drepo.path=C:/Absolute/Path/To/SeleniumServer clean install
+mvn -Drepo.path=C:/Absolute/Path/To/Seltzer clean install
