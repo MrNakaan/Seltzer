@@ -25,50 +25,50 @@ import hall.caleb.seltzer.objects.response.Response;
 import hall.caleb.seltzer.objects.response.SingleResultResponse;
 
 public class SeltzerUtils {
-	public static Response sendSeleniumCommand(Command command) {
+	public static Response send(Command command) {
 		String jsonOut = new Gson().toJson(command, Command.class);
 		String jsonIn = sendAndReceive(jsonOut);
 		return parseResponse(jsonIn);
 	}
 	
-	public static Response sendSeleniumCommand(ChainCommand command) {
+	public static Response send(ChainCommand command) {
 		command.serialize();
 		String jsonOut = new Gson().toJson(command, ChainCommand.class);
 		String jsonIn = sendAndReceive(jsonOut);
 		return parseResponse(jsonIn);
 	}
 	
-	public static Response sendSeleniumCommand(GoToCommand command) {
+	public static Response send(GoToCommand command) {
 		String jsonOut = new Gson().toJson(command, GoToCommand.class);
 		String jsonIn = sendAndReceive(jsonOut);
 		return parseResponse(jsonIn);
 	}
 	
-	public static Response sendSeleniumCommand(SelectorCommand command) {
+	public static Response send(SelectorCommand command) {
 		String jsonOut = new Gson().toJson(command, SelectorCommand.class);
 		String jsonIn = sendAndReceive(jsonOut);
 		return parseResponse(jsonIn);
 	}
 	
-	public static Response sendSeleniumCommand(FillFieldCommand command) {
+	public static Response send(FillFieldCommand command) {
 		String jsonOut = new Gson().toJson(command, FillFieldCommand.class);
 		String jsonIn = sendAndReceive(jsonOut);
 		return parseResponse(jsonIn);
 	}
 	
-	public static Response sendSeleniumCommand(MultiResultSelectorCommand command) {
+	public static Response send(MultiResultSelectorCommand command) {
 		String jsonOut = new Gson().toJson(command, MultiResultSelectorCommand.class);
 		String jsonIn = sendAndReceive(jsonOut);
 		return parseResponse(jsonIn);
 	}
 	
-	public static Response sendSeleniumCommand(ReadAttributeCommand command) {
+	public static Response send(ReadAttributeCommand command) {
 		String jsonOut = new Gson().toJson(command, ReadAttributeCommand.class);
 		String jsonIn = sendAndReceive(jsonOut);
 		return parseResponse(jsonIn);
 	}
 	
-	public static Response sendSeleniumCommand(WaitCommand command) {
+	public static Response send(WaitCommand command) {
 		String jsonOut = new Gson().toJson(command, WaitCommand.class);
 		String jsonIn = sendAndReceive(jsonOut);
 		return parseResponse(jsonIn);
