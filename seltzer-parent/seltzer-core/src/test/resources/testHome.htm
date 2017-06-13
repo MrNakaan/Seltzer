@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Test Home</title>
+		<script src="jquery-3.2.1.min.js"></script>
+		<script type="text/javascript">
+			async function reveal() {
+				await new Promise(resolve => setTimeout(resolve, 5000));
+				$("h2").removeAttr("style");
+			}
+			
+			reveal();
+		</script>
+	</head>
+	<body>
+		<div>
+			<h1>Test Home</h1>
+			<a href="page1.htm">Page 1</a>
+			<h2 style="display: none;">Some Hidden Element</h2>
+		</div>
+	</body>
+</html>
