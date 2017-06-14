@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import hall.caleb.seltzer.core.processor.BaseProcessor;
 import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.response.Response;
 
@@ -95,7 +96,7 @@ public class SeltzerSession implements Closeable {
 	public Response executeCommand(Command command) {
 		this.lastUsed = System.currentTimeMillis();
 		
-		return CommandProcessor.processCommand(driver, command);
+		return BaseProcessor.processCommand(driver, command);
 	}
 	
 	@Override

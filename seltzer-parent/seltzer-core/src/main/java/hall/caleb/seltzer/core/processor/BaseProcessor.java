@@ -1,4 +1,4 @@
-package hall.caleb.seltzer.core;
+package hall.caleb.seltzer.core.processor;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,8 +32,8 @@ import hall.caleb.seltzer.objects.response.MultiResultResponse;
 import hall.caleb.seltzer.objects.response.Response;
 import hall.caleb.seltzer.objects.response.SingleResultResponse;
 
-public class CommandProcessor {
-	private static Logger logger = LogManager.getLogger(CommandProcessor.class);
+public class BaseProcessor {
+	private static Logger logger = LogManager.getLogger(BaseProcessor.class);
 	private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	private static final int RETRIES = 4;
