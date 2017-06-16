@@ -45,6 +45,9 @@ public class ChainCommand extends Command {
 				case ReadText:
 					serializedCommands.add(gson.toJson(subCommand, MultiResultSelectorCommand.class));
 					break;
+				case Wait:
+					serializedCommands.add(gson.toJson(subCommand, WaitCommand.class));
+					break;
 				case Click:
 				case Count:
 				case Delete:
@@ -82,6 +85,9 @@ public class ChainCommand extends Command {
 					break;
 				case ReadText:
 					subCommand = gson.fromJson(serializedCommand, MultiResultSelectorCommand.class);
+					break;
+				case Wait:
+					subCommand = gson.fromJson(serializedCommand, WaitCommand.class);
 					break;
 				case Click:
 				case Count:

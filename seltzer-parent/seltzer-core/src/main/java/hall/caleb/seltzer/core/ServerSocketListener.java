@@ -26,6 +26,7 @@ import hall.caleb.seltzer.objects.command.GoToCommand;
 import hall.caleb.seltzer.objects.command.MultiResultSelectorCommand;
 import hall.caleb.seltzer.objects.command.ReadAttributeCommand;
 import hall.caleb.seltzer.objects.command.SelectorCommand;
+import hall.caleb.seltzer.objects.command.WaitCommand;
 import hall.caleb.seltzer.objects.response.ChainResponse;
 import hall.caleb.seltzer.objects.response.MultiResultResponse;
 import hall.caleb.seltzer.objects.response.Response;
@@ -119,6 +120,9 @@ public class ServerSocketListener implements Runnable {
 				case Chain:
 					commandClass = ChainCommand.class;
 					break;
+				case Wait:
+					commandClass = WaitCommand.class;
+					break;
 				default:
 					commandClass = Command.class;
 			}
@@ -138,7 +142,21 @@ public class ServerSocketListener implements Runnable {
 			}
 
 			System.out.println("Sending response:");
-			System.out.println("\t" + new Gson().toJson(response, Response.class));
+			switch (response.getType()) {
+			case Chain:
+				((ChainResponse) response).serialize();
+				System.out.println("\t" + new Gson().toJson(response, ChainResponse.class));
+				break;
+			case SingleResult:
+				System.out.println("\t" + new Gson().toJson(response, SingleResultResponse.class));
+				break;
+			case MultiResult:
+				System.out.println("\t" + new Gson().toJson(response, MultiResultResponse.class));
+				break;
+			default:
+				System.out.println("\t" + new Gson().toJson(response, Response.class));
+				break;
+			}
 			writeResponse(socket, response);
 
 			socket.close();
