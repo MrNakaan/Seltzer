@@ -11,6 +11,7 @@ import java.util.Arrays;
 
 import com.google.gson.Gson;
 
+import hall.caleb.seltzer.enums.ResponseType;
 import hall.caleb.seltzer.objects.command.ChainCommand;
 import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.command.FillFieldCommand;
@@ -106,24 +107,12 @@ public class SeltzerUtils {
 
 	private static Response parseResponse(String json) {
 		Gson gson = new Gson();
-		Response tmp = gson.fromJson(json, Response.class);
 
-		Response response;
+		Response response = gson.fromJson(json, Response.class);
+		response = gson.fromJson(json, response.getType().getResponseClass());
 		
-		switch (tmp.getType()) {
-		case SingleResult:
-			response = gson.fromJson(json, SingleResultResponse.class);
-			break;
-		case MultiResult:
-			response = gson.fromJson(json, MultiResultResponse.class);
-			break;
-		case Chain:
-			response = gson.fromJson(json, ChainResponse.class);
+		if (response.getType() == ResponseType.Chain) {
 			((ChainResponse) response).deserialize();
-			break;
-		default:
-			response = tmp;
-			break;
 		}
 		
 		return response;

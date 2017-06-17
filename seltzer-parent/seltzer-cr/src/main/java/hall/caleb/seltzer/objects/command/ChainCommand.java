@@ -28,36 +28,11 @@ public class ChainCommand extends Command {
 		Gson gson = new Gson();
 		
 		for (Command subCommand : commands) {
-			switch(subCommand.getType()) {
-				case Chain:
-					((ChainCommand) subCommand).serialize();
-					serializedCommands.add(gson.toJson(subCommand, ChainCommand.class));
-					break;
-				case FillField:
-					serializedCommands.add(gson.toJson(subCommand, FillFieldCommand.class));
-					break;
-				case GoTo:
-					serializedCommands.add(gson.toJson(subCommand, GoToCommand.class));
-					break;
-				case ReadAttribute:
-					serializedCommands.add(gson.toJson(subCommand, ReadAttributeCommand.class));
-					break;
-				case ReadText:
-					serializedCommands.add(gson.toJson(subCommand, MultiResultSelectorCommand.class));
-					break;
-				case Wait:
-					serializedCommands.add(gson.toJson(subCommand, WaitCommand.class));
-					break;
-				case Click:
-				case Count:
-				case Delete:
-				case FormSubmit:
-					serializedCommands.add(gson.toJson(subCommand, SelectorCommand.class));
-					break;
-				default:
-					serializedCommands.add(gson.toJson(subCommand, Command.class));
-					break;
+			if (subCommand.getType() == CommandType.Chain) {
+				((ChainCommand) subCommand).serialize();
 			}
+			
+			serializedCommands.add(gson.toJson(subCommand, subCommand.getType().getCommandClass()));
 		}
 		
 		commands = new ArrayList<>();
@@ -69,36 +44,12 @@ public class ChainCommand extends Command {
 		
 		for (String serializedCommand : serializedCommands) {
 			subCommand = gson.fromJson(serializedCommand, Command.class);
-			switch (subCommand.getType()) {
-				case Chain:
-					subCommand = gson.fromJson(serializedCommand, ChainCommand.class);
-					((ChainCommand) subCommand).deserialize();
-					break;
-				case FillField:
-					subCommand = gson.fromJson(serializedCommand, FillFieldCommand.class);
-					break;
-				case GoTo:
-					subCommand = gson.fromJson(serializedCommand, GoToCommand.class);
-					break;
-				case ReadAttribute:
-					subCommand = gson.fromJson(serializedCommand, ReadAttributeCommand.class);
-					break;
-				case ReadText:
-					subCommand = gson.fromJson(serializedCommand, MultiResultSelectorCommand.class);
-					break;
-				case Wait:
-					subCommand = gson.fromJson(serializedCommand, WaitCommand.class);
-					break;
-				case Click:
-				case Count:
-				case Delete:
-				case FormSubmit:
-					subCommand = gson.fromJson(serializedCommand, SelectorCommand.class);
-					break;
-				default:
-					subCommand = gson.fromJson(serializedCommand, Command.class);
-					break;
+			subCommand = gson.fromJson(serializedCommand, subCommand.getType().getCommandClass());
+			
+			if (subCommand.getType() == CommandType.Chain) {
+				((ChainCommand) subCommand).deserialize();
 			}
+			
 			commands.add(subCommand);
 		}
 		

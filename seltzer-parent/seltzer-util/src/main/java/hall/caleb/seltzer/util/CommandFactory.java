@@ -1,9 +1,15 @@
-package hall.caleb.seltzer.objects.command;
+package hall.caleb.seltzer.util;
 
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SelectorType;
+import hall.caleb.seltzer.objects.command.Command;
+import hall.caleb.seltzer.objects.command.FillFieldCommand;
+import hall.caleb.seltzer.objects.command.GoToCommand;
+import hall.caleb.seltzer.objects.command.MultiResultSelectorCommand;
+import hall.caleb.seltzer.objects.command.ReadAttributeCommand;
+import hall.caleb.seltzer.objects.command.SelectorCommand;
 public class CommandFactory {
 	public static Command newStartCommand() {
 		return new Command(CommandType.Start);
@@ -26,7 +32,7 @@ public class CommandFactory {
 	}
 	
 	public static GoToCommand newGoToCommand(UUID id, String url) {
-		return new GoToCommand(CommandType.GoTo, id, url);
+		return new GoToCommand(id, url);
 	}
 	
 	public static SelectorCommand newClickCommand(UUID id, SelectorType type, String selector) {
@@ -54,7 +60,7 @@ public class CommandFactory {
 	}
 
 	public static FillFieldCommand newFillFieldCommand(UUID id, SelectorType type, String selector, String text) {
-		FillFieldCommand command = new FillFieldCommand(CommandType.FillField, id);
+		FillFieldCommand command = new FillFieldCommand(id);
 		command.setSelector(selector, type);
 		command.setText(text);
 		return command;
@@ -68,7 +74,7 @@ public class CommandFactory {
 	}
 
 	public static ReadAttributeCommand newReadAttributeCommand(UUID id, SelectorType type, String selector, int maxResults, String attribute) {
-		ReadAttributeCommand command = new ReadAttributeCommand(CommandType.ReadAttribute, id);
+		ReadAttributeCommand command = new ReadAttributeCommand(id);
 		command.setSelector(selector, type);
 		command.setMaxResults(maxResults);
 		command.setAttribute(attribute);

@@ -6,6 +6,6 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses(
 
-{ ChainCommandTest.class, CommandFactoryTest.class })
+{ ChainCommandTest.class })
 public class TestSuite { // nothing
 }

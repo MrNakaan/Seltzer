@@ -11,8 +11,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,14 +25,13 @@ import hall.caleb.seltzer.objects.command.MultiResultSelectorCommand;
 import hall.caleb.seltzer.objects.command.ReadAttributeCommand;
 import hall.caleb.seltzer.objects.command.SelectorCommand;
 import hall.caleb.seltzer.objects.command.WaitCommand;
-import hall.caleb.seltzer.objects.response.ChainResponse;
 import hall.caleb.seltzer.objects.response.MultiResultResponse;
 import hall.caleb.seltzer.objects.response.Response;
 import hall.caleb.seltzer.objects.response.SingleResultResponse;
 
 public class BaseProcessor {
-	private static Logger logger = LogManager.getLogger(BaseProcessor.class);
-	private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	static Logger logger = LogManager.getLogger(BaseProcessor.class);
+	static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	private static final int RETRIES = 4;
 	private static final int RETRY_WAIT = 8;
@@ -52,7 +49,7 @@ public class BaseProcessor {
 				response = back(driver, command);
 				break;
 			case Chain:
-				response = processChain(driver, (ChainCommand) command);
+				response = ChainProcessor.processChain(driver, (ChainCommand) command);
 				break;
 			case Click:
 				response = click(driver, (SelectorCommand) command);
@@ -85,7 +82,7 @@ public class BaseProcessor {
 				response = readText(driver, (MultiResultSelectorCommand) command);
 				break;
 			case Wait:
-				response = wait(driver, (WaitCommand) command);
+				response = WaitProcessor.wait(driver, (WaitCommand) command);
 				break;
 			default:
 				response.setSuccess(false);
@@ -96,7 +93,7 @@ public class BaseProcessor {
 		return response;
 	}
 
-	private static By getSelector(SelectorCommand command) {
+	static By getSelector(SelectorCommand command) {
 		By selector;
 
 		switch (command.getSelectorType()) {
@@ -135,32 +132,6 @@ public class BaseProcessor {
 		driver.navigate().back();
 
 		return new Response(command.getId(), true);
-	}
-
-	private static ChainResponse processChain(WebDriver driver, ChainCommand command) {
-		logger.info("Processing chain:");
-		logger.info(gson.toJson(command));
-
-		command.deserialize();
-		
-		ChainResponse response = new ChainResponse();
-
-		Response tempResponse;
-		for (Command subCommand : command.getCommands()) {
-			if (!subCommand.getId().equals(command.getId())) {
-				tempResponse = new Response(command.getId(), false);
-			} else {
-				tempResponse = processCommand(driver, subCommand);
-			}
-			response.setSuccess(response.isSuccess() && tempResponse.isSuccess());
-			response.getResponses().add(tempResponse);
-
-			if (!response.isSuccess()) {
-				break;
-			}
-		}
-
-		return response;
 	}
 
 	private static Response click(WebDriver driver, SelectorCommand command) {
@@ -380,16 +351,6 @@ public class BaseProcessor {
 		return response;
 	}
 	
-	private static SingleResultResponse wait(WebDriver driver, WaitCommand command) {
-		SingleResultResponse response = new SingleResultResponse(command.getId());
-		
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds()); 
-		WebElement e = wait.until(ExpectedConditions.visibilityOfElementLocated(getSelector(command)));
-		response.setSuccess(e != null);
-		
-		return response;
-	}
-
 	private static void sleep(Exception e, int tryNumber) {
 		logger.error("Error on try " + tryNumber + " of " + RETRIES + ".");
 		logger.error(e);

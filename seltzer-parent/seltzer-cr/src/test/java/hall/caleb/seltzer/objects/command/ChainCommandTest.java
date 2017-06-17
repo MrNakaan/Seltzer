@@ -11,15 +11,8 @@ import org.junit.Test;
 
 import com.google.gson.Gson;
 
+import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.objects.command.ChainCommand;
-import hall.caleb.seltzer.objects.command.Command;
-import hall.caleb.seltzer.objects.command.CommandFactory;
-import hall.caleb.seltzer.objects.command.FillFieldCommand;
-import hall.caleb.seltzer.objects.command.GoToCommand;
-import hall.caleb.seltzer.objects.command.MultiResultSelectorCommand;
-import hall.caleb.seltzer.objects.command.ReadAttributeCommand;
-import hall.caleb.seltzer.objects.command.SelectorCommand;
 
 @Generated(value = "org.junit-tools-1.0.5")
 public class ChainCommandTest {
@@ -41,55 +34,66 @@ public class ChainCommandTest {
 		SelectorCommand sCommand;
 		ChainCommand cCommand;
 		
-		command = CommandFactory.newBackCommand(id);
+		command = new Command(CommandType.Back, id);
 		original.addCommand(command);
 		clone.addCommand(command);
 		
-		command = CommandFactory.newForwardCommand(id);
+		command = new Command(CommandType.Forward, id);
 		original.addCommand(command);
 		clone.addCommand(command);
 		
-		command = CommandFactory.newGetUrlCommand(id);
+		command = new Command(CommandType.GetUrl, id);
 		original.addCommand(command);
 		clone.addCommand(command);
 		
-		command = CommandFactory.newBackCommand(id);
+		command = new Command(CommandType.Back, id);
 		original.addCommand(command);
 		clone.addCommand(command);
 		
-		command = CommandFactory.newBackCommand(id);
+		command = new Command(CommandType.Back, id);
 		original.addCommand(command);
 		clone.addCommand(command);
 		
-		ffCommand = CommandFactory.newFillFieldCommand(id, SelectorType.Xpath, "//input[@id='username']", "username");
+		ffCommand = new FillFieldCommand(id);
+		ffCommand.setSelector("//input[@id='username']", SelectorType.Xpath);
+		ffCommand.setText("username");
 		original.addCommand(ffCommand);
 		clone.addCommand(ffCommand);
-		
-		gtCommand = CommandFactory.newGoToCommand(id, "www.google.com");
+
+		gtCommand = new GoToCommand(id, "www.google.com");
 		original.addCommand(gtCommand);
 		clone.addCommand(gtCommand);
 		
-		mrsCommand = CommandFactory.newReadTextCommand(id, SelectorType.TagName, "a", 0);
+		mrsCommand = new MultiResultSelectorCommand(CommandType.ReadText, id);
+		mrsCommand.setSelector("a", SelectorType.TagName);
+		mrsCommand.setMaxResults(0);
 		original.addCommand(mrsCommand);
 		clone.addCommand(mrsCommand);
-		
-		raCommand = CommandFactory.newReadAttributeCommand(id, SelectorType.LinkText, "Next", 5, "href");
+
+		raCommand = new ReadAttributeCommand(id);
+		raCommand.setSelector("Next", SelectorType.LinkText);
+		raCommand.setMaxResults(5);
+		raCommand.setAttribute("href");
 		original.addCommand(raCommand);
 		clone.addCommand(raCommand);
 		
-		sCommand = CommandFactory.newCountCommand(id, SelectorType.Xpath, "//div");
+		sCommand = new SelectorCommand(CommandType.Count, id);
+		sCommand.setSelector("//div", SelectorType.Xpath);
+		original.addCommand(sCommand);
+		clone.addCommand(sCommand);
+
+		sCommand = new SelectorCommand(CommandType.Click, id);
+		sCommand.setSelector("//a[1]", SelectorType.Xpath);
 		original.addCommand(sCommand);
 		clone.addCommand(sCommand);
 		
-		sCommand = CommandFactory.newClickCommand(id, SelectorType.Xpath, "//a[1]");
+		sCommand = new SelectorCommand(CommandType.Count, id);
+		sCommand.setSelector("//span", SelectorType.Xpath);
 		original.addCommand(sCommand);
 		clone.addCommand(sCommand);
 		
-		sCommand = CommandFactory.newCountCommand(id, SelectorType.Xpath, "//span");
-		original.addCommand(sCommand);
-		clone.addCommand(sCommand);
-		
-		sCommand = CommandFactory.newCountCommand(id, SelectorType.Xpath, "//p");
+		sCommand = new SelectorCommand(CommandType.Count, id);
+		sCommand.setSelector("//p", SelectorType.Xpath);
 		original.addCommand(sCommand);
 		clone.addCommand(sCommand);
 		

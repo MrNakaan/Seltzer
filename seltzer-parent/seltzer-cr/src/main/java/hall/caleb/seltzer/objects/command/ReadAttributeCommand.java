@@ -8,15 +8,11 @@ public class ReadAttributeCommand extends MultiResultSelectorCommand {
 	protected String attribute;
 	
 	public ReadAttributeCommand() {
-		super();
+		super(CommandType.ReadAttribute);
 	}
 
-	public ReadAttributeCommand(CommandType commandType) {
-		super(commandType);
-	}
-	
-	public ReadAttributeCommand(CommandType commandType, UUID id) {
-		super(commandType, id);
+	public ReadAttributeCommand(UUID id) {
+		super(CommandType.ReadAttribute, id);
 	}
 
 	@Override

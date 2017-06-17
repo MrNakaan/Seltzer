@@ -1,4 +1,4 @@
-package hall.caleb.seltzer.objects.command;
+package hall.caleb.seltzer.util;
 
 import java.util.UUID;
 
@@ -10,12 +10,12 @@ import org.junit.Test;
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SelectorType;
 import hall.caleb.seltzer.objects.command.Command;
-import hall.caleb.seltzer.objects.command.CommandFactory;
 import hall.caleb.seltzer.objects.command.FillFieldCommand;
 import hall.caleb.seltzer.objects.command.GoToCommand;
 import hall.caleb.seltzer.objects.command.MultiResultSelectorCommand;
 import hall.caleb.seltzer.objects.command.ReadAttributeCommand;
 import hall.caleb.seltzer.objects.command.SelectorCommand;
+import hall.caleb.seltzer.util.CommandFactory;
 
 @Generated(value = "org.junit-tools-1.0.5")
 public class CommandFactoryTest {

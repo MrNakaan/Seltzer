@@ -8,19 +8,15 @@ public class GoToCommand extends Command {
 	protected String url;
 	
 	public GoToCommand() {
-		super();
+		super(CommandType.GoTo);
 	}
 
-	public GoToCommand(CommandType commandType) {
-		super(commandType);
-	}
-	
-	public GoToCommand(CommandType commandType, UUID id) {
-		super(commandType, id);
+	public GoToCommand(UUID id) {
+		super(CommandType.GoTo, id);
 	}
 
-	public GoToCommand(CommandType commandType, UUID id, String url) {
-		super(commandType, id);
+	public GoToCommand(UUID id, String url) {
+		super(CommandType.GoTo, id);
 		this.url = url;
 	}
 

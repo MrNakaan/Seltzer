@@ -39,21 +39,11 @@ public class ChainResponse extends Response {
 		Gson gson = new Gson();
 		
 		for (Response subResponse : responses) {
-			switch(subResponse.getType()) {
-				case Chain:
-					((ChainResponse) subResponse).serialize();
-					serializedResponses.add(gson.toJson(subResponse, ChainResponse.class));
-					break;
-				case SingleResult:
-					serializedResponses.add(gson.toJson(subResponse, SingleResultResponse.class));
-					break;
-				case MultiResult:
-					serializedResponses.add(gson.toJson(subResponse, MultiResultResponse.class));
-					break;
-				default:
-					serializedResponses.add(gson.toJson(subResponse, Response.class));
-					break;
+			if (subResponse.getType() == ResponseType.Chain) {
+				((ChainResponse) subResponse).serialize();
 			}
+			
+			serializedResponses.add(gson.toJson(subResponse, subResponse.getType().getResponseClass()));
 		}
 		
 		responses = new ArrayList<>();
@@ -65,20 +55,10 @@ public class ChainResponse extends Response {
 		
 		for (String serializedResponse : serializedResponses) {
 			subResponse = gson.fromJson(serializedResponse, Response.class);
-			switch(subResponse.getType()) {
-				case Chain:
-					subResponse = gson.fromJson(serializedResponse, ChainResponse.class);
-					((ChainResponse) subResponse).deserialize();
-					break;
-				case SingleResult:
-					subResponse = gson.fromJson(serializedResponse, SingleResultResponse.class);
-					break;
-				case MultiResult:
-					subResponse = gson.fromJson(serializedResponse, MultiResultResponse.class);
-					break;
-				default:
-					subResponse = gson.fromJson(serializedResponse, Response.class);
-					break;
+			subResponse = gson.fromJson(serializedResponse, subResponse.getType().getResponseClass());
+			
+			if (subResponse.getType() == ResponseType.Chain) {
+				((ChainResponse) subResponse).deserialize();
 			}
 			
 			responses.add(subResponse);

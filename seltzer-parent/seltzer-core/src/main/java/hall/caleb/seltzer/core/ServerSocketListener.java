@@ -88,46 +88,10 @@ public class ServerSocketListener implements Runnable {
 			System.out.println("Command received:");
 			System.out.println("\t" + json);
 
-			Command baseCommand = new Gson().fromJson(json, Command.class);
-			Class<? extends Command> commandClass;
+			Command command;
 			
-			switch (baseCommand.getType()) {
-				case Start:
-				case Exit:
-				case Forward:
-				case Back:
-				case GetUrl:
-					commandClass = Command.class;
-					break;
-				case GoTo:
-					commandClass = GoToCommand.class;
-					break;
-				case Click:
-				case Count:
-				case FormSubmit:
-				case Delete:
-					commandClass = SelectorCommand.class;
-					break;
-				case FillField:
-					commandClass = FillFieldCommand.class;
-					break;
-				case ReadText:
-					commandClass = MultiResultSelectorCommand.class;
-					break;
-				case ReadAttribute:
-					commandClass = ReadAttributeCommand.class;
-					break;
-				case Chain:
-					commandClass = ChainCommand.class;
-					break;
-				case Wait:
-					commandClass = WaitCommand.class;
-					break;
-				default:
-					commandClass = Command.class;
-			}
-			
-			Command command = new Gson().fromJson(json, commandClass);
+			command = new Gson().fromJson(json, Command.class);
+			command = new Gson().fromJson(json, command.getType().getCommandClass());
 			
 			Response response = new Response();
 
@@ -142,21 +106,11 @@ public class ServerSocketListener implements Runnable {
 			}
 
 			System.out.println("Sending response:");
-			switch (response.getType()) {
-			case Chain:
+			if (response.getType() == ResponseType.Chain) {
 				((ChainResponse) response).serialize();
-				System.out.println("\t" + new Gson().toJson(response, ChainResponse.class));
-				break;
-			case SingleResult:
-				System.out.println("\t" + new Gson().toJson(response, SingleResultResponse.class));
-				break;
-			case MultiResult:
-				System.out.println("\t" + new Gson().toJson(response, MultiResultResponse.class));
-				break;
-			default:
-				System.out.println("\t" + new Gson().toJson(response, Response.class));
-				break;
 			}
+			System.out.println("\t" + new Gson().toJson(response, response.getType().getResponseClass()));
+
 			writeResponse(socket, response);
 
 			socket.close();
