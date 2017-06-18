@@ -31,10 +31,19 @@ public class SeltzerServer {
 		logger.info("Connection listener started.");
 		
 		// Removed pending testing of the cleaning system
-//		cleaner = new SeleniumSessionCleaner();
-//		cleanerThread = new Thread(cleaner);
-//		cleanerThread.start();
-//		logger.info("Session cleaner started.");
+		cleaner = new SessionCleaner();
+		cleanerThread = new Thread(cleaner);
+		cleanerThread.start();
+		logger.info("Session cleaner started.");
+		
+		for (int i = 0; i < 10; i++) { 
+			new SeltzerSession();
+			try {
+				Thread.sleep(i * 500);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		logger.info("Selenium server startup complete.");
 		

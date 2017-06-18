@@ -18,7 +18,7 @@ public class SessionCleaner implements Runnable {
 			}
 			
 			try {
-				Thread.sleep(16000);
+				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

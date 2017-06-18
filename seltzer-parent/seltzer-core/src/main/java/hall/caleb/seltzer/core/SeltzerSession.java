@@ -2,9 +2,9 @@ package hall.caleb.seltzer.core;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -15,10 +15,10 @@ import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.response.Response;
 
 public class SeltzerSession implements Closeable {
-	private static List<SeltzerSession> sessions = new ArrayList<>();
+	private static List<SeltzerSession> sessions = new CopyOnWriteArrayList<>();
 	
-	public static final long SESSION_NEVER_USED_TIMEOUT = 3600000; // 1 hour
-	public static final long SESSION_INACTIVE_TIMEOUT = 43200000; // 12 hours
+	public static final long SESSION_NEVER_USED_TIMEOUT = 600000; // 10 minutes
+	public static final long SESSION_INACTIVE_TIMEOUT = 3600000; // 1 hour
 	
 	private UUID id = null;
 	private WebDriver driver = null;
@@ -52,10 +52,12 @@ public class SeltzerSession implements Closeable {
 				if (session.getLastUsed() == 0) {
 					if (System.currentTimeMillis() - session.getStartedTime() > SESSION_NEVER_USED_TIMEOUT) {
 						session.close();
+						sessionsCleaned++;
 					}
 				} else {
 					if (System.currentTimeMillis() - session.getLastUsed() > SESSION_INACTIVE_TIMEOUT) {
 						session.close();
+						sessionsCleaned++;
 					}
 				}
 			} catch (IOException e) {
@@ -86,11 +88,11 @@ public class SeltzerSession implements Closeable {
 
 	@Override
 	public void close() throws IOException {
+		sessions.remove(this);
+		
 		id = null;
 		driver.quit();
 		driver = null;
-		
-		sessions.remove(this);
 	}
 	
 	public Response executeCommand(Command command) {
