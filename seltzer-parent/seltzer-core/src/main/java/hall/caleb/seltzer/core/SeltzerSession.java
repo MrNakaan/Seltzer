@@ -35,9 +35,11 @@ public class SeltzerSession implements Closeable {
 	}
 	
 	public static SeltzerSession findSession(UUID id) {
-		for (SeltzerSession session : sessions) {
-			if (session.getId().equals(id)) {
-				return session;
+		synchronized(sessions) {
+			for (SeltzerSession session : sessions) {
+				if (session.getId().equals(id)) {
+					return session;
+				}
 			}
 		}
 		
@@ -88,7 +90,9 @@ public class SeltzerSession implements Closeable {
 
 	@Override
 	public void close() throws IOException {
-		sessions.remove(this);
+		synchronized(sessions) {
+			sessions.remove(this);
+		}
 		
 		id = null;
 		driver.quit();
