@@ -3,6 +3,7 @@ package hall.caleb.seltzer.core.processor;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -20,6 +21,8 @@ import hall.caleb.seltzer.enums.SelectorType;
 import hall.caleb.seltzer.objects.command.ChainCommand;
 import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.command.FillFieldCommand;
+import hall.caleb.seltzer.objects.command.GetCookieCommand;
+import hall.caleb.seltzer.objects.command.GetCookiesCommand;
 import hall.caleb.seltzer.objects.command.GoToCommand;
 import hall.caleb.seltzer.objects.command.MultiResultSelectorCommand;
 import hall.caleb.seltzer.objects.command.ReadAttributeCommand;
@@ -68,6 +71,14 @@ public class BaseProcessor {
 				break;
 			case Forward:
 				response = forward(driver, command);
+				break;
+			case GetCookie:
+				response = getCookie(driver, (GetCookieCommand) command);
+				break;
+			case GetCookieFile:
+				break;
+			case GetCookies:
+				response = getCookies(driver, (GetCookiesCommand) command);
 				break;
 			case GetUrl:
 				response = getUrl(driver, command);
@@ -244,6 +255,34 @@ public class BaseProcessor {
 		return response;
 	}
 
+	private static SingleResultResponse getCookie(WebDriver driver, GetCookieCommand command) {
+		String value = driver.manage().getCookieNamed(command.getCookieName()).getValue();
+		SingleResultResponse response = null;
+		if (StringUtils.isNotEmpty(value)) {
+			response = new SingleResultResponse(command.getId(), true);
+			response.setResult(value);
+		} else {
+			response = new SingleResultResponse(command.getId(), false);
+		}
+		return response;
+	}
+	
+	private static MultiResultResponse getCookies(WebDriver driver, GetCookiesCommand command) {
+		MultiResultResponse response = new MultiResultResponse(command.getId(), false);
+		String value = null;
+		
+		for (String cookieName : command.getCookieNames()) {
+			value = driver.manage().getCookieNamed(cookieName).getValue();
+			
+			if (StringUtils.isNotEmpty(value)) {
+				response = new MultiResultResponse(command.getId(), true);
+				response.getResults().add(value);
+				response.setSuccess(true);
+			}
+		}
+		return response;
+	}
+	
 	private static Response goTo(WebDriver driver, GoToCommand command) {
 		driver.get(command.getUrl());
 

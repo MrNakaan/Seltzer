@@ -3,6 +3,8 @@ package hall.caleb.seltzer.enums;
 import hall.caleb.seltzer.objects.command.ChainCommand;
 import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.command.FillFieldCommand;
+import hall.caleb.seltzer.objects.command.GetCookieCommand;
+import hall.caleb.seltzer.objects.command.GetCookiesCommand;
 import hall.caleb.seltzer.objects.command.GoToCommand;
 import hall.caleb.seltzer.objects.command.MultiResultSelectorCommand;
 import hall.caleb.seltzer.objects.command.ReadAttributeCommand;
@@ -19,6 +21,9 @@ public enum CommandType {
 	FillField(FillFieldCommand.class),
 	FormSubmit(SelectorCommand.class),
 	Forward(Command.class),
+	GetCookie(GetCookieCommand.class),
+	GetCookieFile(Command.class),
+	GetCookies(GetCookiesCommand.class),
 	GetUrl(Command.class),
 	GoTo(GoToCommand.class),
 	ReadAttribute(ReadAttributeCommand.class),

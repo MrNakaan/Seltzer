@@ -11,66 +11,20 @@ import java.util.Arrays;
 
 import com.google.gson.Gson;
 
+import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.ResponseType;
 import hall.caleb.seltzer.objects.command.ChainCommand;
 import hall.caleb.seltzer.objects.command.Command;
-import hall.caleb.seltzer.objects.command.FillFieldCommand;
-import hall.caleb.seltzer.objects.command.GoToCommand;
-import hall.caleb.seltzer.objects.command.MultiResultSelectorCommand;
-import hall.caleb.seltzer.objects.command.ReadAttributeCommand;
-import hall.caleb.seltzer.objects.command.SelectorCommand;
-import hall.caleb.seltzer.objects.command.WaitCommand;
 import hall.caleb.seltzer.objects.response.ChainResponse;
-import hall.caleb.seltzer.objects.response.MultiResultResponse;
 import hall.caleb.seltzer.objects.response.Response;
-import hall.caleb.seltzer.objects.response.SingleResultResponse;
 
 public class SeltzerUtils {
 	public static Response send(Command command) {
-		String jsonOut = new Gson().toJson(command, Command.class);
-		String jsonIn = sendAndReceive(jsonOut);
-		return parseResponse(jsonIn);
-	}
-	
-	public static Response send(ChainCommand command) {
-		command.serialize();
-		String jsonOut = new Gson().toJson(command, ChainCommand.class);
-		String jsonIn = sendAndReceive(jsonOut);
-		return parseResponse(jsonIn);
-	}
-	
-	public static Response send(GoToCommand command) {
-		String jsonOut = new Gson().toJson(command, GoToCommand.class);
-		String jsonIn = sendAndReceive(jsonOut);
-		return parseResponse(jsonIn);
-	}
-	
-	public static Response send(SelectorCommand command) {
-		String jsonOut = new Gson().toJson(command, SelectorCommand.class);
-		String jsonIn = sendAndReceive(jsonOut);
-		return parseResponse(jsonIn);
-	}
-	
-	public static Response send(FillFieldCommand command) {
-		String jsonOut = new Gson().toJson(command, FillFieldCommand.class);
-		String jsonIn = sendAndReceive(jsonOut);
-		return parseResponse(jsonIn);
-	}
-	
-	public static Response send(MultiResultSelectorCommand command) {
-		String jsonOut = new Gson().toJson(command, MultiResultSelectorCommand.class);
-		String jsonIn = sendAndReceive(jsonOut);
-		return parseResponse(jsonIn);
-	}
-	
-	public static Response send(ReadAttributeCommand command) {
-		String jsonOut = new Gson().toJson(command, ReadAttributeCommand.class);
-		String jsonIn = sendAndReceive(jsonOut);
-		return parseResponse(jsonIn);
-	}
-	
-	public static Response send(WaitCommand command) {
-		String jsonOut = new Gson().toJson(command, WaitCommand.class);
+		if (command.getType() == CommandType.Chain) {
+			((ChainCommand) command).serialize();
+		}
+		
+		String jsonOut = new Gson().toJson(command, command.getType().getCommandClass());
 		String jsonIn = sendAndReceive(jsonOut);
 		return parseResponse(jsonIn);
 	}

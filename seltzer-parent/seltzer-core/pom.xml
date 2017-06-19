@@ -4,7 +4,7 @@
 
 	<groupId>hall.caleb.seltzer</groupId>
 	<artifactId>seltzer-core</artifactId>
-	<version>0.20.0</version>
+	<version>0.21.0</version>
 	<packaging>jar</packaging>
 
 	<name>Seltzer</name>

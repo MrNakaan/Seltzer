@@ -4,7 +4,7 @@
 
 	<groupId>hall.caleb.seltzer</groupId>
 	<artifactId>seltzer-util</artifactId>
-	<version>0.20.0</version>
+	<version>0.21.0</version>
 	<packaging>bundle</packaging>
 
 	<name>Seltzer Utilities</name>

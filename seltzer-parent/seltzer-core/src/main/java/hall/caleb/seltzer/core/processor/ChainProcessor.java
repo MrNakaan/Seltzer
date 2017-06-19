@@ -13,8 +13,6 @@ public class ChainProcessor {
 		BaseProcessor.logger.info("Processing chain:");
 		BaseProcessor.logger.info(BaseProcessor.gson.toJson(command));
 	
-		command.deserialize();
-		
 		ChainResponse response = new ChainResponse();
 	
 		Response tempResponse;

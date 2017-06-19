@@ -2,10 +2,14 @@ package hall.caleb.seltzer.core;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -24,7 +28,7 @@ public class SeltzerSession implements Closeable {
 	private WebDriver driver = null;
 	private long startedTime = 0;
 	private long lastUsed = 0;
-	
+	private Path dataDir;
 	
 	public SeltzerSession() {
 		start();
@@ -81,6 +85,8 @@ public class SeltzerSession implements Closeable {
 		
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("start-maximized");
+		dataDir = Paths.get(System.getProperty("repo.path"), "ChromeProfile", this.id.toString());
+		options.addArguments("user-data-dir=" + dataDir);
 
 		driver = new ChromeDriver(options);
 		
@@ -97,6 +103,8 @@ public class SeltzerSession implements Closeable {
 		id = null;
 		driver.quit();
 		driver = null;
+
+		FileUtils.deleteDirectory(dataDir.toFile());
 	}
 	
 	public Response executeCommand(Command command) {

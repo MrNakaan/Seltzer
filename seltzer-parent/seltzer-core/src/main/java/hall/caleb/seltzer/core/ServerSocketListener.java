@@ -21,12 +21,6 @@ import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.ResponseType;
 import hall.caleb.seltzer.objects.command.ChainCommand;
 import hall.caleb.seltzer.objects.command.Command;
-import hall.caleb.seltzer.objects.command.FillFieldCommand;
-import hall.caleb.seltzer.objects.command.GoToCommand;
-import hall.caleb.seltzer.objects.command.MultiResultSelectorCommand;
-import hall.caleb.seltzer.objects.command.ReadAttributeCommand;
-import hall.caleb.seltzer.objects.command.SelectorCommand;
-import hall.caleb.seltzer.objects.command.WaitCommand;
 import hall.caleb.seltzer.objects.response.ChainResponse;
 import hall.caleb.seltzer.objects.response.MultiResultResponse;
 import hall.caleb.seltzer.objects.response.Response;
@@ -92,6 +86,10 @@ public class ServerSocketListener implements Runnable {
 			
 			command = new Gson().fromJson(json, Command.class);
 			command = new Gson().fromJson(json, command.getType().getCommandClass());
+			
+			if (command.getType() == CommandType.Chain) {
+				((ChainCommand) command).deserialize();
+			}
 			
 			Response response = new Response();
 
