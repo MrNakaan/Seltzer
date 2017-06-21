@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.gson.Gson;
 
+import hall.caleb.seltzer.core.processor.BaseProcessor;
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.ResponseType;
 import hall.caleb.seltzer.objects.command.ChainCommand;
@@ -94,8 +95,7 @@ public class ServerSocketListener implements Runnable {
 			Response response = new Response();
 
 			if (command.getType() == CommandType.Start) {
-				response.setId(new SeltzerSession().getId());
-				response.setSuccess(true);
+				response = BaseProcessor.processCommand(null, command);
 			} else if (command.getType() == CommandType.Exit) {
 				SeltzerSession.findSession(command.getId()).close();
 				response.setSuccess(true);

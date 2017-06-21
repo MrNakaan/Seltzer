@@ -6,15 +6,18 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import hall.caleb.seltzer.objects.command.WaitCommand;
-import hall.caleb.seltzer.objects.response.SingleResultResponse;
+import hall.caleb.seltzer.objects.response.Response;
 
 public class WaitProcessor {
-
-	static SingleResultResponse wait(WebDriver driver, WaitCommand command) {
-		SingleResultResponse response = new SingleResultResponse(command.getId());
+	static Response processCommand(WebDriver driver, WaitCommand command) {
+		return wait(driver, command);
+	}
+	
+	private static Response wait(WebDriver driver, WaitCommand command) {
+		Response response = new Response(command.getId());
 		
 		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds()); 
-		WebElement e = wait.until(ExpectedConditions.visibilityOfElementLocated(BaseProcessor.getSelector(command)));
+		WebElement e = wait.until(ExpectedConditions.visibilityOf(driver.findElement(BaseProcessor.getSelector(command))));
 		response.setSuccess(e != null);
 		
 		return response;
