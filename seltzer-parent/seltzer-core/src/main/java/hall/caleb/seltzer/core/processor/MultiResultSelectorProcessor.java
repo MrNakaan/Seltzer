@@ -7,8 +7,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
-import hall.caleb.seltzer.objects.command.MultiResultSelectorCommand;
-import hall.caleb.seltzer.objects.command.ReadAttributeCommand;
+import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommand;
+import hall.caleb.seltzer.objects.command.selector.multiresult.ReadAttributeCommand;
 import hall.caleb.seltzer.objects.response.MultiResultResponse;
 import hall.caleb.seltzer.objects.response.Response;
 

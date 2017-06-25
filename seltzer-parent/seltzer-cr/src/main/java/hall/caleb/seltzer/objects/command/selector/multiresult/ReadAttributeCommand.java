@@ -1,4 +1,4 @@
-package hall.caleb.seltzer.objects.command;
+package hall.caleb.seltzer.objects.command.selector.multiresult;
 
 import java.util.UUID;
 

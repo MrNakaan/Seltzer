@@ -1,58 +1,58 @@
 package hall.caleb.seltzer.enums;
 
-import hall.caleb.seltzer.objects.command.WaitCommand;
+import hall.caleb.seltzer.objects.command.wait.OldVisibilityWaitCommand;
 
 public enum WaitType {
-	AlertIsPresent(WaitCommand.class),
-	And(WaitCommand.class),
-	AttributeContains(WaitCommand.class),
-	AttributeToBe(WaitCommand.class),
-	AttributeToBeNotEmpty(WaitCommand.class),
-	ElementStateToBe(WaitCommand.class),
-	ElementToBeClickable(WaitCommand.class),
-	ElementToBeSelected(WaitCommand.class),
-	FrameToBeAvailableAndSwitchToIt(WaitCommand.class),
-	InvisibilityOf(WaitCommand.class),
-	InvisibilityOfAllElements(WaitCommand.class),
-	InvisibilityOfElementLocated(WaitCommand.class),
-	InvisibilityOfElementWithText(WaitCommand.class),
-	JavascriptThrowsNoExceptions(WaitCommand.class),
-	JavascriptReturnsValue(WaitCommand.class),
-	Not(WaitCommand.class),
-	NumberOfElementsToBe(WaitCommand.class),
-	NumberOfElementsToBeLessThan(WaitCommand.class),
-	NumberOfElementsToBeMoreThan(WaitCommand.class),
-	NumberOfWindowsToBe(WaitCommand.class),
-	Or(WaitCommand.class),
-	PresenceOfAllElementsLocatedBy(WaitCommand.class),
-	PresenceOfElementLocated(WaitCommand.class),
-	PresenceOfNestedElementLocatedBy(WaitCommand.class),
-	PresenceOfNestedElementsLocatedBy(WaitCommand.class),
-	Refreshed(WaitCommand.class),
-	StalenessOf(WaitCommand.class),
-	TextMatches(WaitCommand.class),
-	TextToBe(WaitCommand.class),
-	TextToBePresentInElement(WaitCommand.class),
-	TextToBePresentInElementLocated(WaitCommand.class),
-	TextToBePresentInElementValue(WaitCommand.class),
-	TitleContains(WaitCommand.class),
-	TitleIs(WaitCommand.class),
-	UrlContains(WaitCommand.class),
-	UrlMatches(WaitCommand.class),
-	UrlToBe(WaitCommand.class),
-	VisibilityOf(WaitCommand.class),
-	VisibilityOfAllElements(WaitCommand.class),
-	VisibilityOfAllElementsLocatedBy(WaitCommand.class),
-	VisibilityOfElementLocated(WaitCommand.class),
-	VisibilityOfNestedElementsLocatedBy(WaitCommand.class);
+	AlertIsPresent(OldVisibilityWaitCommand.class),
+	And(OldVisibilityWaitCommand.class),//*******************************
+	AttributeContains(OldVisibilityWaitCommand.class),
+	AttributeToBe(OldVisibilityWaitCommand.class),
+	AttributeToBeNotEmpty(OldVisibilityWaitCommand.class),
+	ElementStateToBe(OldVisibilityWaitCommand.class),
+	ElementToBeClickable(OldVisibilityWaitCommand.class),
+	ElementToBeSelected(OldVisibilityWaitCommand.class),
+	FrameToBeAvailableAndSwitchToIt(OldVisibilityWaitCommand.class),
+	InvisibilityOf(OldVisibilityWaitCommand.class),
+	InvisibilityOfAllElements(OldVisibilityWaitCommand.class),
+	InvisibilityOfElementLocated(OldVisibilityWaitCommand.class),
+	InvisibilityOfElementWithText(OldVisibilityWaitCommand.class),
+	JavascriptThrowsNoExceptions(OldVisibilityWaitCommand.class),
+	JavascriptReturnsValue(OldVisibilityWaitCommand.class),
+	Not(OldVisibilityWaitCommand.class),//*******************************
+	NumberOfElementsToBe(OldVisibilityWaitCommand.class),
+	NumberOfElementsToBeLessThan(OldVisibilityWaitCommand.class),
+	NumberOfElementsToBeMoreThan(OldVisibilityWaitCommand.class),
+	NumberOfWindowsToBe(OldVisibilityWaitCommand.class),
+	Or(OldVisibilityWaitCommand.class),//*******************************
+	PresenceOfAllElementsLocatedBy(OldVisibilityWaitCommand.class),
+	PresenceOfElementLocated(OldVisibilityWaitCommand.class),
+	PresenceOfNestedElementLocatedBy(OldVisibilityWaitCommand.class),
+	PresenceOfNestedElementsLocatedBy(OldVisibilityWaitCommand.class),
+	Refreshed(OldVisibilityWaitCommand.class),
+	StalenessOf(OldVisibilityWaitCommand.class),
+	TextMatches(OldVisibilityWaitCommand.class),
+	TextToBe(OldVisibilityWaitCommand.class),
+	TextToBePresentInElement(OldVisibilityWaitCommand.class),
+	TextToBePresentInElementLocated(OldVisibilityWaitCommand.class),
+	TextToBePresentInElementValue(OldVisibilityWaitCommand.class),
+	TitleContains(OldVisibilityWaitCommand.class),
+	TitleIs(OldVisibilityWaitCommand.class),
+	UrlContains(OldVisibilityWaitCommand.class),
+	UrlMatches(OldVisibilityWaitCommand.class),
+	UrlToBe(OldVisibilityWaitCommand.class),
+	VisibilityOf(OldVisibilityWaitCommand.class),
+	VisibilityOfAllElements(OldVisibilityWaitCommand.class),
+	VisibilityOfAllElementsLocatedBy(OldVisibilityWaitCommand.class),
+	VisibilityOfElementLocated(OldVisibilityWaitCommand.class),
+	VisibilityOfNestedElementsLocatedBy(OldVisibilityWaitCommand.class);
 	
-private Class<? extends WaitCommand> commandClass;
+private Class<? extends OldVisibilityWaitCommand> commandClass;
 	
-	private WaitType(Class<? extends WaitCommand> commandClass) {
+	private WaitType(Class<? extends OldVisibilityWaitCommand> commandClass) {
 		this.commandClass = commandClass;
 	}
 
-	public Class<? extends WaitCommand> getCommandClass() {
+	public Class<? extends OldVisibilityWaitCommand> getCommandClass() {
 		return commandClass;
 	}
 }

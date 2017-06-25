@@ -5,6 +5,8 @@ import java.util.UUID;
 import hall.caleb.seltzer.enums.CommandType;
 
 public class Command {
+	public final boolean USES_COMMAND_LIST = false;
+	
 	protected CommandType type;
 	protected UUID id;
 	

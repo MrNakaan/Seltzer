@@ -1,8 +1,9 @@
-package hall.caleb.seltzer.objects.command;
+package hall.caleb.seltzer.objects.command.selector.multiresult;
 
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
+import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
 
 public class MultiResultSelectorCommand extends SelectorCommand {
 	protected int maxResults;

@@ -15,8 +15,8 @@ import org.junit.Test;
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SelectorType;
 import hall.caleb.seltzer.objects.command.Command;
-import hall.caleb.seltzer.objects.command.SelectorCommand;
-import hall.caleb.seltzer.objects.command.WaitCommand;
+import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
+import hall.caleb.seltzer.objects.command.wait.OldVisibilityWaitCommand;
 import hall.caleb.seltzer.objects.response.MultiResultResponse;
 import hall.caleb.seltzer.util.CommandFactory;
 
@@ -56,7 +56,7 @@ public class WaitProcessorTest {
 		assertTrue("Is there 1 result?", response.getResults().size() == 1);
 		assertEquals("Is the <h2> hidden?", "display: none;", response.getResults().get(0));
 		
-		WaitCommand waitCommand = new WaitCommand(session.getId());
+		OldVisibilityWaitCommand waitCommand = new OldVisibilityWaitCommand(session.getId());
 		waitCommand.setSelector("//h2[1]", SelectorType.Xpath);
 		waitCommand.setSeconds(15);
 		session.executeCommand(waitCommand);

@@ -7,10 +7,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.objects.command.FillFieldCommand;
-import hall.caleb.seltzer.objects.command.MultiResultSelectorCommand;
-import hall.caleb.seltzer.objects.command.SelectorCommand;
-import hall.caleb.seltzer.objects.command.WaitCommand;
+import hall.caleb.seltzer.objects.command.selector.FillFieldCommand;
+import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
+import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommand;
 import hall.caleb.seltzer.objects.response.Response;
 import hall.caleb.seltzer.objects.response.SingleResultResponse;
 
@@ -20,8 +19,6 @@ public class SelectorProcessor {
 
 		if (command instanceof MultiResultSelectorCommand) {
 			response = MultiResultSelectorProcessor.processCommand(driver, (MultiResultSelectorCommand) command);
-		} else if (command instanceof WaitCommand) {
-			response = WaitProcessor.processCommand(driver, (WaitCommand) command);
 		} else {
 			switch (command.getType()) {
 			case Click:

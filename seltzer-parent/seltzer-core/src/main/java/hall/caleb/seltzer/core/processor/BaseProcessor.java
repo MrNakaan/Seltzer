@@ -18,7 +18,8 @@ import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.command.GetCookieCommand;
 import hall.caleb.seltzer.objects.command.GetCookiesCommand;
 import hall.caleb.seltzer.objects.command.GoToCommand;
-import hall.caleb.seltzer.objects.command.SelectorCommand;
+import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
+import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 import hall.caleb.seltzer.objects.response.ChainResponse;
 import hall.caleb.seltzer.objects.response.MultiResultResponse;
 import hall.caleb.seltzer.objects.response.Response;
@@ -41,6 +42,8 @@ public class BaseProcessor {
 
 		if (command instanceof SelectorCommand) {
 			response = SelectorProcessor.processCommand(driver, (SelectorCommand) command);
+		} else if (command instanceof WaitCommand) {
+			response = WaitProcessor.processCommand(driver, (WaitCommand) command);
 		} else {
 			switch (command.getType()) {
 			case Start:

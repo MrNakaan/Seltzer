@@ -1,81 +1,49 @@
 package hall.caleb.seltzer.objects.command;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-import com.google.gson.Gson;
-
 import hall.caleb.seltzer.enums.CommandType;
+import hall.caleb.seltzer.objects.SerializableCR;
 
-public class ChainCommand extends Command {
-	protected List<Command> commands;
-	private List<String> serializedCommands;
+public class ChainCommand extends Command implements SerializableCR {
+	public boolean USES_COMMAND_LIST = true;
+	
+	private CommandList commands = new CommandList(this);
 
 	public ChainCommand() {
 		super(CommandType.Chain);
-		commands = new ArrayList<>();
-		serializedCommands = new ArrayList<>();
 	}
 
 	public ChainCommand(UUID id) {
 		super(CommandType.Chain, id);
-		commands = new ArrayList<>();
-		serializedCommands = new ArrayList<>();
 	}
 
+	@Override
 	public void serialize() {
-		Gson gson = new Gson();
-		
-		for (Command subCommand : commands) {
-			if (subCommand.getType() == CommandType.Chain) {
-				((ChainCommand) subCommand).serialize();
-			}
-			
-			serializedCommands.add(gson.toJson(subCommand, subCommand.getType().getCommandClass()));
-		}
-		
-		commands = new ArrayList<>();
+		commands.serialize();
 	}
 
+	@Override
 	public void deserialize() {
-		Gson gson = new Gson();
-		Command subCommand;
-		
-		for (String serializedCommand : serializedCommands) {
-			subCommand = gson.fromJson(serializedCommand, Command.class);
-			subCommand = gson.fromJson(serializedCommand, subCommand.getType().getCommandClass());
-			
-			if (subCommand.getType() == CommandType.Chain) {
-				((ChainCommand) subCommand).deserialize();
-			}
-			
-			commands.add(subCommand);
-		}
-		
-		serializedCommands = new ArrayList<>();
+		commands.deserialize();
 	}
 
 	public boolean addCommand(Command command) {
-		if (this.id.equals(command.getId())) {
-			commands.add(command);
-			return true;
-		} else {
-			return false;
-		}
+		return commands.addCommand(command);
 	}
 
 	@Override
 	public String toString() {
-		return "ChainCommand [commands=" + commands + ", serializedCommands=" + serializedCommands + "]";
+		return "ChainCommand [USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", commands=" + commands + ", type=" + type
+				+ ", id=" + id + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + (USES_COMMAND_LIST ? 1231 : 1237);
 		result = prime * result + ((commands == null) ? 0 : commands.hashCode());
-		result = prime * result + ((serializedCommands == null) ? 0 : serializedCommands.hashCode());
 		return result;
 	}
 
@@ -88,32 +56,21 @@ public class ChainCommand extends Command {
 		if (getClass() != obj.getClass())
 			return false;
 		ChainCommand other = (ChainCommand) obj;
+		if (USES_COMMAND_LIST != other.USES_COMMAND_LIST)
+			return false;
 		if (commands == null) {
 			if (other.commands != null)
 				return false;
 		} else if (!commands.equals(other.commands))
 			return false;
-		if (serializedCommands == null) {
-			if (other.serializedCommands != null)
-				return false;
-		} else if (!serializedCommands.equals(other.serializedCommands))
-			return false;
 		return true;
 	}
 
-	public List<Command> getCommands() {
+	public CommandList getCommands() {
 		return commands;
 	}
 
-	public void setCommands(List<Command> commands) {
+	public void setCommands(CommandList commands) {
 		this.commands = commands;
-	}
-
-	public List<String> getSerializedCommands() {
-		return serializedCommands;
-	}
-
-	public void setSerializedCommands(List<String> serializedCommands) {
-		this.serializedCommands = serializedCommands;
 	}
 }

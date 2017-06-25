@@ -2,14 +2,14 @@ package hall.caleb.seltzer.enums;
 
 import hall.caleb.seltzer.objects.command.ChainCommand;
 import hall.caleb.seltzer.objects.command.Command;
-import hall.caleb.seltzer.objects.command.FillFieldCommand;
 import hall.caleb.seltzer.objects.command.GetCookieCommand;
 import hall.caleb.seltzer.objects.command.GetCookiesCommand;
 import hall.caleb.seltzer.objects.command.GoToCommand;
-import hall.caleb.seltzer.objects.command.MultiResultSelectorCommand;
-import hall.caleb.seltzer.objects.command.ReadAttributeCommand;
-import hall.caleb.seltzer.objects.command.SelectorCommand;
-import hall.caleb.seltzer.objects.command.WaitCommand;
+import hall.caleb.seltzer.objects.command.selector.FillFieldCommand;
+import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
+import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommand;
+import hall.caleb.seltzer.objects.command.selector.multiresult.ReadAttributeCommand;
+import hall.caleb.seltzer.objects.command.wait.OldVisibilityWaitCommand;
 
 public enum CommandType {
 	Back(Command.class),
@@ -29,7 +29,7 @@ public enum CommandType {
 	ReadAttribute(ReadAttributeCommand.class),
 	ReadText(MultiResultSelectorCommand.class),
 	Start(Command.class),
-	Wait(WaitCommand.class);
+	Wait(OldVisibilityWaitCommand.class);
 	
 	private Class<? extends Command> commandClass;
 	

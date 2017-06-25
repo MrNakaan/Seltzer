@@ -6,14 +6,14 @@ import java.util.UUID;
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SelectorType;
 import hall.caleb.seltzer.objects.command.Command;
-import hall.caleb.seltzer.objects.command.FillFieldCommand;
 import hall.caleb.seltzer.objects.command.GetCookieCommand;
 import hall.caleb.seltzer.objects.command.GetCookiesCommand;
 import hall.caleb.seltzer.objects.command.GoToCommand;
-import hall.caleb.seltzer.objects.command.MultiResultSelectorCommand;
-import hall.caleb.seltzer.objects.command.ReadAttributeCommand;
-import hall.caleb.seltzer.objects.command.SelectorCommand;
-import hall.caleb.seltzer.objects.command.WaitCommand;
+import hall.caleb.seltzer.objects.command.selector.FillFieldCommand;
+import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
+import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommand;
+import hall.caleb.seltzer.objects.command.selector.multiresult.ReadAttributeCommand;
+import hall.caleb.seltzer.objects.command.wait.OldVisibilityWaitCommand;
 public class CommandFactory {
 	public static Command newStartCommand() {
 		return new Command(CommandType.Start);
@@ -102,8 +102,8 @@ public class CommandFactory {
 		return command;
 	}
 	
-	public static WaitCommand newWaitCommand(UUID id, SelectorType type, String selector, int seconds) {
-		WaitCommand command = new WaitCommand(id);
+	public static OldVisibilityWaitCommand newWaitCommand(UUID id, SelectorType type, String selector, int seconds) {
+		OldVisibilityWaitCommand command = new OldVisibilityWaitCommand(id);
 		command.setSelector(selector, type);
 		command.setSeconds(seconds);
 		return command;

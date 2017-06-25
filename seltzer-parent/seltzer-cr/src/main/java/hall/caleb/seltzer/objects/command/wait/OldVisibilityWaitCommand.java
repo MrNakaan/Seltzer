@@ -1,17 +1,18 @@
-package hall.caleb.seltzer.objects.command;
+package hall.caleb.seltzer.objects.command.wait;
 
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
+import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
 
-public class WaitCommand extends SelectorCommand {
+public class OldVisibilityWaitCommand extends SelectorCommand {
 	Integer seconds;
 	
-	public WaitCommand() {
+	public OldVisibilityWaitCommand() {
 		super(CommandType.Wait);
 	}
 	
-	public WaitCommand(UUID id) {
+	public OldVisibilityWaitCommand(UUID id) {
 		super(CommandType.Wait, id);
 	}
 
@@ -37,7 +38,7 @@ public class WaitCommand extends SelectorCommand {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		WaitCommand other = (WaitCommand) obj;
+		OldVisibilityWaitCommand other = (OldVisibilityWaitCommand) obj;
 		if (seconds == null) {
 			if (other.seconds != null)
 				return false;

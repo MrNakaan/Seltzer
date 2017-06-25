@@ -1,9 +1,10 @@
-package hall.caleb.seltzer.objects.command;
+package hall.caleb.seltzer.objects.command.selector;
 
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SelectorType;
+import hall.caleb.seltzer.objects.command.Command;
 
 public class SelectorCommand extends Command {
 	protected SelectorType selectorType;

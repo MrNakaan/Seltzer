@@ -13,6 +13,10 @@ import com.google.gson.Gson;
 
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SelectorType;
+import hall.caleb.seltzer.objects.command.selector.FillFieldCommand;
+import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
+import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommand;
+import hall.caleb.seltzer.objects.command.selector.multiresult.ReadAttributeCommand;
 
 @Generated(value = "org.junit-tools-1.0.5")
 public class ChainCommandTest {
