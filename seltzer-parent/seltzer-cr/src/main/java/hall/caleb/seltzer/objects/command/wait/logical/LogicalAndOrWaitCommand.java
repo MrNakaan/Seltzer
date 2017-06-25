@@ -7,17 +7,24 @@ import hall.caleb.seltzer.objects.SerializableCR;
 import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.command.CommandList;
 
-public class LogicalAndWaitCommand extends LogicalWaitCommand implements SerializableCR	 {
+public class LogicalAndOrWaitCommand extends LogicalWaitCommand implements SerializableCR	 {
 	public final boolean USES_COMMAND_LIST = true;
 	
 	private CommandList waitCommands = new CommandList(this);
 	
-	public LogicalAndWaitCommand(Integer seconds) {
-		super(seconds, WaitType.And);
+	public LogicalAndOrWaitCommand(Integer seconds, WaitType waitType) {
+		super(seconds, waitType);
+		if (waitType != WaitType.And && waitType != WaitType.Or) {
+			throw new IllegalArgumentException("Supplied WaitType is '" + waitType.name() + "'; must be 'And' or 'Or'.");
+		}
 	}
 
-	public LogicalAndWaitCommand(Integer seconds, UUID id) {
-		super(seconds, WaitType.And, id);
+	public LogicalAndOrWaitCommand(Integer seconds, WaitType waitType, UUID id) {
+		super(seconds, waitType, id);
+		
+		if (waitType != WaitType.And && waitType != WaitType.Or) {
+			throw new IllegalArgumentException("Supplied WaitType is '" + waitType.name() + "'; must be 'And' or 'Or'.");
+		}
 	}
 
 	@Override
@@ -57,7 +64,7 @@ public class LogicalAndWaitCommand extends LogicalWaitCommand implements Seriali
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		LogicalAndWaitCommand other = (LogicalAndWaitCommand) obj;
+		LogicalAndOrWaitCommand other = (LogicalAndOrWaitCommand) obj;
 		if (USES_COMMAND_LIST != other.USES_COMMAND_LIST)
 			return false;
 		if (waitCommands == null) {
