@@ -1,4 +1,4 @@
-package hall.caleb.seltzer.core;
+	package hall.caleb.seltzer.core;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -9,7 +9,6 @@ import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
