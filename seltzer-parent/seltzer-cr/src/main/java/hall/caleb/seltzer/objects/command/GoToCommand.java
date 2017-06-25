@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 
-public class GoToCommand extends Command {
+public final class GoToCommand extends Command {
 	protected String url;
 	
 	public GoToCommand() {

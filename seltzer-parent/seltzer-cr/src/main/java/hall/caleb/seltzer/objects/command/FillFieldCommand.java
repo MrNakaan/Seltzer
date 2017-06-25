@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 
-public class FillFieldCommand extends SelectorCommand {
+public final class FillFieldCommand extends SelectorCommand {
 	protected String text;
 	
 	public FillFieldCommand() {

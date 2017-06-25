@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 
-public class ReadAttributeCommand extends MultiResultSelectorCommand {
+public final class ReadAttributeCommand extends MultiResultSelectorCommand {
 	protected String attribute;
 	
 	public ReadAttributeCommand() {

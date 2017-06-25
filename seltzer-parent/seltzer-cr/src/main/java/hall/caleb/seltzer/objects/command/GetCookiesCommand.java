@@ -6,7 +6,7 @@ import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 
-public class GetCookiesCommand extends Command {
+public final class GetCookiesCommand extends Command {
 	private List<String> cookieNames;
 	
 	public GetCookiesCommand(UUID seleniumId) {
