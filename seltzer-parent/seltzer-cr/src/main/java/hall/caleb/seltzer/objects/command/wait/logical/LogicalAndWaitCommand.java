@@ -12,12 +12,12 @@ public class LogicalAndWaitCommand extends LogicalWaitCommand implements Seriali
 	
 	private CommandList waitCommands = new CommandList(this);
 	
-	public LogicalAndWaitCommand() {
-		super(WaitType.And);
+	public LogicalAndWaitCommand(Integer seconds) {
+		super(seconds, WaitType.And);
 	}
 
-	public LogicalAndWaitCommand(UUID id) {
-		super(WaitType.And, id);
+	public LogicalAndWaitCommand(Integer seconds, UUID id) {
+		super(seconds, WaitType.And, id);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class LogicalAndWaitCommand extends LogicalWaitCommand implements Seriali
 	@Override
 	public String toString() {
 		return "LogicalAndWaitCommand [USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", waitCommands=" + waitCommands
-				+ ", waitType=" + waitType + ", type=" + type + ", id=" + id + "]";
+				+ ", waitType=" + waitType + ", seconds=" + seconds + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

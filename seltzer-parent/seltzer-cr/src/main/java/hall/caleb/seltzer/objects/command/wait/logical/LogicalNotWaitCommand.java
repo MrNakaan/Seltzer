@@ -8,18 +8,18 @@ import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 public class LogicalNotWaitCommand extends LogicalWaitCommand {
 	WaitCommand waitCommand;
 	
-	public LogicalNotWaitCommand() {
-		super(WaitType.Not);
+	public LogicalNotWaitCommand(Integer seconds) {
+		super(seconds, WaitType.Not);
 	}
 
-	public LogicalNotWaitCommand(UUID id) {
-		super(WaitType.Not, id);
+	public LogicalNotWaitCommand(Integer seconds, UUID id) {
+		super(seconds, WaitType.Not, id);
 	}
 
 	@Override
 	public String toString() {
-		return "LogicalNotWaitCommand [waitCommand=" + waitCommand + ", waitType=" + waitType + ", USES_COMMAND_LIST="
-				+ USES_COMMAND_LIST + ", type=" + type + ", id=" + id + "]";
+		return "LogicalNotWaitCommand [waitCommand=" + waitCommand + ", waitType=" + waitType + ", seconds=" + seconds
+				+ ", USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

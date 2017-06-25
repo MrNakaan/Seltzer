@@ -12,12 +12,12 @@ public class LogicalOrWaitCommand extends LogicalWaitCommand implements Serializ
 	
 	private CommandList waitCommands = new CommandList(this);
 	
-	public LogicalOrWaitCommand() {
-		super(WaitType.Or);
+	public LogicalOrWaitCommand(Integer seconds) {
+		super(seconds, WaitType.Or);
 	}
 
-	public LogicalOrWaitCommand(UUID id) {
-		super(WaitType.Or, id);
+	public LogicalOrWaitCommand(Integer seconds, UUID id) {
+		super(seconds, WaitType.Or, id);
 	}
 	
 	@Override
@@ -37,7 +37,7 @@ public class LogicalOrWaitCommand extends LogicalWaitCommand implements Serializ
 	@Override
 	public String toString() {
 		return "LogicalOrWaitCommand [USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", waitCommands=" + waitCommands
-				+ ", waitType=" + waitType + ", type=" + type + ", id=" + id + "]";
+				+ ", waitType=" + waitType + ", seconds=" + seconds + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override
