@@ -3,9 +3,8 @@ package hall.caleb.seltzer.objects.command;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
-import hall.caleb.seltzer.objects.SerializableCR;
 
-public class ChainCommand extends Command implements SerializableCR {
+public class ChainCommand extends Command implements SerializableCommand {
 	public boolean USES_COMMAND_LIST = true;
 	
 	private CommandList commands = new CommandList(this);
@@ -66,10 +65,12 @@ public class ChainCommand extends Command implements SerializableCR {
 		return true;
 	}
 
+	@Override
 	public CommandList getCommands() {
 		return commands;
 	}
 
+	@Override
 	public void setCommands(CommandList commands) {
 		this.commands = commands;
 	}

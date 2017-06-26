@@ -5,8 +5,6 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
-import hall.caleb.seltzer.objects.SerializableCR;
-
 public class CommandList {
 	private List<Command> commands;
 	private List<String> serializedCommands;
@@ -22,8 +20,8 @@ public class CommandList {
 		Gson gson = new Gson();
 		
 		for (Command subCommand : commands) {
-			if (subCommand instanceof SerializableCR) {
-				((SerializableCR) subCommand).serialize();
+			if (subCommand instanceof SerializableCommand) {
+				((SerializableCommand) subCommand).serialize();
 			}
 			
 			serializedCommands.add(gson.toJson(subCommand, subCommand.getType().getCommandClass()));
@@ -40,8 +38,8 @@ public class CommandList {
 			subCommand = gson.fromJson(serializedCommand, Command.class);
 			subCommand = gson.fromJson(serializedCommand, subCommand.getType().getCommandClass());
 			
-			if (subCommand instanceof SerializableCR) {
-				((SerializableCR) subCommand).deserialize();
+			if (subCommand instanceof SerializableCommand) {
+				((SerializableCommand) subCommand).deserialize();
 			}
 			
 			commands.add(subCommand);

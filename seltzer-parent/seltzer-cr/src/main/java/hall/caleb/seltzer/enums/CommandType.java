@@ -9,7 +9,7 @@ import hall.caleb.seltzer.objects.command.selector.FillFieldCommand;
 import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
 import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommand;
 import hall.caleb.seltzer.objects.command.selector.multiresult.ReadAttributeCommand;
-import hall.caleb.seltzer.objects.command.wait.OldVisibilityWaitCommand;
+import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 
 public enum CommandType {
 	Back(Command.class),
@@ -29,7 +29,7 @@ public enum CommandType {
 	ReadAttribute(ReadAttributeCommand.class),
 	ReadText(MultiResultSelectorCommand.class),
 	Start(Command.class),
-	Wait(OldVisibilityWaitCommand.class);
+	Wait(WaitCommand.class);
 	
 	private Class<? extends Command> commandClass;
 	

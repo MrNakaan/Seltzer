@@ -1,13 +1,14 @@
-package hall.caleb.seltzer.objects.command.wait;
+package hall.caleb.seltzer.objects.command.wait.existence;
 
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.SelectorType;
 import hall.caleb.seltzer.enums.WaitType;
 import hall.caleb.seltzer.objects.command.Selector;
+import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 
 public class ExistenceWaitCommand extends WaitCommand {
-protected Selector selector;
+	protected Selector selector;
 	
 	public ExistenceWaitCommand(Integer seconds) {
 		super(seconds);

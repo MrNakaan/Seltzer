@@ -12,16 +12,16 @@ import java.util.Arrays;
 import com.google.gson.Gson;
 
 import hall.caleb.seltzer.enums.ResponseType;
-import hall.caleb.seltzer.objects.SerializableCR;
 import hall.caleb.seltzer.objects.command.Command;
+import hall.caleb.seltzer.objects.command.SerializableCommand;
 import hall.caleb.seltzer.objects.exception.SeltzerException;
 import hall.caleb.seltzer.objects.response.ExceptionResponse;
 import hall.caleb.seltzer.objects.response.Response;
 
 public class SeltzerUtils {
 	public static Response send(Command command) throws SeltzerException {
-		if (command instanceof SerializableCR) {
-			((SerializableCR) command).serialize();
+		if (command instanceof SerializableCommand) {
+			((SerializableCommand) command).serialize();
 		}
 		
 		String jsonOut = new Gson().toJson(command, command.getType().getCommandClass());
@@ -68,8 +68,8 @@ public class SeltzerUtils {
 		if (response.getType() == ResponseType.Exception) {
 			ExceptionResponse e = (ExceptionResponse) response;
 			throw new SeltzerException(e.getMessage(), e.getStackTrace());
-		} else if (response instanceof SerializableCR) {
-			((SerializableCR) response).deserialize();
+		} else if (response instanceof SerializableCommand) {
+			((SerializableCommand) response).deserialize();
 		}
 		
 		return response;

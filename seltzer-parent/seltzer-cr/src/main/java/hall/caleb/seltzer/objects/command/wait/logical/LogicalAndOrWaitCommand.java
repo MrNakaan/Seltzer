@@ -3,11 +3,11 @@ package hall.caleb.seltzer.objects.command.wait.logical;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.WaitType;
-import hall.caleb.seltzer.objects.SerializableCR;
 import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.command.CommandList;
+import hall.caleb.seltzer.objects.command.SerializableCommand;
 
-public class LogicalAndOrWaitCommand extends LogicalWaitCommand implements SerializableCR	 {
+public class LogicalAndOrWaitCommand extends LogicalWaitCommand implements SerializableCommand	 {
 	public final boolean USES_COMMAND_LIST = true;
 	
 	private CommandList waitCommands = new CommandList(this);
@@ -75,11 +75,13 @@ public class LogicalAndOrWaitCommand extends LogicalWaitCommand implements Seria
 		return true;
 	}
 
-	public CommandList getWaitCommands() {
+	@Override
+	public CommandList getCommands() {
 		return waitCommands;
 	}
 
-	public void setWaitCommands(CommandList waitCommands) {
+	@Override
+	public void setCommands(CommandList waitCommands) {
 		this.waitCommands = waitCommands;
 	}
 }

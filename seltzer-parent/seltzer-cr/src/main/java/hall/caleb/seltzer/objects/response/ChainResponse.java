@@ -7,9 +7,8 @@ import java.util.UUID;
 import com.google.gson.Gson;
 
 import hall.caleb.seltzer.enums.ResponseType;
-import hall.caleb.seltzer.objects.SerializableCR;
 
-public class ChainResponse extends Response implements SerializableCR {
+public class ChainResponse extends Response {
 	private List<Response> responses;
 	private List<String> serializedResponses;
 
@@ -36,7 +35,6 @@ public class ChainResponse extends Response implements SerializableCR {
 		this.type = ResponseType.Chain;
 	}
 
-	@Override
 	public void serialize() {
 		Gson gson = new Gson();
 		
@@ -51,7 +49,6 @@ public class ChainResponse extends Response implements SerializableCR {
 		responses = new ArrayList<>();
 	}
 
-	@Override
 	public void deserialize() {
 		Gson gson = new Gson();
 		Response subResponse;

@@ -23,6 +23,7 @@ import hall.caleb.seltzer.objects.command.GetCookieCommand;
 import hall.caleb.seltzer.objects.command.GetCookiesCommand;
 import hall.caleb.seltzer.objects.command.GoToCommand;
 import hall.caleb.seltzer.objects.command.Selector;
+import hall.caleb.seltzer.objects.command.SerializableCommand;
 import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 import hall.caleb.seltzer.objects.response.ChainResponse;
@@ -70,7 +71,7 @@ public class BaseProcessor {
 				response = getCookie(driver, (GetCookieCommand) command);
 				break;
 			case GetCookieFile:
-				response = getCookieFile();
+				response = getCookieFile(command);
 				break;
 			case GetCookies:
 				response = getCookies(driver, (GetCookiesCommand) command);
@@ -91,7 +92,7 @@ public class BaseProcessor {
 		return response;
 	}
 
-	static By getSelector(Selector selector) {
+	static By getBy(Selector selector) {
 		By by;
 
 		switch (selector.getSelectorType()) {
@@ -238,7 +239,7 @@ public class BaseProcessor {
 		ChainResponse response = new ChainResponse();
 
 		Response tempResponse;
-		for (Command subCommand : command.getCommands()) {
+		for (Command subCommand : ((SerializableCommand) command).getCommands().getCommands()) {
 			if (!subCommand.getId().equals(command.getId())) {
 				tempResponse = new Response(command.getId(), false);
 			} else {

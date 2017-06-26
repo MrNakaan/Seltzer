@@ -38,7 +38,7 @@ public class MultiResultSelectorProcessor {
 
 		int tryNumber = 0;
 
-		By selector = BaseProcessor.getSelector(command);
+		By selector = BaseProcessor.getBy(command.getSelector());
 		int maxResults = -1;
 		while (tryNumber < BaseProcessor.RETRIES) {
 			try {
@@ -62,7 +62,7 @@ public class MultiResultSelectorProcessor {
 			while (tryNumber < BaseProcessor.RETRIES) {
 				try {
 					for (String attribute : attributes) {
-						tmpResult = driver.findElements(BaseProcessor.getSelector(command)).get(i)
+						tmpResult = driver.findElements(BaseProcessor.getBy(command.getSelector())).get(i)
 								.getAttribute(attribute.trim());
 
 						if (tmpResult != null && !tmpResult.isEmpty()) {
@@ -90,7 +90,7 @@ public class MultiResultSelectorProcessor {
 
 		int tryNumber = 0;
 
-		By selector = BaseProcessor.getSelector(command);
+		By selector = BaseProcessor.getBy(command.getSelector());
 		int maxResults = -1;
 		while (tryNumber < BaseProcessor.RETRIES) {
 			try {
@@ -113,7 +113,7 @@ public class MultiResultSelectorProcessor {
 		for (int i = 0; i < maxResults; i++) {
 			while (tryNumber < BaseProcessor.RETRIES) {
 				try {
-					tmpResult = driver.findElements(BaseProcessor.getSelector(command)).get(i).getText();
+					tmpResult = driver.findElements(BaseProcessor.getBy(command.getSelector())).get(i).getText();
 					break;
 				} catch (NoSuchElementException e) {
 					tryNumber++;

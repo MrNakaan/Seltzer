@@ -1,10 +1,10 @@
 package hall.caleb.seltzer.enums;
 
 import hall.caleb.seltzer.objects.command.wait.CountWaitCommand;
-import hall.caleb.seltzer.objects.command.wait.ExistenceWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.JavaScriptWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.SelectionStateWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
+import hall.caleb.seltzer.objects.command.wait.existence.ExistenceWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.logical.LogicalAndOrWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.logical.LogicalNotWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchAttributeSelectorWaitCommand;
@@ -53,8 +53,6 @@ public enum WaitType {
 	UrlToBe(TextMatchWaitCommand.class),
 	VisibilityOf(VisibilityWaitCommand.class),
 	VisibilityOfAllElements(VisibilityWaitCommand.class),
-	VisibilityOfAllElementsLocatedBy(VisibilityWaitCommand.class),
-	VisibilityOfElementLocated(VisibilityWaitCommand.class),
 	VisibilityOfNestedElementsLocatedBy(VisibilityWaitCommand.class);
 	
 private Class<? extends WaitCommand> commandClass;

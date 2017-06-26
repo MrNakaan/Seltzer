@@ -52,7 +52,7 @@ public class SelectorProcessor {
 
 		while (tryNumber < BaseProcessor.RETRIES) {
 			try {
-				driver.findElement(BaseProcessor.getSelector(command)).click();
+				driver.findElement(BaseProcessor.getBy(command.getSelector())).click();
 				response.setSuccess(true);
 				break;
 			} catch (NoSuchElementException | StaleElementReferenceException e) {
@@ -67,7 +67,7 @@ public class SelectorProcessor {
 	private static SingleResultResponse count(WebDriver driver, SelectorCommand command) {
 		SingleResultResponse response = new SingleResultResponse(command.getId());
 
-		Integer size = driver.findElements(BaseProcessor.getSelector(command)).size();
+		Integer size = driver.findElements(BaseProcessor.getBy(command.getSelector())).size();
 		response.setResult(size.toString());
 		response.setSuccess(size.toString().equals(response.getResult()));
 
@@ -76,8 +76,8 @@ public class SelectorProcessor {
 
 	private static Response delete(WebDriver driver, SelectorCommand command) {
 		Response response = new Response(command.getId(), false);
-		if (command.getSelectorType() == SelectorType.Xpath && driver instanceof JavascriptExecutor) {
-			String selector = command.getSelector().replace("\"", "\\\"");
+		if (command.getSelector().getSelectorType() == SelectorType.Xpath && driver instanceof JavascriptExecutor) {
+			String selector = command.getSelector().getSelector().replace("\"", "\\\"");
 
 			StringBuilder removeScript = new StringBuilder();
 			removeScript.append("while (true) {");
@@ -107,7 +107,7 @@ public class SelectorProcessor {
 
 		while (tryNumber < BaseProcessor.RETRIES) {
 			try {
-				WebElement field = driver.findElement(BaseProcessor.getSelector(command));
+				WebElement field = driver.findElement(BaseProcessor.getBy(command.getSelector()));
 				field.click();
 				field.sendKeys(command.getText());
 				response.setSuccess(true);
@@ -128,7 +128,7 @@ public class SelectorProcessor {
 
 		while (tryNumber < BaseProcessor.RETRIES) {
 			try {
-				WebElement form = driver.findElement(BaseProcessor.getSelector(command));
+				WebElement form = driver.findElement(BaseProcessor.getBy(command.getSelector()));
 				form.submit();
 				response.setSuccess(true);
 				break;
