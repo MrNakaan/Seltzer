@@ -17,8 +17,8 @@ public final class FillFieldCommand extends SelectorCommand {
 
 	@Override
 	public String toString() {
-		return "FillFieldCommand [text=" + text + ", selectorType=" + selectorType + ", selector=" + selector
-				+ ", commandType=" + type + ", id=" + id + "]";
+		return "FillFieldCommand [text=" + text + ", selector=" + selector + ", USES_COMMAND_LIST=" + USES_COMMAND_LIST
+				+ ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

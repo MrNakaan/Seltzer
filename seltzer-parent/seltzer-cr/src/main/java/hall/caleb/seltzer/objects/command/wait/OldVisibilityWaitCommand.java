@@ -18,8 +18,8 @@ public class OldVisibilityWaitCommand extends SelectorCommand {
 
 	@Override
 	public String toString() {
-		return "WaitCommand [seconds=" + seconds + ", selectorType=" + selectorType + ", selector=" + selector
-				+ ", type=" + type + ", id=" + id + "]";
+		return "OldVisibilityWaitCommand [seconds=" + seconds + ", selector=" + selector + ", USES_COMMAND_LIST="
+				+ USES_COMMAND_LIST + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

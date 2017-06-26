@@ -1,6 +1,7 @@
 package hall.caleb.seltzer.enums;
 
 import hall.caleb.seltzer.objects.response.ChainResponse;
+import hall.caleb.seltzer.objects.response.ExceptionResponse;
 import hall.caleb.seltzer.objects.response.MultiResultResponse;
 import hall.caleb.seltzer.objects.response.Response;
 import hall.caleb.seltzer.objects.response.SingleResultResponse;
@@ -9,7 +10,8 @@ public enum ResponseType {
 	Basic(Response.class),
 	SingleResult(SingleResultResponse.class),
 	MultiResult(MultiResultResponse.class),
-	Chain(ChainResponse.class);
+	Chain(ChainResponse.class),
+	Exception(ExceptionResponse.class);
 
 	private Class<? extends Response> responseClass;
 	

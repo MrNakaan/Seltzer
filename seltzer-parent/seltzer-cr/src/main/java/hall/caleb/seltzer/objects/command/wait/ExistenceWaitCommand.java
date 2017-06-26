@@ -1,35 +1,34 @@
-package hall.caleb.seltzer.objects.command.selector;
+package hall.caleb.seltzer.objects.command.wait;
 
 import java.util.UUID;
 
-import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.objects.command.Command;
+import hall.caleb.seltzer.enums.WaitType;
 import hall.caleb.seltzer.objects.command.Selector;
 
-public class SelectorCommand extends Command {
-	protected Selector selector;
+public class ExistenceWaitCommand extends WaitCommand {
+protected Selector selector;
 	
-	public SelectorCommand() {
-		super();
+	public ExistenceWaitCommand(Integer seconds) {
+		super(seconds);
 	}
 
-	public SelectorCommand(CommandType commandType) {
-		super(commandType);
-	}
-	
-	public SelectorCommand(CommandType commandType, UUID id) {
-		super(commandType, id);
+	public ExistenceWaitCommand(Integer seconds, WaitType waitType) {
+		super(seconds, waitType);
 	}
 
+	public ExistenceWaitCommand(Integer seconds, WaitType waitType, UUID id) {
+		super(seconds, waitType, id);
+	}
+	
 	public void setSelector(String selector, SelectorType selectorType) {
 		this.selector.setSelector(selectorType, selector);
 	}
-	
+
 	@Override
 	public String toString() {
-		return "SelectorCommand [selector=" + selector + ", USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", type=" + type
-				+ ", id=" + id + "]";
+		return "ExistenceWaitCommand [selector=" + selector + ", waitType=" + waitType + ", seconds=" + seconds
+				+ ", USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override
@@ -48,7 +47,7 @@ public class SelectorCommand extends Command {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SelectorCommand other = (SelectorCommand) obj;
+		ExistenceWaitCommand other = (ExistenceWaitCommand) obj;
 		if (selector == null) {
 			if (other.selector != null)
 				return false;

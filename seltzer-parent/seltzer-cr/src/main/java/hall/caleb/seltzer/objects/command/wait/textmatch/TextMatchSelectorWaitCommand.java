@@ -1,37 +1,36 @@
-package hall.caleb.seltzer.objects.command.selector;
+package hall.caleb.seltzer.objects.command.wait.textmatch;
 
 import java.util.UUID;
 
-import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.objects.command.Command;
+import hall.caleb.seltzer.enums.WaitType;
 import hall.caleb.seltzer.objects.command.Selector;
 
-public class SelectorCommand extends Command {
+public class TextMatchSelectorWaitCommand extends TextMatchWaitCommand {
 	protected Selector selector;
 	
-	public SelectorCommand() {
-		super();
+	public TextMatchSelectorWaitCommand(Integer seconds) {
+		super(seconds);
 	}
 
-	public SelectorCommand(CommandType commandType) {
-		super(commandType);
+	public TextMatchSelectorWaitCommand(Integer seconds, WaitType waitType) {
+		super(seconds, waitType);
+	}
+
+	public TextMatchSelectorWaitCommand(Integer seconds, WaitType waitType, UUID id) {
+		super(seconds, waitType, id);
 	}
 	
-	public SelectorCommand(CommandType commandType, UUID id) {
-		super(commandType, id);
-	}
-
 	public void setSelector(String selector, SelectorType selectorType) {
 		this.selector.setSelector(selectorType, selector);
 	}
-	
+
 	@Override
 	public String toString() {
-		return "SelectorCommand [selector=" + selector + ", USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", type=" + type
-				+ ", id=" + id + "]";
+		return "TextMatchSelectorWaitCommand [selector=" + selector + ", waitType=" + waitType + ", seconds=" + seconds
+				+ ", USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", type=" + type + ", id=" + id + "]";
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -48,7 +47,7 @@ public class SelectorCommand extends Command {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SelectorCommand other = (SelectorCommand) obj;
+		TextMatchSelectorWaitCommand other = (TextMatchSelectorWaitCommand) obj;
 		if (selector == null) {
 			if (other.selector != null)
 				return false;
@@ -56,7 +55,7 @@ public class SelectorCommand extends Command {
 			return false;
 		return true;
 	}
-
+	
 	public Selector getSelector() {
 		return selector;
 	}
