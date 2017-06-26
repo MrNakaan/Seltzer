@@ -111,23 +111,21 @@ public class SeltzerSession implements Closeable {
 		
 		return BaseProcessor.processCommand(driver, command);
 	}
-	
+
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("SeleniumSession [id=");
-		builder.append(id);
-		builder.append(", driver=");
-		builder.append(driver);
-		builder.append("]");
-		return builder.toString();
+		return "SeltzerSession [id=" + id + ", driver=" + driver + ", startedTime=" + startedTime + ", lastUsed="
+				+ lastUsed + ", dataDir=" + dataDir + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((dataDir == null) ? 0 : dataDir.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + (int) (lastUsed ^ (lastUsed >>> 32));
+		result = prime * result + (int) (startedTime ^ (startedTime >>> 32));
 		return result;
 	}
 
@@ -140,10 +138,19 @@ public class SeltzerSession implements Closeable {
 		if (getClass() != obj.getClass())
 			return false;
 		SeltzerSession other = (SeltzerSession) obj;
+		if (dataDir == null) {
+			if (other.dataDir != null)
+				return false;
+		} else if (!dataDir.equals(other.dataDir))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
+			return false;
+		if (lastUsed != other.lastUsed)
+			return false;
+		if (startedTime != other.startedTime)
 			return false;
 		return true;
 	}
@@ -152,15 +159,15 @@ public class SeltzerSession implements Closeable {
 		return id;
 	}
 
-	public WebDriver getDriver() {
-		return driver;
-	}
-
 	public long getStartedTime() {
 		return startedTime;
 	}
 
 	public long getLastUsed() {
 		return lastUsed;
+	}
+
+	public Path getDataDir() {
+		return dataDir;
 	}
 }

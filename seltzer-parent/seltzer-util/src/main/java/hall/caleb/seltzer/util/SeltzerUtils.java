@@ -11,17 +11,17 @@ import java.util.Arrays;
 
 import com.google.gson.Gson;
 
-import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.ResponseType;
-import hall.caleb.seltzer.objects.command.ChainCommand;
+import hall.caleb.seltzer.objects.SerializableCR;
 import hall.caleb.seltzer.objects.command.Command;
-import hall.caleb.seltzer.objects.response.ChainResponse;
+import hall.caleb.seltzer.objects.exception.SeltzerException;
+import hall.caleb.seltzer.objects.response.ExceptionResponse;
 import hall.caleb.seltzer.objects.response.Response;
 
 public class SeltzerUtils {
-	public static Response send(Command command) {
-		if (command.getType() == CommandType.Chain) {
-			((ChainCommand) command).serialize();
+	public static Response send(Command command) throws SeltzerException {
+		if (command instanceof SerializableCR) {
+			((SerializableCR) command).serialize();
 		}
 		
 		String jsonOut = new Gson().toJson(command, command.getType().getCommandClass());
@@ -59,14 +59,17 @@ public class SeltzerUtils {
 		return resultJson.toString();
 	}
 
-	private static Response parseResponse(String json) {
+	private static Response parseResponse(String json) throws SeltzerException {
 		Gson gson = new Gson();
 
 		Response response = gson.fromJson(json, Response.class);
 		response = gson.fromJson(json, response.getType().getResponseClass());
 		
-		if (response.getType() == ResponseType.Chain) {
-			((ChainResponse) response).deserialize();
+		if (response.getType() == ResponseType.Exception) {
+			ExceptionResponse e = (ExceptionResponse) response;
+			throw new SeltzerException(e.getMessage(), e.getStackTrace());
+		} else if (response instanceof SerializableCR) {
+			((SerializableCR) response).deserialize();
 		}
 		
 		return response;

@@ -1,7 +1,11 @@
 package hall.caleb.seltzer.core.processor;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Base64;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +22,7 @@ import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.command.GetCookieCommand;
 import hall.caleb.seltzer.objects.command.GetCookiesCommand;
 import hall.caleb.seltzer.objects.command.GoToCommand;
+import hall.caleb.seltzer.objects.command.Selector;
 import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 import hall.caleb.seltzer.objects.response.ChainResponse;
@@ -65,6 +70,7 @@ public class BaseProcessor {
 				response = getCookie(driver, (GetCookieCommand) command);
 				break;
 			case GetCookieFile:
+				response = getCookieFile();
 				break;
 			case GetCookies:
 				response = getCookies(driver, (GetCookiesCommand) command);
@@ -85,39 +91,39 @@ public class BaseProcessor {
 		return response;
 	}
 
-	static By getSelector(SelectorCommand command) {
-		By selector;
+	static By getSelector(Selector selector) {
+		By by;
 
-		switch (command.getSelectorType()) {
+		switch (selector.getSelectorType()) {
 		case ClassName:
-			selector = By.className(command.getSelector());
+			by = By.className(selector.getSelector());
 			break;
 		case CssSelector:
-			selector = By.cssSelector(command.getSelector());
+			by = By.cssSelector(selector.getSelector());
 			break;
 		case Id:
-			selector = By.id(command.getSelector());
+			by = By.id(selector.getSelector());
 			break;
 		case LinkText:
-			selector = By.linkText(command.getSelector());
+			by = By.linkText(selector.getSelector());
 			break;
 		case Name:
-			selector = By.name(command.getSelector());
+			by = By.name(selector.getSelector());
 			break;
 		case PartialLinkText:
-			selector = By.partialLinkText(command.getSelector());
+			by = By.partialLinkText(selector.getSelector());
 			break;
 		case TagName:
-			selector = By.tagName(command.getSelector());
+			by = By.tagName(selector.getSelector());
 			break;
 		case Xpath:
-			selector = By.xpath(command.getSelector());
+			by = By.xpath(selector.getSelector());
 			break;
 		default:
-			selector = null;
+			by = null;
 		}
 
-		return selector;
+		return by;
 	}
 
 	@SuppressWarnings("resource")
@@ -172,6 +178,23 @@ public class BaseProcessor {
 		} else {
 			response = new SingleResultResponse(command.getId(), false);
 		}
+		return response;
+	}
+	
+	private static SingleResultResponse getCookieFile(Command command) {
+		SingleResultResponse response = new SingleResultResponse(command.getId(), true);
+		
+		Path dataDir = SeltzerSession.findSession(command.getId()).getDataDir();
+		dataDir = Paths.get(dataDir.toString(), "Default", "Cookies");
+		
+		try {
+			String encoded = Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(dataDir.toFile()));
+			response.setResult(encoded);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
 		return response;
 	}
 
