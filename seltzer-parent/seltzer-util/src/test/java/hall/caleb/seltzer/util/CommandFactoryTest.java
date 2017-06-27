@@ -97,7 +97,7 @@ public class CommandFactoryTest {
 		
 		Assert.assertEquals("Make sure the command type is Click.", result.getType(), CommandType.Click);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
-		Assert.assertEquals("Make sure the selector type is ClassName.", result.getSelectorType(), type);
+		Assert.assertEquals("Make sure the selector type is ClassName.", result.getSelector().getSelectorType(), type);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
 	}
 
@@ -112,7 +112,7 @@ public class CommandFactoryTest {
 		
 		Assert.assertEquals("Make sure the command type is Count.", result.getType(), CommandType.Count);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
-		Assert.assertEquals("Make sure the selector type is CssSelector.", result.getSelectorType(), type);
+		Assert.assertEquals("Make sure the selector type is CssSelector.", result.getSelector().getSelectorType(), type);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
 	}
 
@@ -127,7 +127,7 @@ public class CommandFactoryTest {
 		
 		Assert.assertEquals("Make sure the command type is FormSubmit.", result.getType(), CommandType.FormSubmit);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
-		Assert.assertEquals("Make sure the selector type is Id.", result.getSelectorType(), type);
+		Assert.assertEquals("Make sure the selector type is Id.", result.getSelector().getSelectorType(), type);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
 	}
 
@@ -141,7 +141,7 @@ public class CommandFactoryTest {
 		
 		Assert.assertEquals("Make sure the command type is Delete.", result.getType(), CommandType.Delete);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
-		Assert.assertEquals("Make sure the selector type is Xpath.", result.getSelectorType(), SelectorType.Xpath);
+		Assert.assertEquals("Make sure the selector type is Xpath.", result.getSelector().getSelectorType(), SelectorType.Xpath);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
 	}
 
@@ -157,7 +157,7 @@ public class CommandFactoryTest {
 		
 		Assert.assertEquals("Make sure the command type is FillField.", result.getType(), CommandType.FillField);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
-		Assert.assertEquals("Make sure the selector type is Name.", result.getSelectorType(), SelectorType.Name);
+		Assert.assertEquals("Make sure the selector type is Name.", result.getSelector().getSelectorType(), SelectorType.Name);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
 		Assert.assertEquals("Make sure the text matches.", result.getText(), text);
 	}
@@ -174,7 +174,7 @@ public class CommandFactoryTest {
 		
 		Assert.assertEquals("Make sure the command type is ReadText.", result.getType(), CommandType.ReadText);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
-		Assert.assertEquals("Make sure the selector type is LinkText.", result.getSelectorType(), SelectorType.LinkText);
+		Assert.assertEquals("Make sure the selector type is LinkText.", result.getSelector().getSelectorType(), SelectorType.LinkText);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
 		Assert.assertEquals("Make sure max results matches.", result.getMaxResults(), maxResults);
 	}
@@ -192,7 +192,7 @@ public class CommandFactoryTest {
 		
 		Assert.assertEquals("Make sure the command type is ReadAttribute.", result.getType(), CommandType.ReadAttribute);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
-		Assert.assertEquals("Make sure the selector type is TagName.", result.getSelectorType(), SelectorType.TagName);
+		Assert.assertEquals("Make sure the selector type is TagName.", result.getSelector().getSelectorType(), SelectorType.TagName);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
 		Assert.assertEquals("Make sure max results matches.", result.getMaxResults(), maxResults);
 		Assert.assertEquals("Make sure the attribute matches.", result.getAttribute(), attribute);

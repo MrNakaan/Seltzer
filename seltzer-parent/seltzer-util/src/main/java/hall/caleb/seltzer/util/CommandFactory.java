@@ -13,7 +13,6 @@ import hall.caleb.seltzer.objects.command.selector.FillFieldCommand;
 import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
 import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommand;
 import hall.caleb.seltzer.objects.command.selector.multiresult.ReadAttributeCommand;
-import hall.caleb.seltzer.objects.command.wait.OldVisibilityWaitCommand;
 public class CommandFactory {
 	public static Command newStartCommand() {
 		return new Command(CommandType.Start);
@@ -99,13 +98,6 @@ public class CommandFactory {
 		command.setSelector(selector, type);
 		command.setMaxResults(maxResults);
 		command.setAttribute(attribute);
-		return command;
-	}
-	
-	public static OldVisibilityWaitCommand newWaitCommand(UUID id, SelectorType type, String selector, int seconds) {
-		OldVisibilityWaitCommand command = new OldVisibilityWaitCommand(id);
-		command.setSelector(selector, type);
-		command.setSeconds(seconds);
 		return command;
 	}
 }

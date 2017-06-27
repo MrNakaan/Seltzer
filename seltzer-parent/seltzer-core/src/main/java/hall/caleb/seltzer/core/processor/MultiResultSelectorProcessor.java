@@ -6,48 +6,69 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommand;
 import hall.caleb.seltzer.objects.command.selector.multiresult.ReadAttributeCommand;
+import hall.caleb.seltzer.objects.response.ExceptionResponse;
 import hall.caleb.seltzer.objects.response.MultiResultResponse;
 import hall.caleb.seltzer.objects.response.Response;
+import hall.caleb.seltzer.objects.response.SingleResultResponse;
 
 public class MultiResultSelectorProcessor {
 	static Response processCommand(WebDriver driver, MultiResultSelectorCommand command) {
 		Response response;
 
-		switch (command.getType()) {
-		case ReadAttribute:
-			response = readAttribute(driver, (ReadAttributeCommand) command);
-			break;
-		case ReadText:
-			response = readText(driver, command);
-			break;
-		default:
-			response = new MultiResultResponse(command.getId(), false);
-			break;
+		try {
+			switch (command.getType()) {
+			case ReadAttribute:
+				response = readAttribute(driver, (ReadAttributeCommand) command);
+				break;
+			case ReadText:
+				response = readText(driver, command);
+				break;
+			default:
+				response = new MultiResultResponse(command.getId(), false);
+				break;
+			}
+		} catch (NoSuchElementException e) {
+			ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
+			eResponse.setMessage(e.getMessage());
+			eResponse.setStackTrace(e.getStackTrace());
+			response = eResponse;
 		}
 
 		return response;
 	}
 
-	private static MultiResultResponse readAttribute(WebDriver driver, ReadAttributeCommand command) {
+	private static Response readAttribute(WebDriver driver, ReadAttributeCommand command)
+			throws NoSuchElementException {
 		List<String> attributes = Arrays.asList(command.getAttribute().split("/"));
 
-		MultiResultResponse response = new MultiResultResponse(command.getId(), true);
+		MultiResultResponse mrResponse = new MultiResultResponse(command.getId(), true);
+		SingleResultResponse srResponse = new SingleResultResponse(command.getId(), true);
 
 		int tryNumber = 0;
 
 		By selector = BaseProcessor.getBy(command.getSelector());
+		List<WebElement> elements = null;
+		NoSuchElementException lastException = null;
 		int maxResults = -1;
 		while (tryNumber < BaseProcessor.RETRIES) {
 			try {
-				maxResults = driver.findElements(selector).size();
+				elements = driver.findElements(selector);
 				break;
 			} catch (NoSuchElementException e) {
 				tryNumber++;
+				lastException = e;
 				BaseProcessor.sleep(e, tryNumber);
 			}
+		}
+
+		if (elements == null) {
+			throw lastException;
+		} else {
+			maxResults = elements.size();
 		}
 
 		maxResults = (command.getMaxResults() <= 0 ? maxResults : Math.min(maxResults, command.getMaxResults()));
@@ -58,78 +79,96 @@ public class MultiResultSelectorProcessor {
 		tryNumber = 0;
 
 		String tmpResult = null;
-		for (int i = 0; i < maxResults; i++) {
-			while (tryNumber < BaseProcessor.RETRIES) {
-				try {
-					for (String attribute : attributes) {
-						tmpResult = driver.findElements(BaseProcessor.getBy(command.getSelector())).get(i)
-								.getAttribute(attribute.trim());
-
-						if (tmpResult != null && !tmpResult.isEmpty()) {
-							break;
-						}
-					}
-					break;
-				} catch (NoSuchElementException e) {
-					tryNumber++;
-					BaseProcessor.sleep(e, tryNumber);
-				}
-			}
-
-			if (tmpResult != null && !tmpResult.isEmpty()) {
-				response.getResults().add(tmpResult);
-				tmpResult = null;
-			}
-		}
-
-		return response;
-	}
-
-	private static MultiResultResponse readText(WebDriver driver, MultiResultSelectorCommand command) {
-		MultiResultResponse response = new MultiResultResponse(command.getId(), true);
-
-		int tryNumber = 0;
-
-		By selector = BaseProcessor.getBy(command.getSelector());
-		int maxResults = -1;
-		while (tryNumber < BaseProcessor.RETRIES) {
-			try {
-				maxResults = driver.findElements(selector).size();
-				break;
-			} catch (NoSuchElementException e) {
-				tryNumber++;
-				BaseProcessor.sleep(e, tryNumber);
-			}
-		}
-
-		maxResults = (command.getMaxResults() <= 0 ? maxResults : Math.min(maxResults, command.getMaxResults()));
-		if (maxResults < 0) {
-			return new MultiResultResponse(command.getId(), false);
-		}
-
-		tryNumber = 0;
-
-		String tmpResult = null;
-		for (int i = 0; i < maxResults; i++) {
-			while (tryNumber < BaseProcessor.RETRIES) {
-				try {
-					tmpResult = driver.findElements(BaseProcessor.getBy(command.getSelector())).get(i).getText();
-					break;
-				} catch (NoSuchElementException e) {
-					tryNumber++;
-					BaseProcessor.sleep(e, tryNumber);
-				}
-			}
+		if (command.getMaxResults() == 1) {
+			tmpResult = elements.get(0).getText();
 
 			if (tmpResult == null) {
-				response.setSuccess(false);
-				break;
+				srResponse.setSuccess(false);
 			} else {
-				response.getResults().add(tmpResult);
-				tmpResult = null;
+				srResponse.setResult(tmpResult);
+			}
+
+			return srResponse;
+		} else {
+			for (int i = 0; i < maxResults; i++) {
+				for (String attribute : attributes) {
+					tmpResult = elements.get(i).getAttribute(attribute.trim());
+
+					if (tmpResult != null && !tmpResult.isEmpty()) {
+						break;
+					}
+				}
+
+				if (tmpResult != null && !tmpResult.isEmpty()) {
+					mrResponse.getResults().add(tmpResult);
+					tmpResult = null;
+				}
+			}
+
+			return mrResponse;
+		}
+	}
+
+	private static Response readText(WebDriver driver, MultiResultSelectorCommand command)
+			throws NoSuchElementException {
+		MultiResultResponse mrResponse = new MultiResultResponse(command.getId(), true);
+		SingleResultResponse srResponse = new SingleResultResponse(command.getId(), true);
+
+		int tryNumber = 0;
+
+		By selector = BaseProcessor.getBy(command.getSelector());
+		List<WebElement> elements = null;
+		NoSuchElementException lastException = null;
+		int maxResults = -1;
+		while (tryNumber < BaseProcessor.RETRIES) {
+			try {
+				elements = driver.findElements(selector);
+				break;
+			} catch (NoSuchElementException e) {
+				tryNumber++;
+				lastException = e;
+				BaseProcessor.sleep(e, tryNumber);
 			}
 		}
 
-		return response;
+		if (elements == null) {
+			throw lastException;
+		} else {
+			maxResults = elements.size();
+		}
+
+		maxResults = (command.getMaxResults() <= 0 ? maxResults : Math.min(maxResults, command.getMaxResults()));
+		if (maxResults < 0) {
+			return new MultiResultResponse(command.getId(), false);
+		}
+
+		tryNumber = 0;
+
+		String tmpResult = null;
+		if (command.getMaxResults() == 1) {
+			tmpResult = elements.get(0).getText();
+
+			if (tmpResult == null) {
+				srResponse.setSuccess(false);
+			} else {
+				srResponse.setResult(tmpResult);
+			}
+
+			return srResponse;
+		} else {
+			for (int i = 0; i < maxResults; i++) {
+				tmpResult = elements.get(i).getText();
+
+				if (tmpResult == null) {
+					mrResponse.setSuccess(false);
+					break;
+				} else {
+					mrResponse.getResults().add(tmpResult);
+					tmpResult = null;
+				}
+			}
+
+			return mrResponse;
+		}
 	}
 }
