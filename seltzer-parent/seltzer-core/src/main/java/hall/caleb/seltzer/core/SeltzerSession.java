@@ -158,6 +158,10 @@ public class SeltzerSession implements Closeable {
 	public UUID getId() {
 		return id;
 	}
+	
+	public WebDriver getDriver() {
+		return driver;
+	}
 
 	public long getStartedTime() {
 		return startedTime;
