@@ -6,6 +6,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
 import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommand;
@@ -31,7 +32,7 @@ public class MultiResultSelectorProcessor {
 				response = new MultiResultResponse(command.getId(), false);
 				break;
 			}
-		} catch (NoSuchElementException e) {
+		} catch (WebDriverException e) {
 			ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
 			eResponse.setMessage(e.getMessage());
 			eResponse.setStackTrace(e.getStackTrace());
@@ -42,7 +43,7 @@ public class MultiResultSelectorProcessor {
 	}
 
 	private static Response readAttribute(WebDriver driver, ReadAttributeCommand command)
-			throws NoSuchElementException {
+			throws WebDriverException {
 		List<String> attributes = Arrays.asList(command.getAttribute().split("/"));
 
 		MultiResultResponse mrResponse = new MultiResultResponse(command.getId(), true);
@@ -110,7 +111,7 @@ public class MultiResultSelectorProcessor {
 	}
 
 	private static Response readText(WebDriver driver, MultiResultSelectorCommand command)
-			throws NoSuchElementException {
+			throws WebDriverException {
 		MultiResultResponse mrResponse = new MultiResultResponse(command.getId(), true);
 		SingleResultResponse srResponse = new SingleResultResponse(command.getId(), true);
 
