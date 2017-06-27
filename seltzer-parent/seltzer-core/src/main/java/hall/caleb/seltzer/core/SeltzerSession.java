@@ -23,6 +23,8 @@ public class SeltzerSession implements Closeable {
 	public static final long SESSION_NEVER_USED_TIMEOUT = 600000; // 10 minutes
 	public static final long SESSION_INACTIVE_TIMEOUT = 3600000; // 1 hour
 	
+	public static final boolean HEADLESS = false;
+	
 	private UUID id = null;
 	private WebDriver driver = null;
 	private long startedTime = 0;
@@ -87,6 +89,10 @@ public class SeltzerSession implements Closeable {
 		dataDir = Paths.get(System.getProperty("repo.path"), "ChromeProfile", this.id.toString());
 		options.addArguments("user-data-dir=" + dataDir);
 
+		if (HEADLESS) {
+			options.addArguments("headless");
+		}
+		
 		driver = new ChromeDriver(options);
 		
 		startedTime = System.currentTimeMillis();
