@@ -56,45 +56,53 @@ public class BaseProcessor {
 			response = WaitProcessor.processCommand(driver, (WaitCommand) command);
 		} else {
 			try {
-			switch (command.getType()) {
-			case Start:
-				response = start();
-				break;
-			case Exit:
-				response = exit(driver, command);
-				break;
-			case Back:
-				response = back(driver, command);
-				break;
-			case Chain:
-				response = BaseProcessor.processChain(driver, (ChainCommand) command);
-				break;
-			case Forward:
-				response = forward(driver, command);
-				break;
-			case GetCookie:
-				response = getCookie(driver, (GetCookieCommand) command);
-				break;
-			case GetCookieFile:
-				response = getCookieFile(command);
-				break;
-			case GetCookies:
-				response = getCookies(driver, (GetCookiesCommand) command);
-				break;
-			case GetUrl:
-				response = getUrl(driver, command);
-				break;
-			case GoTo:
-				response = goTo(driver, (GoToCommand) command);
-				break;
-			default:
-				response.setSuccess(false);
-				break;
-			}
+				switch (command.getType()) {
+				case Start:
+					response = start();
+					break;
+				case Exit:
+					response = exit(driver, command);
+					break;
+				case Back:
+					response = back(driver, command);
+					break;
+				case Chain:
+					response = BaseProcessor.processChain(driver, (ChainCommand) command);
+					break;
+				case Forward:
+					response = forward(driver, command);
+					break;
+				case GetCookie:
+					response = getCookie(driver, (GetCookieCommand) command);
+					break;
+				case GetCookieFile:
+					response = getCookieFile(command);
+					break;
+				case GetCookies:
+					response = getCookies(driver, (GetCookiesCommand) command);
+					break;
+				case GetUrl:
+					response = getUrl(driver, command);
+					break;
+				case GoTo:
+					response = goTo(driver, (GoToCommand) command);
+					break;
+				default:
+					response.setSuccess(false);
+					break;
+				}
 			} catch (WebDriverException | IOException e) {
+				logger.error(e);
 				ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
 				eResponse.setMessage(e.getMessage());
 				eResponse.setStackTrace(e.getStackTrace());
+				response = eResponse;
+			} catch (Exception e) {
+				logger.error(e);
+				ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
+				eResponse.setMessage(
+						"A system error unrelated to Selenium has happened. No stack trace information is attached. Please try again.");
+				eResponse.setStackTrace(new StackTraceElement[0]);
 				response = eResponse;
 			}
 		}
@@ -161,7 +169,7 @@ public class BaseProcessor {
 
 		return response;
 	}
-	
+
 	@SuppressWarnings("resource")
 	private static Response start() throws SessionNotCreatedException {
 		Response response = new Response();
@@ -205,7 +213,8 @@ public class BaseProcessor {
 		return response;
 	}
 
-	private static SingleResultResponse getCookie(WebDriver driver, GetCookieCommand command) throws WebDriverException {
+	private static SingleResultResponse getCookie(WebDriver driver, GetCookieCommand command)
+			throws WebDriverException {
 		String value = driver.manage().getCookieNamed(command.getCookieName()).getValue();
 		SingleResultResponse response = null;
 		if (StringUtils.isNotEmpty(value)) {
@@ -233,7 +242,8 @@ public class BaseProcessor {
 		return response;
 	}
 
-	private static MultiResultResponse getCookies(WebDriver driver, GetCookiesCommand command) throws WebDriverException {
+	private static MultiResultResponse getCookies(WebDriver driver, GetCookiesCommand command)
+			throws WebDriverException {
 		MultiResultResponse response = new MultiResultResponse(command.getId(), false);
 		String value = null;
 

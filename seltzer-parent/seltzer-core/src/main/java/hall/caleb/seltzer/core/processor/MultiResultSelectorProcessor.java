@@ -3,6 +3,8 @@ package hall.caleb.seltzer.core.processor;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -17,6 +19,8 @@ import hall.caleb.seltzer.objects.response.Response;
 import hall.caleb.seltzer.objects.response.SingleResultResponse;
 
 public class MultiResultSelectorProcessor {
+	static Logger logger = LogManager.getLogger(MultiResultSelectorProcessor.class);
+	
 	static Response processCommand(WebDriver driver, MultiResultSelectorCommand command) {
 		Response response;
 
@@ -33,9 +37,16 @@ public class MultiResultSelectorProcessor {
 				break;
 			}
 		} catch (WebDriverException e) {
+			logger.error(e);
 			ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
 			eResponse.setMessage(e.getMessage());
 			eResponse.setStackTrace(e.getStackTrace());
+			response = eResponse;
+		} catch (Exception e) {
+			logger.error(e);
+			ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
+			eResponse.setMessage("A system error unrelated to Selenium has happened. No stack trace information is attached. Please try again.");
+			eResponse.setStackTrace(new StackTraceElement[0]);
 			response = eResponse;
 		}
 
@@ -43,7 +54,7 @@ public class MultiResultSelectorProcessor {
 	}
 
 	private static Response readAttribute(WebDriver driver, ReadAttributeCommand command)
-			throws WebDriverException {
+			throws WebDriverException, Exception {
 		List<String> attributes = Arrays.asList(command.getAttribute().split("/"));
 
 		MultiResultResponse mrResponse = new MultiResultResponse(command.getId(), true);
@@ -111,7 +122,7 @@ public class MultiResultSelectorProcessor {
 	}
 
 	private static Response readText(WebDriver driver, MultiResultSelectorCommand command)
-			throws WebDriverException {
+			throws WebDriverException, Exception {
 		MultiResultResponse mrResponse = new MultiResultResponse(command.getId(), true);
 		SingleResultResponse srResponse = new SingleResultResponse(command.getId(), true);
 

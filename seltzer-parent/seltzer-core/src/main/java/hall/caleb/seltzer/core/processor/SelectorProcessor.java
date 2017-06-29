@@ -43,9 +43,16 @@ public class SelectorProcessor {
 					break;
 				}
 			} catch (WebDriverException e) {
+				logger.error(e);
 				ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
 				eResponse.setMessage(e.getMessage());
 				eResponse.setStackTrace(e.getStackTrace());
+				response = eResponse;
+			} catch (Exception e) {
+				logger.error(e);
+				ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
+				eResponse.setMessage("A system error unrelated to Selenium has happened. No stack trace information is attached. Please try again.");
+				eResponse.setStackTrace(new StackTraceElement[0]);
 				response = eResponse;
 			}
 		}
