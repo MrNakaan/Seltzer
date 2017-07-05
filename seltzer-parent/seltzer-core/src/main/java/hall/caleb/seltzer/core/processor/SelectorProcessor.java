@@ -1,5 +1,7 @@
 package hall.caleb.seltzer.core.processor;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -15,6 +17,8 @@ import hall.caleb.seltzer.objects.response.Response;
 import hall.caleb.seltzer.objects.response.SingleResultResponse;
 
 public class SelectorProcessor {
+	static Logger logger = LogManager.getLogger(SelectorProcessor.class);
+	
 	static Response processCommand(WebDriver driver, SelectorCommand command) {
 		Response response;
 
