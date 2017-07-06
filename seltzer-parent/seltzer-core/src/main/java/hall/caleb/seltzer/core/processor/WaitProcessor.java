@@ -9,12 +9,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import hall.caleb.seltzer.objects.command.wait.CountWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.JavaScriptWaitCommand;
+import hall.caleb.seltzer.objects.command.wait.SelectionStateWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 import hall.caleb.seltzer.objects.command.wait.existence.ExistenceWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.existence.NestedExistenceWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchAttributeSelectorWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchSelectorWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchWaitCommand;
+import hall.caleb.seltzer.objects.command.wait.visibility.InvisibilityWaitCommand;
 import hall.caleb.seltzer.objects.response.Response;
 
 public class WaitProcessor {
@@ -37,20 +39,25 @@ public class WaitProcessor {
 			response = attributeIsNotEmpty(driver, (TextMatchAttributeSelectorWaitCommand) command);
 			break;
 		case ElementSelectionStateToBe:
+			response = elementSelectionState(driver, (SelectionStateWaitCommand) command);
 			break;
 		case ElementToBeClickable:
+			response = elementClickable(driver, (ExistenceWaitCommand) command);
 			break;
 		case ElementToBeSelected:
+			response = elementSelected(driver, (ExistenceWaitCommand) command);
 			break;
 		case FrameToBeAvailableAndSwitchToIt:
+			response = frameToBeAvailableSwitch(driver, (ExistenceWaitCommand) command);
 			break;
 		case InvisibilityOf:
+			response = invisibilityOf(driver, (InvisibilityWaitCommand) command);
 			break;
 		case InvisibilityOfAllElements:
-			break;
-		case InvisibilityOfElementLocated:
+			response = invisibilityOfAll(driver, (InvisibilityWaitCommand) command);
 			break;
 		case InvisibilityOfElementWithText:
+			response = invisibilityOfElementWithText(driver, (InvisibilityWaitCommand) command);
 			break;
 		case JavascriptReturnsValue:
 			response = javascriptReturns(driver, (JavaScriptWaitCommand) command);
@@ -75,12 +82,16 @@ public class WaitProcessor {
 		// case Or:
 		// break;
 		case PresenceOfAllElementsLocatedBy:
+			response = presenceOfAllElements(driver, (ExistenceWaitCommand) command);
 			break;
 		case PresenceOfElementLocated:
+			response = presenceOfElement(driver, (ExistenceWaitCommand) command);
 			break;
 		case PresenceOfNestedElementLocatedBy:
+			response = presenceOfNestedElement(driver, (NestedExistenceWaitCommand) command);
 			break;
 		case PresenceOfNestedElementsLocatedBy:
+			response = presenceOfAllNestedElements(driver, (NestedExistenceWaitCommand) command);
 			break;
 		case StalenessOf:
 			response = staleness(driver, (ExistenceWaitCommand) command);
@@ -123,6 +134,164 @@ public class WaitProcessor {
 			break;
 		default:
 			break;
+		}
+
+		return response;
+	}
+
+	private static Response invisibilityOfElementWithText(WebDriver driver, InvisibilityWaitCommand command) {
+		Response response = new Response(command.getId(), true);
+
+		try {
+			By by = BaseProcessor.getBy(command.getSelector());
+			WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
+			wait.until(ExpectedConditions.invisibilityOfElementWithText(by, command.getText()));
+		} catch (Exception e) {
+			response.setSuccess(false);
+		}
+
+		return response;
+	}
+
+	private static Response invisibilityOfAll(WebDriver driver, InvisibilityWaitCommand command) {
+		Response response = new Response(command.getId(), true);
+
+		try {
+			By by = BaseProcessor.getBy(command.getSelector());
+			WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
+			wait.until(ExpectedConditions.invisibilityOfAllElements(driver.findElements(by)));
+		} catch (Exception e) {
+			response.setSuccess(false);
+		}
+
+		return response;
+	}
+
+	private static Response invisibilityOf(WebDriver driver, InvisibilityWaitCommand command) {
+		Response response = new Response(command.getId(), true);
+
+		try {
+			By by = BaseProcessor.getBy(command.getSelector());
+			WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
+			wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+		} catch (Exception e) {
+			response.setSuccess(false);
+		}
+
+		return response;
+	}
+
+	private static Response frameToBeAvailableSwitch(WebDriver driver, ExistenceWaitCommand command) {
+		Response response = new Response(command.getId(), true);
+
+		try {
+			By by = BaseProcessor.getBy(command.getSelector());
+			WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
+			wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(by));
+		} catch (Exception e) {
+			response.setSuccess(false);
+		}
+
+		return response;
+	}
+
+	private static Response elementClickable(WebDriver driver, ExistenceWaitCommand command) {
+		Response response = new Response(command.getId(), true);
+
+		try {
+			By by = BaseProcessor.getBy(command.getSelector());
+			WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
+			wait.until(ExpectedConditions.elementToBeClickable(by));
+		} catch (Exception e) {
+			response.setSuccess(false);
+		}
+
+		return response;
+	}
+
+	private static Response elementSelected(WebDriver driver, ExistenceWaitCommand command) {
+		Response response = new Response(command.getId(), true);
+
+		try {
+			By by = BaseProcessor.getBy(command.getSelector());
+			WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
+			wait.until(ExpectedConditions.elementToBeSelected(by));
+		} catch (Exception e) {
+			response.setSuccess(false);
+		}
+
+		return response;
+	}
+
+	private static Response elementSelectionState(WebDriver driver, SelectionStateWaitCommand command) {
+		Response response = new Response(command.getId(), true);
+
+		try {
+			By by = BaseProcessor.getBy(command.getSelector());
+			WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
+			wait.until(ExpectedConditions.elementSelectionStateToBe(by, command.getSelected()));
+		} catch (Exception e) {
+			response.setSuccess(false);
+		}
+
+		return response;
+	}
+
+	private static Response presenceOfAllNestedElements(WebDriver driver, NestedExistenceWaitCommand command) {
+		Response response = new Response(command.getId(), true);
+
+		try {
+			By parentBy = BaseProcessor.getBy(command.getSelector());
+			By childBy = BaseProcessor.getBy(command.getChildSelector());
+
+			WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
+			wait.until(ExpectedConditions.presenceOfNestedElementsLocatedBy(parentBy, childBy));
+		} catch (Exception e) {
+			response.setSuccess(false);
+		}
+
+		return response;
+	}
+
+	private static Response presenceOfNestedElement(WebDriver driver, NestedExistenceWaitCommand command) {
+		Response response = new Response(command.getId(), true);
+
+		try {
+			By parentBy = BaseProcessor.getBy(command.getSelector());
+			By childBy = BaseProcessor.getBy(command.getChildSelector());
+
+			WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
+			wait.until(ExpectedConditions.presenceOfNestedElementLocatedBy(parentBy, childBy));
+		} catch (Exception e) {
+			response.setSuccess(false);
+		}
+
+		return response;
+	}
+
+	private static Response presenceOfElement(WebDriver driver, ExistenceWaitCommand command) {
+		Response response = new Response(command.getId(), true);
+
+		try {
+			By by = BaseProcessor.getBy(command.getSelector());
+			WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
+			wait.until(ExpectedConditions.presenceOfElementLocated(by));
+		} catch (Exception e) {
+			response.setSuccess(false);
+		}
+
+		return response;
+	}
+
+	private static Response presenceOfAllElements(WebDriver driver, ExistenceWaitCommand command) {
+		Response response = new Response(command.getId(), true);
+
+		try {
+			By by = BaseProcessor.getBy(command.getSelector());
+			WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
+			wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
+		} catch (Exception e) {
+			response.setSuccess(false);
 		}
 
 		return response;

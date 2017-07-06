@@ -5,8 +5,6 @@ import hall.caleb.seltzer.objects.command.wait.JavaScriptWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.SelectionStateWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 import hall.caleb.seltzer.objects.command.wait.existence.ExistenceWaitCommand;
-import hall.caleb.seltzer.objects.command.wait.logical.LogicalAndOrWaitCommand;
-import hall.caleb.seltzer.objects.command.wait.logical.LogicalNotWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchAttributeSelectorWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchSelectorWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchWaitCommand;
@@ -25,7 +23,6 @@ public enum WaitType {
 	FrameToBeAvailableAndSwitchToIt(ExistenceWaitCommand.class),
 	InvisibilityOf(InvisibilityWaitCommand.class),
 	InvisibilityOfAllElements(InvisibilityWaitCommand.class),
-	InvisibilityOfElementLocated(InvisibilityWaitCommand.class),
 	InvisibilityOfElementWithText(InvisibilityWaitCommand.class),
 	JavascriptThrowsNoExceptions(JavaScriptWaitCommand.class),
 	JavascriptReturnsValue(JavaScriptWaitCommand.class),

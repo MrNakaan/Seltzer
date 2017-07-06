@@ -8,7 +8,8 @@ import hall.caleb.seltzer.objects.command.Selector;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 
 public class InvisibilityWaitCommand extends WaitCommand {
-protected Selector selector;
+	protected Selector selector;
+	protected String text;
 	
 	public InvisibilityWaitCommand(Integer seconds) {
 		super(seconds);
@@ -63,5 +64,13 @@ protected Selector selector;
 
 	public void setSelector(Selector selector) {
 		this.selector = selector;
+	}
+	
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 	}
 }
