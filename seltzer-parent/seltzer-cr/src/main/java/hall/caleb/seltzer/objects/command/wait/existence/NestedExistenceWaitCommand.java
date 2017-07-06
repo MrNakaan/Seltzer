@@ -21,6 +21,7 @@ public class NestedExistenceWaitCommand extends ExistenceWaitCommand {
 		super(seconds, waitType, id);
 	}
 	
+	@Override
 	public void setSelector(String selector, SelectorType selectorType) {
 		this.selector.setSelector(selectorType, selector);
 	}

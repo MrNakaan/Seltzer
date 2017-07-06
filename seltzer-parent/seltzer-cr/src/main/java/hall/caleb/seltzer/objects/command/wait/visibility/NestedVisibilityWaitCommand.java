@@ -21,6 +21,7 @@ public class NestedVisibilityWaitCommand extends VisibilityWaitCommand {
 		super(seconds, waitType, id);
 	}
 	
+	@Override
 	public void setSelector(String selector, SelectorType selectorType) {
 		this.selector.setSelector(selectorType, selector);
 	}
