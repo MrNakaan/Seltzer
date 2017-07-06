@@ -1,6 +1,6 @@
 package hall.caleb.seltzer.enums;
 
-public enum Keys {
+public enum SeltzerKeys {
 	Add,
 	Alt,
 	Arrow_Down,

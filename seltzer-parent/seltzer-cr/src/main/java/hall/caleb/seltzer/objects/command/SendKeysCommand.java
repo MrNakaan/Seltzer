@@ -6,6 +6,7 @@ import hall.caleb.seltzer.enums.CommandType;
 
 public class SendKeysCommand extends Command {
 	private String keys;
+	private Selector selector;
 	
 	public SendKeysCommand() {
 		super(CommandType.SendKeys);
@@ -17,8 +18,8 @@ public class SendKeysCommand extends Command {
 
 	@Override
 	public String toString() {
-		return "SendKeysCommand [keys=" + keys + ", USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", type=" + type + ", id="
-				+ id + "]";
+		return "SendKeysCommand [keys=" + keys + ", selector=" + selector + ", USES_COMMAND_LIST=" + USES_COMMAND_LIST
+				+ ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override
@@ -26,6 +27,7 @@ public class SendKeysCommand extends Command {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((keys == null) ? 0 : keys.hashCode());
+		result = prime * result + ((selector == null) ? 0 : selector.hashCode());
 		return result;
 	}
 
@@ -43,6 +45,11 @@ public class SendKeysCommand extends Command {
 				return false;
 		} else if (!keys.equals(other.keys))
 			return false;
+		if (selector == null) {
+			if (other.selector != null)
+				return false;
+		} else if (!selector.equals(other.selector))
+			return false;
 		return true;
 	}
 
@@ -52,5 +59,13 @@ public class SendKeysCommand extends Command {
 
 	public void setKeys(String keys) {
 		this.keys = keys;
+	}
+
+	public Selector getSelector() {
+		return selector;
+	}
+
+	public void setSelector(Selector selector) {
+		this.selector = selector;
 	}
 }

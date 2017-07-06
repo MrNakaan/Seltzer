@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
@@ -26,6 +27,8 @@ import hall.caleb.seltzer.objects.command.GetCookieCommand;
 import hall.caleb.seltzer.objects.command.GetCookiesCommand;
 import hall.caleb.seltzer.objects.command.GoToCommand;
 import hall.caleb.seltzer.objects.command.Selector;
+import hall.caleb.seltzer.objects.command.SendKeyCommand;
+import hall.caleb.seltzer.objects.command.SendKeysCommand;
 import hall.caleb.seltzer.objects.command.SerializableCommand;
 import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
@@ -87,6 +90,12 @@ public class BaseProcessor {
 				case GoTo:
 					response = goTo(driver, (GoToCommand) command);
 					break;
+				case SendKey:
+					response = sendKey(driver, (SendKeyCommand) command);
+					break;
+				case SendKeys:
+					response = sendKeys(driver, (SendKeysCommand) command);
+					break;
 				default:
 					response.setSuccess(false);
 					break;
@@ -109,6 +118,20 @@ public class BaseProcessor {
 
 		response.setId(command.getId());
 		return response;
+	}
+
+	private static Response sendKey(WebDriver driver, SendKeyCommand command) {
+		Response response = new Response(command.getId(), true);
+
+		By by = getBy(command.getSelector());
+		String keyName = command.getKey().toString().toUpperCase();
+		driver.findElement(by).sendKeys(Keys.valueOf(keyName));
+		
+		return response;
+	}
+
+	private static Response sendKeys(WebDriver driver, SendKeysCommand command) {
+		return null;
 	}
 
 	static By getBy(Selector selector) {
