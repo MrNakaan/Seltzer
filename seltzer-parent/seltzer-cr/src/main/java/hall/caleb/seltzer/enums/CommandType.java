@@ -5,6 +5,8 @@ import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.command.GetCookieCommand;
 import hall.caleb.seltzer.objects.command.GetCookiesCommand;
 import hall.caleb.seltzer.objects.command.GoToCommand;
+import hall.caleb.seltzer.objects.command.SendKeyCommand;
+import hall.caleb.seltzer.objects.command.SendKeysCommand;
 import hall.caleb.seltzer.objects.command.selector.FillFieldCommand;
 import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
 import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommand;
@@ -28,6 +30,8 @@ public enum CommandType {
 	GoTo(GoToCommand.class),
 	ReadAttribute(ReadAttributeCommand.class),
 	ReadText(MultiResultSelectorCommand.class),
+	SendKey(SendKeyCommand.class),
+	SendKeys(SendKeysCommand.class),
 	Start(Command.class),
 	Wait(WaitCommand.class);
 	
