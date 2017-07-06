@@ -4,40 +4,45 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class TestSelector {
+public class CommandListTest {
 
 	@Test
-	public void testSelector() {
+	public void testCommandList() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testSelectorSelectorTypeString() {
+	public void testSerialize() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testSetSelectorSelectorTypeString() {
+	public void testDeserialize() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testGetSelectorType() {
+	public void testAddCommand() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testSetSelectorType() {
+	public void testGetCommands() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testGetSelector() {
+	public void testSetCommands() {
 		fail("Not yet implemented");
 	}
 
 	@Test
-	public void testSetSelectorString() {
+	public void testGetSerializedCommands() {
+		fail("Not yet implemented");
+	}
+
+	@Test
+	public void testSetSerializedCommands() {
 		fail("Not yet implemented");
 	}
 
