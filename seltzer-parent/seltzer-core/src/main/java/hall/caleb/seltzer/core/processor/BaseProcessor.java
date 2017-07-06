@@ -36,8 +36,8 @@ import hall.caleb.seltzer.objects.response.Response;
 import hall.caleb.seltzer.objects.response.SingleResultResponse;
 
 public class BaseProcessor {
-	static Logger logger = LogManager.getLogger(BaseProcessor.class);
-	static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+	private static Logger logger = LogManager.getLogger(BaseProcessor.class);
+	private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 	static final int RETRIES = 4;
 	private static final int RETRY_WAIT = 8;

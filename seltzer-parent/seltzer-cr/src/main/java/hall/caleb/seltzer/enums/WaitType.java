@@ -5,6 +5,7 @@ import hall.caleb.seltzer.objects.command.wait.JavaScriptWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.SelectionStateWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 import hall.caleb.seltzer.objects.command.wait.existence.ExistenceWaitCommand;
+import hall.caleb.seltzer.objects.command.wait.existence.NestedExistenceWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchAttributeSelectorWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchSelectorWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchWaitCommand;
@@ -34,8 +35,8 @@ public enum WaitType {
 //	Or(LogicalAndOrWaitCommand.class),
 	PresenceOfAllElementsLocatedBy(ExistenceWaitCommand.class),
 	PresenceOfElementLocated(ExistenceWaitCommand.class),
-	PresenceOfNestedElementLocatedBy(ExistenceWaitCommand.class),
-	PresenceOfNestedElementsLocatedBy(ExistenceWaitCommand.class),
+	PresenceOfNestedElementLocatedBy(NestedExistenceWaitCommand.class),
+	PresenceOfNestedElementsLocatedBy(NestedExistenceWaitCommand.class),
 	//Refreshed(OldVisibilityWaitCommand.class),
 	StalenessOf(ExistenceWaitCommand.class),
 	TextMatches(TextMatchSelectorWaitCommand.class),
@@ -51,13 +52,13 @@ public enum WaitType {
 	VisibilityOfAllElements(VisibilityWaitCommand.class),
 	VisibilityOfNestedElementsLocatedBy(VisibilityWaitCommand.class);
 	
-private Class<? extends WaitCommand> commandClass;
+	private Class<? extends WaitCommand> waitClass;
 	
-	private WaitType(Class<? extends WaitCommand> commandClass) {
-		this.commandClass = commandClass;
+	private WaitType(Class<? extends WaitCommand> waitClass) {
+		this.waitClass = waitClass;
 	}
 
-	public Class<? extends WaitCommand> getCommandClass() {
-		return commandClass;
+	public Class<? extends WaitCommand> getWaitClass() {
+		return waitClass;
 	}
 }
