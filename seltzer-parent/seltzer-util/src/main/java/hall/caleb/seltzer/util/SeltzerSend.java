@@ -18,7 +18,7 @@ import hall.caleb.seltzer.objects.exception.SeltzerException;
 import hall.caleb.seltzer.objects.response.ExceptionResponse;
 import hall.caleb.seltzer.objects.response.Response;
 
-public class SeltzerUtils {
+public class SeltzerSend {
 	public static Response send(Command command) throws SeltzerException {
 		if (command instanceof SerializableCommand) {
 			((SerializableCommand) command).serialize();
