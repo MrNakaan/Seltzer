@@ -60,8 +60,7 @@ public class SelectorProcessor {
 					logger.error(e);
 					tryNumber++;
 					ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
-					eResponse.setMessage(
-							"A system error unrelated to Selenium has happened. No stack trace information is attached. Please try again.");
+					eResponse.setMessage(Messages.getString("BaseProcessor.exception"));
 					eResponse.setStackTrace(new StackTraceElement[0]);
 					response = eResponse;
 					BaseProcessor.sleep(e, tryNumber);
@@ -97,16 +96,16 @@ public class SelectorProcessor {
 			String selector = command.getSelector().getSelector().replace("\"", "\\\"");
 
 			StringBuilder removeScript = new StringBuilder();
-			removeScript.append("while (true) {");
-			removeScript.append("e = document.evaluate(\"");
+			removeScript.append(Messages.getString("SelectorProcessor.js1"));
+			removeScript.append(Messages.getString("SelectorProcessor.js2"));
 			removeScript.append(selector);
-			removeScript.append("\", document.documentElement); ");
-			removeScript.append("e = e.iterateNext(); ");
-			removeScript.append("if (e == null) {");
-			removeScript.append("break;");
-			removeScript.append("}");
-			removeScript.append("e.parentNode.removeChild(e);");
-			removeScript.append("}");
+			removeScript.append(Messages.getString("SelectorProcessor.js3"));
+			removeScript.append(Messages.getString("SelectorProcessor.js4"));
+			removeScript.append(Messages.getString("SelectorProcessor.js5"));
+			removeScript.append(Messages.getString("SelectorProcessor.js6"));
+			removeScript.append(Messages.getString("SelectorProcessor.js7"));
+			removeScript.append(Messages.getString("SelectorProcessor.js8"));
+			removeScript.append(Messages.getString("SelectorProcessor.js7"));
 
 			JavascriptExecutor executor = (JavascriptExecutor) driver;
 			executor.executeScript(removeScript.toString());

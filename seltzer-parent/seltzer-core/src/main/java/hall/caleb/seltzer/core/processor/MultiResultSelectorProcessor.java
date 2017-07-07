@@ -49,8 +49,7 @@ public class MultiResultSelectorProcessor {
 				logger.error(e);
 				tryNumber++;
 				ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
-				eResponse.setMessage(
-						"A system error unrelated to Selenium has happened. No stack trace information is attached. Please try again.");
+				eResponse.setMessage(Messages.getString("BaseProcessor.exception"));
 				eResponse.setStackTrace(new StackTraceElement[0]);
 				response = eResponse;
 				BaseProcessor.sleep(e, tryNumber);
@@ -74,7 +73,7 @@ public class MultiResultSelectorProcessor {
 		elements = driver.findElements(selector);
 
 		if (elements == null) {
-			throw new WebDriverException("Driver returned null element list");
+			throw new WebDriverException(Messages.getString("MultiResultSelectorProcessor.nullList"));
 		} else {
 			maxResults = elements.size();
 		}
@@ -127,7 +126,7 @@ public class MultiResultSelectorProcessor {
 		elements = driver.findElements(selector);
 
 		if (elements == null) {
-			throw new WebDriverException("Driver returned null element list");
+			throw new WebDriverException(Messages.getString("MultiResultSelectorProcessor.nullList"));
 		} else {
 			maxResults = elements.size();
 		}

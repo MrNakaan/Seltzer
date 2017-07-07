@@ -49,8 +49,7 @@ public class WaitProcessor {
 		} catch (Exception e) {
 			logger.error(e);
 			ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
-			eResponse.setMessage(
-					"A system error unrelated to Selenium has happened. No stack trace information is attached. Please try again.");
+			eResponse.setMessage(Messages.getString("BaseProcessor.exception"));
 			eResponse.setStackTrace(new StackTraceElement[0]);
 			response = eResponse;
 		}
