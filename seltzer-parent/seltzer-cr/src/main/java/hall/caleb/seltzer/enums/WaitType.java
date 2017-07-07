@@ -2,6 +2,7 @@ package hall.caleb.seltzer.enums;
 
 import hall.caleb.seltzer.objects.command.wait.CountWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.JavaScriptWaitCommand;
+import hall.caleb.seltzer.objects.command.wait.RefreshedWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.SelectionStateWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 import hall.caleb.seltzer.objects.command.wait.existence.ExistenceWaitCommand;
@@ -39,7 +40,7 @@ public enum WaitType {
 	PresenceOfElementLocated(ExistenceWaitCommand.class),
 	PresenceOfNestedElementLocatedBy(NestedExistenceWaitCommand.class),
 	PresenceOfNestedElementsLocatedBy(NestedExistenceWaitCommand.class),
-	Refreshed(WaitCommand.class),
+	Refreshed(RefreshedWaitCommand.class),
 	StalenessOf(ExistenceWaitCommand.class),
 	TextMatches(TextMatchSelectorWaitCommand.class),
 	TextToBe(TextMatchSelectorWaitCommand.class),
