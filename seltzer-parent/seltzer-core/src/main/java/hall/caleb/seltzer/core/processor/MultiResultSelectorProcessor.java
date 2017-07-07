@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -20,36 +19,44 @@ import hall.caleb.seltzer.objects.response.SingleResultResponse;
 
 public class MultiResultSelectorProcessor {
 	static Logger logger = LogManager.getLogger(MultiResultSelectorProcessor.class);
-	
+
 	static Response processCommand(WebDriver driver, MultiResultSelectorCommand command) {
-		Response response;
+		Response response = new Response(command.getId(), false);
 
-		try {
-			switch (command.getType()) {
-			case ReadAttribute:
-				response = readAttribute(driver, (ReadAttributeCommand) command);
-				break;
-			case ReadText:
-				response = readText(driver, command);
-				break;
-			default:
-				response = new MultiResultResponse(command.getId(), false);
-				break;
+		int tryNumber = 0;
+		while (tryNumber < BaseProcessor.RETRIES) {
+			try {
+				switch (command.getType()) {
+				case ReadAttribute:
+					response = readAttribute(driver, (ReadAttributeCommand) command);
+					break;
+				case ReadText:
+					response = readText(driver, command);
+					break;
+				default:
+					response = new MultiResultResponse(command.getId(), false);
+					break;
+				}
+			} catch (WebDriverException e) {
+				logger.error(e);
+				tryNumber++;
+				ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
+				eResponse.setMessage(e.getMessage());
+				eResponse.setStackTrace(e.getStackTrace());
+				response = eResponse;
+				BaseProcessor.sleep(e, tryNumber);
+			} catch (Exception e) {
+				logger.error(e);
+				tryNumber++;
+				ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
+				eResponse.setMessage(
+						"A system error unrelated to Selenium has happened. No stack trace information is attached. Please try again.");
+				eResponse.setStackTrace(new StackTraceElement[0]);
+				response = eResponse;
+				BaseProcessor.sleep(e, tryNumber);
 			}
-		} catch (WebDriverException e) {
-			logger.error(e);
-			ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
-			eResponse.setMessage(e.getMessage());
-			eResponse.setStackTrace(e.getStackTrace());
-			response = eResponse;
-		} catch (Exception e) {
-			logger.error(e);
-			ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
-			eResponse.setMessage("A system error unrelated to Selenium has happened. No stack trace information is attached. Please try again.");
-			eResponse.setStackTrace(new StackTraceElement[0]);
-			response = eResponse;
 		}
-
+		
 		return response;
 	}
 
@@ -60,25 +67,14 @@ public class MultiResultSelectorProcessor {
 		MultiResultResponse mrResponse = new MultiResultResponse(command.getId(), true);
 		SingleResultResponse srResponse = new SingleResultResponse(command.getId(), true);
 
-		int tryNumber = 0;
-
 		By selector = BaseProcessor.getBy(command.getSelector());
 		List<WebElement> elements = null;
-		NoSuchElementException lastException = null;
 		int maxResults = -1;
-		while (tryNumber < BaseProcessor.RETRIES) {
-			try {
-				elements = driver.findElements(selector);
-				break;
-			} catch (NoSuchElementException e) {
-				tryNumber++;
-				lastException = e;
-				BaseProcessor.sleep(e, tryNumber);
-			}
-		}
+
+		elements = driver.findElements(selector);
 
 		if (elements == null) {
-			throw lastException;
+			throw new WebDriverException("Driver returned null element list");
 		} else {
 			maxResults = elements.size();
 		}
@@ -87,8 +83,6 @@ public class MultiResultSelectorProcessor {
 		if (maxResults < 0) {
 			return new MultiResultResponse(command.getId(), false);
 		}
-
-		tryNumber = 0;
 
 		String tmpResult = null;
 		if (command.getMaxResults() == 1) {
@@ -126,25 +120,14 @@ public class MultiResultSelectorProcessor {
 		MultiResultResponse mrResponse = new MultiResultResponse(command.getId(), true);
 		SingleResultResponse srResponse = new SingleResultResponse(command.getId(), true);
 
-		int tryNumber = 0;
-
 		By selector = BaseProcessor.getBy(command.getSelector());
 		List<WebElement> elements = null;
-		NoSuchElementException lastException = null;
 		int maxResults = -1;
-		while (tryNumber < BaseProcessor.RETRIES) {
-			try {
-				elements = driver.findElements(selector);
-				break;
-			} catch (NoSuchElementException e) {
-				tryNumber++;
-				lastException = e;
-				BaseProcessor.sleep(e, tryNumber);
-			}
-		}
+
+		elements = driver.findElements(selector);
 
 		if (elements == null) {
-			throw lastException;
+			throw new WebDriverException("Driver returned null element list");
 		} else {
 			maxResults = elements.size();
 		}
@@ -153,8 +136,6 @@ public class MultiResultSelectorProcessor {
 		if (maxResults < 0) {
 			return new MultiResultResponse(command.getId(), false);
 		}
-
-		tryNumber = 0;
 
 		String tmpResult = null;
 		if (command.getMaxResults() == 1) {

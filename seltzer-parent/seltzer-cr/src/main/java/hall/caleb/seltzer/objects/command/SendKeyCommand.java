@@ -1,7 +1,5 @@
 package hall.caleb.seltzer.objects.command;
 
-import java.util.UUID;
-
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SeltzerKeys;
 

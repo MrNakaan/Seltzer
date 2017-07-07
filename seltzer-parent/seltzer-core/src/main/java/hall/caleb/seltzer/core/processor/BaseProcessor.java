@@ -58,61 +58,68 @@ public class BaseProcessor {
 		} else if (command instanceof WaitCommand) {
 			response = WaitProcessor.processCommand(driver, (WaitCommand) command);
 		} else {
-			try {
-				switch (command.getType()) {
-				case Start:
-					response = start();
-					break;
-				case Exit:
-					response = exit(driver, command);
-					break;
-				case Back:
-					response = back(driver, command);
-					break;
-				case Chain:
-					response = BaseProcessor.processChain(driver, (ChainCommand) command);
-					break;
-				case Forward:
-					response = forward(driver, command);
-					break;
-				case GetCookie:
-					response = getCookie(driver, (GetCookieCommand) command);
-					break;
-				case GetCookieFile:
-					response = getCookieFile(command);
-					break;
-				case GetCookies:
-					response = getCookies(driver, (GetCookiesCommand) command);
-					break;
-				case GetUrl:
-					response = getUrl(driver, command);
-					break;
-				case GoTo:
-					response = goTo(driver, (GoToCommand) command);
-					break;
-				case SendKey:
-					response = sendKey(driver, (SendKeyCommand) command);
-					break;
-				case SendKeys:
-					response = sendKeys(driver, (SendKeysCommand) command);
-					break;
-				default:
-					response.setSuccess(false);
-					break;
+			int tryNumber = 0;
+			while (tryNumber < BaseProcessor.RETRIES) {
+				try {
+					switch (command.getType()) {
+					case Start:
+						response = start();
+						break;
+					case Exit:
+						response = exit(driver, command);
+						break;
+					case Back:
+						response = back(driver, command);
+						break;
+					case Chain:
+						response = BaseProcessor.processChain(driver, (ChainCommand) command);
+						break;
+					case Forward:
+						response = forward(driver, command);
+						break;
+					case GetCookie:
+						response = getCookie(driver, (GetCookieCommand) command);
+						break;
+					case GetCookieFile:
+						response = getCookieFile(command);
+						break;
+					case GetCookies:
+						response = getCookies(driver, (GetCookiesCommand) command);
+						break;
+					case GetUrl:
+						response = getUrl(driver, command);
+						break;
+					case GoTo:
+						response = goTo(driver, (GoToCommand) command);
+						break;
+					case SendKey:
+						response = sendKey(driver, (SendKeyCommand) command);
+						break;
+					case SendKeys:
+						response = sendKeys(driver, (SendKeysCommand) command);
+						break;
+					default:
+						response.setSuccess(false);
+						break;
+					}
+				} catch (WebDriverException | IOException e) {
+					logger.error(e);
+					tryNumber++;
+					ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
+					eResponse.setMessage(e.getMessage());
+					eResponse.setStackTrace(e.getStackTrace());
+					response = eResponse;
+					sleep(e, tryNumber);
+				} catch (Exception e) {
+					logger.error(e);
+					tryNumber++;
+					ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
+					eResponse.setMessage(
+							"A system error unrelated to Selenium has happened. No stack trace information is attached. Please try again.");
+					eResponse.setStackTrace(new StackTraceElement[0]);
+					response = eResponse;
+					sleep(e, tryNumber);
 				}
-			} catch (WebDriverException | IOException e) {
-				logger.error(e);
-				ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
-				eResponse.setMessage(e.getMessage());
-				eResponse.setStackTrace(e.getStackTrace());
-				response = eResponse;
-			} catch (Exception e) {
-				logger.error(e);
-				ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
-				eResponse.setMessage(
-						"A system error unrelated to Selenium has happened. No stack trace information is attached. Please try again.");
-				eResponse.setStackTrace(new StackTraceElement[0]);
-				response = eResponse;
 			}
 		}
 
@@ -126,12 +133,17 @@ public class BaseProcessor {
 		By by = getBy(command.getSelector());
 		String keyName = command.getKey().toString().toUpperCase();
 		driver.findElement(by).sendKeys(Keys.valueOf(keyName));
-		
+
 		return response;
 	}
 
 	private static Response sendKeys(WebDriver driver, SendKeysCommand command) {
-		return null;
+		Response response = new Response(command.getId(), true);
+
+		By by = getBy(command.getSelector());
+		driver.findElement(by).sendKeys(command.getKeys());
+
+		return response;
 	}
 
 	static By getBy(Selector selector) {
@@ -169,7 +181,7 @@ public class BaseProcessor {
 		return by;
 	}
 
-	static ChainResponse processChain(WebDriver driver, ChainCommand command) {
+	static ChainResponse processChain(WebDriver driver, ChainCommand command) throws WebDriverException, Exception {
 		logger.info("Processing chain:");
 		logger.info(gson.toJson(command));
 
@@ -194,7 +206,7 @@ public class BaseProcessor {
 	}
 
 	@SuppressWarnings("resource")
-	private static Response start() throws SessionNotCreatedException {
+	private static Response start() throws WebDriverException, Exception {
 		Response response = new Response();
 
 		response.setId(new SeltzerSession().getId());
@@ -203,32 +215,29 @@ public class BaseProcessor {
 		return response;
 	}
 
-	private static Response exit(WebDriver driver, Command command) throws NoSuchSessionException {
+	private static Response exit(WebDriver driver, Command command) throws WebDriverException, Exception {
 		Response response = new Response();
 
-		try {
-			SeltzerSession.findSession(command.getId()).close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		SeltzerSession.findSession(command.getId()).close();
+
 		response.setSuccess(true);
 
 		return response;
 	}
 
-	private static Response back(WebDriver driver, Command command) throws WebDriverException {
+	private static Response back(WebDriver driver, Command command) throws WebDriverException, Exception {
 		driver.navigate().back();
 
 		return new Response(command.getId(), true);
 	}
 
-	private static Response forward(WebDriver driver, Command command) throws WebDriverException {
+	private static Response forward(WebDriver driver, Command command) throws WebDriverException, Exception {
 		driver.navigate().forward();
 
 		return new Response(command.getId(), true);
 	}
 
-	private static SingleResultResponse getUrl(WebDriver driver, Command command) throws WebDriverException {
+	private static SingleResultResponse getUrl(WebDriver driver, Command command) throws WebDriverException, Exception {
 		SingleResultResponse response = new SingleResultResponse(command.getId(), true);
 
 		response.setResult(driver.getCurrentUrl());
@@ -237,7 +246,7 @@ public class BaseProcessor {
 	}
 
 	private static SingleResultResponse getCookie(WebDriver driver, GetCookieCommand command)
-			throws WebDriverException {
+			throws WebDriverException, Exception {
 		String value = driver.manage().getCookieNamed(command.getCookieName()).getValue();
 		SingleResultResponse response = null;
 		if (StringUtils.isNotEmpty(value)) {
@@ -249,7 +258,7 @@ public class BaseProcessor {
 		return response;
 	}
 
-	private static SingleResultResponse getCookieFile(Command command) throws WebDriverException, IOException {
+	private static SingleResultResponse getCookieFile(Command command) throws WebDriverException, Exception {
 		SingleResultResponse response = new SingleResultResponse(command.getId(), true);
 
 		Path dataDir = SeltzerSession.findSession(command.getId()).getDataDir();
@@ -266,7 +275,7 @@ public class BaseProcessor {
 	}
 
 	private static MultiResultResponse getCookies(WebDriver driver, GetCookiesCommand command)
-			throws WebDriverException {
+			throws WebDriverException, Exception {
 		MultiResultResponse response = new MultiResultResponse(command.getId(), false);
 		String value = null;
 
@@ -282,7 +291,7 @@ public class BaseProcessor {
 		return response;
 	}
 
-	private static Response goTo(WebDriver driver, GoToCommand command) throws WebDriverException {
+	private static Response goTo(WebDriver driver, GoToCommand command) throws WebDriverException, Exception {
 		driver.get(command.getUrl());
 
 		return new Response(command.getId(), true);
