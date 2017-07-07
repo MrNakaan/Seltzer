@@ -14,6 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import hall.caleb.seltzer.enums.WaitType;
 import hall.caleb.seltzer.objects.command.wait.CountWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.JavaScriptWaitCommand;
+import hall.caleb.seltzer.objects.command.wait.RefreshedWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.SelectionStateWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 import hall.caleb.seltzer.objects.command.wait.existence.ExistenceWaitCommand;
@@ -77,6 +78,8 @@ public class WaitProcessor {
 			condition = processTextMatchWaitCommand(driver, (TextMatchWaitCommand) command);
 		} else if (waitClass.equals(VisibilityWaitCommand.class)) {
 			condition = processVisibilityWaitCommand(driver, (VisibilityWaitCommand) command);
+		} else if (waitClass.equals(RefreshedWaitCommand.class)) {
+			condition = processRefreshedWaitCommand(driver, (RefreshedWaitCommand) command);
 		}
 		
 		switch (command.getWaitType()) {
@@ -87,6 +90,28 @@ public class WaitProcessor {
 			break;
 		}
 
+		return condition;
+	}
+
+	private static ExpectedCondition<?> processRefreshedWaitCommand(WebDriver driver, RefreshedWaitCommand command) {
+		ExpectedCondition<?> condition = null;
+
+		switch (command.getWaitType()) {
+		case Refreshed:
+			condition = refreshed(driver, command);
+			break;
+		default:
+			break;
+		}
+
+		return condition;
+	}
+
+	private static ExpectedCondition<?> refreshed(WebDriver driver, RefreshedWaitCommand command) {
+		ExpectedCondition<?> condition = null;
+
+		condition = ExpectedConditions.refreshed(processWaitCommand(driver, command.getWaitCommand()));
+		
 		return condition;
 	}
 
