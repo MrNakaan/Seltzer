@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -32,23 +33,29 @@ public class WaitProcessor {
 		Response response = new Response(command.getId(), false);
 
 		try {
+			ExpectedCondition<?> condition = null;
 			Class<? extends WaitCommand> waitClass = command.getWaitType().getWaitClass();
 			if (waitClass.equals(CountWaitCommand.class)) {
-				response = processCountWaitCommand(driver, (CountWaitCommand) command);
+				condition = processCountWaitCommand(driver, (CountWaitCommand) command);
 			} else if (waitClass.equals(ExistenceWaitCommand.class)) {
-				response = processExistenceWaitCommand(driver, (ExistenceWaitCommand) command);
+				condition = processExistenceWaitCommand(driver, (ExistenceWaitCommand) command);
 			} else if (waitClass.equals(InvisibilityWaitCommand.class)) {
-				response = processInvisibilityWaitCommand(driver, (InvisibilityWaitCommand) command);
+				condition = processInvisibilityWaitCommand(driver, (InvisibilityWaitCommand) command);
 			} else if (waitClass.equals(JavaScriptWaitCommand.class)) {
-				response = processJavaScriptWaitCommand(driver, (JavaScriptWaitCommand) command);
+				condition = processJavaScriptWaitCommand(driver, (JavaScriptWaitCommand) command);
 			} else if (waitClass.equals(SelectionStateWaitCommand.class)) {
-				response = processSelectionStateWaitCommand(driver, (SelectionStateWaitCommand) command);
+				condition = processSelectionStateWaitCommand(driver, (SelectionStateWaitCommand) command);
 			} else if (waitClass.equals(TextMatchWaitCommand.class)) {
-				response = processTextMatchWaitCommand(driver, (TextMatchWaitCommand) command);
+				condition = processTextMatchWaitCommand(driver, (TextMatchWaitCommand) command);
 			} else if (waitClass.equals(VisibilityWaitCommand.class)) {
-				response = processVisibilityWaitCommand(driver, (VisibilityWaitCommand) command);
+				condition = processVisibilityWaitCommand(driver, (VisibilityWaitCommand) command);
 			} else {
-				response = processWaitCommand(driver, command);
+				condition = processWaitCommand(driver, command);
+			}
+
+			if (condition != null) {
+				WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
+				wait.until(condition);
 			}
 		} catch (WebDriverException e) {
 			response.setSuccess(false);
@@ -64,645 +71,460 @@ public class WaitProcessor {
 		return response;
 	}
 
-	private static Response processCountWaitCommand(WebDriver driver, CountWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), false);
+	private static ExpectedCondition<?> processCountWaitCommand(WebDriver driver, CountWaitCommand command) {
+		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
 		case NumberOfElementsToBe:
-			response = elementCount(driver, command);
+			condition = elementCount(driver, command);
 			break;
 		case NumberOfElementsToBeLessThan:
-			response = elementCountLessThan(driver, command);
+			condition = elementCountLessThan(driver, command);
 			break;
 		case NumberOfElementsToBeMoreThan:
-			response = elementCountMoreThan(driver, command);
+			condition = elementCountMoreThan(driver, command);
 			break;
 		case NumberOfWindowsToBe:
-			response = windowCount(driver, command);
+			condition = windowCount(driver, command);
 			break;
 		default:
 			break;
 		}
 
-		return response;
+		return condition;
 	}
 
-	private static Response processExistenceWaitCommand(WebDriver driver, ExistenceWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), false);
+	private static ExpectedCondition<?> processExistenceWaitCommand(WebDriver driver, ExistenceWaitCommand command) {
+		ExpectedCondition<?> condition = null;
 
 		Class<? extends WaitCommand> waitClass = command.getWaitType().getWaitClass();
 		if (waitClass.equals(NestedExistenceWaitCommand.class)) {
-			response = processNestedExistenceWaitCommand(driver, (NestedExistenceWaitCommand) command);
+			condition = processNestedExistenceWaitCommand(driver, (NestedExistenceWaitCommand) command);
 		}
 
 		switch (command.getWaitType()) {
 		case ElementToBeClickable:
-			response = elementClickable(driver, command);
+			condition = elementClickable(driver, command);
 			break;
 		case ElementToBeSelected:
-			response = elementSelected(driver, command);
+			condition = elementSelected(driver, command);
 			break;
 		case FrameToBeAvailableAndSwitchToIt:
-			response = frameToBeAvailableSwitch(driver, command);
+			condition = frameToBeAvailableSwitch(driver, command);
 			break;
 		case PresenceOfAllElementsLocatedBy:
-			response = presenceOfAllElements(driver, command);
+			condition = presenceOfAllElements(driver, command);
 			break;
 		case PresenceOfElementLocated:
-			response = presenceOfElement(driver, command);
+			condition = presenceOfElement(driver, command);
 			break;
 		case StalenessOf:
-			response = staleness(driver, command);
+			condition = staleness(driver, command);
 			break;
 		default:
 			break;
 		}
 
-		return response;
+		return condition;
 	}
 
-	private static Response processNestedExistenceWaitCommand(WebDriver driver, NestedExistenceWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), false);
+	private static ExpectedCondition<?> processNestedExistenceWaitCommand(WebDriver driver,
+			NestedExistenceWaitCommand command) {
+		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
 		case PresenceOfNestedElementLocatedBy:
-			response = presenceOfNestedElement(driver, command);
+			condition = presenceOfNestedElement(driver, command);
 			break;
 		case PresenceOfNestedElementsLocatedBy:
-			response = presenceOfAllNestedElements(driver, command);
+			condition = presenceOfAllNestedElements(driver, command);
 			break;
 		default:
 			break;
 		}
 
-		return response;
+		return condition;
 	}
 
-	private static Response processInvisibilityWaitCommand(WebDriver driver, InvisibilityWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), false);
+	private static ExpectedCondition<?> processInvisibilityWaitCommand(WebDriver driver,
+			InvisibilityWaitCommand command) {
+		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
 		case InvisibilityOf:
-			response = invisibilityOf(driver, command);
+			condition = invisibilityOf(driver, command);
 			break;
 		case InvisibilityOfAllElements:
-			response = invisibilityOfAll(driver, command);
+			condition = invisibilityOfAll(driver, command);
 			break;
 		case InvisibilityOfElementWithText:
-			response = invisibilityOfElementWithText(driver, command);
+			condition = invisibilityOfElementWithText(driver, command);
 			break;
 		default:
 			break;
 		}
 
-		return response;
+		return condition;
 	}
 
-	private static Response processJavaScriptWaitCommand(WebDriver driver, JavaScriptWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), false);
+	private static ExpectedCondition<?> processJavaScriptWaitCommand(WebDriver driver, JavaScriptWaitCommand command) {
+		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
 		case JavascriptReturnsValue:
-			response = javascriptReturns(driver, command);
+			condition = javascriptReturns(driver, command);
 			break;
 		case JavascriptThrowsNoExceptions:
-			response = javascriptCompletes(driver, command);
+			condition = javascriptCompletes(driver, command);
 			break;
 		default:
 			break;
 		}
 
-		return response;
+		return condition;
 	}
 
-	private static Response processSelectionStateWaitCommand(WebDriver driver, SelectionStateWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), false);
+	private static ExpectedCondition<?> processSelectionStateWaitCommand(WebDriver driver,
+			SelectionStateWaitCommand command) {
+		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
 		case ElementSelectionStateToBe:
-			response = elementSelectionState(driver, command);
+			condition = elementSelectionState(driver, command);
 			break;
 		default:
 			break;
 		}
 
-		return response;
+		return condition;
 	}
 
-	private static Response processTextMatchWaitCommand(WebDriver driver, TextMatchWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), false);
+	private static ExpectedCondition<?> processTextMatchWaitCommand(WebDriver driver, TextMatchWaitCommand command) {
+		ExpectedCondition<?> condition = null;
 
 		Class<? extends WaitCommand> waitClass = command.getWaitType().getWaitClass();
 		if (waitClass.equals(TextMatchAttributeSelectorWaitCommand.class)) {
-			response = processTextMatchAttributeSelectorWaitCommand(driver,
+			condition = processTextMatchAttributeSelectorWaitCommand(driver,
 					(TextMatchAttributeSelectorWaitCommand) command);
 		} else if (waitClass.equals(TextMatchSelectorWaitCommand.class)) {
-			response = processTextMatchSelectorWaitCommand(driver, (TextMatchSelectorWaitCommand) command);
+			condition = processTextMatchSelectorWaitCommand(driver, (TextMatchSelectorWaitCommand) command);
 		}
 
 		switch (command.getWaitType()) {
 		case TitleContains:
-			response = titleContains(driver, command);
+			condition = titleContains(driver, command);
 			break;
 		case TitleIs:
-			response = titleIs(driver, command);
+			condition = titleIs(driver, command);
 			break;
 		case UrlContains:
-			response = urlContains(driver, command);
+			condition = urlContains(driver, command);
 			break;
 		case UrlMatches:
-			response = urlMatches(driver, command);
+			condition = urlMatches(driver, command);
 			break;
 		case UrlToBe:
-			response = urlToBe(driver, command);
+			condition = urlToBe(driver, command);
 			break;
 		default:
 			break;
 		}
 
-		return response;
+		return condition;
 	}
 
-	private static Response processTextMatchSelectorWaitCommand(WebDriver driver, TextMatchSelectorWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), false);
+	private static ExpectedCondition<?> processTextMatchSelectorWaitCommand(WebDriver driver,
+			TextMatchSelectorWaitCommand command) {
+		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
 		case TextMatches:
-			response = textMatches(driver, command);
+			condition = textMatches(driver, command);
 			break;
 		case TextToBe:
-			response = textIs(driver, command);
+			condition = textIs(driver, command);
 			break;
 		case TextToBePresentInElementLocated:
-			response = textPresent(driver, command);
+			condition = textPresent(driver, command);
 			break;
 		case TextToBePresentInElementValue:
-			response = textPresentInValue(driver, command);
+			condition = textPresentInValue(driver, command);
 			break;
 		default:
 			break;
 		}
 
-		return response;
+		return condition;
 	}
 
-	private static Response processTextMatchAttributeSelectorWaitCommand(WebDriver driver,
-			TextMatchAttributeSelectorWaitCommand command) throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), false);
+	private static ExpectedCondition<?> processTextMatchAttributeSelectorWaitCommand(WebDriver driver,
+			TextMatchAttributeSelectorWaitCommand command) {
+		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
 		case AttributeContains:
-			response = attributeContains(driver, command);
+			condition = attributeContains(driver, command);
 			break;
 		case AttributeToBe:
-			response = attributeIs(driver, command);
+			condition = attributeIs(driver, command);
 			break;
 		case AttributeToBeNotEmpty:
-			response = attributeIsNotEmpty(driver, command);
+			condition = attributeIsNotEmpty(driver, command);
 			break;
 		default:
 			break;
 		}
 
-		return response;
+		return condition;
 	}
 
-	private static Response processVisibilityWaitCommand(WebDriver driver, VisibilityWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), false);
+	private static ExpectedCondition<?> processVisibilityWaitCommand(WebDriver driver, VisibilityWaitCommand command) {
+		ExpectedCondition<?> condition = null;
 
 		Class<? extends WaitCommand> waitClass = command.getWaitType().getWaitClass();
 		if (waitClass.equals(NestedVisibilityWaitCommand.class)) {
-			response = processNestedVisibilityWaitCommand(driver, (NestedVisibilityWaitCommand) command);
+			condition = processNestedVisibilityWaitCommand(driver, (NestedVisibilityWaitCommand) command);
 		}
 
 		switch (command.getWaitType()) {
 		case VisibilityOf:
-			response = visibilityOf(driver, command);
+			condition = visibilityOf(driver, command);
 			break;
 		case VisibilityOfAllElements:
-			response = visibilityOfAll(driver, command);
+			condition = visibilityOfAll(driver, command);
 			break;
 		default:
 			break;
 		}
 
-		return response;
+		return condition;
 	}
 
-	private static Response processNestedVisibilityWaitCommand(WebDriver driver, NestedVisibilityWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), false);
+	private static ExpectedCondition<?> processNestedVisibilityWaitCommand(WebDriver driver,
+			NestedVisibilityWaitCommand command) {
+		ExpectedCondition<?> condition = null;
 
 		Class<? extends WaitCommand> waitClass = command.getWaitType().getWaitClass();
 		if (waitClass.equals(NestedVisibilityWaitCommand.class)) {
-			response = processNestedVisibilityWaitCommand(driver, (NestedVisibilityWaitCommand) command);
+			condition = processNestedVisibilityWaitCommand(driver, (NestedVisibilityWaitCommand) command);
 		}
 
 		switch (command.getWaitType()) {
 		case VisibilityOfNestedElementsLocatedBy:
-			response = visibilityOfAllNested(driver, command);
+			condition = visibilityOfAllNested(driver, command);
 			break;
 		default:
 			break;
 		}
 
-		return response;
+		return condition;
 	}
 
-	private static Response processWaitCommand(WebDriver driver, WaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), false);
+	private static ExpectedCondition<?> processWaitCommand(WebDriver driver, WaitCommand command) {
+		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
 		case AlertIsPresent:
-			response = alertIsPresent(driver, command);
+			condition = alertIsPresent(driver, command);
 			break;
 		default:
 			break;
 		}
 
-		return response;
+		return condition;
 	}
 
-	private static Response invisibilityOfElementWithText(WebDriver driver, InvisibilityWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> invisibilityOfElementWithText(WebDriver driver,
+			InvisibilityWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.invisibilityOfElementWithText(by, command.getText()));
 
-		return response;
+		return ExpectedConditions.invisibilityOfElementWithText(by, command.getText());
 	}
 
-	private static Response invisibilityOfAll(WebDriver driver, InvisibilityWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> invisibilityOfAll(WebDriver driver, InvisibilityWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.invisibilityOfAllElements(driver.findElements(by)));
 
-		return response;
+		return ExpectedConditions.invisibilityOfAllElements(driver.findElements(by));
 	}
 
-	private static Response invisibilityOf(WebDriver driver, InvisibilityWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> invisibilityOf(WebDriver driver, InvisibilityWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
 
-		return response;
+		return ExpectedConditions.invisibilityOfElementLocated(by);
 	}
 
-	private static Response frameToBeAvailableSwitch(WebDriver driver, ExistenceWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> frameToBeAvailableSwitch(WebDriver driver, ExistenceWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(by));
 
-		return response;
+		return ExpectedConditions.frameToBeAvailableAndSwitchToIt(by);
 	}
 
-	private static Response elementClickable(WebDriver driver, ExistenceWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> elementClickable(WebDriver driver, ExistenceWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.elementToBeClickable(by));
 
-		return response;
+		return ExpectedConditions.elementToBeClickable(by);
 	}
 
-	private static Response elementSelected(WebDriver driver, ExistenceWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> elementSelected(WebDriver driver, ExistenceWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.elementToBeSelected(by));
 
-		return response;
+		return ExpectedConditions.elementToBeSelected(by);
 	}
 
-	private static Response elementSelectionState(WebDriver driver, SelectionStateWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> elementSelectionState(WebDriver driver, SelectionStateWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.elementSelectionStateToBe(by, command.getSelected()));
 
-		return response;
+		return ExpectedConditions.elementSelectionStateToBe(by, command.getSelected());
 	}
 
-	private static Response presenceOfAllNestedElements(WebDriver driver, NestedExistenceWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> presenceOfAllNestedElements(WebDriver driver,
+			NestedExistenceWaitCommand command) {
 		By parentBy = BaseProcessor.getBy(command.getSelector());
 		By childBy = BaseProcessor.getBy(command.getChildSelector());
 
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.presenceOfNestedElementsLocatedBy(parentBy, childBy));
-
-		return response;
+		return ExpectedConditions.presenceOfNestedElementsLocatedBy(parentBy, childBy);
 	}
 
-	private static Response presenceOfNestedElement(WebDriver driver, NestedExistenceWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> presenceOfNestedElement(WebDriver driver, NestedExistenceWaitCommand command) {
 		By parentBy = BaseProcessor.getBy(command.getSelector());
 		By childBy = BaseProcessor.getBy(command.getChildSelector());
 
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.presenceOfNestedElementLocatedBy(parentBy, childBy));
-
-		return response;
+		return ExpectedConditions.presenceOfNestedElementLocatedBy(parentBy, childBy);
 	}
 
-	private static Response presenceOfElement(WebDriver driver, ExistenceWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> presenceOfElement(WebDriver driver, ExistenceWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.presenceOfElementLocated(by));
 
-		return response;
+		return ExpectedConditions.presenceOfElementLocated(by);
 	}
 
-	private static Response presenceOfAllElements(WebDriver driver, ExistenceWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> presenceOfAllElements(WebDriver driver, ExistenceWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(by));
 
-		return response;
+		return ExpectedConditions.presenceOfAllElementsLocatedBy(by);
 	}
 
-	private static Response attributeContains(WebDriver driver, TextMatchAttributeSelectorWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> attributeContains(WebDriver driver,
+			TextMatchAttributeSelectorWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.attributeContains(by, command.getAttribute(), command.getText()));
 
-		return response;
+		return ExpectedConditions.attributeContains(by, command.getAttribute(), command.getText());
 	}
 
-	private static Response attributeIs(WebDriver driver, TextMatchAttributeSelectorWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> attributeIs(WebDriver driver, TextMatchAttributeSelectorWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.attributeToBe(by, command.getAttribute(), command.getText()));
 
-		return response;
+		return ExpectedConditions.attributeToBe(by, command.getAttribute(), command.getText());
 	}
 
-	private static Response attributeIsNotEmpty(WebDriver driver, TextMatchAttributeSelectorWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> attributeIsNotEmpty(WebDriver driver,
+			TextMatchAttributeSelectorWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.attributeToBeNotEmpty(driver.findElement(by), command.getAttribute()));
 
-		return response;
+		return ExpectedConditions.attributeToBeNotEmpty(driver.findElement(by), command.getAttribute());
 	}
 
-	private static Response javascriptReturns(WebDriver driver, JavaScriptWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.javaScriptThrowsNoExceptions(command.getJavaScript()));
-
-		return response;
+	private static ExpectedCondition<?> javascriptReturns(WebDriver driver, JavaScriptWaitCommand command) {
+		return ExpectedConditions.javaScriptThrowsNoExceptions(command.getJavaScript());
 	}
 
-	private static Response javascriptCompletes(WebDriver driver, JavaScriptWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.javaScriptThrowsNoExceptions(command.getJavaScript()));
-
-		return response;
+	private static ExpectedCondition<?> javascriptCompletes(WebDriver driver, JavaScriptWaitCommand command) {
+		return ExpectedConditions.javaScriptThrowsNoExceptions(command.getJavaScript());
 	}
 
-	private static Response elementCount(WebDriver driver, CountWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> elementCount(WebDriver driver, CountWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.numberOfElementsToBe(by, command.getBound()));
 
-		return response;
+		return ExpectedConditions.numberOfElementsToBe(by, command.getBound());
 	}
 
-	private static Response elementCountLessThan(WebDriver driver, CountWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> elementCountLessThan(WebDriver driver, CountWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.numberOfElementsToBeLessThan(by, command.getBound()));
 
-		return response;
+		return ExpectedConditions.numberOfElementsToBeLessThan(by, command.getBound());
 	}
 
-	private static Response elementCountMoreThan(WebDriver driver, CountWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> elementCountMoreThan(WebDriver driver, CountWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(by, command.getBound()));
 
-		return response;
+		return ExpectedConditions.numberOfElementsToBeMoreThan(by, command.getBound());
 	}
 
-	private static Response windowCount(WebDriver driver, CountWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.numberOfWindowsToBe(command.getBound()));
-
-		return response;
+	private static ExpectedCondition<?> windowCount(WebDriver driver, CountWaitCommand command) {
+		return ExpectedConditions.numberOfWindowsToBe(command.getBound());
 	}
 
-	private static Response staleness(WebDriver driver, ExistenceWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> staleness(WebDriver driver, ExistenceWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.stalenessOf(driver.findElement(by)));
 
-		return response;
+		return ExpectedConditions.stalenessOf(driver.findElement(by));
 	}
 
-	private static Response textMatches(WebDriver driver, TextMatchSelectorWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> textMatches(WebDriver driver, TextMatchSelectorWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
 		Pattern pattern = Pattern.compile(command.getText());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.textMatches(by, pattern));
 
-		return response;
+		return ExpectedConditions.textMatches(by, pattern);
 	}
 
-	private static Response textIs(WebDriver driver, TextMatchSelectorWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> textIs(WebDriver driver, TextMatchSelectorWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.textToBe(by, command.getText()));
 
-		return response;
+		return ExpectedConditions.textToBe(by, command.getText());
 	}
 
-	private static Response textPresentInValue(WebDriver driver, TextMatchSelectorWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> textPresentInValue(WebDriver driver, TextMatchSelectorWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.textToBePresentInElementValue(by, command.getText()));
 
-		return response;
+		return ExpectedConditions.textToBePresentInElementValue(by, command.getText());
 	}
 
-	private static Response textPresent(WebDriver driver, TextMatchSelectorWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> textPresent(WebDriver driver, TextMatchSelectorWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.textToBePresentInElementLocated(by, command.getText()));
 
-		return response;
+		return ExpectedConditions.textToBePresentInElementLocated(by, command.getText());
 	}
 
-	private static Response visibilityOfAllNested(WebDriver driver, NestedVisibilityWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> visibilityOfAllNested(WebDriver driver, NestedVisibilityWaitCommand command) {
 		By parentBy = BaseProcessor.getBy(command.getSelector());
 		By childBy = BaseProcessor.getBy(command.getChildSelector());
 
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.visibilityOfNestedElementsLocatedBy(parentBy, childBy));
-
-		return response;
+		return ExpectedConditions.visibilityOfNestedElementsLocatedBy(parentBy, childBy);
 	}
 
-	private static Response visibilityOfAll(WebDriver driver, VisibilityWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> visibilityOfAll(WebDriver driver, VisibilityWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
 
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(by));
-
-		return response;
+		return ExpectedConditions.visibilityOfAllElementsLocatedBy(by);
 	}
 
-	private static Response visibilityOf(WebDriver driver, VisibilityWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
+	private static ExpectedCondition<?> visibilityOf(WebDriver driver, VisibilityWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
 
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.visibilityOf(driver.findElement(by)));
-
-		return response;
+		return ExpectedConditions.visibilityOf(driver.findElement(by));
 	}
 
-	private static Response titleIs(WebDriver driver, TextMatchWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.titleIs(command.getText()));
-
-		return response;
+	private static ExpectedCondition<?> titleIs(WebDriver driver, TextMatchWaitCommand command) {
+		return ExpectedConditions.titleIs(command.getText());
 	}
 
-	private static Response titleContains(WebDriver driver, TextMatchWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.titleContains(command.getText()));
-
-		return response;
+	private static ExpectedCondition<?> titleContains(WebDriver driver, TextMatchWaitCommand command) {
+		return ExpectedConditions.titleContains(command.getText());
 	}
 
-	private static Response urlToBe(WebDriver driver, TextMatchWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.urlToBe(command.getText()));
-
-		return response;
+	private static ExpectedCondition<?> urlToBe(WebDriver driver, TextMatchWaitCommand command) {
+		return ExpectedConditions.urlToBe(command.getText());
 	}
 
-	private static Response urlMatches(WebDriver driver, TextMatchWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.urlMatches(command.getText()));
-
-		return response;
+	private static ExpectedCondition<?> urlMatches(WebDriver driver, TextMatchWaitCommand command) {
+		return ExpectedConditions.urlMatches(command.getText());
 	}
 
-	private static Response urlContains(WebDriver driver, TextMatchWaitCommand command)
-			throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.urlContains(command.getText()));
-
-		return response;
+	private static ExpectedCondition<?> urlContains(WebDriver driver, TextMatchWaitCommand command) {
+		return ExpectedConditions.urlContains(command.getText());
 	}
 
-	private static Response alertIsPresent(WebDriver driver, WaitCommand command) throws WebDriverException, Exception {
-		Response response = new Response(command.getId(), true);
-
-		WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
-		wait.until(ExpectedConditions.alertIsPresent());
-
-		return response;
+	private static ExpectedCondition<?> alertIsPresent(WebDriver driver, WaitCommand command) {
+		return ExpectedConditions.alertIsPresent();
 	}
 }

@@ -4,7 +4,7 @@
 
 	<groupId>hall.caleb.seltzer</groupId>
 	<artifactId>seltzer-cr</artifactId>
-	<version>0.21.0</version>
+	<version>1.0.0-RC1</version>
 	<packaging>bundle</packaging>
 
 	<name>Seltzer Command/Response</name>

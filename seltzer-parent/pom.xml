@@ -4,7 +4,7 @@
 
 	<groupId>hall.caleb.seltzer</groupId>
 	<artifactId>seltzer-parent</artifactId>
-	<version>0.10.0</version>
+	<version>1.0.0-RC1</version>
 	<packaging>pom</packaging>
 
 	<name>Seltzer Parent</name>
