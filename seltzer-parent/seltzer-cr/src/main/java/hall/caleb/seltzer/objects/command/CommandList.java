@@ -56,6 +56,10 @@ public class CommandList {
 			return false;
 		}
 	}
+	
+	public int getSize() {
+		return commands.size() + serializedCommands.size();
+	}
 
 	@Override
 	public String toString() {

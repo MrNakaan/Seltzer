@@ -11,12 +11,16 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import hall.caleb.seltzer.enums.WaitType;
 import hall.caleb.seltzer.objects.command.wait.CountWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.JavaScriptWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.SelectionStateWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 import hall.caleb.seltzer.objects.command.wait.existence.ExistenceWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.existence.NestedExistenceWaitCommand;
+import hall.caleb.seltzer.objects.command.wait.logical.LogicalAndOrWaitCommand;
+import hall.caleb.seltzer.objects.command.wait.logical.LogicalNotWaitCommand;
+import hall.caleb.seltzer.objects.command.wait.logical.LogicalWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchAttributeSelectorWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchSelectorWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchWaitCommand;
@@ -33,25 +37,7 @@ public class WaitProcessor {
 		Response response = new Response(command.getId(), false);
 
 		try {
-			ExpectedCondition<?> condition = null;
-			Class<? extends WaitCommand> waitClass = command.getWaitType().getWaitClass();
-			if (waitClass.equals(CountWaitCommand.class)) {
-				condition = processCountWaitCommand(driver, (CountWaitCommand) command);
-			} else if (waitClass.equals(ExistenceWaitCommand.class)) {
-				condition = processExistenceWaitCommand(driver, (ExistenceWaitCommand) command);
-			} else if (waitClass.equals(InvisibilityWaitCommand.class)) {
-				condition = processInvisibilityWaitCommand(driver, (InvisibilityWaitCommand) command);
-			} else if (waitClass.equals(JavaScriptWaitCommand.class)) {
-				condition = processJavaScriptWaitCommand(driver, (JavaScriptWaitCommand) command);
-			} else if (waitClass.equals(SelectionStateWaitCommand.class)) {
-				condition = processSelectionStateWaitCommand(driver, (SelectionStateWaitCommand) command);
-			} else if (waitClass.equals(TextMatchWaitCommand.class)) {
-				condition = processTextMatchWaitCommand(driver, (TextMatchWaitCommand) command);
-			} else if (waitClass.equals(VisibilityWaitCommand.class)) {
-				condition = processVisibilityWaitCommand(driver, (VisibilityWaitCommand) command);
-			} else {
-				condition = processWaitCommand(driver, command);
-			}
+			ExpectedCondition<?> condition = processWaitCommand(driver, command);
 
 			if (condition != null) {
 				WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
@@ -70,7 +56,106 @@ public class WaitProcessor {
 
 		return response;
 	}
+	
+	private static ExpectedCondition<?> processWaitCommand(WebDriver driver, WaitCommand command) {
+		ExpectedCondition<?> condition = null;
 
+		Class<? extends WaitCommand> waitClass = command.getWaitType().getWaitClass();
+		if (waitClass.equals(LogicalWaitCommand.class)) {
+			condition = processLogicalWaitCommand(driver, (LogicalWaitCommand) command);
+		} else if (waitClass.equals(CountWaitCommand.class)) {
+			condition = processCountWaitCommand(driver, (CountWaitCommand) command);
+		} else if (waitClass.equals(ExistenceWaitCommand.class)) {
+			condition = processExistenceWaitCommand(driver, (ExistenceWaitCommand) command);
+		} else if (waitClass.equals(InvisibilityWaitCommand.class)) {
+			condition = processInvisibilityWaitCommand(driver, (InvisibilityWaitCommand) command);
+		} else if (waitClass.equals(JavaScriptWaitCommand.class)) {
+			condition = processJavaScriptWaitCommand(driver, (JavaScriptWaitCommand) command);
+		} else if (waitClass.equals(SelectionStateWaitCommand.class)) {
+			condition = processSelectionStateWaitCommand(driver, (SelectionStateWaitCommand) command);
+		} else if (waitClass.equals(TextMatchWaitCommand.class)) {
+			condition = processTextMatchWaitCommand(driver, (TextMatchWaitCommand) command);
+		} else if (waitClass.equals(VisibilityWaitCommand.class)) {
+			condition = processVisibilityWaitCommand(driver, (VisibilityWaitCommand) command);
+		}
+		
+		switch (command.getWaitType()) {
+		case AlertIsPresent:
+			condition = alertIsPresent(driver, command);
+			break;
+		default:
+			break;
+		}
+
+		return condition;
+	}
+
+	private static ExpectedCondition<?> processLogicalWaitCommand(WebDriver driver, LogicalWaitCommand command) {
+		ExpectedCondition<?> condition = null;
+
+		switch (command.getWaitType()) {
+		case And:
+			condition = andOr(driver, (LogicalAndOrWaitCommand) command);
+			break;
+		case Or:
+			condition = andOr(driver, (LogicalAndOrWaitCommand) command);
+			break;
+		case Not:
+			condition = not(driver, (LogicalNotWaitCommand) command);
+			break;
+		default:
+			break;
+		}
+
+		return condition;
+	}
+
+	private static ExpectedCondition<?> not(WebDriver driver, LogicalNotWaitCommand command) {
+		ExpectedCondition<?> condition = null;
+
+		condition = ExpectedConditions.not(processWaitCommand(driver, command.getWaitCommand()));
+		
+		return condition;
+	}
+
+	private static ExpectedCondition<?> andOr(WebDriver driver, LogicalAndOrWaitCommand command) {
+		ExpectedCondition<?> condition = null;
+		ExpectedCondition<?>[] conditions = new ExpectedCondition<?>[command.getCommands().getCommands().size()];
+
+		int badCommands = 0; 
+		for (int i = 0; i < command.getCommands().getCommands().size(); i++) {
+			if (command.getCommands().getCommands().get(i) instanceof WaitCommand) {
+				conditions[i] = processWaitCommand(driver, (WaitCommand) command.getCommands().getCommands().get(i));
+			} else {
+				conditions[i] = null;
+				badCommands++;
+			}
+		}
+		
+		if (badCommands > 0) {
+			ExpectedCondition<?>[] goodConditions = new ExpectedCondition<?>[conditions.length - badCommands];
+			
+			int i = 0;
+			for (ExpectedCondition<?> c : conditions) {
+				if (c != null) {
+					goodConditions[i] = c;
+					i++;
+				}
+			}
+			
+			conditions = goodConditions;
+		}
+		
+		
+		if (command.getWaitType() == WaitType.And) { 
+			condition = ExpectedConditions.and(conditions);
+		} else if (command.getWaitType() == WaitType.Or) {
+			condition = ExpectedConditions.or(conditions);
+		}
+		
+		return condition;
+	}
+	
 	private static ExpectedCondition<?> processCountWaitCommand(WebDriver driver, CountWaitCommand command) {
 		ExpectedCondition<?> condition = null;
 
@@ -312,20 +397,6 @@ public class WaitProcessor {
 		switch (command.getWaitType()) {
 		case VisibilityOfNestedElementsLocatedBy:
 			condition = visibilityOfAllNested(driver, command);
-			break;
-		default:
-			break;
-		}
-
-		return condition;
-	}
-
-	private static ExpectedCondition<?> processWaitCommand(WebDriver driver, WaitCommand command) {
-		ExpectedCondition<?> condition = null;
-
-		switch (command.getWaitType()) {
-		case AlertIsPresent:
-			condition = alertIsPresent(driver, command);
 			break;
 		default:
 			break;
