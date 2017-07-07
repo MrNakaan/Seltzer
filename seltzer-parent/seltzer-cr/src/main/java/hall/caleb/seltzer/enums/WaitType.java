@@ -39,7 +39,7 @@ public enum WaitType {
 	PresenceOfElementLocated(ExistenceWaitCommand.class),
 	PresenceOfNestedElementLocatedBy(NestedExistenceWaitCommand.class),
 	PresenceOfNestedElementsLocatedBy(NestedExistenceWaitCommand.class),
-	//Refreshed(OldVisibilityWaitCommand.class),
+	Refreshed(WaitCommand.class),
 	StalenessOf(ExistenceWaitCommand.class),
 	TextMatches(TextMatchSelectorWaitCommand.class),
 	TextToBe(TextMatchSelectorWaitCommand.class),
