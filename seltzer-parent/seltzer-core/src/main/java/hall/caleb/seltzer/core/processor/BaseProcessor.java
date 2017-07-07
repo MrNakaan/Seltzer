@@ -3,6 +3,7 @@ package hall.caleb.seltzer.core.processor;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.MessageFormat;
 import java.util.Base64;
 
 import org.apache.commons.io.FileUtils;
@@ -45,7 +46,7 @@ public class BaseProcessor {
 
 	public static Response processCommand(WebDriver driver, Command command) {
 		if (command.getType() != CommandType.Chain) {
-			logger.info("Processing command:");
+			logger.info(Messages.getString("BaseProcessor.command"));
 			logger.info(gson.toJson(command));
 		}
 
@@ -113,7 +114,7 @@ public class BaseProcessor {
 					tryNumber++;
 					ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
 					eResponse.setMessage(
-							"A system error unrelated to Selenium has happened. No stack trace information is attached. Please try again.");
+							Messages.getString("BaseProcessor.exception"));
 					eResponse.setStackTrace(new StackTraceElement[0]);
 					response = eResponse;
 					sleep(e, tryNumber);
@@ -180,7 +181,7 @@ public class BaseProcessor {
 	}
 
 	static ChainResponse processChain(WebDriver driver, ChainCommand command) throws WebDriverException, Exception {
-		logger.info("Processing chain:");
+		logger.info(Messages.getString("BaseProcessor.chain")); //$NON-NLS-1$
 		logger.info(gson.toJson(command));
 
 		ChainResponse response = new ChainResponse();
@@ -296,13 +297,15 @@ public class BaseProcessor {
 	}
 
 	static void sleep(Exception e, int tryNumber) {
-		logger.error("Error on try " + tryNumber + " of " + RETRIES + ".");
+		String message = Messages.getString("BaseProcessor.try");
+		message = MessageFormat.format(message, tryNumber, RETRIES);
+		logger.error(message);
 		logger.error(e);
 
 		try {
 			Thread.sleep(RETRY_WAIT * 1000);
 		} catch (InterruptedException e1) {
-			logger.error("Thread interrupted while waiting to retry, retrying immediately.");
+			logger.error(Messages.getString("BaseProcessor.interrupted"));
 		}
 	}
 }
