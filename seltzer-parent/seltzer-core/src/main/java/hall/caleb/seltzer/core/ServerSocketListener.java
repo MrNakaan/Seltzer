@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -37,8 +38,10 @@ public class ServerSocketListener implements Runnable {
 	private int connections;
 
 	public ServerSocketListener(int port, int backlog) {
-		logger.info("Creating new ServerSocketListener.");
-		logger.info("Using port " + port + " with a backlog of " + backlog + ".");
+		logger.info(Messages.getString("ServerSocketListener.creating"));
+		String message = Messages.getString("ServerSocketListener.port");
+		message = MessageFormat.format(message, port, backlog);
+		logger.info(message);
 
 		this.port = port;
 		this.connections = backlog;
@@ -49,10 +52,12 @@ public class ServerSocketListener implements Runnable {
 		try (ServerSocket serverSocket = new ServerSocket(port, connections)) {
 			while (true) {
 				Socket socket = serverSocket.accept();
-				logger.info("Connection accepted from " + socket.getInetAddress() + ":" + socket.getPort() + ".");
-				logger.info("Adding task to thread pool...");
+				String message = Messages.getString("ServerSocketListener.accepted");
+				message = MessageFormat.format(message, socket.getInetAddress(), socket.getPort());
+				logger.info(message);
+				logger.info(Messages.getString("ServerSocketListener.adding"));
 				executor.execute(new CommandHandlerThread(socket));
-				logger.info("Task added to the thread pool!");
+				logger.info(Messages.getString("ServerSocketListener.added"));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -80,18 +85,18 @@ public class ServerSocketListener implements Runnable {
 		private void handleJson() throws IOException {
 			String json = readJson(socket);
 
-			System.out.println("Command received:");
+			System.out.println(Messages.getString("ServerSocketListener.received"));
 			System.out.println("\t" + json);
 
 			Command command;
-			
+
 			command = new Gson().fromJson(json, Command.class);
 			command = new Gson().fromJson(json, command.getType().getCommandClass());
-			
+
 			if (command.getType() == CommandType.Chain) {
 				((ChainCommand) command).deserialize();
 			}
-			
+
 			Response response = new Response();
 
 			if (command.getType() == CommandType.Start) {
@@ -103,7 +108,7 @@ public class ServerSocketListener implements Runnable {
 				response = SeltzerSession.findSession(command.getId()).executeCommand(command);
 			}
 
-			System.out.println("Sending response:");
+			System.out.println(Messages.getString("ServerSocketListener.response"));
 			if (response.getType() == ResponseType.Chain) {
 				((ChainResponse) response).serialize();
 			}
@@ -141,21 +146,21 @@ public class ServerSocketListener implements Runnable {
 			if (response.getType() == ResponseType.Chain) {
 				((ChainResponse) response).serialize();
 			}
-			
+
 			Class<? extends Response> responseClass;
 			switch (response.getType()) {
-				case Chain:
-					responseClass = ChainResponse.class;
-					break;
-				case SingleResult:
-					responseClass = SingleResultResponse.class;
-					break;
-				case MultiResult:
-					responseClass = MultiResultResponse.class;
-					break;
-				default:
-					responseClass = Response.class;
-					break;
+			case Chain:
+				responseClass = ChainResponse.class;
+				break;
+			case SingleResult:
+				responseClass = SingleResultResponse.class;
+				break;
+			case MultiResult:
+				responseClass = MultiResultResponse.class;
+				break;
+			default:
+				responseClass = Response.class;
+				break;
 			}
 
 			writer.write(new Gson().toJson(response, responseClass));

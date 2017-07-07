@@ -2,6 +2,7 @@ package hall.caleb.seltzer.core;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.MessageFormat;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,28 +16,28 @@ public class SeltzerServer {
 	private static Thread cleanerThread;
 	
 	public static void main(String[] args) {
-		logger.info("Starting Selenium server...");
+		logger.info(Messages.getString("SeltzerServer.starting")); 
 		
 		try {
 			configureBase();
 		} catch (FileNotFoundException e) {
 			logger.fatal(e);
-			logger.fatal("Exception occurred during configuration, server exiting!");
+			logger.fatal(Messages.getString("SeltzerServer.configException")); 
 			return;
 		}
 		
 		listener = new ServerSocketListener(39948, 1);
 		listenerThread = new Thread(listener);
 		listenerThread.start();
-		logger.info("Connection listener started.");
+		logger.info(Messages.getString("SeltzerServer.listenerStarted")); 
 		
 		// Removed pending testing of the cleaning system
 		cleaner = new SessionCleaner();
 		cleanerThread = new Thread(cleaner);
 		cleanerThread.start();
-		logger.info("Session cleaner started.");
+		logger.info(Messages.getString("SeltzerServer.cleanerStarted")); 
 		
-		logger.info("Selenium server startup complete.");
+		logger.info(Messages.getString("SeltzerServer.startupDone")); 
 		
 		try {
 			listenerThread.join();
@@ -47,27 +48,27 @@ public class SeltzerServer {
 	}
 	
 	public static void configureBase() throws FileNotFoundException {
-		logger.info("Configuring server..");
+		logger.info(Messages.getString("SeltzerServer.configuring")); 
 		
-		logger.debug("Configuring web driver location.");
+		logger.debug(Messages.getString("SeltzerServer.configuringDriver")); 
 		
-		String repoPath = System.getProperty("repo.path");
+		String repoPath = System.getProperty(Messages.getString("SeltzerServer.pathEnv")); 
 		String driverPath;
 		if (repoPath == null) {
-			logger.warn("repo.path system property not found, assuming relative path");
-			driverPath = "web_drivers/chromedriver.exe";
+			logger.warn(Messages.getString("SeltzerServer.pathNotFound")); 
+			driverPath = Messages.getString("SeltzerServer.chromeDriverRelative"); 
 		} else {
-			driverPath = repoPath + "/seltzer-parent/web_drivers/chromedriver.exe";
+			driverPath = repoPath + Messages.getString("SeltzerServer.chromeDriver"); 
 		}
 		
-		logger.debug("Web driver should exist at \"" + driverPath + "\".");
+		logger.debug(MessageFormat.format(Messages.getString("SeltzerServer.driverDebug"), driverPath));
 		
 		if (new File(driverPath).exists()) {
-			System.setProperty("webdriver.chrome.driver", driverPath);
+			System.setProperty(Messages.getString("SeltzerServer.chromeDriverProperty"), driverPath); 
 		} else {
-			throw new FileNotFoundException("Web driver not found!");
+			throw new FileNotFoundException(Messages.getString("SeltzerServer.driverNotFound")); 
 		}
 		
-		logger.info("Server configured.");
+		logger.info(Messages.getString("SeltzerServer.configured")); 
 	}
 }

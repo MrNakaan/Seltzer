@@ -85,12 +85,12 @@ public class SeltzerSession implements Closeable {
 		}
 		
 		ChromeOptions options = new ChromeOptions();
-		options.addArguments("start-maximized");
-		dataDir = Paths.get(System.getProperty("repo.path"), "ChromeProfile", this.id.toString());
-		options.addArguments("user-data-dir=" + dataDir);
+		options.addArguments(Messages.getString("SeltzerSession.max")); //$NON-NLS-1$
+		dataDir = Paths.get(System.getProperty(Messages.getString("SeltzerServer.pathEnv")), Messages.getString("SeltzerSession.profile"), this.id.toString()); //$NON-NLS-1$ //$NON-NLS-2$
+		options.addArguments(Messages.getString("SeltzerSession.dataDir") + dataDir); //$NON-NLS-1$
 
 		if (HEADLESS) {
-			options.addArguments("headless");
+			options.addArguments("headless"); //$NON-NLS-1$
 		}
 		
 		driver = new ChromeDriver(options);
@@ -120,8 +120,8 @@ public class SeltzerSession implements Closeable {
 
 	@Override
 	public String toString() {
-		return "SeltzerSession [id=" + id + ", driver=" + driver + ", startedTime=" + startedTime + ", lastUsed="
-				+ lastUsed + ", dataDir=" + dataDir + "]";
+		return "SeltzerSession [id=" + id + ", driver=" + driver + ", startedTime=" + startedTime + ", lastUsed=" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				+ lastUsed + ", dataDir=" + dataDir + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	@Override

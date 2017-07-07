@@ -1,5 +1,7 @@
 package hall.caleb.seltzer.core;
 
+import java.text.MessageFormat;
+
 public class SessionCleaner implements Runnable {
 	private int sessionsCleaned = 0;
 	
@@ -11,10 +13,12 @@ public class SessionCleaner implements Runnable {
 			sessionsJustCleaned = SeltzerSession.cleanSessions();
 			
 			if (sessionsJustCleaned > 0) {
-				System.out.println("Sessions just cleaned: " + sessionsJustCleaned);
+				String message = Messages.getString("SessionCleaner.justCleaned");
+				System.out.println(MessageFormat.format(message, sessionsJustCleaned));
 				sessionsCleaned += sessionsJustCleaned;
 				sessionsJustCleaned = 0;
-				System.out.println("Total sessions cleaned: " + sessionsCleaned);
+				message = Messages.getString("SessionCleaner.totalCleaned");
+				System.out.println(MessageFormat.format(message, sessionsCleaned));
 			}
 			
 			try {
