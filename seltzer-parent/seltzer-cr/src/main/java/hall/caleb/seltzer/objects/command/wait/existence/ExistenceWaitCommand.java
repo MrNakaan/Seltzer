@@ -8,7 +8,7 @@ import hall.caleb.seltzer.objects.command.Selector;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 
 public class ExistenceWaitCommand extends WaitCommand {
-	protected Selector selector;
+	protected Selector selector = new Selector();
 	
 	public ExistenceWaitCommand(Integer seconds) {
 		super(seconds);
@@ -29,7 +29,7 @@ public class ExistenceWaitCommand extends WaitCommand {
 	@Override
 	public String toString() {
 		return "ExistenceWaitCommand [selector=" + selector + ", waitType=" + waitType + ", seconds=" + seconds
-				+ ", USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", type=" + type + ", id=" + id + "]";
+				+ ", usesCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

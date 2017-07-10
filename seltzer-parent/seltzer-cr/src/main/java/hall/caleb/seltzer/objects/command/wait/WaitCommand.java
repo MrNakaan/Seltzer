@@ -6,7 +6,7 @@ import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.WaitType;
 import hall.caleb.seltzer.objects.command.Command;
 
-public abstract class WaitCommand extends Command {
+public class WaitCommand extends Command {
 	protected WaitType waitType;
 	protected Integer seconds;
 	
@@ -29,7 +29,7 @@ public abstract class WaitCommand extends Command {
 
 	@Override
 	public String toString() {
-		return "WaitCommand [waitType=" + waitType + ", seconds=" + seconds + ", USES_COMMAND_LIST=" + USES_COMMAND_LIST
+		return "WaitCommand [waitType=" + waitType + ", seconds=" + seconds + ", usesCommandList=" + hasCommandList
 				+ ", type=" + type + ", id=" + id + "]";
 	}
 

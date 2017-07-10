@@ -5,7 +5,7 @@ import java.util.UUID;
 import hall.caleb.seltzer.enums.CommandType;
 
 public class Command {
-	public final boolean USES_COMMAND_LIST = false;
+	protected boolean hasCommandList = false;
 	
 	protected CommandType type;
 	protected UUID id;
@@ -72,5 +72,9 @@ public class Command {
 
 	public void setId(UUID id) {
 		this.id = id;
+	}
+
+	public boolean hasCommandList() {
+		return hasCommandList;
 	}
 }

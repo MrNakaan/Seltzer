@@ -18,7 +18,7 @@ public final class ReadAttributeCommand extends MultiResultSelectorCommand {
 	@Override
 	public String toString() {
 		return "ReadAttributeCommand [attribute=" + attribute + ", maxResults=" + maxResults + ", selector=" + selector
-				+ ", USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", type=" + type + ", id=" + id + "]";
+				+ ", usesCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

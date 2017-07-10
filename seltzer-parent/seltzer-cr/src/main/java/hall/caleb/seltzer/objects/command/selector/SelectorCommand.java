@@ -8,7 +8,7 @@ import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.command.Selector;
 
 public class SelectorCommand extends Command {
-	protected Selector selector;
+	protected Selector selector = new Selector();
 	
 	public SelectorCommand() {
 		super();
@@ -28,7 +28,7 @@ public class SelectorCommand extends Command {
 	
 	@Override
 	public String toString() {
-		return "SelectorCommand [selector=" + selector + ", USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", type=" + type
+		return "SelectorCommand [selector=" + selector + ", usesCommandList=" + hasCommandList + ", type=" + type
 				+ ", id=" + id + "]";
 	}
 

@@ -8,9 +8,9 @@ import hall.caleb.seltzer.objects.command.CommandList;
 import hall.caleb.seltzer.objects.command.SerializableCommand;
 
 public class LogicalAndOrWaitCommand extends LogicalWaitCommand implements SerializableCommand	 {
-	public final boolean USES_COMMAND_LIST = true;
+	private boolean usesCommandList = false;
 	
-	private CommandList waitCommands = new CommandList(this);
+	private CommandList waitCommands = new CommandList();
 	
 	public LogicalAndOrWaitCommand(Integer seconds, WaitType waitType) {
 		super(seconds, waitType);
@@ -37,13 +37,13 @@ public class LogicalAndOrWaitCommand extends LogicalWaitCommand implements Seria
 		waitCommands.deserialize();
 	}
 	
-	public boolean addCommand(Command command) {
-		return waitCommands.addCommand(command);
+	public void addCommand(Command command) {
+		waitCommands.addCommand(command);
 	}
 
 	@Override
 	public String toString() {
-		return "LogicalAndWaitCommand [USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", waitCommands=" + waitCommands
+		return "LogicalAndWaitCommand [usesCommandList=" + usesCommandList + ", waitCommands=" + waitCommands
 				+ ", waitType=" + waitType + ", seconds=" + seconds + ", type=" + type + ", id=" + id + "]";
 	}
 
@@ -51,7 +51,7 @@ public class LogicalAndOrWaitCommand extends LogicalWaitCommand implements Seria
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + (USES_COMMAND_LIST ? 1231 : 1237);
+		result = prime * result + (usesCommandList ? 1231 : 1237);
 		result = prime * result + ((waitCommands == null) ? 0 : waitCommands.hashCode());
 		return result;
 	}
@@ -65,7 +65,7 @@ public class LogicalAndOrWaitCommand extends LogicalWaitCommand implements Seria
 		if (getClass() != obj.getClass())
 			return false;
 		LogicalAndOrWaitCommand other = (LogicalAndOrWaitCommand) obj;
-		if (USES_COMMAND_LIST != other.USES_COMMAND_LIST)
+		if (usesCommandList != other.usesCommandList)
 			return false;
 		if (waitCommands == null) {
 			if (other.waitCommands != null)

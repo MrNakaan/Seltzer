@@ -5,7 +5,7 @@ import hall.caleb.seltzer.enums.SeltzerKeys;
 
 public class SendKeyCommand extends Command {
 	private SeltzerKeys key;
-	private Selector selector;
+	private Selector selector = new Selector();
 	
 	public SendKeyCommand() {
 		super(CommandType.SendKey);
@@ -57,7 +57,7 @@ public class SendKeyCommand extends Command {
 
 	@Override
 	public String toString() {
-		return "SendKeyCommand [key=" + key + ", selector=" + selector + ", USES_COMMAND_LIST=" + USES_COMMAND_LIST
+		return "SendKeyCommand [key=" + key + ", selector=" + selector + ", usesCommandList=" + hasCommandList
 				+ ", type=" + type + ", id=" + id + "]";
 	}
 }

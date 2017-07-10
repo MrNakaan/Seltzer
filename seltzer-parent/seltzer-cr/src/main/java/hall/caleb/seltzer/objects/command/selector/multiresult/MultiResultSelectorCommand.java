@@ -23,7 +23,7 @@ public class MultiResultSelectorCommand extends SelectorCommand {
 	@Override
 	public String toString() {
 		return "MultiResultSelectorCommand [maxResults=" + maxResults + ", selector=" + selector
-				+ ", USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", type=" + type + ", id=" + id + "]";
+				+ ", usesCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

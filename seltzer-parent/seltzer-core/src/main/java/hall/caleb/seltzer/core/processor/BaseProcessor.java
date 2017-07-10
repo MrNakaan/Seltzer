@@ -101,10 +101,11 @@ public class BaseProcessor {
 						response.setSuccess(false);
 						break;
 					}
+					break;
 				} catch (WebDriverException | IOException e) {
 					logger.error(e);
 					tryNumber++;
-					ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
+					ExceptionResponse eResponse = new ExceptionResponse(command.getId());
 					eResponse.setMessage(e.getMessage());
 					eResponse.setStackTrace(e.getStackTrace());
 					response = eResponse;
@@ -112,7 +113,7 @@ public class BaseProcessor {
 				} catch (Exception e) {
 					logger.error(e);
 					tryNumber++;
-					ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
+					ExceptionResponse eResponse = new ExceptionResponse(command.getId());
 					eResponse.setMessage(
 							Messages.getString("BaseProcessor.exception"));
 					eResponse.setStackTrace(new StackTraceElement[0]);
@@ -181,7 +182,7 @@ public class BaseProcessor {
 	}
 
 	static ChainResponse processChain(WebDriver driver, ChainCommand command) throws WebDriverException, Exception {
-		logger.info(Messages.getString("BaseProcessor.chain")); //$NON-NLS-1$
+		logger.info(Messages.getString("BaseProcessor.chain"));
 		logger.info(gson.toJson(command));
 
 		ChainResponse response = new ChainResponse();

@@ -13,6 +13,7 @@ import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchAttributeSelec
 import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchSelectorWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.visibility.InvisibilityWaitCommand;
+import hall.caleb.seltzer.objects.command.wait.visibility.NestedVisibilityWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.visibility.VisibilityWaitCommand;
 
 public enum WaitType {
@@ -53,7 +54,7 @@ public enum WaitType {
 	UrlToBe(TextMatchWaitCommand.class),
 	VisibilityOf(VisibilityWaitCommand.class),
 	VisibilityOfAllElements(VisibilityWaitCommand.class),
-	VisibilityOfNestedElementsLocatedBy(VisibilityWaitCommand.class);
+	VisibilityOfNestedElementsLocatedBy(NestedVisibilityWaitCommand.class);
 	
 	private Class<? extends WaitCommand> waitClass;
 	

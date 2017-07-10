@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Wait Home</title>
+		<script src="jquery-3.2.1.min.js"></script>
+		<script type="text/javascript">
+			async function revealHeader() {
+				$("#invisible1").removeAttr("style");
+				$("#invisible2").removeAttr("style");
+				$("#invisible1 span").removeAttr("style");
+				$("#invisible2 span").removeAttr("style");
+			}
+		
+			async function addHeader() {
+				$("#startEmpty").append("<h2 id=\"invisible3\">Some Other Other Invisible Element</h2>");
+			}
+			
+			async function hideHeaders() {
+				$("#visible1").attr("style", "display: none;");
+				$("#visible2").attr("style", "display: none;");
+			}
+			
+			async function changeTitle() {
+				$(document).prop('title', 'Title Changed!');
+			}
+			
+			async function removeHeaders() {
+				$("#endEmpty #endEmpty1").remove();
+			}
+			
+			async function reveal() {
+				await new Promise(resolve => setTimeout(resolve, 5000));
+				revealHeader();
+				addHeader();
+				hideHeaders();
+				changeTitle();
+				removeHeaders();
+			}
+			
+			async function showAlert() {
+				await new Promise(resolve => setTimeout(resolve, 5000));
+				alert("Alert!");
+			}
+			
+			async function changeUrl() {
+				await new Promise(resolve => setTimeout(resolve, 5000));
+				var url = window.location.href;
+				url = url + "?changed=true";
+				window.location.href = url;
+			}
+			
+			async function openWindow() {
+				await new Promise(resolve => setTimeout(resolve, 5000));
+				window.open("about:blank", "_blank");
+			}
+			
+			reveal();
+		</script>
+	</head>
+	<body>
+		<div>
+			<h1>Test Home</h1>
+			<a href="testHome.htm">Test Home</a>
+			<h2 id="invisible1" style="display: none;"><span style="display: none;">Some Invisible Element</span></h2>
+			<h2 id="invisible2" style="display: none;"><span style="display: none;">Some Other Invisible Element</span></h2>
+			<h2 id="visible1">Some Visible Element</h2>
+			<h2 id="visible2">Some Other Visible Element</h2>
+			<a id="alertLink" onclick="showAlert();">Click me for an alert (in 5 seconds)!</a>
+			<br />
+			<a id="urlLink" onclick="changeUrl();">Click me to make the URL change (in 5 seconds)!</a>
+			<br />
+			<a id="windowLink" onclick="openWindow();">Click me to open a new window (in 5 seconds)!</a>
+		</div>
+		<div id="startEmpty">
+		</div>
+		<div id="endEmpty">
+			<h2 id="endEmpty1">Some Visible Element</h2>
+		</div>
+	</body>
+</html>

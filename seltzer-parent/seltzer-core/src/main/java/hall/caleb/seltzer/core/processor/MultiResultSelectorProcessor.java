@@ -40,7 +40,7 @@ public class MultiResultSelectorProcessor {
 			} catch (WebDriverException e) {
 				logger.error(e);
 				tryNumber++;
-				ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
+				ExceptionResponse eResponse = new ExceptionResponse(command.getId());
 				eResponse.setMessage(e.getMessage());
 				eResponse.setStackTrace(e.getStackTrace());
 				response = eResponse;
@@ -48,7 +48,7 @@ public class MultiResultSelectorProcessor {
 			} catch (Exception e) {
 				logger.error(e);
 				tryNumber++;
-				ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
+				ExceptionResponse eResponse = new ExceptionResponse(command.getId());
 				eResponse.setMessage(Messages.getString("BaseProcessor.exception"));
 				eResponse.setStackTrace(new StackTraceElement[0]);
 				response = eResponse;

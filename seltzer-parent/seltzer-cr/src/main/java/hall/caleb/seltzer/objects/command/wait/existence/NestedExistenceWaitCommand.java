@@ -7,7 +7,7 @@ import hall.caleb.seltzer.enums.WaitType;
 import hall.caleb.seltzer.objects.command.Selector;
 
 public class NestedExistenceWaitCommand extends ExistenceWaitCommand {
-	protected Selector childSelector;
+	protected Selector childSelector = new Selector();
 	
 	public NestedExistenceWaitCommand(Integer seconds) {
 		super(seconds);
@@ -33,7 +33,7 @@ public class NestedExistenceWaitCommand extends ExistenceWaitCommand {
 	@Override
 	public String toString() {
 		return "NestedExistenceWaitCommand [childSelector=" + childSelector + ", selector=" + selector + ", waitType="
-				+ waitType + ", seconds=" + seconds + ", USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", type=" + type
+				+ waitType + ", seconds=" + seconds + ", usesCommandList=" + hasCommandList + ", type=" + type
 				+ ", id=" + id + "]";
 	}
 

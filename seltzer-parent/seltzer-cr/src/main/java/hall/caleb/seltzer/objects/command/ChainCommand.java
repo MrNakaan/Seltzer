@@ -5,9 +5,9 @@ import java.util.UUID;
 import hall.caleb.seltzer.enums.CommandType;
 
 public class ChainCommand extends Command implements SerializableCommand {
-	public boolean USES_COMMAND_LIST = true;
+	protected boolean usesCommandList = false;
 	
-	private CommandList commands = new CommandList(this);
+	private CommandList commands = new CommandList();
 
 	public ChainCommand() {
 		super(CommandType.Chain);
@@ -27,13 +27,13 @@ public class ChainCommand extends Command implements SerializableCommand {
 		commands.deserialize();
 	}
 
-	public boolean addCommand(Command command) {
-		return commands.addCommand(command);
+	public void addCommand(Command command) {
+		commands.addCommand(command);
 	}
 
 	@Override
 	public String toString() {
-		return "ChainCommand [USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", commands=" + commands + ", type=" + type
+		return "ChainCommand [usesCommandList=" + usesCommandList + ", commands=" + commands + ", type=" + type
 				+ ", id=" + id + "]";
 	}
 
@@ -41,7 +41,7 @@ public class ChainCommand extends Command implements SerializableCommand {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + (USES_COMMAND_LIST ? 1231 : 1237);
+		result = prime * result + (usesCommandList ? 1231 : 1237);
 		result = prime * result + ((commands == null) ? 0 : commands.hashCode());
 		return result;
 	}
@@ -55,7 +55,7 @@ public class ChainCommand extends Command implements SerializableCommand {
 		if (getClass() != obj.getClass())
 			return false;
 		ChainCommand other = (ChainCommand) obj;
-		if (USES_COMMAND_LIST != other.USES_COMMAND_LIST)
+		if (usesCommandList != other.usesCommandList)
 			return false;
 		if (commands == null) {
 			if (other.commands != null)

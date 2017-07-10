@@ -7,7 +7,7 @@ import hall.caleb.seltzer.enums.WaitType;
 import hall.caleb.seltzer.objects.command.Selector;
 
 public class TextMatchSelectorWaitCommand extends TextMatchWaitCommand {
-	protected Selector selector;
+	protected Selector selector = new Selector();
 	
 	public TextMatchSelectorWaitCommand(Integer seconds) {
 		super(seconds);
@@ -28,7 +28,7 @@ public class TextMatchSelectorWaitCommand extends TextMatchWaitCommand {
 	@Override
 	public String toString() {
 		return "TextMatchSelectorWaitCommand [selector=" + selector + ", waitType=" + waitType + ", seconds=" + seconds
-				+ ", USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", type=" + type + ", id=" + id + "]";
+				+ ", usesCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 	
 	@Override

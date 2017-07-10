@@ -12,18 +12,14 @@ public class ExceptionResponse extends Response {
 	public ExceptionResponse() {
 		super();
 		this.type = ResponseType.SingleResult;
+		this.success = false;
 	}
 
 	public ExceptionResponse(UUID id) {
-		super(id);
+		super(id, false);
 		this.type = ResponseType.SingleResult;
 	}
 	
-	public ExceptionResponse(UUID id, boolean success) {
-		super(id, success);
-		this.type = ResponseType.SingleResult;
-	}
-
 	@Override
 	public String toString() {
 		return "ExceptionResponse [message=" + message + ", stackTrace=" + Arrays.toString(stackTrace) + ", id=" + id
@@ -72,5 +68,10 @@ public class ExceptionResponse extends Response {
 
 	public void setStackTrace(StackTraceElement[] stackTrace) {
 		this.stackTrace = stackTrace;
+	}
+	
+	@Override
+	public void setSuccess(boolean success) {
+		return;
 	}
 }

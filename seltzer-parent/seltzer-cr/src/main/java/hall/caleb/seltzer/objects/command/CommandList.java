@@ -5,13 +5,14 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
+import hall.caleb.seltzer.enums.CommandType;
+import hall.caleb.seltzer.objects.command.wait.WaitCommand;
+
 public class CommandList {
 	private List<Command> commands;
 	private List<String> serializedCommands;
-	public final Command owner;
 	
-	public CommandList(Command owner) {
-		this.owner = owner;
+	public CommandList() {
 		commands = new ArrayList<>();
 		serializedCommands = new ArrayList<>();
 	}
@@ -24,7 +25,11 @@ public class CommandList {
 				((SerializableCommand) subCommand).serialize();
 			}
 			
-			serializedCommands.add(gson.toJson(subCommand, subCommand.getType().getCommandClass()));
+			if (subCommand.getType() == CommandType.Wait) {
+				serializedCommands.add(gson.toJson(subCommand, ((WaitCommand) subCommand).getWaitType().getWaitClass()));
+			} else {
+				serializedCommands.add(gson.toJson(subCommand, subCommand.getType().getCommandClass()));
+			}
 		}
 		
 		commands = new ArrayList<>();
@@ -36,7 +41,13 @@ public class CommandList {
 		
 		for (String serializedCommand : serializedCommands) {
 			subCommand = gson.fromJson(serializedCommand, Command.class);
-			subCommand = gson.fromJson(serializedCommand, subCommand.getType().getCommandClass());
+			
+			if (subCommand.getType() == CommandType.Wait) {
+				subCommand = gson.fromJson(serializedCommand, WaitCommand.class);
+				gson.fromJson(serializedCommand, ((WaitCommand) subCommand).getWaitType().getWaitClass());
+			} else {
+				subCommand = gson.fromJson(serializedCommand, subCommand.getType().getCommandClass());
+			}
 			
 			if (subCommand instanceof SerializableCommand) {
 				((SerializableCommand) subCommand).deserialize();
@@ -48,13 +59,8 @@ public class CommandList {
 		serializedCommands = new ArrayList<>();
 	}
 	
-	public boolean addCommand(Command command) {
-		if (owner.getId().equals(command.getId())) {
-			commands.add(command);
-			return true;
-		} else {
-			return false;
-		}
+	public void addCommand(Command command) {
+		commands.add(command);
 	}
 	
 	public int getSize() {
@@ -63,8 +69,7 @@ public class CommandList {
 
 	@Override
 	public String toString() {
-		return "CommandList [commands=" + commands + ", serializedCommands=" + serializedCommands + ", owner=" + owner
-				+ "]";
+		return "CommandList [commands=" + commands + ", serializedCommands=" + serializedCommands + "]";
 	}
 
 	@Override
@@ -72,7 +77,6 @@ public class CommandList {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((commands == null) ? 0 : commands.hashCode());
-		result = prime * result + ((owner == null) ? 0 : owner.hashCode());
 		result = prime * result + ((serializedCommands == null) ? 0 : serializedCommands.hashCode());
 		return result;
 	}
@@ -90,11 +94,6 @@ public class CommandList {
 			if (other.commands != null)
 				return false;
 		} else if (!commands.equals(other.commands))
-			return false;
-		if (owner == null) {
-			if (other.owner != null)
-				return false;
-		} else if (!owner.equals(other.owner))
 			return false;
 		if (serializedCommands == null) {
 			if (other.serializedCommands != null)

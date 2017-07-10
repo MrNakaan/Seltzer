@@ -35,7 +35,7 @@ public class WaitProcessor {
 	private static Logger logger = LogManager.getLogger(WaitProcessor.class);
 
 	static Response processCommand(WebDriver driver, WaitCommand command) {
-		Response response = new Response(command.getId(), false);
+		Response response = new Response(command.getId(), true);
 
 		try {
 			ExpectedCondition<?> condition = processWaitCommand(driver, command);
@@ -48,7 +48,7 @@ public class WaitProcessor {
 			response.setSuccess(false);
 		} catch (Exception e) {
 			logger.error(e);
-			ExceptionResponse eResponse = new ExceptionResponse(command.getId(), false);
+			ExceptionResponse eResponse = new ExceptionResponse(command.getId());
 			eResponse.setMessage(Messages.getString("BaseProcessor.exception"));
 			eResponse.setStackTrace(new StackTraceElement[0]);
 			response = eResponse;
@@ -60,24 +60,23 @@ public class WaitProcessor {
 	private static ExpectedCondition<?> processWaitCommand(WebDriver driver, WaitCommand command) {
 		ExpectedCondition<?> condition = null;
 
-		Class<? extends WaitCommand> waitClass = command.getWaitType().getWaitClass();
-		if (waitClass.equals(LogicalWaitCommand.class)) {
+		if (command instanceof LogicalWaitCommand) {
 			condition = processLogicalWaitCommand(driver, (LogicalWaitCommand) command);
-		} else if (waitClass.equals(CountWaitCommand.class)) {
+		} else if (command instanceof CountWaitCommand) {
 			condition = processCountWaitCommand(driver, (CountWaitCommand) command);
-		} else if (waitClass.equals(ExistenceWaitCommand.class)) {
+		} else if (command instanceof ExistenceWaitCommand) {
 			condition = processExistenceWaitCommand(driver, (ExistenceWaitCommand) command);
-		} else if (waitClass.equals(InvisibilityWaitCommand.class)) {
+		} else if (command instanceof InvisibilityWaitCommand) {
 			condition = processInvisibilityWaitCommand(driver, (InvisibilityWaitCommand) command);
-		} else if (waitClass.equals(JavaScriptWaitCommand.class)) {
+		} else if (command instanceof JavaScriptWaitCommand) {
 			condition = processJavaScriptWaitCommand(driver, (JavaScriptWaitCommand) command);
-		} else if (waitClass.equals(SelectionStateWaitCommand.class)) {
+		} else if (command instanceof SelectionStateWaitCommand) {
 			condition = processSelectionStateWaitCommand(driver, (SelectionStateWaitCommand) command);
-		} else if (waitClass.equals(TextMatchWaitCommand.class)) {
+		} else if (command instanceof TextMatchWaitCommand) {
 			condition = processTextMatchWaitCommand(driver, (TextMatchWaitCommand) command);
-		} else if (waitClass.equals(VisibilityWaitCommand.class)) {
+		} else if (command instanceof VisibilityWaitCommand) {
 			condition = processVisibilityWaitCommand(driver, (VisibilityWaitCommand) command);
-		} else if (waitClass.equals(RefreshedWaitCommand.class)) {
+		} else if (command instanceof RefreshedWaitCommand) {
 			condition = processRefreshedWaitCommand(driver, (RefreshedWaitCommand) command);
 		}
 		
@@ -206,8 +205,7 @@ public class WaitProcessor {
 	private static ExpectedCondition<?> processExistenceWaitCommand(WebDriver driver, ExistenceWaitCommand command) {
 		ExpectedCondition<?> condition = null;
 
-		Class<? extends WaitCommand> waitClass = command.getWaitType().getWaitClass();
-		if (waitClass.equals(NestedExistenceWaitCommand.class)) {
+		if (command instanceof NestedExistenceWaitCommand) {
 			condition = processNestedExistenceWaitCommand(driver, (NestedExistenceWaitCommand) command);
 		}
 
@@ -311,11 +309,10 @@ public class WaitProcessor {
 	private static ExpectedCondition<?> processTextMatchWaitCommand(WebDriver driver, TextMatchWaitCommand command) {
 		ExpectedCondition<?> condition = null;
 
-		Class<? extends WaitCommand> waitClass = command.getWaitType().getWaitClass();
-		if (waitClass.equals(TextMatchAttributeSelectorWaitCommand.class)) {
+		if (command instanceof TextMatchAttributeSelectorWaitCommand) {
 			condition = processTextMatchAttributeSelectorWaitCommand(driver,
 					(TextMatchAttributeSelectorWaitCommand) command);
-		} else if (waitClass.equals(TextMatchSelectorWaitCommand.class)) {
+		} else if (command instanceof TextMatchSelectorWaitCommand) {
 			condition = processTextMatchSelectorWaitCommand(driver, (TextMatchSelectorWaitCommand) command);
 		}
 
@@ -390,8 +387,7 @@ public class WaitProcessor {
 	private static ExpectedCondition<?> processVisibilityWaitCommand(WebDriver driver, VisibilityWaitCommand command) {
 		ExpectedCondition<?> condition = null;
 
-		Class<? extends WaitCommand> waitClass = command.getWaitType().getWaitClass();
-		if (waitClass.equals(NestedVisibilityWaitCommand.class)) {
+		if (command instanceof NestedVisibilityWaitCommand) {
 			condition = processNestedVisibilityWaitCommand(driver, (NestedVisibilityWaitCommand) command);
 		}
 
@@ -412,11 +408,6 @@ public class WaitProcessor {
 	private static ExpectedCondition<?> processNestedVisibilityWaitCommand(WebDriver driver,
 			NestedVisibilityWaitCommand command) {
 		ExpectedCondition<?> condition = null;
-
-		Class<? extends WaitCommand> waitClass = command.getWaitType().getWaitClass();
-		if (waitClass.equals(NestedVisibilityWaitCommand.class)) {
-			condition = processNestedVisibilityWaitCommand(driver, (NestedVisibilityWaitCommand) command);
-		}
 
 		switch (command.getWaitType()) {
 		case VisibilityOfNestedElementsLocatedBy:

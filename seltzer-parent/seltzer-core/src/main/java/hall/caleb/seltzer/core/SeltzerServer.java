@@ -3,6 +3,7 @@ package hall.caleb.seltzer.core;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.MessageFormat;
+import java.util.ResourceBundle;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +15,7 @@ public class SeltzerServer {
 	private static SessionCleaner cleaner;
 	private static Thread listenerThread;
 	private static Thread cleanerThread;
+	private static ResourceBundle config;
 	
 	public static void main(String[] args) {
 		logger.info(Messages.getString("SeltzerServer.starting")); 
@@ -31,7 +33,6 @@ public class SeltzerServer {
 		listenerThread.start();
 		logger.info(Messages.getString("SeltzerServer.listenerStarted")); 
 		
-		// Removed pending testing of the cleaning system
 		cleaner = new SessionCleaner();
 		cleanerThread = new Thread(cleaner);
 		cleanerThread.start();
@@ -49,6 +50,13 @@ public class SeltzerServer {
 	
 	public static void configureBase() throws FileNotFoundException {
 		logger.info(Messages.getString("SeltzerServer.configuring")); 
+		
+		readConfig();
+		
+		Boolean headless = Boolean.valueOf(config.getString("seltzer.headless"));
+		if (headless != null) {
+			SeltzerSession.setHeadless(headless, true);
+		}
 		
 		logger.debug(Messages.getString("SeltzerServer.configuringDriver")); 
 		
@@ -70,5 +78,13 @@ public class SeltzerServer {
 		}
 		
 		logger.info(Messages.getString("SeltzerServer.configured")); 
+	}
+
+	private static void readConfig() {
+		config = ResourceBundle.getBundle("config");
+	}
+	
+	public static String getConfigValue(String key) {
+		return config.getString(key);
 	}
 }

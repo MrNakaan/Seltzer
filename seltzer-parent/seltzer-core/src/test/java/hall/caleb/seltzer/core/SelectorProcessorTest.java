@@ -31,6 +31,8 @@ public class SelectorProcessorTest {
 
 	@BeforeClass
 	public static void prepareClass() throws FileNotFoundException {
+		// TODO: Make these tests run headless when headless is enabled
+		
 		SeltzerServer.configureBase();
 
 		session = new SeltzerSession();

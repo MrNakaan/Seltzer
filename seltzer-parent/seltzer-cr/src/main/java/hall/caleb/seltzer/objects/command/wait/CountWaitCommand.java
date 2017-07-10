@@ -8,7 +8,7 @@ import hall.caleb.seltzer.objects.command.Selector;
 
 public class CountWaitCommand extends WaitCommand {
 	Integer bound;
-	Selector selector;
+	Selector selector = new Selector();
 	
 	public CountWaitCommand(Integer seconds) {
 		super(seconds);
@@ -29,7 +29,7 @@ public class CountWaitCommand extends WaitCommand {
 	@Override
 	public String toString() {
 		return "CountWaitCommand [bound=" + bound + ", selector=" + selector + ", waitType=" + waitType + ", seconds="
-				+ seconds + ", USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", type=" + type + ", id=" + id + "]";
+				+ seconds + ", usesCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

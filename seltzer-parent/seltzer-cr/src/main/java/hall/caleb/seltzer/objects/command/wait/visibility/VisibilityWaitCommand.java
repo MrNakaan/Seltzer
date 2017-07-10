@@ -8,7 +8,7 @@ import hall.caleb.seltzer.objects.command.Selector;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 
 public class VisibilityWaitCommand extends WaitCommand {
-protected Selector selector;
+protected Selector selector = new Selector();
 	
 	public VisibilityWaitCommand(Integer seconds) {
 		super(seconds);
@@ -29,7 +29,7 @@ protected Selector selector;
 	@Override
 	public String toString() {
 		return "VisibilityWaitCommand [selector=" + selector + ", waitType=" + waitType + ", seconds=" + seconds
-				+ ", USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", type=" + type + ", id=" + id + "]";
+				+ ", usesCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

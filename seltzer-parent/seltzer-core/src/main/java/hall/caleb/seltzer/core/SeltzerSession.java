@@ -4,6 +4,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -23,7 +24,8 @@ public class SeltzerSession implements Closeable {
 	public static final long SESSION_NEVER_USED_TIMEOUT = 600000; // 10 minutes
 	public static final long SESSION_INACTIVE_TIMEOUT = 3600000; // 1 hour
 	
-	public static final boolean HEADLESS = false;
+	private static boolean headless = false;
+	private static boolean headlessLocked = false;
 	
 	private UUID id = null;
 	private WebDriver driver = null;
@@ -85,12 +87,13 @@ public class SeltzerSession implements Closeable {
 		}
 		
 		ChromeOptions options = new ChromeOptions();
-		options.addArguments(Messages.getString("SeltzerSession.max")); //$NON-NLS-1$
-		dataDir = Paths.get(System.getProperty(Messages.getString("SeltzerServer.pathEnv")), Messages.getString("SeltzerSession.profile"), this.id.toString()); //$NON-NLS-1$ //$NON-NLS-2$
-		options.addArguments(Messages.getString("SeltzerSession.dataDir") + dataDir); //$NON-NLS-1$
+		options.addArguments(Messages.getString("SeltzerSession.max"));
+		dataDir = Paths.get(System.getProperty(Messages.getString("SeltzerServer.pathEnv")), Messages.getString("SeltzerSession.profile"), this.id.toString());
+		options.addArguments(Messages.getString("SeltzerSession.dataDir") + dataDir);
 
-		if (HEADLESS) {
-			options.addArguments("headless"); //$NON-NLS-1$
+		if (headless) {
+			options.addArguments("headless");
+			options.addArguments("disable-gpu");
 		}
 		
 		driver = new ChromeDriver(options);
@@ -120,8 +123,8 @@ public class SeltzerSession implements Closeable {
 
 	@Override
 	public String toString() {
-		return "SeltzerSession [id=" + id + ", driver=" + driver + ", startedTime=" + startedTime + ", lastUsed=" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				+ lastUsed + ", dataDir=" + dataDir + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "SeltzerSession [id=" + id + ", driver=" + driver + ", startedTime=" + startedTime + ", lastUsed="
+				+ lastUsed + ", dataDir=" + dataDir + "]";
 	}
 
 	@Override
@@ -179,5 +182,27 @@ public class SeltzerSession implements Closeable {
 
 	public Path getDataDir() {
 		return dataDir;
+	}
+
+	public static boolean isHeadless() {
+		return headless;
+	}
+
+	public static void setHeadless(boolean headless) {
+		SeltzerSession.headless = headless;
+	}
+	
+	public static void setHeadless(boolean headless, boolean lock) {
+		if (headlessLocked) {
+			String message = Messages.getString("SeltzerSession.lockedException");
+			message = MessageFormat.format(message, (headless ? "on" : "off"));
+			throw new IllegalStateException(message);
+		}
+		
+		SeltzerSession.headless = headless;
+		
+		if (lock) {
+			headlessLocked = true;
+		}
 	}
 }

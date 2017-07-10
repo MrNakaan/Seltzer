@@ -22,7 +22,7 @@ public class JavaScriptWaitCommand extends WaitCommand {
 	@Override
 	public String toString() {
 		return "JavaScriptWaitCommand [javaScript=" + javaScript + ", waitType=" + waitType + ", seconds=" + seconds
-				+ ", USES_COMMAND_LIST=" + USES_COMMAND_LIST + ", type=" + type + ", id=" + id + "]";
+				+ ", usesCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override
