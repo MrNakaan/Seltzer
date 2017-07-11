@@ -28,13 +28,23 @@
 				$("#endEmpty #endEmpty1").remove();
 			}
 			
-			async function reveal() {
+			async function alterAttr() {
+				$("#invisible1").attr("data-wait", "wait-attr");
+			}
+			
+			async function choose() {
+				$("div form select").val(4);
+			}
+			
+			async function run() {
 				await new Promise(resolve => setTimeout(resolve, 5000));
 				revealHeader();
 				addHeader();
 				hideHeaders();
 				changeTitle();
 				removeHeaders();
+				alterAttr();
+				choose();
 			}
 			
 			async function showAlert() {
@@ -54,7 +64,7 @@
 				window.open("about:blank", "_blank");
 			}
 			
-			reveal();
+			run();
 		</script>
 	</head>
 	<body>
@@ -75,6 +85,16 @@
 		</div>
 		<div id="endEmpty">
 			<h2 id="endEmpty1">Some Visible Element</h2>
+		</div>
+		<div>
+			<form>
+				<select>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+				</select>
+			</form>
 		</div>
 	</body>
 </html>

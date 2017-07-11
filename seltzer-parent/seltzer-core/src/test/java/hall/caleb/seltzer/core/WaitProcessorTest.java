@@ -15,10 +15,13 @@ import hall.caleb.seltzer.enums.SelectorType;
 import hall.caleb.seltzer.enums.WaitType;
 import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.command.wait.CountWaitCommand;
+import hall.caleb.seltzer.objects.command.wait.JavaScriptWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.RefreshedWaitCommand;
+import hall.caleb.seltzer.objects.command.wait.SelectionStateWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 import hall.caleb.seltzer.objects.command.wait.logical.LogicalAndOrWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.logical.LogicalNotWaitCommand;
+import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchAttributeSelectorWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.textmatch.TextMatchWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.visibility.InvisibilityWaitCommand;
 import hall.caleb.seltzer.objects.command.wait.visibility.NestedVisibilityWaitCommand;
@@ -261,6 +264,81 @@ public class WaitProcessorTest {
 		wait.setBound(2);
 		
 		session.getDriver().findElement(By.id("windowLink")).click();
+		
+		Response response = session.executeCommand(wait);
+		assertTrue(response.isSuccess());
+	}
+	
+	@Test
+	public void testJavascriptReturnsValue() {
+		JavaScriptWaitCommand wait = new JavaScriptWaitCommand(10, WaitType.JavascriptReturnsValue, session.getId());
+		wait.setJavaScript("return \"Wait.\";");
+		
+		Response response = session.executeCommand(wait);
+		assertTrue(response.isSuccess());
+	}
+
+	@Test
+	public void testJavascriptThrowsNoExceptions() {
+		JavaScriptWaitCommand wait = new JavaScriptWaitCommand(10, WaitType.JavascriptThrowsNoExceptions, session.getId());
+		wait.setJavaScript("return \"Wait.\";");
+		
+		Response response = session.executeCommand(wait);
+		assertTrue(response.isSuccess());
+	}
+	
+	@Test
+	public void testAttributeContains() {
+		TextMatchAttributeSelectorWaitCommand wait = new TextMatchAttributeSelectorWaitCommand(10, WaitType.AttributeContains, session.getId());
+		
+		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.Xpath);
+		wait.setAttribute("data-wait");
+		wait.setText("wait");
+		
+		Response response = session.executeCommand(wait);
+		assertTrue(response.isSuccess());
+	}
+	
+	@Test
+	public void testAttributeToBe() {
+		TextMatchAttributeSelectorWaitCommand wait = new TextMatchAttributeSelectorWaitCommand(10, WaitType.AttributeToBe, session.getId());
+		
+		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.Xpath);
+		wait.setAttribute("data-wait");
+		wait.setText("wait-attr");
+		
+		Response response = session.executeCommand(wait);
+		assertTrue(response.isSuccess());
+	}
+
+	@Test
+	public void testAttributeToBeNotEmpty() {
+		TextMatchAttributeSelectorWaitCommand wait = new TextMatchAttributeSelectorWaitCommand(10, WaitType.AttributeToBeNotEmpty, session.getId());
+		
+		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.Xpath);
+		wait.setAttribute("data-wait");
+		
+		Response response = session.executeCommand(wait);
+		assertTrue(response.isSuccess());
+	}
+	
+	@Test
+	public void testElementSelectionStateToBeTrue() {
+		SelectionStateWaitCommand wait = new SelectionStateWaitCommand(10, WaitType.ElementSelectionStateToBe, session.getId());
+		
+		wait.setSelected(true);
+		wait.setSelector("//div/form/select/option[4]", SelectorType.Xpath);
+		
+		Response response = session.executeCommand(wait);
+		assertTrue(response.isSuccess());
+	}
+	
+	@Test
+	public void testElementSelectionStateToBeFalse() {
+		SelectionStateWaitCommand wait = new SelectionStateWaitCommand(10, WaitType.ElementSelectionStateToBe, session.getId());
+		
+		wait.setSelected(false);
+		wait.setSelector("//div/form/select/option[1]", SelectorType.Xpath);
 		
 		Response response = session.executeCommand(wait);
 		assertTrue(response.isSuccess());

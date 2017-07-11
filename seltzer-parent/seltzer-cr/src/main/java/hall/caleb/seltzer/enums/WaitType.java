@@ -24,7 +24,6 @@ public enum WaitType {
 	AttributeToBeNotEmpty(TextMatchAttributeSelectorWaitCommand.class),
 	ElementSelectionStateToBe(SelectionStateWaitCommand.class),
 	ElementToBeClickable(ExistenceWaitCommand.class),
-	ElementToBeSelected(ExistenceWaitCommand.class),
 	FrameToBeAvailableAndSwitchToIt(ExistenceWaitCommand.class),
 	InvisibilityOf(InvisibilityWaitCommand.class),
 	InvisibilityOfAllElements(InvisibilityWaitCommand.class),

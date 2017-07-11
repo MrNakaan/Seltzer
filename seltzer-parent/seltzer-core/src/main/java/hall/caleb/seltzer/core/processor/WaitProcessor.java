@@ -213,9 +213,6 @@ public class WaitProcessor {
 		case ElementToBeClickable:
 			condition = elementClickable(driver, command);
 			break;
-		case ElementToBeSelected:
-			condition = elementSelected(driver, command);
-			break;
 		case FrameToBeAvailableAndSwitchToIt:
 			condition = frameToBeAvailableSwitch(driver, command);
 			break;
