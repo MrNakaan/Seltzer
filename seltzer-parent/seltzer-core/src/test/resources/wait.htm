@@ -13,6 +13,7 @@
 		
 			async function addHeader() {
 				$("#startEmpty").append("<h2 id=\"invisible3\">Some Other Other Invisible Element</h2>");
+				$("#startEmpty").append("<h2 id=\"invisible4\">Some Other Other Other Invisible Element</h2>");
 			}
 			
 			async function hideHeaders() {
@@ -36,6 +37,15 @@
 				$("div form select").val(4);
 			}
 			
+			async function changeText() {
+				$("#changeText").text("Text Changed!");
+				$("#changeTextInput").attr("value", "Text Changed!");
+			}
+			
+			async function addIframe() {
+				$("#addIframe").append("<iframe src=\"page1.htm\"></iframe>");
+			}
+			
 			async function run() {
 				await new Promise(resolve => setTimeout(resolve, 5000));
 				revealHeader();
@@ -45,6 +55,8 @@
 				removeHeaders();
 				alterAttr();
 				choose();
+				changeText();
+				addIframe();
 			}
 			
 			async function showAlert() {
@@ -87,6 +99,12 @@
 			<h2 id="endEmpty1">Some Visible Element</h2>
 		</div>
 		<div>
+			<h2 id="changeText">...</h2>
+			<form>
+				<input type="text" id="changeTextInput" />
+			</form>
+		</div>
+		<div>
 			<form>
 				<select>
 					<option value="1">1</option>
@@ -95,6 +113,11 @@
 					<option value="4">4</option>
 				</select>
 			</form>
+		</div>
+		<div id="addIframe">
+		</div>
+		<div style="display:hidden" id="hidden">
+			<h2>Some Permanently Hidden Element</h2>
 		</div>
 	</body>
 </html>

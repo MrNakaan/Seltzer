@@ -448,12 +448,6 @@ public class WaitProcessor {
 		return ExpectedConditions.elementToBeClickable(by);
 	}
 
-	private static ExpectedCondition<?> elementSelected(WebDriver driver, ExistenceWaitCommand command) {
-		By by = BaseProcessor.getBy(command.getSelector());
-
-		return ExpectedConditions.elementToBeSelected(by);
-	}
-
 	private static ExpectedCondition<?> elementSelectionState(WebDriver driver, SelectionStateWaitCommand command) {
 		By by = BaseProcessor.getBy(command.getSelector());
 
