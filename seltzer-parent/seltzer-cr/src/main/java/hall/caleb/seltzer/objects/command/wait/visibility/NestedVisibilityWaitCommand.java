@@ -3,7 +3,7 @@ package hall.caleb.seltzer.objects.command.wait.visibility;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.enums.WaitType;
+import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.objects.command.Selector;
 
 public class NestedVisibilityWaitCommand extends VisibilityWaitCommand {
@@ -13,11 +13,11 @@ public class NestedVisibilityWaitCommand extends VisibilityWaitCommand {
 		super(seconds);
 	}
 
-	public NestedVisibilityWaitCommand(Integer seconds, WaitType waitType) {
+	public NestedVisibilityWaitCommand(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 	}
 
-	public NestedVisibilityWaitCommand(Integer seconds, WaitType waitType, UUID id) {
+	public NestedVisibilityWaitCommand(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 	}
 	
@@ -32,9 +32,8 @@ public class NestedVisibilityWaitCommand extends VisibilityWaitCommand {
 
 	@Override
 	public String toString() {
-		return "NestedExistenceWaitCommand [childSelector=" + childSelector + ", selector=" + selector + ", waitType="
-				+ waitType + ", seconds=" + seconds + ", usesCommandList=" + hasCommandList + ", type=" + type
-				+ ", id=" + id + "]";
+		return "NestedVisibilityWaitCommand [childSelector=" + childSelector + ", selector=" + selector + ", seconds="
+				+ seconds + ", hasCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package hall.caleb.seltzer.objects.command.wait.textmatch;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.enums.WaitType;
+import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.objects.command.Selector;
 
 public class TextMatchSelectorWaitCommand extends TextMatchWaitCommand {
@@ -13,11 +13,11 @@ public class TextMatchSelectorWaitCommand extends TextMatchWaitCommand {
 		super(seconds);
 	}
 
-	public TextMatchSelectorWaitCommand(Integer seconds, WaitType waitType) {
+	public TextMatchSelectorWaitCommand(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 	}
 
-	public TextMatchSelectorWaitCommand(Integer seconds, WaitType waitType, UUID id) {
+	public TextMatchSelectorWaitCommand(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 	}
 	
@@ -27,8 +27,8 @@ public class TextMatchSelectorWaitCommand extends TextMatchWaitCommand {
 
 	@Override
 	public String toString() {
-		return "TextMatchSelectorWaitCommand [selector=" + selector + ", waitType=" + waitType + ", seconds=" + seconds
-				+ ", usesCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
+		return "TextMatchSelectorWaitCommand [selector=" + selector + ", seconds=" + seconds + ", hasCommandList="
+				+ hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 	
 	@Override

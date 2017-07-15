@@ -3,7 +3,7 @@ package hall.caleb.seltzer.objects.command.wait.visibility;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.enums.WaitType;
+import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.objects.command.Selector;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 
@@ -15,11 +15,11 @@ public class InvisibilityWaitCommand extends WaitCommand {
 		super(seconds);
 	}
 
-	public InvisibilityWaitCommand(Integer seconds, WaitType waitType) {
+	public InvisibilityWaitCommand(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 	}
 
-	public InvisibilityWaitCommand(Integer seconds, WaitType waitType, UUID id) {
+	public InvisibilityWaitCommand(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 	}
 	
@@ -29,8 +29,8 @@ public class InvisibilityWaitCommand extends WaitCommand {
 
 	@Override
 	public String toString() {
-		return "InvisibilityWaitCommand [selector=" + selector + ", waitType=" + waitType + ", seconds=" + seconds
-				+ ", usesCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
+		return "InvisibilityWaitCommand [selector=" + selector + ", text=" + text + ", seconds=" + seconds
+				+ ", hasCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

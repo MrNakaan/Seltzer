@@ -2,23 +2,23 @@ package hall.caleb.seltzer.objects.command.wait;
 
 import java.util.UUID;
 
-import hall.caleb.seltzer.enums.WaitType;
+import hall.caleb.seltzer.enums.CommandType;
 
-public class RefreshedWaitCommand extends WaitCommand {
+public final class RefreshedWaitCommand extends WaitCommand {
 WaitCommand waitCommand;
 	
 	public RefreshedWaitCommand(Integer seconds) {
-		super(seconds, WaitType.REFRESHED);
+		super(seconds, CommandType.REFRESHED_WAIT);
 	}
 
 	public RefreshedWaitCommand(Integer seconds, UUID id) {
-		super(seconds, WaitType.REFRESHED, id);
+		super(seconds, CommandType.REFRESHED_WAIT, id);
 	}
 
 	@Override
 	public String toString() {
-		return "RefreshedWaitCommand [waitCommand=" + waitCommand + ", waitType=" + waitType + ", seconds=" + seconds
-				+ ", usesCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
+		return "RefreshedWaitCommand [waitCommand=" + waitCommand + ", seconds=" + seconds + ", hasCommandList="
+				+ hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

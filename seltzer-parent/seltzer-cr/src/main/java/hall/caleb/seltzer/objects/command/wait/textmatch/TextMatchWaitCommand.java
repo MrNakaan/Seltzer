@@ -2,7 +2,7 @@ package hall.caleb.seltzer.objects.command.wait.textmatch;
 
 import java.util.UUID;
 
-import hall.caleb.seltzer.enums.WaitType;
+import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 
 public class TextMatchWaitCommand extends WaitCommand {
@@ -12,18 +12,18 @@ public class TextMatchWaitCommand extends WaitCommand {
 		super(seconds);
 	}
 
-	public TextMatchWaitCommand(Integer seconds, WaitType waitType) {
+	public TextMatchWaitCommand(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 	}
 
-	public TextMatchWaitCommand(Integer seconds, WaitType waitType, UUID id) {
+	public TextMatchWaitCommand(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 	}
 
 	@Override
 	public String toString() {
-		return "TextMatchWaitCommand [text=" + text + ", waitType=" + waitType + ", seconds=" + seconds
-				+ ", usesCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
+		return "TextMatchWaitCommand [text=" + text + ", seconds=" + seconds + ", hasCommandList=" + hasCommandList
+				+ ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

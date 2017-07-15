@@ -2,28 +2,28 @@ package hall.caleb.seltzer.objects.command.wait.logical;
 
 import java.util.UUID;
 
-import hall.caleb.seltzer.enums.WaitType;
+import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.command.CommandList;
 import hall.caleb.seltzer.objects.command.SerializableCommand;
 
-public class LogicalAndOrWaitCommand extends LogicalWaitCommand implements SerializableCommand	 {
+public final class LogicalAndOrWaitCommand extends LogicalWaitCommand implements SerializableCommand	 {
 	private boolean usesCommandList = false;
 	
 	private CommandList waitCommands = new CommandList();
 	
-	public LogicalAndOrWaitCommand(Integer seconds, WaitType waitType) {
+	public LogicalAndOrWaitCommand(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
-		if (waitType != WaitType.AND && waitType != WaitType.OR) {
-			throw new IllegalArgumentException("Supplied WaitType is '" + waitType.name() + "'; must be 'And' or 'Or'.");
+		if (waitType != CommandType.AND_WAIT && waitType != CommandType.OR_WAIT) {
+			throw new IllegalArgumentException("Supplied CommandType is '" + waitType.name() + "'; must be 'And' or 'Or'.");
 		}
 	}
 
-	public LogicalAndOrWaitCommand(Integer seconds, WaitType waitType, UUID id) {
+	public LogicalAndOrWaitCommand(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 		
-		if (waitType != WaitType.AND && waitType != WaitType.OR) {
-			throw new IllegalArgumentException("Supplied WaitType is '" + waitType.name() + "'; must be 'And' or 'Or'.");
+		if (waitType != CommandType.AND_WAIT && waitType != CommandType.OR_WAIT) {
+			throw new IllegalArgumentException("Supplied CommandType is '" + waitType.name() + "'; must be 'And' or 'Or'.");
 		}
 	}
 
@@ -43,8 +43,8 @@ public class LogicalAndOrWaitCommand extends LogicalWaitCommand implements Seria
 
 	@Override
 	public String toString() {
-		return "LogicalAndWaitCommand [usesCommandList=" + usesCommandList + ", waitCommands=" + waitCommands
-				+ ", waitType=" + waitType + ", seconds=" + seconds + ", type=" + type + ", id=" + id + "]";
+		return "LogicalAndOrWaitCommand [usesCommandList=" + usesCommandList + ", waitCommands=" + waitCommands
+				+ ", seconds=" + seconds + ", hasCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

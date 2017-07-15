@@ -3,11 +3,9 @@ package hall.caleb.seltzer.objects.command.wait;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
-import hall.caleb.seltzer.enums.WaitType;
 import hall.caleb.seltzer.objects.command.Command;
 
 public class WaitCommand extends Command {
-	protected WaitType waitType;
 	protected Integer seconds;
 	
 	public WaitCommand(Integer seconds) {
@@ -15,22 +13,20 @@ public class WaitCommand extends Command {
 		this.seconds = seconds;
 	}
 
-	public WaitCommand(Integer seconds, WaitType waitType) {
+	public WaitCommand(Integer seconds, CommandType commandType) {
 		super(CommandType.WAIT);
 		this.seconds = seconds;
-		this.waitType = waitType;
 	}
 
-	public WaitCommand(Integer seconds, WaitType waitType, UUID id) {
+	public WaitCommand(Integer seconds, CommandType commandType, UUID id) {
 		super(CommandType.WAIT, id);
 		this.seconds = seconds;
-		this.waitType = waitType;
 	}
 
 	@Override
 	public String toString() {
-		return "WaitCommand [waitType=" + waitType + ", seconds=" + seconds + ", usesCommandList=" + hasCommandList
-				+ ", type=" + type + ", id=" + id + "]";
+		return "WaitCommand [seconds=" + seconds + ", hasCommandList=" + hasCommandList + ", type=" + type + ", id="
+				+ id + "]";
 	}
 
 	@Override
@@ -38,7 +34,6 @@ public class WaitCommand extends Command {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((seconds == null) ? 0 : seconds.hashCode());
-		result = prime * result + ((waitType == null) ? 0 : waitType.hashCode());
 		return result;
 	}
 
@@ -56,17 +51,7 @@ public class WaitCommand extends Command {
 				return false;
 		} else if (!seconds.equals(other.seconds))
 			return false;
-		if (waitType != other.waitType)
-			return false;
 		return true;
-	}
-
-	public WaitType getWaitType() {
-		return waitType;
-	}
-
-	public void setWaitType(WaitType waitType) {
-		this.waitType = waitType;
 	}
 
 	public Integer getSeconds() {

@@ -3,7 +3,7 @@ package hall.caleb.seltzer.objects.command.wait;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.enums.WaitType;
+import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.objects.command.Selector;
 
 public class CountWaitCommand extends WaitCommand {
@@ -14,11 +14,11 @@ public class CountWaitCommand extends WaitCommand {
 		super(seconds);
 	}
 
-	public CountWaitCommand(Integer seconds, WaitType waitType) {
+	public CountWaitCommand(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 	}
 
-	public CountWaitCommand(Integer seconds, WaitType waitType, UUID id) {
+	public CountWaitCommand(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 	}
 	
@@ -28,8 +28,8 @@ public class CountWaitCommand extends WaitCommand {
 
 	@Override
 	public String toString() {
-		return "CountWaitCommand [bound=" + bound + ", selector=" + selector + ", waitType=" + waitType + ", seconds="
-				+ seconds + ", usesCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
+		return "CountWaitCommand [bound=" + bound + ", selector=" + selector + ", seconds=" + seconds
+				+ ", hasCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

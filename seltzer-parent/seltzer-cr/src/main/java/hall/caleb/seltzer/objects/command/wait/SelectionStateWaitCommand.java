@@ -2,8 +2,8 @@ package hall.caleb.seltzer.objects.command.wait;
 
 import java.util.UUID;
 
+import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.enums.WaitType;
 import hall.caleb.seltzer.objects.command.Selector;
 
 public class SelectionStateWaitCommand extends WaitCommand {
@@ -14,11 +14,11 @@ public class SelectionStateWaitCommand extends WaitCommand {
 		super(seconds);
 	}
 
-	public SelectionStateWaitCommand(Integer seconds, WaitType waitType) {
+	public SelectionStateWaitCommand(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 	}
 
-	public SelectionStateWaitCommand(Integer seconds, WaitType waitType, UUID id) {
+	public SelectionStateWaitCommand(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 	}
 	
@@ -28,9 +28,8 @@ public class SelectionStateWaitCommand extends WaitCommand {
 
 	@Override
 	public String toString() {
-		return "SelectionStateWaitCommand [selected=" + selected + ", selector=" + selector + ", waitType=" + waitType
-				+ ", seconds=" + seconds + ", usesCommandList=" + hasCommandList + ", type=" + type + ", id=" + id
-				+ "]";
+		return "SelectionStateWaitCommand [selected=" + selected + ", selector=" + selector + ", seconds=" + seconds
+				+ ", hasCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

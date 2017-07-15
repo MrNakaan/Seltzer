@@ -5,9 +5,6 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
-import hall.caleb.seltzer.enums.CommandType;
-import hall.caleb.seltzer.objects.command.wait.WaitCommand;
-
 public class CommandList {
 	private List<Command> commands;
 	private List<String> serializedCommands;
@@ -25,11 +22,7 @@ public class CommandList {
 				((SerializableCommand) subCommand).serialize();
 			}
 			
-			if (subCommand.getType() == CommandType.WAIT) {
-				serializedCommands.add(gson.toJson(subCommand, ((WaitCommand) subCommand).getWaitType().getWaitClass()));
-			} else {
-				serializedCommands.add(gson.toJson(subCommand, subCommand.getType().getCommandClass()));
-			}
+			serializedCommands.add(gson.toJson(subCommand, subCommand.getType().getCommandClass()));
 		}
 		
 		commands = new ArrayList<>();
@@ -42,12 +35,7 @@ public class CommandList {
 		for (String serializedCommand : serializedCommands) {
 			subCommand = gson.fromJson(serializedCommand, Command.class);
 			
-			if (subCommand.getType() == CommandType.WAIT) {
-				subCommand = gson.fromJson(serializedCommand, WaitCommand.class);
-				gson.fromJson(serializedCommand, ((WaitCommand) subCommand).getWaitType().getWaitClass());
-			} else {
-				subCommand = gson.fromJson(serializedCommand, subCommand.getType().getCommandClass());
-			}
+			subCommand = gson.fromJson(serializedCommand, subCommand.getType().getCommandClass());
 			
 			if (subCommand instanceof SerializableCommand) {
 				((SerializableCommand) subCommand).deserialize();

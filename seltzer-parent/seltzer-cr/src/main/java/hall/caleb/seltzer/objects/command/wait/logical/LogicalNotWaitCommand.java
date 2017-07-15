@@ -2,24 +2,24 @@ package hall.caleb.seltzer.objects.command.wait.logical;
 
 import java.util.UUID;
 
-import hall.caleb.seltzer.enums.WaitType;
+import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 
-public class LogicalNotWaitCommand extends LogicalWaitCommand {
+public final class LogicalNotWaitCommand extends LogicalWaitCommand {
 	WaitCommand waitCommand;
 	
 	public LogicalNotWaitCommand(Integer seconds) {
-		super(seconds, WaitType.NOT);
+		super(seconds, CommandType.NOT_WAIT);
 	}
 
 	public LogicalNotWaitCommand(Integer seconds, UUID id) {
-		super(seconds, WaitType.NOT, id);
+		super(seconds, CommandType.NOT_WAIT, id);
 	}
 
 	@Override
 	public String toString() {
-		return "LogicalNotWaitCommand [waitCommand=" + waitCommand + ", waitType=" + waitType + ", seconds=" + seconds
-				+ ", usesCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
+		return "LogicalNotWaitCommand [waitCommand=" + waitCommand + ", seconds=" + seconds + ", hasCommandList="
+				+ hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

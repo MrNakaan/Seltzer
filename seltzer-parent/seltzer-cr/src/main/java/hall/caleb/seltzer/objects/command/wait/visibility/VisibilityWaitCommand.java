@@ -2,8 +2,8 @@ package hall.caleb.seltzer.objects.command.wait.visibility;
 
 import java.util.UUID;
 
+import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.enums.WaitType;
 import hall.caleb.seltzer.objects.command.Selector;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 
@@ -14,11 +14,11 @@ protected Selector selector = new Selector();
 		super(seconds);
 	}
 
-	public VisibilityWaitCommand(Integer seconds, WaitType waitType) {
+	public VisibilityWaitCommand(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 	}
 
-	public VisibilityWaitCommand(Integer seconds, WaitType waitType, UUID id) {
+	public VisibilityWaitCommand(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 	}
 	
@@ -28,8 +28,8 @@ protected Selector selector = new Selector();
 
 	@Override
 	public String toString() {
-		return "VisibilityWaitCommand [selector=" + selector + ", waitType=" + waitType + ", seconds=" + seconds
-				+ ", usesCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
+		return "VisibilityWaitCommand [selector=" + selector + ", seconds=" + seconds + ", hasCommandList="
+				+ hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

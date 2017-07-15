@@ -2,7 +2,7 @@ package hall.caleb.seltzer.objects.command.wait;
 
 import java.util.UUID;
 
-import hall.caleb.seltzer.enums.WaitType;
+import hall.caleb.seltzer.enums.CommandType;
 
 public class JavaScriptWaitCommand extends WaitCommand {
 	private String javaScript;
@@ -11,18 +11,18 @@ public class JavaScriptWaitCommand extends WaitCommand {
 		super(seconds);
 	}
 
-	public JavaScriptWaitCommand(Integer seconds, WaitType waitType) {
+	public JavaScriptWaitCommand(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 	}
 
-	public JavaScriptWaitCommand(Integer seconds, WaitType waitType, UUID id) {
+	public JavaScriptWaitCommand(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 	}
 
 	@Override
 	public String toString() {
-		return "JavaScriptWaitCommand [javaScript=" + javaScript + ", waitType=" + waitType + ", seconds=" + seconds
-				+ ", usesCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
+		return "JavaScriptWaitCommand [javaScript=" + javaScript + ", seconds=" + seconds + ", hasCommandList="
+				+ hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override

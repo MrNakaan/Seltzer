@@ -3,7 +3,7 @@ package hall.caleb.seltzer.objects.command.wait.existence;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.enums.WaitType;
+import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.objects.command.Selector;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 
@@ -14,11 +14,11 @@ public class ExistenceWaitCommand extends WaitCommand {
 		super(seconds);
 	}
 
-	public ExistenceWaitCommand(Integer seconds, WaitType waitType) {
+	public ExistenceWaitCommand(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 	}
 
-	public ExistenceWaitCommand(Integer seconds, WaitType waitType, UUID id) {
+	public ExistenceWaitCommand(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 	}
 	
@@ -28,8 +28,8 @@ public class ExistenceWaitCommand extends WaitCommand {
 
 	@Override
 	public String toString() {
-		return "ExistenceWaitCommand [selector=" + selector + ", waitType=" + waitType + ", seconds=" + seconds
-				+ ", usesCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
+		return "ExistenceWaitCommand [selector=" + selector + ", seconds=" + seconds + ", hasCommandList="
+				+ hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override
