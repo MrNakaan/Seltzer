@@ -1,13 +1,14 @@
 package hall.caleb.seltzer.objects.command.wait.logical;
 
+import java.util.List;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
+import hall.caleb.seltzer.objects.SerializableCR;
 import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.command.CommandList;
-import hall.caleb.seltzer.objects.command.SerializableCommand;
 
-public final class LogicalAndOrWaitCommand extends LogicalWaitCommand implements SerializableCommand	 {
+public final class LogicalAndOrWaitCommand extends LogicalWaitCommand implements SerializableCR {
 	private boolean usesCommandList = false;
 	
 	private CommandList waitCommands = new CommandList();
@@ -75,13 +76,19 @@ public final class LogicalAndOrWaitCommand extends LogicalWaitCommand implements
 		return true;
 	}
 
-	@Override
-	public CommandList getCommands() {
+	public CommandList getCommandList() {
 		return waitCommands;
 	}
 
-	@Override
-	public void setCommands(CommandList waitCommands) {
-		this.waitCommands = waitCommands;
+	public List<Command> getCommands() {
+		return waitCommands.getCommands();
+	}
+
+	public void setCommandList(CommandList commands) {
+		this.waitCommands = commands;
+	}
+	
+	public void setCommands(List<Command> commands) {
+		this.waitCommands.setCommands(commands);
 	}
 }

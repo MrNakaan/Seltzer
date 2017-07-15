@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.google.gson.Gson;
 
+import hall.caleb.seltzer.objects.SerializableCR;
+
 public class CommandList {
 	private List<Command> commands;
 	private List<String> serializedCommands;
@@ -18,14 +20,14 @@ public class CommandList {
 		Gson gson = new Gson();
 		
 		for (Command subCommand : commands) {
-			if (subCommand instanceof SerializableCommand) {
-				((SerializableCommand) subCommand).serialize();
+			if (subCommand instanceof SerializableCR) {
+				((SerializableCR) subCommand).serialize();
 			}
 			
 			serializedCommands.add(gson.toJson(subCommand, subCommand.getType().getCommandClass()));
 		}
 		
-		commands = new ArrayList<>();
+		commands.clear();
 	}
 
 	public void deserialize() {
@@ -37,14 +39,14 @@ public class CommandList {
 			
 			subCommand = gson.fromJson(serializedCommand, subCommand.getType().getCommandClass());
 			
-			if (subCommand instanceof SerializableCommand) {
-				((SerializableCommand) subCommand).deserialize();
+			if (subCommand instanceof SerializableCR) {
+				((SerializableCR) subCommand).deserialize();
 			}
 			
 			commands.add(subCommand);
 		}
 		
-		serializedCommands = new ArrayList<>();
+		serializedCommands.clear();
 	}
 	
 	public void addCommand(Command command) {
@@ -52,7 +54,11 @@ public class CommandList {
 	}
 	
 	public int getSize() {
-		return commands.size() + serializedCommands.size();
+		return commands.size();
+	}
+	
+	public int getSerializedSize() {
+		return serializedCommands.size();
 	}
 
 	@Override
@@ -97,13 +103,5 @@ public class CommandList {
 
 	public void setCommands(List<Command> commands) {
 		this.commands = commands;
-	}
-
-	public List<String> getSerializedCommands() {
-		return serializedCommands;
-	}
-
-	public void setSerializedCommands(List<String> serializedCommands) {
-		this.serializedCommands = serializedCommands;
 	}
 }

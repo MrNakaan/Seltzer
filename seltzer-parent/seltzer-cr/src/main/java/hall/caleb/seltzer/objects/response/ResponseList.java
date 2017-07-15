@@ -2,92 +2,74 @@ package hall.caleb.seltzer.objects.response;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import com.google.gson.Gson;
 
-import hall.caleb.seltzer.enums.ResponseType;
 import hall.caleb.seltzer.objects.SerializableCR;
 
-public class ChainResponse extends Response implements SerializableCR {
-	private List<Response> responses;
+public class ResponseList<R extends Response> {
+	private List<R> responses;
 	private List<String> serializedResponses;
-
-	public ChainResponse() {
-		super();
+	
+	public ResponseList() {
 		responses = new ArrayList<>();
 		serializedResponses = new ArrayList<>();
-		this.success = true;
-		this.type = ResponseType.CHAIN;
 	}
-
-	public ChainResponse(UUID id) {
-		super(id);
-		responses = new ArrayList<>();
-		serializedResponses = new ArrayList<>();
-		this.success = true;
-		this.type = ResponseType.CHAIN;
-	}
-
-	public ChainResponse(UUID id, boolean success) {
-		super(id, success);
-		responses = new ArrayList<>();
-		serializedResponses = new ArrayList<>();
-		this.type = ResponseType.CHAIN;
-	}
-
-	@Override
+	
 	public void serialize() {
 		Gson gson = new Gson();
 		
 		for (Response subResponse : responses) {
-			if (subResponse.getType() == ResponseType.CHAIN) {
-				((ChainResponse) subResponse).serialize();
+			if (subResponse instanceof SerializableCR) {
+				((SerializableCR) subResponse).serialize();
 			}
 			
 			serializedResponses.add(gson.toJson(subResponse, subResponse.getType().getResponseClass()));
 		}
 		
-		responses = new ArrayList<>();
+		responses.clear();
 	}
 
-	@Override
 	public void deserialize() {
 		Gson gson = new Gson();
 		Response subResponse;
 		
 		for (String serializedResponse : serializedResponses) {
 			subResponse = gson.fromJson(serializedResponse, Response.class);
+			
 			subResponse = gson.fromJson(serializedResponse, subResponse.getType().getResponseClass());
 			
-			if (subResponse.getType() == ResponseType.CHAIN) {
-				((ChainResponse) subResponse).deserialize();
+			if (subResponse instanceof SerializableCR) {
+				((SerializableCR) subResponse).deserialize();
 			}
 			
 			responses.add(subResponse);
 		}
 		
-		serializedResponses = new ArrayList<>();
+		serializedResponses.clear();
+	}
+	
+	public void addResponse(R response) {
+		responses.add(response);
+	}
+	
+	public int getSize() {
+		return responses.size();
 	}
 
-	public boolean addResponse(Response response) {
-		if (this.id.equals(response.getId())) {
-			responses.add(response);
-			return true;
-		} else {
-			return false;
-		}
+	public int getSerializedSize() {
+		return serializedResponses.size();
 	}
-
+	
 	@Override
 	public String toString() {
-		return "ChainResponse [responses=" + responses + ", serializedResponses=" + serializedResponses + "]";
+		return "ResponseList [responses=" + responses + ", serializedResponses=" + serializedResponses + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = super.hashCode();
+		int result = 1;
 		result = prime * result + ((responses == null) ? 0 : responses.hashCode());
 		result = prime * result + ((serializedResponses == null) ? 0 : serializedResponses.hashCode());
 		return result;
@@ -97,11 +79,11 @@ public class ChainResponse extends Response implements SerializableCR {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ChainResponse other = (ChainResponse) obj;
+		ResponseList other = (ResponseList) obj;
 		if (responses == null) {
 			if (other.responses != null)
 				return false;
@@ -119,15 +101,7 @@ public class ChainResponse extends Response implements SerializableCR {
 		return responses;
 	}
 
-	public void setResponses(List<Response> responses) {
+	public void setCommands(List<Response> responses) {
 		this.responses = responses;
-	}
-
-	public List<String> getSerializedResponses() {
-		return serializedResponses;
-	}
-
-	public void setSerializedResponses(List<String> serializedResponses) {
-		this.serializedResponses = serializedResponses;
 	}
 }

@@ -12,8 +12,8 @@ import java.util.Arrays;
 import com.google.gson.Gson;
 
 import hall.caleb.seltzer.enums.ResponseType;
+import hall.caleb.seltzer.objects.SerializableCommand;
 import hall.caleb.seltzer.objects.command.Command;
-import hall.caleb.seltzer.objects.command.SerializableCommand;
 import hall.caleb.seltzer.objects.exception.SeltzerException;
 import hall.caleb.seltzer.objects.response.ExceptionResponse;
 import hall.caleb.seltzer.objects.response.Response;

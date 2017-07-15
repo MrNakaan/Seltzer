@@ -20,6 +20,7 @@ import com.google.gson.GsonBuilder;
 
 import hall.caleb.seltzer.core.SeltzerSession;
 import hall.caleb.seltzer.enums.CommandType;
+import hall.caleb.seltzer.objects.SerializableCommand;
 import hall.caleb.seltzer.objects.command.ChainCommand;
 import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.command.GetCookieCommand;
@@ -28,7 +29,6 @@ import hall.caleb.seltzer.objects.command.GoToCommand;
 import hall.caleb.seltzer.objects.command.Selector;
 import hall.caleb.seltzer.objects.command.SendKeyCommand;
 import hall.caleb.seltzer.objects.command.SendKeysCommand;
-import hall.caleb.seltzer.objects.command.SerializableCommand;
 import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 import hall.caleb.seltzer.objects.response.ChainResponse;
