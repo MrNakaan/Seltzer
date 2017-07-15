@@ -1,78 +1,44 @@
 package hall.caleb.seltzer.objects.response;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import com.google.gson.Gson;
 
 import hall.caleb.seltzer.enums.ResponseType;
 import hall.caleb.seltzer.objects.SerializableCR;
 
-public class ChainResponse extends Response implements SerializableCR {
-	private List<Response> responses;
-	private List<String> serializedResponses;
+public class ChainResponse<R extends Response> extends Response implements SerializableCR {
+	private ResponseList<R> responses = new ResponseList<>();
 
 	public ChainResponse() {
 		super();
-		responses = new ArrayList<>();
-		serializedResponses = new ArrayList<>();
 		this.success = true;
 		this.type = ResponseType.CHAIN;
 	}
 
 	public ChainResponse(UUID id) {
 		super(id);
-		responses = new ArrayList<>();
-		serializedResponses = new ArrayList<>();
 		this.success = true;
 		this.type = ResponseType.CHAIN;
 	}
 
 	public ChainResponse(UUID id, boolean success) {
 		super(id, success);
-		responses = new ArrayList<>();
-		serializedResponses = new ArrayList<>();
 		this.type = ResponseType.CHAIN;
 	}
 
 	@Override
 	public void serialize() {
-		Gson gson = new Gson();
-		
-		for (Response subResponse : responses) {
-			if (subResponse.getType() == ResponseType.CHAIN) {
-				((ChainResponse) subResponse).serialize();
-			}
-			
-			serializedResponses.add(gson.toJson(subResponse, subResponse.getType().getResponseClass()));
-		}
-		
-		responses = new ArrayList<>();
+		responses.serialize();
 	}
 
 	@Override
 	public void deserialize() {
-		Gson gson = new Gson();
-		Response subResponse;
-		
-		for (String serializedResponse : serializedResponses) {
-			subResponse = gson.fromJson(serializedResponse, Response.class);
-			subResponse = gson.fromJson(serializedResponse, subResponse.getType().getResponseClass());
-			
-			if (subResponse.getType() == ResponseType.CHAIN) {
-				((ChainResponse) subResponse).deserialize();
-			}
-			
-			responses.add(subResponse);
-		}
-		
-		serializedResponses = new ArrayList<>();
+		responses.deserialize();
 	}
 
-	public boolean addResponse(Response response) {
+	public boolean addResponse(R response) {
 		if (this.id.equals(response.getId())) {
-			responses.add(response);
+			responses.addResponse(response);
 			return true;
 		} else {
 			return false;
@@ -81,7 +47,7 @@ public class ChainResponse extends Response implements SerializableCR {
 
 	@Override
 	public String toString() {
-		return "ChainResponse [responses=" + responses + ", serializedResponses=" + serializedResponses + "]";
+		return "ChainResponse [responses=" + responses + ", id=" + id + ", success=" + success + ", type=" + type + "]";
 	}
 
 	@Override
@@ -89,10 +55,10 @@ public class ChainResponse extends Response implements SerializableCR {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((responses == null) ? 0 : responses.hashCode());
-		result = prime * result + ((serializedResponses == null) ? 0 : serializedResponses.hashCode());
 		return result;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -107,27 +73,22 @@ public class ChainResponse extends Response implements SerializableCR {
 				return false;
 		} else if (!responses.equals(other.responses))
 			return false;
-		if (serializedResponses == null) {
-			if (other.serializedResponses != null)
-				return false;
-		} else if (!serializedResponses.equals(other.serializedResponses))
-			return false;
 		return true;
 	}
 
-	public List<Response> getResponses() {
+	public ResponseList<R> getResponseList() {
 		return responses;
 	}
 
-	public void setResponses(List<Response> responses) {
+	public List<R> getResponses() {
+		return responses.getResponses();
+	}
+
+	public void setResponseList(ResponseList<R> responses) {
 		this.responses = responses;
 	}
-
-	public List<String> getSerializedResponses() {
-		return serializedResponses;
-	}
-
-	public void setSerializedResponses(List<String> serializedResponses) {
-		this.serializedResponses = serializedResponses;
+	
+	public void setResponses(List<R> responses) {
+		this.responses.setResponses(responses);
 	}
 }

@@ -21,7 +21,7 @@ import com.google.gson.Gson;
 import hall.caleb.seltzer.core.processor.BaseProcessor;
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.ResponseType;
-import hall.caleb.seltzer.objects.command.ChainCommand;
+import hall.caleb.seltzer.objects.SerializableCR;
 import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.response.ChainResponse;
 import hall.caleb.seltzer.objects.response.MultiResultResponse;
@@ -94,7 +94,7 @@ public class ServerSocketListener implements Runnable {
 			command = new Gson().fromJson(json, command.getType().getCommandClass());
 
 			if (command.getType() == CommandType.CHAIN) {
-				((ChainCommand) command).deserialize();
+				((SerializableCR) command).deserialize();
 			}
 
 			Response response = new Response();
@@ -110,7 +110,7 @@ public class ServerSocketListener implements Runnable {
 
 			System.out.println(Messages.getString("ServerSocketListener.response"));
 			if (response.getType() == ResponseType.CHAIN) {
-				((ChainResponse) response).serialize();
+				((SerializableCR) response).serialize();
 			}
 			System.out.println("\t" + new Gson().toJson(response, response.getType().getResponseClass()));
 
@@ -144,7 +144,7 @@ public class ServerSocketListener implements Runnable {
 			OutputStreamWriter writer = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
 
 			if (response.getType() == ResponseType.CHAIN) {
-				((ChainResponse) response).serialize();
+				((SerializableCR) response).serialize();
 			}
 
 			Class<? extends Response> responseClass;

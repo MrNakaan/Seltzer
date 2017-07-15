@@ -30,8 +30,6 @@ public class BaseProcessorTest {
 
 	@BeforeClass
 	public static void prepareClass() throws FileNotFoundException {
-		// TODO: Make these tests run headless when headless is enabled
-		
 		SeltzerServer.configureBase();
 
 		session = new SeltzerSession();
@@ -69,7 +67,7 @@ public class BaseProcessorTest {
 
 	@Test
 	public void testChain() throws Exception {
-		ChainCommand command = new ChainCommand(session.getId());
+		ChainCommand<Command> command = new ChainCommand<>(session.getId());
 		command.addCommand(CommandFactory.newClickCommand(session.getId(), SelectorType.LINK_TEXT, "Page 1"));
 		command.addCommand(CommandFactory.newBackCommand(session.getId()));
 		command.addCommand(CommandFactory.newForwardCommand(session.getId()));
@@ -81,7 +79,7 @@ public class BaseProcessorTest {
 		assertEquals("Is this the right response type?", ResponseType.CHAIN, response.getType());
 		assertTrue("Is the response a ChainResponse?", response instanceof ChainResponse);
 		
-		ChainResponse cResponse = (ChainResponse) response;
+		ChainResponse<?> cResponse = (ChainResponse<?>) response;
 		
 		assertTrue("Are there 4 responses?", cResponse.getResponses().size() == 4);
 		for (Response r : cResponse.getResponses()) {

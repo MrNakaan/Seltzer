@@ -30,6 +30,7 @@ public class ResponseList<R extends Response> {
 		responses.clear();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void deserialize() {
 		Gson gson = new Gson();
 		Response subResponse;
@@ -43,7 +44,7 @@ public class ResponseList<R extends Response> {
 				((SerializableCR) subResponse).deserialize();
 			}
 			
-			responses.add(subResponse);
+			responses.add((R) subResponse);
 		}
 		
 		serializedResponses.clear();
@@ -75,6 +76,7 @@ public class ResponseList<R extends Response> {
 		return result;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -97,11 +99,11 @@ public class ResponseList<R extends Response> {
 		return true;
 	}
 
-	public List<Response> getResponses() {
+	public List<R> getResponses() {
 		return responses;
 	}
 
-	public void setCommands(List<Response> responses) {
+	public void setResponses(List<R> responses) {
 		this.responses = responses;
 	}
 }

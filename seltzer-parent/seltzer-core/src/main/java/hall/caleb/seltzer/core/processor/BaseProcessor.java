@@ -20,7 +20,6 @@ import com.google.gson.GsonBuilder;
 
 import hall.caleb.seltzer.core.SeltzerSession;
 import hall.caleb.seltzer.enums.CommandType;
-import hall.caleb.seltzer.objects.SerializableCommand;
 import hall.caleb.seltzer.objects.command.ChainCommand;
 import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.command.GetCookieCommand;
@@ -71,7 +70,7 @@ public class BaseProcessor {
 						response = back(driver, command);
 						break;
 					case CHAIN:
-						response = BaseProcessor.processChain(driver, (ChainCommand) command);
+						response = BaseProcessor.processChain(driver, (ChainCommand<?>) command);
 						break;
 					case FORWARD:
 						response = forward(driver, command);
@@ -181,14 +180,14 @@ public class BaseProcessor {
 		return by;
 	}
 
-	static ChainResponse processChain(WebDriver driver, ChainCommand command) throws WebDriverException, Exception {
+	static ChainResponse<?> processChain(WebDriver driver, ChainCommand<?> command) throws WebDriverException, Exception {
 		logger.info(Messages.getString("BaseProcessor.chain"));
 		logger.info(gson.toJson(command));
 
-		ChainResponse response = new ChainResponse();
+		ChainResponse<Response> response = new ChainResponse<>();
 
 		Response tempResponse;
-		for (Command subCommand : ((SerializableCommand) command).getCommands().getCommands()) {
+		for (Command subCommand : command.getCommands()) {
 			if (!subCommand.getId().equals(command.getId())) {
 				tempResponse = new Response(command.getId(), false);
 			} else {

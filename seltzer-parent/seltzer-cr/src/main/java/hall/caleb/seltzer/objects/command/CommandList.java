@@ -7,8 +7,8 @@ import com.google.gson.Gson;
 
 import hall.caleb.seltzer.objects.SerializableCR;
 
-public class CommandList {
-	private List<Command> commands;
+public class CommandList<C extends Command> {
+	private List<C> commands;
 	private List<String> serializedCommands;
 	
 	public CommandList() {
@@ -30,6 +30,7 @@ public class CommandList {
 		commands.clear();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void deserialize() {
 		Gson gson = new Gson();
 		Command subCommand;
@@ -43,13 +44,13 @@ public class CommandList {
 				((SerializableCR) subCommand).deserialize();
 			}
 			
-			commands.add(subCommand);
+			commands.add((C) subCommand);
 		}
 		
 		serializedCommands.clear();
 	}
 	
-	public void addCommand(Command command) {
+	public void addCommand(C command) {
 		commands.add(command);
 	}
 	
@@ -75,6 +76,7 @@ public class CommandList {
 		return result;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -97,11 +99,11 @@ public class CommandList {
 		return true;
 	}
 
-	public List<Command> getCommands() {
+	public List<C> getCommands() {
 		return commands;
 	}
 
-	public void setCommands(List<Command> commands) {
+	public void setCommands(List<C> commands) {
 		this.commands = commands;
 	}
 }

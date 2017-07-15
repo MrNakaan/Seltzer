@@ -5,13 +5,13 @@ import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.objects.SerializableCR;
-import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.command.CommandList;
+import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 
 public final class LogicalAndOrWaitCommand extends LogicalWaitCommand implements SerializableCR {
 	private boolean usesCommandList = false;
 	
-	private CommandList waitCommands = new CommandList();
+	private CommandList<WaitCommand> waitCommands = new CommandList<>();
 	
 	public LogicalAndOrWaitCommand(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
@@ -38,7 +38,7 @@ public final class LogicalAndOrWaitCommand extends LogicalWaitCommand implements
 		waitCommands.deserialize();
 	}
 	
-	public void addCommand(Command command) {
+	public void addCommand(WaitCommand command) {
 		waitCommands.addCommand(command);
 	}
 
@@ -76,19 +76,19 @@ public final class LogicalAndOrWaitCommand extends LogicalWaitCommand implements
 		return true;
 	}
 
-	public CommandList getCommandList() {
+	public CommandList<WaitCommand> getCommandList() {
 		return waitCommands;
 	}
 
-	public List<Command> getCommands() {
+	public List<WaitCommand> getCommands() {
 		return waitCommands.getCommands();
 	}
 
-	public void setCommandList(CommandList commands) {
+	public void setCommandList(CommandList<WaitCommand> commands) {
 		this.waitCommands = commands;
 	}
 	
-	public void setCommands(List<Command> commands) {
+	public void setCommands(List<WaitCommand> commands) {
 		this.waitCommands.setCommands(commands);
 	}
 }

@@ -143,12 +143,12 @@ public class WaitProcessor {
 
 	private static ExpectedCondition<?> andOr(WebDriver driver, LogicalAndOrWaitCommand command) {
 		ExpectedCondition<?> condition = null;
-		ExpectedCondition<?>[] conditions = new ExpectedCondition<?>[command.getCommands().getCommands().size()];
+		ExpectedCondition<?>[] conditions = new ExpectedCondition<?>[command.getCommands().size()];
 
 		int badCommands = 0; 
-		for (int i = 0; i < command.getCommands().getCommands().size(); i++) {
-			if (command.getCommands().getCommands().get(i) instanceof WaitCommand) {
-				conditions[i] = processWaitCommand(driver, (WaitCommand) command.getCommands().getCommands().get(i));
+		for (int i = 0; i < command.getCommands().size(); i++) {
+			if (command.getCommands().get(i) instanceof WaitCommand) {
+				conditions[i] = processWaitCommand(driver, (WaitCommand) command.getCommands().get(i));
 			} else {
 				conditions[i] = null;
 				badCommands++;
