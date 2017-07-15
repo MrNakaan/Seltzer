@@ -8,11 +8,11 @@ public final class FillFieldCommand extends SelectorCommand {
 	protected String text;
 	
 	public FillFieldCommand() {
-		super(CommandType.FillField);
+		super(CommandType.FILL_FIELD);
 	}
 
 	public FillFieldCommand(UUID id) {
-		super(CommandType.FillField, id);
+		super(CommandType.FILL_FIELD, id);
 	}
 
 	@Override

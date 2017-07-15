@@ -27,10 +27,10 @@ public class MultiResultSelectorProcessor {
 		while (tryNumber < BaseProcessor.RETRIES) {
 			try {
 				switch (command.getType()) {
-				case ReadAttribute:
+				case READ_ATTRIBUTE:
 					response = readAttribute(driver, (ReadAttributeCommand) command);
 					break;
-				case ReadText:
+				case READ_TEXT:
 					response = readText(driver, command);
 					break;
 				default:

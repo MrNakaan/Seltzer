@@ -29,19 +29,19 @@ public class SelectorProcessor {
 			while (tryNumber < BaseProcessor.RETRIES) {
 				try {
 					switch (command.getType()) {
-					case Click:
+					case CLICK:
 						response = click(driver, command);
 						break;
-					case Count:
+					case COUNT:
 						response = count(driver, command);
 						break;
-					case Delete:
+					case DELETE:
 						response = delete(driver, command);
 						break;
-					case FillField:
+					case FILL_FIELD:
 						response = fillField(driver, (FillFieldCommand) command);
 						break;
-					case FormSubmit:
+					case FORM_SUBMIT:
 						response = formSubmit(driver, command);
 						break;
 					default:
@@ -92,7 +92,7 @@ public class SelectorProcessor {
 
 	private static Response delete(WebDriver driver, SelectorCommand command) {
 		Response response = new Response(command.getId(), false);
-		if (command.getSelector().getSelectorType() == SelectorType.Xpath && driver instanceof JavascriptExecutor) {
+		if (command.getSelector().getSelectorType() == SelectorType.XPATH && driver instanceof JavascriptExecutor) {
 			String selector = command.getSelector().getSelector().replace("\"", "\\\"");
 
 			StringBuilder removeScript = new StringBuilder();

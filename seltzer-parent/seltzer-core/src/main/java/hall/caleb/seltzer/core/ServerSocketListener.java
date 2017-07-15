@@ -93,15 +93,15 @@ public class ServerSocketListener implements Runnable {
 			command = new Gson().fromJson(json, Command.class);
 			command = new Gson().fromJson(json, command.getType().getCommandClass());
 
-			if (command.getType() == CommandType.Chain) {
+			if (command.getType() == CommandType.CHAIN) {
 				((ChainCommand) command).deserialize();
 			}
 
 			Response response = new Response();
 
-			if (command.getType() == CommandType.Start) {
+			if (command.getType() == CommandType.START) {
 				response = BaseProcessor.processCommand(null, command);
-			} else if (command.getType() == CommandType.Exit) {
+			} else if (command.getType() == CommandType.EXIT) {
 				SeltzerSession.findSession(command.getId()).close();
 				response.setSuccess(true);
 			} else {
@@ -109,7 +109,7 @@ public class ServerSocketListener implements Runnable {
 			}
 
 			System.out.println(Messages.getString("ServerSocketListener.response"));
-			if (response.getType() == ResponseType.Chain) {
+			if (response.getType() == ResponseType.CHAIN) {
 				((ChainResponse) response).serialize();
 			}
 			System.out.println("\t" + new Gson().toJson(response, response.getType().getResponseClass()));
@@ -143,19 +143,19 @@ public class ServerSocketListener implements Runnable {
 		private void writeResponse(Socket socket, Response response) throws IOException {
 			OutputStreamWriter writer = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
 
-			if (response.getType() == ResponseType.Chain) {
+			if (response.getType() == ResponseType.CHAIN) {
 				((ChainResponse) response).serialize();
 			}
 
 			Class<? extends Response> responseClass;
 			switch (response.getType()) {
-			case Chain:
+			case CHAIN:
 				responseClass = ChainResponse.class;
 				break;
-			case SingleResult:
+			case SINGLE_RESULT:
 				responseClass = SingleResultResponse.class;
 				break;
-			case MultiResult:
+			case MULTI_RESULT:
 				responseClass = MultiResultResponse.class;
 				break;
 			default:

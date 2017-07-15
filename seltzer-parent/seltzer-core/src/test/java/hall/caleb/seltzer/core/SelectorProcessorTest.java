@@ -47,7 +47,7 @@ public class SelectorProcessorTest {
 
 	@AfterClass
 	public static void cleanDriver() {
-		session.executeCommand(new Command(CommandType.Exit, session.getId()));
+		session.executeCommand(new Command(CommandType.EXIT, session.getId()));
 	}
 
 	@Before
@@ -57,12 +57,12 @@ public class SelectorProcessorTest {
 
 	@Test
 	public void testClick() throws Exception {
-		SelectorCommand command = CommandFactory.newClickCommand(session.getId(), SelectorType.LinkText, "Page 1");
+		SelectorCommand command = CommandFactory.newClickCommand(session.getId(), SelectorType.LINK_TEXT, "Page 1");
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-		assertEquals("Is this the right response type?", ResponseType.Basic, response.getType());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
 		assertTrue("Is the new page title correct?", session.getDriver().getTitle().equals("Test Page 1"));
 	}
 
@@ -70,13 +70,13 @@ public class SelectorProcessorTest {
 	public void testCount() throws Exception {
 		session.getDriver().findElement(By.linkText("Page 1")).click();
 
-		SelectorCommand command = CommandFactory.newCountCommand(session.getId(), SelectorType.Xpath,
+		SelectorCommand command = CommandFactory.newCountCommand(session.getId(), SelectorType.XPATH,
 				"//div[@id='count']/span");
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-		assertEquals("Is this the right response type?", ResponseType.SingleResult, response.getType());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
 
 		String text = ((SingleResultResponse) response).getResult();
 
@@ -92,7 +92,7 @@ public class SelectorProcessorTest {
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-		assertEquals("Is this the right response type?", ResponseType.Basic, response.getType());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
 
 		int numSpanElements = session.getDriver().findElements(By.xpath("//div[@id='count']/span")).size();
 		assertTrue("Are there 0 elements remaining?", numSpanElements == 0);
@@ -102,13 +102,13 @@ public class SelectorProcessorTest {
 	public void testFillField() throws Exception {
 		session.getDriver().findElement(By.linkText("Page 1")).click();
 
-		FillFieldCommand command = CommandFactory.newFillFieldCommand(session.getId(), SelectorType.Xpath, "//input[1]",
+		FillFieldCommand command = CommandFactory.newFillFieldCommand(session.getId(), SelectorType.XPATH, "//input[1]",
 				"TEXT, BRO!");
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-		assertEquals("Is this the right response type?", ResponseType.Basic, response.getType());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
 
 		String inputText = session.getDriver().findElement(By.xpath("//input[1]")).getAttribute("value");
 		assertEquals("Make sure the field has the right value now.", "TEXT, BRO!", inputText);
@@ -121,12 +121,12 @@ public class SelectorProcessorTest {
 		input.sendKeys("MORE TEXT, BRO!");
 		assertEquals("Make sure the initial text got sent.", "MORE TEXT, BRO!", input.getAttribute("value"));
 
-		SelectorCommand command = CommandFactory.newFormSubmitCommand(session.getId(), SelectorType.Xpath, "//form[1]");
+		SelectorCommand command = CommandFactory.newFormSubmitCommand(session.getId(), SelectorType.XPATH, "//form[1]");
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-		assertEquals("Is this the right response type?", ResponseType.Basic, response.getType());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
 		assertTrue("Is the field now empty?",
 				session.getDriver().findElement(By.xpath("//input[1]")).getAttribute("value").isEmpty());
 	}

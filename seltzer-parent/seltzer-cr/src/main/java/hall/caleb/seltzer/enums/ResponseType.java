@@ -7,11 +7,11 @@ import hall.caleb.seltzer.objects.response.Response;
 import hall.caleb.seltzer.objects.response.SingleResultResponse;
 
 public enum ResponseType {
-	Basic(Response.class),
-	SingleResult(SingleResultResponse.class),
-	MultiResult(MultiResultResponse.class),
-	Chain(ChainResponse.class),
-	Exception(ExceptionResponse.class);
+	BASIC(Response.class),
+	SINGLE_RESULT(SingleResultResponse.class),
+	MULTI_RESULT(MultiResultResponse.class),
+	CHAIN(ChainResponse.class),
+	EXCEPTION(ExceptionResponse.class);
 
 	private Class<? extends Response> responseClass;
 	

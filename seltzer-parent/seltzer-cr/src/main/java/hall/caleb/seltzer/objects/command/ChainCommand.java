@@ -10,11 +10,11 @@ public class ChainCommand extends Command implements SerializableCommand {
 	private CommandList commands = new CommandList();
 
 	public ChainCommand() {
-		super(CommandType.Chain);
+		super(CommandType.CHAIN);
 	}
 
 	public ChainCommand(UUID id) {
-		super(CommandType.Chain, id);
+		super(CommandType.CHAIN, id);
 	}
 
 	@Override

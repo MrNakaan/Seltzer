@@ -3,7 +3,7 @@ package hall.caleb.seltzer.objects.command;
 import hall.caleb.seltzer.enums.SelectorType;
 
 public class Selector {
-	protected SelectorType selectorType = SelectorType.Xpath;
+	protected SelectorType selectorType = SelectorType.XPATH;
 	protected String selector = "";
 	
 	public Selector() {

@@ -11,13 +11,13 @@ public class ExceptionResponse extends Response {
 
 	public ExceptionResponse() {
 		super();
-		this.type = ResponseType.SingleResult;
+		this.type = ResponseType.SINGLE_RESULT;
 		this.success = false;
 	}
 
 	public ExceptionResponse(UUID id) {
 		super(id, false);
-		this.type = ResponseType.SingleResult;
+		this.type = ResponseType.SINGLE_RESULT;
 	}
 	
 	@Override

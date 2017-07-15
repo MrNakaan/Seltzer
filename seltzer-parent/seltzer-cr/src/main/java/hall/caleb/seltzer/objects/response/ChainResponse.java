@@ -17,7 +17,7 @@ public class ChainResponse extends Response {
 		responses = new ArrayList<>();
 		serializedResponses = new ArrayList<>();
 		this.success = true;
-		this.type = ResponseType.Chain;
+		this.type = ResponseType.CHAIN;
 	}
 
 	public ChainResponse(UUID id) {
@@ -25,21 +25,21 @@ public class ChainResponse extends Response {
 		responses = new ArrayList<>();
 		serializedResponses = new ArrayList<>();
 		this.success = true;
-		this.type = ResponseType.Chain;
+		this.type = ResponseType.CHAIN;
 	}
 
 	public ChainResponse(UUID id, boolean success) {
 		super(id, success);
 		responses = new ArrayList<>();
 		serializedResponses = new ArrayList<>();
-		this.type = ResponseType.Chain;
+		this.type = ResponseType.CHAIN;
 	}
 
 	public void serialize() {
 		Gson gson = new Gson();
 		
 		for (Response subResponse : responses) {
-			if (subResponse.getType() == ResponseType.Chain) {
+			if (subResponse.getType() == ResponseType.CHAIN) {
 				((ChainResponse) subResponse).serialize();
 			}
 			
@@ -57,7 +57,7 @@ public class ChainResponse extends Response {
 			subResponse = gson.fromJson(serializedResponse, Response.class);
 			subResponse = gson.fromJson(serializedResponse, subResponse.getType().getResponseClass());
 			
-			if (subResponse.getType() == ResponseType.Chain) {
+			if (subResponse.getType() == ResponseType.CHAIN) {
 				((ChainResponse) subResponse).deserialize();
 			}
 			

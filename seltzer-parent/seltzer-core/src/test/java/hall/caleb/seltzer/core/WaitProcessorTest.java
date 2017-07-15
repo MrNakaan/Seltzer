@@ -50,7 +50,7 @@ public class WaitProcessorTest {
 
 	@After
 	public void cleanDriver() {
-		session.executeCommand(new Command(CommandType.Exit, session.getId()));
+		session.executeCommand(new Command(CommandType.EXIT, session.getId()));
 	}
 
 	@Before
@@ -63,7 +63,7 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testAlertIsPresentPass() {
-		WaitCommand wait = new WaitCommand(10, WaitType.AlertIsPresent, session.getId());
+		WaitCommand wait = new WaitCommand(10, WaitType.ALERT_PRESENT, session.getId());
 		
 		session.getDriver().findElement(By.id("alertLink")).click();
 		
@@ -73,8 +73,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testInvisibilityOfPass() {
-		InvisibilityWaitCommand wait = new InvisibilityWaitCommand(10, WaitType.InvisibilityOf, session.getId());
-		wait.setSelector("//h2[@id=\"visible1\"]", SelectorType.Xpath);
+		InvisibilityWaitCommand wait = new InvisibilityWaitCommand(10, WaitType.ELEMENT_INVISIBLE, session.getId());
+		wait.setSelector("//h2[@id=\"visible1\"]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertTrue(response.isSuccess());
@@ -82,8 +82,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testInvisibilityOfAllPass() {
-		InvisibilityWaitCommand wait = new InvisibilityWaitCommand(10, WaitType.InvisibilityOfAllElements, session.getId());
-		wait.setSelector("//h2[@id=\"visible1\"] | //h2[@id=\"visible2\"]", SelectorType.Xpath);
+		InvisibilityWaitCommand wait = new InvisibilityWaitCommand(10, WaitType.ALL_ELEMENTS_INVISBLE, session.getId());
+		wait.setSelector("//h2[@id=\"visible1\"] | //h2[@id=\"visible2\"]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertTrue(response.isSuccess());
@@ -91,8 +91,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testInvisibilityOfElementWithTextPass() {
-		InvisibilityWaitCommand wait = new InvisibilityWaitCommand(10, WaitType.InvisibilityOfElementWithText, session.getId());
-		wait.setSelector("//h2[@id=\"visible1\"]", SelectorType.Xpath);
+		InvisibilityWaitCommand wait = new InvisibilityWaitCommand(10, WaitType.ELEMENT_WITH_TEXT_INVISIBLE, session.getId());
+		wait.setSelector("//h2[@id=\"visible1\"]", SelectorType.XPATH);
 		wait.setText("Some Visible Element");
 		
 		Response response = session.executeCommand(wait);
@@ -101,8 +101,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testVisibilityOfPass() {
-		VisibilityWaitCommand wait = new VisibilityWaitCommand(10, WaitType.VisibilityOf, session.getId());
-		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.Xpath);
+		VisibilityWaitCommand wait = new VisibilityWaitCommand(10, WaitType.ELEMENT_VISIBLE, session.getId());
+		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertTrue(response.isSuccess());
@@ -110,8 +110,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testVisibilityOfAllElementsPass() {
-		VisibilityWaitCommand wait = new VisibilityWaitCommand(10, WaitType.VisibilityOfAllElements, session.getId());
-		wait.setSelector("//h2[@id=\"invisible1\"] | //h2[@id=\"invisible2\"]", SelectorType.Xpath);
+		VisibilityWaitCommand wait = new VisibilityWaitCommand(10, WaitType.ALL_ELEMENTS_VISIBLE, session.getId());
+		wait.setSelector("//h2[@id=\"invisible1\"] | //h2[@id=\"invisible2\"]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertTrue(response.isSuccess());
@@ -119,9 +119,9 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testVisibilityOfNestedElementsLocatedByPass() {
-		NestedVisibilityWaitCommand wait = new NestedVisibilityWaitCommand(10, WaitType.VisibilityOfNestedElementsLocatedBy, session.getId());
-		wait.setSelector("//h2[@id=\"invisible1\"] | //h2[@id=\"invisible2\"]", SelectorType.Xpath);
-		wait.setChildSelector("./span", SelectorType.Xpath);
+		NestedVisibilityWaitCommand wait = new NestedVisibilityWaitCommand(10, WaitType.NESTED_ELEMENTS_VISIBLE, session.getId());
+		wait.setSelector("//h2[@id=\"invisible1\"] | //h2[@id=\"invisible2\"]", SelectorType.XPATH);
+		wait.setChildSelector("./span", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertTrue(response.isSuccess());
@@ -129,7 +129,7 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testTitleContainsPass() {
-		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.TitleContains, session.getId());
+		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.TITLE_CONTAINS, session.getId());
 		wait.setText("Change");
 		
 		Response response = session.executeCommand(wait);
@@ -138,7 +138,7 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testTitleIsPass() {
-		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.TitleIs, session.getId());
+		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.TITLE_IS, session.getId());
 		wait.setText("Title Changed!");
 		
 		Response response = session.executeCommand(wait);
@@ -147,7 +147,7 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testUrlContainsPass() {
-		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.UrlContains, session.getId());
+		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.URL_CONTAINS, session.getId());
 		wait.setText("changed=");
 		
 		session.getDriver().findElement(By.id("urlLink")).click();
@@ -158,7 +158,7 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testUrlMatchesPass() {
-		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.UrlMatches, session.getId());
+		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.URL_MATCHES, session.getId());
 		wait.setText(".*\\?changed=true");
 		
 		session.getDriver().findElement(By.id("urlLink")).click();
@@ -169,7 +169,7 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testUrlToBePass() {
-		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.UrlToBe, session.getId());
+		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.URL_IS, session.getId());
 		wait.setText(session.getDriver().getCurrentUrl() + "?changed=true");
 		
 		session.getDriver().findElement(By.id("urlLink")).click();
@@ -180,11 +180,11 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testAndPass() {
-		LogicalAndOrWaitCommand wait = new LogicalAndOrWaitCommand(10, WaitType.And, session.getId());
-		TextMatchWaitCommand subWait1 = new TextMatchWaitCommand(10, WaitType.TitleIs, session.getId());
+		LogicalAndOrWaitCommand wait = new LogicalAndOrWaitCommand(10, WaitType.AND, session.getId());
+		TextMatchWaitCommand subWait1 = new TextMatchWaitCommand(10, WaitType.TITLE_IS, session.getId());
 		subWait1.setText("Title Changed!");
-		VisibilityWaitCommand subWait2 = new VisibilityWaitCommand(10, WaitType.VisibilityOf, session.getId());
-		subWait2.setSelector("//h2[@id=\"invisible1\"]", SelectorType.Xpath);
+		VisibilityWaitCommand subWait2 = new VisibilityWaitCommand(10, WaitType.ELEMENT_VISIBLE, session.getId());
+		subWait2.setSelector("//h2[@id=\"invisible1\"]", SelectorType.XPATH);
 		
 		wait.addCommand(subWait1);
 		wait.addCommand(subWait2);
@@ -196,7 +196,7 @@ public class WaitProcessorTest {
 	@Test
 	public void testNotPass() {
 		LogicalNotWaitCommand wait = new LogicalNotWaitCommand(10, session.getId());
-		TextMatchWaitCommand subWait = new TextMatchWaitCommand(10, WaitType.TitleIs, session.getId());
+		TextMatchWaitCommand subWait = new TextMatchWaitCommand(10, WaitType.TITLE_IS, session.getId());
 		subWait.setText("Wait Home");
 		wait.setWaitCommand(subWait);
 		
@@ -206,11 +206,11 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testOrPass() {
-		LogicalAndOrWaitCommand wait = new LogicalAndOrWaitCommand(10, WaitType.Or, session.getId());
-		TextMatchWaitCommand subWait1 = new TextMatchWaitCommand(10, WaitType.TitleIs, session.getId());
+		LogicalAndOrWaitCommand wait = new LogicalAndOrWaitCommand(10, WaitType.OR, session.getId());
+		TextMatchWaitCommand subWait1 = new TextMatchWaitCommand(10, WaitType.TITLE_IS, session.getId());
 		subWait1.setText("Title Changed!");
-		VisibilityWaitCommand subWait2 = new VisibilityWaitCommand(10, WaitType.VisibilityOf, session.getId());
-		subWait2.setSelector("//h2[@id=\"invisible1\"]", SelectorType.Xpath);
+		VisibilityWaitCommand subWait2 = new VisibilityWaitCommand(10, WaitType.ELEMENT_VISIBLE, session.getId());
+		subWait2.setSelector("//h2[@id=\"invisible1\"]", SelectorType.XPATH);
 		
 		wait.addCommand(subWait1);
 		wait.addCommand(subWait2);
@@ -222,7 +222,7 @@ public class WaitProcessorTest {
 	@Test
 	public void testRefreshedPass() {
 		RefreshedWaitCommand wait = new RefreshedWaitCommand(10, session.getId());
-		TextMatchWaitCommand subWait = new TextMatchWaitCommand(10, WaitType.TitleIs, session.getId());
+		TextMatchWaitCommand subWait = new TextMatchWaitCommand(10, WaitType.TITLE_IS, session.getId());
 		subWait.setText("Title Changed!");
 		wait.setWaitCommand(subWait);
 		
@@ -232,8 +232,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testNumberOfElementsToBePass() {
-		CountWaitCommand wait = new CountWaitCommand(10, WaitType.NumberOfElementsToBe, session.getId());
-		wait.setSelector("//div[@id=\"startEmpty\"]/h2", SelectorType.Xpath);
+		CountWaitCommand wait = new CountWaitCommand(10, WaitType.ELEMENT_COUNT_IS, session.getId());
+		wait.setSelector("//div[@id=\"startEmpty\"]/h2", SelectorType.XPATH);
 		wait.setBound(2);
 		
 		Response response = session.executeCommand(wait);
@@ -242,8 +242,8 @@ public class WaitProcessorTest {
 
 	@Test
 	public void testNumberOfElementsToBeLessThanPass() {
-		CountWaitCommand wait = new CountWaitCommand(10, WaitType.NumberOfElementsToBeLessThan, session.getId());
-		wait.setSelector("//div[@id=\"endEmpty\"]/h2", SelectorType.Xpath);
+		CountWaitCommand wait = new CountWaitCommand(10, WaitType.ELEMENT_COUNT_LESS_THAN, session.getId());
+		wait.setSelector("//div[@id=\"endEmpty\"]/h2", SelectorType.XPATH);
 		wait.setBound(1);
 		
 		Response response = session.executeCommand(wait);
@@ -252,8 +252,8 @@ public class WaitProcessorTest {
 
 	@Test
 	public void testNumberOfElementsToBeMoreThanPass() {
-		CountWaitCommand wait = new CountWaitCommand(10, WaitType.NumberOfElementsToBeMoreThan, session.getId());
-		wait.setSelector("//div[@id=\"startEmpty\"]/h2", SelectorType.Xpath);
+		CountWaitCommand wait = new CountWaitCommand(10, WaitType.ELEMENT_COUNT_GREATER_THAN, session.getId());
+		wait.setSelector("//div[@id=\"startEmpty\"]/h2", SelectorType.XPATH);
 		wait.setBound(0);
 		
 		Response response = session.executeCommand(wait);
@@ -262,7 +262,7 @@ public class WaitProcessorTest {
 
 	@Test
 	public void testNumberOfWindowsToBePass() {
-		CountWaitCommand wait = new CountWaitCommand(10, WaitType.NumberOfWindowsToBe, session.getId());
+		CountWaitCommand wait = new CountWaitCommand(10, WaitType.WINDOW_COUNT_IS, session.getId());
 		wait.setBound(2);
 		
 		session.getDriver().findElement(By.id("windowLink")).click();
@@ -273,7 +273,7 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testJavascriptReturnsValuePass() {
-		JavaScriptWaitCommand wait = new JavaScriptWaitCommand(10, WaitType.JavascriptReturnsValue, session.getId());
+		JavaScriptWaitCommand wait = new JavaScriptWaitCommand(10, WaitType.JAVASCRIPT_RETURNS_STRING, session.getId());
 		wait.setJavaScript("return \"Wait.\";");
 		
 		Response response = session.executeCommand(wait);
@@ -282,7 +282,7 @@ public class WaitProcessorTest {
 
 	@Test
 	public void testJavascriptThrowsNoExceptionsPass() {
-		JavaScriptWaitCommand wait = new JavaScriptWaitCommand(10, WaitType.JavascriptThrowsNoExceptions, session.getId());
+		JavaScriptWaitCommand wait = new JavaScriptWaitCommand(10, WaitType.JAVASCRIPT_THROWS_NO_EXCEPTIONS, session.getId());
 		wait.setJavaScript("return \"Wait.\";");
 		
 		Response response = session.executeCommand(wait);
@@ -291,9 +291,9 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testAttributeContainsPass() {
-		TextMatchAttributeSelectorWaitCommand wait = new TextMatchAttributeSelectorWaitCommand(10, WaitType.AttributeContains, session.getId());
+		TextMatchAttributeSelectorWaitCommand wait = new TextMatchAttributeSelectorWaitCommand(10, WaitType.ATTRIBUTE_CONTAINS, session.getId());
 		
-		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.Xpath);
+		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.XPATH);
 		wait.setAttribute("data-wait");
 		wait.setText("wait");
 		
@@ -303,9 +303,9 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testAttributeToBePass() {
-		TextMatchAttributeSelectorWaitCommand wait = new TextMatchAttributeSelectorWaitCommand(10, WaitType.AttributeToBe, session.getId());
+		TextMatchAttributeSelectorWaitCommand wait = new TextMatchAttributeSelectorWaitCommand(10, WaitType.ATTRIBUTE_IS, session.getId());
 		
-		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.Xpath);
+		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.XPATH);
 		wait.setAttribute("data-wait");
 		wait.setText("wait-attr");
 		
@@ -315,9 +315,9 @@ public class WaitProcessorTest {
 
 	@Test
 	public void testAttributeToBeNotEmptyPass() {
-		TextMatchAttributeSelectorWaitCommand wait = new TextMatchAttributeSelectorWaitCommand(10, WaitType.AttributeToBeNotEmpty, session.getId());
+		TextMatchAttributeSelectorWaitCommand wait = new TextMatchAttributeSelectorWaitCommand(10, WaitType.ATTRIBUTE_IS_NOT_EMPTY, session.getId());
 		
-		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.Xpath);
+		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.XPATH);
 		wait.setAttribute("data-wait");
 		
 		Response response = session.executeCommand(wait);
@@ -326,10 +326,10 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testElementSelectionStateToBeTruePass() {
-		SelectionStateWaitCommand wait = new SelectionStateWaitCommand(10, WaitType.ElementSelectionStateToBe, session.getId());
+		SelectionStateWaitCommand wait = new SelectionStateWaitCommand(10, WaitType.ELEMENT_SELECTION_STATE_IS, session.getId());
 		
 		wait.setSelected(true);
-		wait.setSelector("//div/form/select/option[4]", SelectorType.Xpath);
+		wait.setSelector("//div/form/select/option[4]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertTrue(response.isSuccess());
@@ -337,10 +337,10 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testElementSelectionStateToBeFalsePass() {
-		SelectionStateWaitCommand wait = new SelectionStateWaitCommand(10, WaitType.ElementSelectionStateToBe, session.getId());
+		SelectionStateWaitCommand wait = new SelectionStateWaitCommand(10, WaitType.ELEMENT_SELECTION_STATE_IS, session.getId());
 		
 		wait.setSelected(false);
-		wait.setSelector("//div/form/select/option[1]", SelectorType.Xpath);
+		wait.setSelector("//div/form/select/option[1]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertTrue(response.isSuccess());
@@ -348,8 +348,8 @@ public class WaitProcessorTest {
 
 	@Test
 	public void testFrameToBeAvailableSwitchPass() {
-		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.FrameToBeAvailableAndSwitchToIt, session.getId());
-		wait.setSelector("//iframe", SelectorType.Xpath);
+		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.SWITCH_TO_FRAME_WHEN_AVAILABLE, session.getId());
+		wait.setSelector("//iframe", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertTrue(response.isSuccess());
@@ -357,8 +357,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testElementClickablePass() {
-		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.ElementToBeClickable, session.getId());
-		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.Xpath);
+		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.ELEMENT_CLICKABLE, session.getId());
+		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertTrue(response.isSuccess());
@@ -366,9 +366,9 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testPresenceOfAllNestedElementsPass() {
-		NestedExistenceWaitCommand wait = new NestedExistenceWaitCommand(10, WaitType.PresenceOfNestedElementsLocatedBy, session.getId());
-		wait.setSelector("//div[@id=\"startEmpty\"]", SelectorType.Xpath);
-		wait.setChildSelector("./h2", SelectorType.Xpath);
+		NestedExistenceWaitCommand wait = new NestedExistenceWaitCommand(10, WaitType.NESTED_ELEMENTS_PRESENT, session.getId());
+		wait.setSelector("//div[@id=\"startEmpty\"]", SelectorType.XPATH);
+		wait.setChildSelector("./h2", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertTrue(response.isSuccess());
@@ -376,9 +376,9 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testPresenceOfNestedElementPass() {
-		NestedExistenceWaitCommand wait = new NestedExistenceWaitCommand(10, WaitType.PresenceOfNestedElementLocatedBy, session.getId());
-		wait.setSelector("//div[@id=\"startEmpty\"]", SelectorType.Xpath);
-		wait.setChildSelector("./h2[1]", SelectorType.Xpath);
+		NestedExistenceWaitCommand wait = new NestedExistenceWaitCommand(10, WaitType.NESTED_ELEMENT_PRESENT, session.getId());
+		wait.setSelector("//div[@id=\"startEmpty\"]", SelectorType.XPATH);
+		wait.setChildSelector("./h2[1]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertTrue(response.isSuccess());
@@ -386,8 +386,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testPresenceOfElementPass() {
-		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.PresenceOfElementLocated, session.getId());
-		wait.setSelector("//h2[@id=\"invisible4\"]", SelectorType.Xpath);
+		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.ELEMENT_PRESENT, session.getId());
+		wait.setSelector("//h2[@id=\"invisible4\"]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertTrue(response.isSuccess());
@@ -395,8 +395,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testPresenceOfAllElementsPass() {
-		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.PresenceOfAllElementsLocatedBy, session.getId());
-		wait.setSelector("//h2[@id=\"invisible3\"] | //h2[@id=\"invisible4\"]", SelectorType.Xpath);
+		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.ALL_ELEMENTS_PRESENT, session.getId());
+		wait.setSelector("//h2[@id=\"invisible3\"] | //h2[@id=\"invisible4\"]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertTrue(response.isSuccess());
@@ -404,8 +404,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testStalenessPass() {
-		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.StalenessOf, session.getId());
-		wait.setSelector("//h2[@id=\"endEmpty1\"]", SelectorType.Xpath);
+		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.IS_STALE, session.getId());
+		wait.setSelector("//h2[@id=\"endEmpty1\"]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertTrue(response.isSuccess());
@@ -413,8 +413,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testTextMatchesPass() {
-		TextMatchSelectorWaitCommand wait = new TextMatchSelectorWaitCommand(10, WaitType.TextMatches, session.getId());
-		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.Xpath);
+		TextMatchSelectorWaitCommand wait = new TextMatchSelectorWaitCommand(10, WaitType.TEXT_MATCHES, session.getId());
+		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.XPATH);
 		wait.setText(".*Changed!");
 		
 		Response response = session.executeCommand(wait);
@@ -423,8 +423,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testTextIsPass() {
-		TextMatchSelectorWaitCommand wait = new TextMatchSelectorWaitCommand(10, WaitType.TextToBe, session.getId());
-		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.Xpath);
+		TextMatchSelectorWaitCommand wait = new TextMatchSelectorWaitCommand(10, WaitType.TEXT_IS, session.getId());
+		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.XPATH);
 		wait.setText("Text Changed!");
 		
 		Response response = session.executeCommand(wait);
@@ -433,8 +433,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testTextPresentInValuePass() {
-		TextMatchSelectorWaitCommand wait = new TextMatchSelectorWaitCommand(10, WaitType.TextToBePresentInElementValue, session.getId());
-		wait.setSelector("//input[@id=\"changeTextInput\"]", SelectorType.Xpath);
+		TextMatchSelectorWaitCommand wait = new TextMatchSelectorWaitCommand(10, WaitType.TEXT_IN_ELEMENT_VALUE, session.getId());
+		wait.setSelector("//input[@id=\"changeTextInput\"]", SelectorType.XPATH);
 		wait.setText("Text Changed!");
 		
 		Response response = session.executeCommand(wait);
@@ -443,8 +443,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testTextPresentPass() {
-		TextMatchSelectorWaitCommand wait = new TextMatchSelectorWaitCommand(10, WaitType.TextToBePresentInElementLocated, session.getId());
-		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.Xpath);
+		TextMatchSelectorWaitCommand wait = new TextMatchSelectorWaitCommand(10, WaitType.TEXT_PRESENT_IN_ELEMENT, session.getId());
+		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.XPATH);
 		wait.setText("Changed!");
 		
 		Response response = session.executeCommand(wait);
@@ -453,7 +453,7 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testAlertIsPresentFail() {
-		WaitCommand wait = new WaitCommand(10, WaitType.AlertIsPresent, session.getId());
+		WaitCommand wait = new WaitCommand(10, WaitType.ALERT_PRESENT, session.getId());
 		
 		Response response = session.executeCommand(wait);
 		assertFalse(response.isSuccess());
@@ -461,8 +461,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testInvisibilityOfFail() {
-		InvisibilityWaitCommand wait = new InvisibilityWaitCommand(10, WaitType.InvisibilityOf, session.getId());
-		wait.setSelector("//body", SelectorType.Xpath);
+		InvisibilityWaitCommand wait = new InvisibilityWaitCommand(10, WaitType.ELEMENT_INVISIBLE, session.getId());
+		wait.setSelector("//body", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertFalse(response.isSuccess());
@@ -470,8 +470,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testInvisibilityOfAllFail() {
-		InvisibilityWaitCommand wait = new InvisibilityWaitCommand(10, WaitType.InvisibilityOfAllElements, session.getId());
-		wait.setSelector("//body", SelectorType.Xpath);
+		InvisibilityWaitCommand wait = new InvisibilityWaitCommand(10, WaitType.ALL_ELEMENTS_INVISBLE, session.getId());
+		wait.setSelector("//body", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertFalse(response.isSuccess());
@@ -479,8 +479,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testInvisibilityOfElementWithTextFail() {
-		InvisibilityWaitCommand wait = new InvisibilityWaitCommand(10, WaitType.InvisibilityOfElementWithText, session.getId());
-		wait.setSelector("//body", SelectorType.Xpath);
+		InvisibilityWaitCommand wait = new InvisibilityWaitCommand(10, WaitType.ELEMENT_WITH_TEXT_INVISIBLE, session.getId());
+		wait.setSelector("//body", SelectorType.XPATH);
 		wait.setText("Some Visible Element");
 		
 		Response response = session.executeCommand(wait);
@@ -489,8 +489,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testVisibilityOfFail() {
-		VisibilityWaitCommand wait = new VisibilityWaitCommand(10, WaitType.VisibilityOf, session.getId());
-		wait.setSelector("//div[@id=\"hidden\"]", SelectorType.Xpath);
+		VisibilityWaitCommand wait = new VisibilityWaitCommand(10, WaitType.ELEMENT_VISIBLE, session.getId());
+		wait.setSelector("//div[@id=\"hidden\"]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertFalse(response.isSuccess());
@@ -498,8 +498,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testVisibilityOfAllElementsFail() {
-		VisibilityWaitCommand wait = new VisibilityWaitCommand(10, WaitType.VisibilityOfAllElements, session.getId());
-		wait.setSelector("//div[@id=\"hidden\"]", SelectorType.Xpath);
+		VisibilityWaitCommand wait = new VisibilityWaitCommand(10, WaitType.ALL_ELEMENTS_VISIBLE, session.getId());
+		wait.setSelector("//div[@id=\"hidden\"]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertFalse(response.isSuccess());
@@ -507,9 +507,9 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testVisibilityOfNestedElementsLocatedByFail() {
-		NestedVisibilityWaitCommand wait = new NestedVisibilityWaitCommand(10, WaitType.VisibilityOfNestedElementsLocatedBy, session.getId());
-		wait.setSelector("//div[@id=\"hidden\"]", SelectorType.Xpath);
-		wait.setChildSelector("./h2", SelectorType.Xpath);
+		NestedVisibilityWaitCommand wait = new NestedVisibilityWaitCommand(10, WaitType.NESTED_ELEMENTS_VISIBLE, session.getId());
+		wait.setSelector("//div[@id=\"hidden\"]", SelectorType.XPATH);
+		wait.setChildSelector("./h2", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertFalse(response.isSuccess());
@@ -517,7 +517,7 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testTitleContainsFail() {
-		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.TitleContains, session.getId());
+		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.TITLE_CONTAINS, session.getId());
 		wait.setText("Fail");
 		
 		Response response = session.executeCommand(wait);
@@ -526,7 +526,7 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testTitleIsFail() {
-		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.TitleIs, session.getId());
+		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.TITLE_IS, session.getId());
 		wait.setText("Fail");
 		
 		Response response = session.executeCommand(wait);
@@ -535,7 +535,7 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testUrlContainsFail() {
-		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.UrlContains, session.getId());
+		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.URL_CONTAINS, session.getId());
 		wait.setText("changed=");
 		
 		Response response = session.executeCommand(wait);
@@ -544,7 +544,7 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testUrlMatchesFail() {
-		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.UrlMatches, session.getId());
+		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.URL_MATCHES, session.getId());
 		wait.setText(".*\\?changed=true");
 		
 		Response response = session.executeCommand(wait);
@@ -553,7 +553,7 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testUrlToBeFail() {
-		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.UrlToBe, session.getId());
+		TextMatchWaitCommand wait = new TextMatchWaitCommand(10, WaitType.URL_IS, session.getId());
 		wait.setText(session.getDriver().getCurrentUrl() + "?changed=true");
 		
 		Response response = session.executeCommand(wait);
@@ -562,11 +562,11 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testAndFail() {
-		LogicalAndOrWaitCommand wait = new LogicalAndOrWaitCommand(10, WaitType.And, session.getId());
-		TextMatchWaitCommand subWait1 = new TextMatchWaitCommand(10, WaitType.TitleIs, session.getId());
+		LogicalAndOrWaitCommand wait = new LogicalAndOrWaitCommand(10, WaitType.AND, session.getId());
+		TextMatchWaitCommand subWait1 = new TextMatchWaitCommand(10, WaitType.TITLE_IS, session.getId());
 		subWait1.setText("Title Changed!");
-		VisibilityWaitCommand subWait2 = new VisibilityWaitCommand(10, WaitType.VisibilityOf, session.getId());
-		subWait2.setSelector("//div[@id=\"hidden\"]", SelectorType.Xpath);
+		VisibilityWaitCommand subWait2 = new VisibilityWaitCommand(10, WaitType.ELEMENT_VISIBLE, session.getId());
+		subWait2.setSelector("//div[@id=\"hidden\"]", SelectorType.XPATH);
 		
 		wait.addCommand(subWait1);
 		wait.addCommand(subWait2);
@@ -578,8 +578,8 @@ public class WaitProcessorTest {
 	@Test
 	public void testNotFail() {
 		LogicalNotWaitCommand wait = new LogicalNotWaitCommand(10, session.getId());
-		InvisibilityWaitCommand subWait = new InvisibilityWaitCommand(10, WaitType.InvisibilityOfElementWithText, session.getId());
-		subWait.setSelector("//body", SelectorType.Xpath);
+		InvisibilityWaitCommand subWait = new InvisibilityWaitCommand(10, WaitType.ELEMENT_WITH_TEXT_INVISIBLE, session.getId());
+		subWait.setSelector("//body", SelectorType.XPATH);
 		subWait.setText("Some Visible Element");
 		wait.setWaitCommand(subWait);
 		
@@ -589,11 +589,11 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testOrFail() {
-		LogicalAndOrWaitCommand wait = new LogicalAndOrWaitCommand(10, WaitType.Or, session.getId());
-		TextMatchWaitCommand subWait1 = new TextMatchWaitCommand(10, WaitType.TitleIs, session.getId());
+		LogicalAndOrWaitCommand wait = new LogicalAndOrWaitCommand(10, WaitType.OR, session.getId());
+		TextMatchWaitCommand subWait1 = new TextMatchWaitCommand(10, WaitType.TITLE_IS, session.getId());
 		subWait1.setText("Fail");
-		VisibilityWaitCommand subWait2 = new VisibilityWaitCommand(10, WaitType.VisibilityOf, session.getId());
-		subWait2.setSelector("//div[@id=\"hidden\"]", SelectorType.Xpath);
+		VisibilityWaitCommand subWait2 = new VisibilityWaitCommand(10, WaitType.ELEMENT_VISIBLE, session.getId());
+		subWait2.setSelector("//div[@id=\"hidden\"]", SelectorType.XPATH);
 		
 		wait.addCommand(subWait1);
 		wait.addCommand(subWait2);
@@ -605,7 +605,7 @@ public class WaitProcessorTest {
 	@Test
 	public void testRefreshedFail() {
 		RefreshedWaitCommand wait = new RefreshedWaitCommand(10, session.getId());
-		TextMatchWaitCommand subWait = new TextMatchWaitCommand(10, WaitType.TitleIs, session.getId());
+		TextMatchWaitCommand subWait = new TextMatchWaitCommand(10, WaitType.TITLE_IS, session.getId());
 		subWait.setText("Title Changed!");
 		wait.setWaitCommand(subWait);
 		
@@ -615,8 +615,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testNumberOfElementsToBeFail() {
-		CountWaitCommand wait = new CountWaitCommand(10, WaitType.NumberOfElementsToBe, session.getId());
-		wait.setSelector("//div[@id=\"startEmpty\"]/h2", SelectorType.Xpath);
+		CountWaitCommand wait = new CountWaitCommand(10, WaitType.ELEMENT_COUNT_IS, session.getId());
+		wait.setSelector("//div[@id=\"startEmpty\"]/h2", SelectorType.XPATH);
 		wait.setBound(2);
 		
 		Response response = session.executeCommand(wait);
@@ -625,8 +625,8 @@ public class WaitProcessorTest {
 
 	@Test
 	public void testNumberOfElementsToBeLessThanFail() {
-		CountWaitCommand wait = new CountWaitCommand(10, WaitType.NumberOfElementsToBeLessThan, session.getId());
-		wait.setSelector("//div[@id=\"endEmpty\"]/h2", SelectorType.Xpath);
+		CountWaitCommand wait = new CountWaitCommand(10, WaitType.ELEMENT_COUNT_LESS_THAN, session.getId());
+		wait.setSelector("//div[@id=\"endEmpty\"]/h2", SelectorType.XPATH);
 		wait.setBound(1);
 		
 		Response response = session.executeCommand(wait);
@@ -635,8 +635,8 @@ public class WaitProcessorTest {
 
 	@Test
 	public void testNumberOfElementsToBeMoreThanFail() {
-		CountWaitCommand wait = new CountWaitCommand(10, WaitType.NumberOfElementsToBeMoreThan, session.getId());
-		wait.setSelector("//div[@id=\"startEmpty\"]/h2", SelectorType.Xpath);
+		CountWaitCommand wait = new CountWaitCommand(10, WaitType.ELEMENT_COUNT_GREATER_THAN, session.getId());
+		wait.setSelector("//div[@id=\"startEmpty\"]/h2", SelectorType.XPATH);
 		wait.setBound(0);
 		
 		Response response = session.executeCommand(wait);
@@ -645,7 +645,7 @@ public class WaitProcessorTest {
 
 	@Test
 	public void testNumberOfWindowsToBeFail() {
-		CountWaitCommand wait = new CountWaitCommand(10, WaitType.NumberOfWindowsToBe, session.getId());
+		CountWaitCommand wait = new CountWaitCommand(10, WaitType.WINDOW_COUNT_IS, session.getId());
 		wait.setBound(2);
 		
 		session.getDriver().findElement(By.id("windowLink")).click();
@@ -656,7 +656,7 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testJavascriptReturnsValueFail() {
-		JavaScriptWaitCommand wait = new JavaScriptWaitCommand(10, WaitType.JavascriptReturnsValue, session.getId());
+		JavaScriptWaitCommand wait = new JavaScriptWaitCommand(10, WaitType.JAVASCRIPT_RETURNS_STRING, session.getId());
 		wait.setJavaScript("return \"Wait.\";");
 		
 		Response response = session.executeCommand(wait);
@@ -665,7 +665,7 @@ public class WaitProcessorTest {
 
 	@Test
 	public void testJavascriptThrowsNoExceptionsFail() {
-		JavaScriptWaitCommand wait = new JavaScriptWaitCommand(10, WaitType.JavascriptThrowsNoExceptions, session.getId());
+		JavaScriptWaitCommand wait = new JavaScriptWaitCommand(10, WaitType.JAVASCRIPT_THROWS_NO_EXCEPTIONS, session.getId());
 		wait.setJavaScript("return \"Wait.\";");
 		
 		Response response = session.executeCommand(wait);
@@ -674,9 +674,9 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testAttributeContainsFail() {
-		TextMatchAttributeSelectorWaitCommand wait = new TextMatchAttributeSelectorWaitCommand(10, WaitType.AttributeContains, session.getId());
+		TextMatchAttributeSelectorWaitCommand wait = new TextMatchAttributeSelectorWaitCommand(10, WaitType.ATTRIBUTE_CONTAINS, session.getId());
 		
-		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.Xpath);
+		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.XPATH);
 		wait.setAttribute("data-wait");
 		wait.setText("wait");
 		
@@ -686,9 +686,9 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testAttributeToBeFail() {
-		TextMatchAttributeSelectorWaitCommand wait = new TextMatchAttributeSelectorWaitCommand(10, WaitType.AttributeToBe, session.getId());
+		TextMatchAttributeSelectorWaitCommand wait = new TextMatchAttributeSelectorWaitCommand(10, WaitType.ATTRIBUTE_IS, session.getId());
 		
-		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.Xpath);
+		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.XPATH);
 		wait.setAttribute("data-wait");
 		wait.setText("wait-attr");
 		
@@ -698,9 +698,9 @@ public class WaitProcessorTest {
 
 	@Test
 	public void testAttributeToBeNotEmptyFail() {
-		TextMatchAttributeSelectorWaitCommand wait = new TextMatchAttributeSelectorWaitCommand(10, WaitType.AttributeToBeNotEmpty, session.getId());
+		TextMatchAttributeSelectorWaitCommand wait = new TextMatchAttributeSelectorWaitCommand(10, WaitType.ATTRIBUTE_IS_NOT_EMPTY, session.getId());
 		
-		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.Xpath);
+		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.XPATH);
 		wait.setAttribute("data-wait");
 		
 		Response response = session.executeCommand(wait);
@@ -709,10 +709,10 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testElementSelectionStateToBeTrueFail() {
-		SelectionStateWaitCommand wait = new SelectionStateWaitCommand(10, WaitType.ElementSelectionStateToBe, session.getId());
+		SelectionStateWaitCommand wait = new SelectionStateWaitCommand(10, WaitType.ELEMENT_SELECTION_STATE_IS, session.getId());
 		
 		wait.setSelected(true);
-		wait.setSelector("//div/form/select/option[4]", SelectorType.Xpath);
+		wait.setSelector("//div/form/select/option[4]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertFalse(response.isSuccess());
@@ -720,10 +720,10 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testElementSelectionStateToBeFalseFail() {
-		SelectionStateWaitCommand wait = new SelectionStateWaitCommand(10, WaitType.ElementSelectionStateToBe, session.getId());
+		SelectionStateWaitCommand wait = new SelectionStateWaitCommand(10, WaitType.ELEMENT_SELECTION_STATE_IS, session.getId());
 		
 		wait.setSelected(false);
-		wait.setSelector("//div/form/select/option[1]", SelectorType.Xpath);
+		wait.setSelector("//div/form/select/option[1]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertFalse(response.isSuccess());
@@ -731,8 +731,8 @@ public class WaitProcessorTest {
 
 	@Test
 	public void testFrameToBeAvailableSwitchFail() {
-		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.FrameToBeAvailableAndSwitchToIt, session.getId());
-		wait.setSelector("//iframe", SelectorType.Xpath);
+		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.SWITCH_TO_FRAME_WHEN_AVAILABLE, session.getId());
+		wait.setSelector("//iframe", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertFalse(response.isSuccess());
@@ -740,8 +740,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testElementClickableFail() {
-		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.ElementToBeClickable, session.getId());
-		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.Xpath);
+		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.ELEMENT_CLICKABLE, session.getId());
+		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertFalse(response.isSuccess());
@@ -749,9 +749,9 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testPresenceOfAllNestedElementsFail() {
-		NestedExistenceWaitCommand wait = new NestedExistenceWaitCommand(10, WaitType.PresenceOfNestedElementsLocatedBy, session.getId());
-		wait.setSelector("//div[@id=\"startEmpty\"]", SelectorType.Xpath);
-		wait.setChildSelector("./h2", SelectorType.Xpath);
+		NestedExistenceWaitCommand wait = new NestedExistenceWaitCommand(10, WaitType.NESTED_ELEMENTS_PRESENT, session.getId());
+		wait.setSelector("//div[@id=\"startEmpty\"]", SelectorType.XPATH);
+		wait.setChildSelector("./h2", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertFalse(response.isSuccess());
@@ -759,9 +759,9 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testPresenceOfNestedElementFail() {
-		NestedExistenceWaitCommand wait = new NestedExistenceWaitCommand(10, WaitType.PresenceOfNestedElementLocatedBy, session.getId());
-		wait.setSelector("//div[@id=\"startEmpty\"]", SelectorType.Xpath);
-		wait.setChildSelector("./h2[1]", SelectorType.Xpath);
+		NestedExistenceWaitCommand wait = new NestedExistenceWaitCommand(10, WaitType.NESTED_ELEMENT_PRESENT, session.getId());
+		wait.setSelector("//div[@id=\"startEmpty\"]", SelectorType.XPATH);
+		wait.setChildSelector("./h2[1]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertFalse(response.isSuccess());
@@ -769,8 +769,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testPresenceOfElementFail() {
-		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.PresenceOfElementLocated, session.getId());
-		wait.setSelector("//h2[@id=\"invisible4\"]", SelectorType.Xpath);
+		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.ELEMENT_PRESENT, session.getId());
+		wait.setSelector("//h2[@id=\"invisible4\"]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertFalse(response.isSuccess());
@@ -778,8 +778,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testPresenceOfAllElementsFail() {
-		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.PresenceOfAllElementsLocatedBy, session.getId());
-		wait.setSelector("//h2[@id=\"invisible3\"] | //h2[@id=\"invisible4\"]", SelectorType.Xpath);
+		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.ALL_ELEMENTS_PRESENT, session.getId());
+		wait.setSelector("//h2[@id=\"invisible3\"] | //h2[@id=\"invisible4\"]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertFalse(response.isSuccess());
@@ -787,8 +787,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testStalenessFail() {
-		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.StalenessOf, session.getId());
-		wait.setSelector("//h2[@id=\"endEmpty1\"]", SelectorType.Xpath);
+		ExistenceWaitCommand wait = new ExistenceWaitCommand(10, WaitType.IS_STALE, session.getId());
+		wait.setSelector("//h2[@id=\"endEmpty1\"]", SelectorType.XPATH);
 		
 		Response response = session.executeCommand(wait);
 		assertFalse(response.isSuccess());
@@ -796,8 +796,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testTextMatchesFail() {
-		TextMatchSelectorWaitCommand wait = new TextMatchSelectorWaitCommand(10, WaitType.TextMatches, session.getId());
-		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.Xpath);
+		TextMatchSelectorWaitCommand wait = new TextMatchSelectorWaitCommand(10, WaitType.TEXT_MATCHES, session.getId());
+		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.XPATH);
 		wait.setText(".*Changed!");
 		
 		Response response = session.executeCommand(wait);
@@ -806,8 +806,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testTextIsFail() {
-		TextMatchSelectorWaitCommand wait = new TextMatchSelectorWaitCommand(10, WaitType.TextToBe, session.getId());
-		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.Xpath);
+		TextMatchSelectorWaitCommand wait = new TextMatchSelectorWaitCommand(10, WaitType.TEXT_IS, session.getId());
+		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.XPATH);
 		wait.setText("Text Changed!");
 		
 		Response response = session.executeCommand(wait);
@@ -816,8 +816,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testTextPresentInValueFail() {
-		TextMatchSelectorWaitCommand wait = new TextMatchSelectorWaitCommand(10, WaitType.TextToBePresentInElementValue, session.getId());
-		wait.setSelector("//input[@id=\"changeTextInput\"]", SelectorType.Xpath);
+		TextMatchSelectorWaitCommand wait = new TextMatchSelectorWaitCommand(10, WaitType.TEXT_IN_ELEMENT_VALUE, session.getId());
+		wait.setSelector("//input[@id=\"changeTextInput\"]", SelectorType.XPATH);
 		wait.setText("Text Changed!");
 		
 		Response response = session.executeCommand(wait);
@@ -826,8 +826,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testTextPresentFail() {
-		TextMatchSelectorWaitCommand wait = new TextMatchSelectorWaitCommand(10, WaitType.TextToBePresentInElementLocated, session.getId());
-		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.Xpath);
+		TextMatchSelectorWaitCommand wait = new TextMatchSelectorWaitCommand(10, WaitType.TEXT_PRESENT_IN_ELEMENT, session.getId());
+		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.XPATH);
 		wait.setText("Changed!");
 		
 		Response response = session.executeCommand(wait);

@@ -65,7 +65,7 @@ public class SeltzerSend {
 		Response response = gson.fromJson(json, Response.class);
 		response = gson.fromJson(json, response.getType().getResponseClass());
 		
-		if (response.getType() == ResponseType.Exception) {
+		if (response.getType() == ResponseType.EXCEPTION) {
 			ExceptionResponse e = (ExceptionResponse) response;
 			throw new SeltzerException(e.getMessage(), e.getStackTrace());
 		} else if (response instanceof SerializableCommand) {

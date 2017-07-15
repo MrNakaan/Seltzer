@@ -14,7 +14,7 @@ public class LogicalAndOrWaitCommand extends LogicalWaitCommand implements Seria
 	
 	public LogicalAndOrWaitCommand(Integer seconds, WaitType waitType) {
 		super(seconds, waitType);
-		if (waitType != WaitType.And && waitType != WaitType.Or) {
+		if (waitType != WaitType.AND && waitType != WaitType.OR) {
 			throw new IllegalArgumentException("Supplied WaitType is '" + waitType.name() + "'; must be 'And' or 'Or'.");
 		}
 	}
@@ -22,7 +22,7 @@ public class LogicalAndOrWaitCommand extends LogicalWaitCommand implements Seria
 	public LogicalAndOrWaitCommand(Integer seconds, WaitType waitType, UUID id) {
 		super(seconds, waitType, id);
 		
-		if (waitType != WaitType.And && waitType != WaitType.Or) {
+		if (waitType != WaitType.AND && waitType != WaitType.OR) {
 			throw new IllegalArgumentException("Supplied WaitType is '" + waitType.name() + "'; must be 'And' or 'Or'.");
 		}
 	}

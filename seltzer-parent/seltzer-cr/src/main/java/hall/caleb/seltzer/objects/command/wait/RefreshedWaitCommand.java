@@ -8,11 +8,11 @@ public class RefreshedWaitCommand extends WaitCommand {
 WaitCommand waitCommand;
 	
 	public RefreshedWaitCommand(Integer seconds) {
-		super(seconds, WaitType.Refreshed);
+		super(seconds, WaitType.REFRESHED);
 	}
 
 	public RefreshedWaitCommand(Integer seconds, UUID id) {
-		super(seconds, WaitType.Refreshed, id);
+		super(seconds, WaitType.REFRESHED, id);
 	}
 
 	@Override

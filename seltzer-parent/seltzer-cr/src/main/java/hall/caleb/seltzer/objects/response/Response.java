@@ -11,18 +11,18 @@ public class Response {
 	
 	public Response() {
 		super();
-		this.type = ResponseType.Basic;
+		this.type = ResponseType.BASIC;
 	}
 	
 	public Response(UUID id) {
 		this.id = id;
-		this.type = ResponseType.Basic;
+		this.type = ResponseType.BASIC;
 	}
 	
 	public Response(UUID id, boolean success) {
 		this.id = id;
 		this.success = success;
-		this.type = ResponseType.Basic;
+		this.type = ResponseType.BASIC;
 	}
 
 	@Override

@@ -46,7 +46,7 @@ public class BaseProcessorTest {
 
 	@AfterClass
 	public static void cleanDriver() {
-		session.executeCommand(new Command(CommandType.Exit, session.getId()));
+		session.executeCommand(new Command(CommandType.EXIT, session.getId()));
 	}
 
 	@Before
@@ -63,22 +63,22 @@ public class BaseProcessorTest {
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-		assertEquals("Is this the right response type?", ResponseType.Basic, response.getType());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
 		assertEquals("Is the URL right?", homeUrl, session.getDriver().getCurrentUrl());
 	}
 
 	@Test
 	public void testChain() throws Exception {
 		ChainCommand command = new ChainCommand(session.getId());
-		command.addCommand(CommandFactory.newClickCommand(session.getId(), SelectorType.LinkText, "Page 1"));
+		command.addCommand(CommandFactory.newClickCommand(session.getId(), SelectorType.LINK_TEXT, "Page 1"));
 		command.addCommand(CommandFactory.newBackCommand(session.getId()));
 		command.addCommand(CommandFactory.newForwardCommand(session.getId()));
-		command.addCommand(CommandFactory.newCountCommand(session.getId(), SelectorType.Xpath, "//div[@id='count']/span"));
+		command.addCommand(CommandFactory.newCountCommand(session.getId(), SelectorType.XPATH, "//div[@id='count']/span"));
 		Response response = session.executeCommand(command);
 		
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-		assertEquals("Is this the right response type?", ResponseType.Chain, response.getType());
+		assertEquals("Is this the right response type?", ResponseType.CHAIN, response.getType());
 		assertTrue("Is the response a ChainResponse?", response instanceof ChainResponse);
 		
 		ChainResponse cResponse = (ChainResponse) response;
@@ -104,7 +104,7 @@ public class BaseProcessorTest {
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-		assertEquals("Is this the right response type?", ResponseType.Basic, response.getType());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
 		assertEquals("Is the URL right?", homeUrl, session.getDriver().getCurrentUrl());
 	}
 
@@ -115,7 +115,7 @@ public class BaseProcessorTest {
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-		assertEquals("Is this the right response type?", ResponseType.SingleResult, response.getType());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
 		assertTrue("Is the response a SingleResultResponse?", response instanceof SingleResultResponse);
 
 		String text = ((SingleResultResponse) response).getResult();
@@ -133,7 +133,7 @@ public class BaseProcessorTest {
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-		assertEquals("Is this the right response type?", ResponseType.Basic, response.getType());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
 		assertEquals("Is the URL right?", homeUrl, session.getDriver().getCurrentUrl());
 	}
 }

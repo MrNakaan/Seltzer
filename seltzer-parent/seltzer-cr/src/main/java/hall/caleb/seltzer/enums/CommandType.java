@@ -14,26 +14,26 @@ import hall.caleb.seltzer.objects.command.selector.multiresult.ReadAttributeComm
 import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 
 public enum CommandType {
-	Back(Command.class),
-	Chain(ChainCommand.class),
-	Click(SelectorCommand.class),
-	Count(SelectorCommand.class),
-	Delete(SelectorCommand.class),
-	Exit(Command.class),
-	FillField(FillFieldCommand.class),
-	FormSubmit(SelectorCommand.class),
-	Forward(Command.class),
-	GetCookie(GetCookieCommand.class),
-	GetCookieFile(Command.class),
-	GetCookies(GetCookiesCommand.class),
-	GetUrl(Command.class),
-	GoTo(GoToCommand.class),
-	ReadAttribute(ReadAttributeCommand.class),
-	ReadText(MultiResultSelectorCommand.class),
-	SendKey(SendKeyCommand.class),
-	SendKeys(SendKeysCommand.class),
-	Start(Command.class),
-	Wait(WaitCommand.class);
+	BACK(Command.class),
+	CHAIN(ChainCommand.class),
+	CLICK(SelectorCommand.class),
+	COUNT(SelectorCommand.class),
+	DELETE(SelectorCommand.class),
+	EXIT(Command.class),
+	FILL_FIELD(FillFieldCommand.class),
+	FORM_SUBMIT(SelectorCommand.class),
+	FORWARD(Command.class),
+	GET_COOKIE(GetCookieCommand.class),
+	GET_COOKIE_FILE(Command.class),
+	GET_COOKIES(GetCookiesCommand.class),
+	GET_URL(Command.class),
+	GO_TO(GoToCommand.class),
+	READ_ATTRIBUTE(ReadAttributeCommand.class),
+	READ_TEXT(MultiResultSelectorCommand.class),
+	SEND_KEY(SendKeyCommand.class),
+	SEND_KEYS(SendKeysCommand.class),
+	START(Command.class),
+	WAIT(WaitCommand.class);
 	
 	private Class<? extends Command> commandClass;
 	

@@ -9,17 +9,17 @@ public class SingleResultResponse extends Response {
 
 	public SingleResultResponse() {
 		super();
-		this.type = ResponseType.SingleResult;
+		this.type = ResponseType.SINGLE_RESULT;
 	}
 
 	public SingleResultResponse(UUID id) {
 		super(id);
-		this.type = ResponseType.SingleResult;
+		this.type = ResponseType.SINGLE_RESULT;
 	}
 	
 	public SingleResultResponse(UUID id, boolean success) {
 		super(id, success);
-		this.type = ResponseType.SingleResult;
+		this.type = ResponseType.SINGLE_RESULT;
 	}
 
 	@Override

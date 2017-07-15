@@ -11,19 +11,19 @@ public class MultiResultResponse extends Response {
 	
 	public MultiResultResponse() {
 		super();
-		this.type = ResponseType.MultiResult;
+		this.type = ResponseType.MULTI_RESULT;
 	}
 
 	public MultiResultResponse(UUID id) {
 		super(id);
 		results = new ArrayList<>();
-		this.type = ResponseType.MultiResult;
+		this.type = ResponseType.MULTI_RESULT;
 	}
 	
 	public MultiResultResponse(UUID id, boolean success) {
 		super(id, success);
 		results = new ArrayList<>();
-		this.type = ResponseType.MultiResult;
+		this.type = ResponseType.MULTI_RESULT;
 	}
 
 	@Override

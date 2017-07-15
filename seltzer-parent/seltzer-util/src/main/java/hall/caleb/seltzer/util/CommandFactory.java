@@ -17,26 +17,26 @@ import hall.caleb.seltzer.objects.command.selector.multiresult.ReadAttributeComm
 public class CommandFactory {
 	@Deprecated
 	public static Command newStartCommand() {
-		return new Command(CommandType.Start);
+		return new Command(CommandType.START);
 	}
 	
 	@Deprecated
 	public static Command newExitCommand(UUID id) {
-		return new Command(CommandType.Exit, id);
+		return new Command(CommandType.EXIT, id);
 	}
 	@Deprecated
 	public static Command newBackCommand(UUID id) {
-		return new Command(CommandType.Back, id);
+		return new Command(CommandType.BACK, id);
 	}
 	
 	@Deprecated
 	public static Command newForwardCommand(UUID id) {
-		return new Command(CommandType.Forward, id);
+		return new Command(CommandType.FORWARD, id);
 	}
 	
 	@Deprecated
 	public static Command newGetUrlCommand(UUID id) {
-		return new Command(CommandType.GetUrl, id);
+		return new Command(CommandType.GET_URL, id);
 	}
 	
 	@Deprecated
@@ -46,29 +46,29 @@ public class CommandFactory {
 	
 	@Deprecated
 	public static SelectorCommand newClickCommand(UUID id, SelectorType type, String selector) {
-		SelectorCommand command = new SelectorCommand(CommandType.Click, id);
+		SelectorCommand command = new SelectorCommand(CommandType.CLICK, id);
 		command.setSelector(selector, type);
 		return command;
 	}
 	
 	@Deprecated
 	public static SelectorCommand newCountCommand(UUID id, SelectorType type, String selector) {
-		SelectorCommand command = new SelectorCommand(CommandType.Count, id);
+		SelectorCommand command = new SelectorCommand(CommandType.COUNT, id);
 		command.setSelector(selector, type);
 		return command;
 	}
 	
 	@Deprecated
 	public static SelectorCommand newFormSubmitCommand(UUID id, SelectorType type, String selector) {
-		SelectorCommand command = new SelectorCommand(CommandType.FormSubmit, id);
+		SelectorCommand command = new SelectorCommand(CommandType.FORM_SUBMIT, id);
 		command.setSelector(selector, type);
 		return command;
 	}
 
 	@Deprecated
 	public static SelectorCommand newDeleteCommand(UUID id, String selector) {
-		SelectorCommand command = new SelectorCommand(CommandType.Delete, id);
-		command.setSelector(selector, SelectorType.Xpath);
+		SelectorCommand command = new SelectorCommand(CommandType.DELETE, id);
+		command.setSelector(selector, SelectorType.XPATH);
 		return command;
 	}
 
@@ -82,7 +82,7 @@ public class CommandFactory {
 	
 	@Deprecated
 	public static Command newGetCookieFileCommand(UUID id) {
-		Command command = new Command(CommandType.GetCookieFile, id);
+		Command command = new Command(CommandType.GET_COOKIE_FILE, id);
 		return command;
 	}
 	
@@ -102,7 +102,7 @@ public class CommandFactory {
 	
 	@Deprecated
 	public static MultiResultSelectorCommand newReadTextCommand(UUID id, SelectorType type, String selector, int maxResults) {
-		MultiResultSelectorCommand command = new MultiResultSelectorCommand(CommandType.ReadText, id);
+		MultiResultSelectorCommand command = new MultiResultSelectorCommand(CommandType.READ_TEXT, id);
 		command.setSelector(selector, type);
 		command.setMaxResults(maxResults);
 		return command;

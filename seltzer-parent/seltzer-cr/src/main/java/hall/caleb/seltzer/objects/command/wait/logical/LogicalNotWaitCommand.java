@@ -9,11 +9,11 @@ public class LogicalNotWaitCommand extends LogicalWaitCommand {
 	WaitCommand waitCommand;
 	
 	public LogicalNotWaitCommand(Integer seconds) {
-		super(seconds, WaitType.Not);
+		super(seconds, WaitType.NOT);
 	}
 
 	public LogicalNotWaitCommand(Integer seconds, UUID id) {
-		super(seconds, WaitType.Not, id);
+		super(seconds, WaitType.NOT, id);
 	}
 
 	@Override

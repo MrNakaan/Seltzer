@@ -46,7 +46,7 @@ public class MultiResultSelectorProcessorTest {
 
 	@AfterClass
 	public static void cleanDriver() {
-		session.executeCommand(new Command(CommandType.Exit, session.getId()));
+		session.executeCommand(new Command(CommandType.EXIT, session.getId()));
 	}
 
 	@Before
@@ -60,13 +60,13 @@ public class MultiResultSelectorProcessorTest {
 
 		String xpath = "//div[@id='read']/span";
 		String attr = "data-attr1";
-		ReadAttributeCommand command = CommandFactory.newReadAttributeCommand(session.getId(), SelectorType.Xpath,
+		ReadAttributeCommand command = CommandFactory.newReadAttributeCommand(session.getId(), SelectorType.XPATH,
 				xpath, 0, attr);
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-		assertEquals("Is this the right response type?", ResponseType.MultiResult, response.getType());
+		assertEquals("Is this the right response type?", ResponseType.MULTI_RESULT, response.getType());
 
 		MultiResultResponse mResponse = (MultiResultResponse) response;
 
@@ -80,7 +80,7 @@ public class MultiResultSelectorProcessorTest {
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-		assertEquals("Is this the right response type?", ResponseType.MultiResult, response.getType());
+		assertEquals("Is this the right response type?", ResponseType.MULTI_RESULT, response.getType());
 
 		mResponse = (MultiResultResponse) response;
 
@@ -94,7 +94,7 @@ public class MultiResultSelectorProcessorTest {
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-		assertEquals("Is this the right response type?", ResponseType.MultiResult, response.getType());
+		assertEquals("Is this the right response type?", ResponseType.MULTI_RESULT, response.getType());
 
 		mResponse = (MultiResultResponse) response;
 
@@ -107,13 +107,13 @@ public class MultiResultSelectorProcessorTest {
 	public void testReadText() throws Exception {
 		session.getDriver().findElement(By.linkText("Page 1")).click();
 
-		MultiResultSelectorCommand command = CommandFactory.newReadTextCommand(session.getId(), SelectorType.Xpath,
+		MultiResultSelectorCommand command = CommandFactory.newReadTextCommand(session.getId(), SelectorType.XPATH,
 				"//div[@id='read']/span", 0);
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-		assertEquals("Is this the right response type?", ResponseType.MultiResult, response.getType());
+		assertEquals("Is this the right response type?", ResponseType.MULTI_RESULT, response.getType());
 		assertTrue("Is the response a MultiResultResponse?", response instanceof MultiResultResponse);
 
 		MultiResultResponse mResponse = (MultiResultResponse) response;
@@ -128,7 +128,7 @@ public class MultiResultSelectorProcessorTest {
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-		assertEquals("Is this the right response type?", ResponseType.MultiResult, response.getType());
+		assertEquals("Is this the right response type?", ResponseType.MULTI_RESULT, response.getType());
 		assertTrue("Is the response a MultiResultResponse?", response instanceof MultiResultResponse);
 
 		mResponse = (MultiResultResponse) response;
@@ -141,7 +141,7 @@ public class MultiResultSelectorProcessorTest {
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-		assertEquals("Is this the right response type?", ResponseType.MultiResult, response.getType());
+		assertEquals("Is this the right response type?", ResponseType.MULTI_RESULT, response.getType());
 		assertTrue("Is the response a MultiResultResponse?", response instanceof MultiResultResponse);
 
 		mResponse = (MultiResultResponse) response;
@@ -156,7 +156,7 @@ public class MultiResultSelectorProcessorTest {
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-		assertEquals("Is this the right response type?", ResponseType.MultiResult, response.getType());
+		assertEquals("Is this the right response type?", ResponseType.MULTI_RESULT, response.getType());
 		assertTrue("Is the response a MultiResultResponse?", response instanceof MultiResultResponse);
 
 		mResponse = (MultiResultResponse) response;

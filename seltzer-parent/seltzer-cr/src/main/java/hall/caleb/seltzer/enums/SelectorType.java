@@ -1,12 +1,12 @@
 package hall.caleb.seltzer.enums;
 
 public enum SelectorType {
-	ClassName,
-	CssSelector,
-	Id,
-	LinkText,
-	Name,
-	PartialLinkText,
-	TagName,
-	Xpath
+	CLASS_NAME,
+	CSS_SELECTOR,
+	ID,
+	LINK_TEXT,
+	NAME,
+	PARTIAL_LINK_TEXT,
+	TAG_NAME,
+	XPATH
 }

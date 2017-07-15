@@ -9,11 +9,11 @@ public class SendKeysCommand extends Command {
 	private Selector selector = new Selector();
 	
 	public SendKeysCommand() {
-		super(CommandType.SendKeys);
+		super(CommandType.SEND_KEYS);
 	}
 
 	public SendKeysCommand(UUID id) {
-		super(CommandType.SendKeys, id);
+		super(CommandType.SEND_KEYS, id);
 	}
 
 	@Override

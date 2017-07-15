@@ -25,7 +25,7 @@ public class CommandList {
 				((SerializableCommand) subCommand).serialize();
 			}
 			
-			if (subCommand.getType() == CommandType.Wait) {
+			if (subCommand.getType() == CommandType.WAIT) {
 				serializedCommands.add(gson.toJson(subCommand, ((WaitCommand) subCommand).getWaitType().getWaitClass()));
 			} else {
 				serializedCommands.add(gson.toJson(subCommand, subCommand.getType().getCommandClass()));
@@ -42,7 +42,7 @@ public class CommandList {
 		for (String serializedCommand : serializedCommands) {
 			subCommand = gson.fromJson(serializedCommand, Command.class);
 			
-			if (subCommand.getType() == CommandType.Wait) {
+			if (subCommand.getType() == CommandType.WAIT) {
 				subCommand = gson.fromJson(serializedCommand, WaitCommand.class);
 				gson.fromJson(serializedCommand, ((WaitCommand) subCommand).getWaitType().getWaitClass());
 			} else {

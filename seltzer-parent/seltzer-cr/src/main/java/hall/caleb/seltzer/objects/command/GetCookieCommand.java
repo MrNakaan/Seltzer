@@ -8,7 +8,7 @@ public final class GetCookieCommand extends Command {
 	private String cookieName;
 	
 	public GetCookieCommand(UUID seleniumId) {
-		super(CommandType.GetCookie, seleniumId);
+		super(CommandType.GET_COOKIE, seleniumId);
 	}
 
 	@Override

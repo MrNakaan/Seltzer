@@ -10,7 +10,7 @@ public final class GetCookiesCommand extends Command {
 	private List<String> cookieNames;
 	
 	public GetCookiesCommand(UUID seleniumId) {
-		super(CommandType.GetCookies, seleniumId);
+		super(CommandType.GET_COOKIES, seleniumId);
 		cookieNames = new ArrayList<>();
 	}
 

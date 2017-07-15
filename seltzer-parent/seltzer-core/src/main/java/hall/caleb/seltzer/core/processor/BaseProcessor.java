@@ -45,7 +45,7 @@ public class BaseProcessor {
 	private static final int RETRY_WAIT = 8;
 
 	public static Response processCommand(WebDriver driver, Command command) {
-		if (command.getType() != CommandType.Chain) {
+		if (command.getType() != CommandType.CHAIN) {
 			logger.info(Messages.getString("BaseProcessor.command"));
 			logger.info(gson.toJson(command));
 		}
@@ -61,40 +61,40 @@ public class BaseProcessor {
 			while (tryNumber < BaseProcessor.RETRIES) {
 				try {
 					switch (command.getType()) {
-					case Start:
+					case START:
 						response = start();
 						break;
-					case Exit:
+					case EXIT:
 						response = exit(driver, command);
 						break;
-					case Back:
+					case BACK:
 						response = back(driver, command);
 						break;
-					case Chain:
+					case CHAIN:
 						response = BaseProcessor.processChain(driver, (ChainCommand) command);
 						break;
-					case Forward:
+					case FORWARD:
 						response = forward(driver, command);
 						break;
-					case GetCookie:
+					case GET_COOKIE:
 						response = getCookie(driver, (GetCookieCommand) command);
 						break;
-					case GetCookieFile:
+					case GET_COOKIE_FILE:
 						response = getCookieFile(command);
 						break;
-					case GetCookies:
+					case GET_COOKIES:
 						response = getCookies(driver, (GetCookiesCommand) command);
 						break;
-					case GetUrl:
+					case GET_URL:
 						response = getUrl(driver, command);
 						break;
-					case GoTo:
+					case GO_TO:
 						response = goTo(driver, (GoToCommand) command);
 						break;
-					case SendKey:
+					case SEND_KEY:
 						response = sendKey(driver, (SendKeyCommand) command);
 						break;
-					case SendKeys:
+					case SEND_KEYS:
 						response = sendKeys(driver, (SendKeysCommand) command);
 						break;
 					default:
@@ -150,28 +150,28 @@ public class BaseProcessor {
 		By by;
 
 		switch (selector.getSelectorType()) {
-		case ClassName:
+		case CLASS_NAME:
 			by = By.className(selector.getSelector());
 			break;
-		case CssSelector:
+		case CSS_SELECTOR:
 			by = By.cssSelector(selector.getSelector());
 			break;
-		case Id:
+		case ID:
 			by = By.id(selector.getSelector());
 			break;
-		case LinkText:
+		case LINK_TEXT:
 			by = By.linkText(selector.getSelector());
 			break;
-		case Name:
+		case NAME:
 			by = By.name(selector.getSelector());
 			break;
-		case PartialLinkText:
+		case PARTIAL_LINK_TEXT:
 			by = By.partialLinkText(selector.getSelector());
 			break;
-		case TagName:
+		case TAG_NAME:
 			by = By.tagName(selector.getSelector());
 			break;
-		case Xpath:
+		case XPATH:
 			by = By.xpath(selector.getSelector());
 			break;
 		default:

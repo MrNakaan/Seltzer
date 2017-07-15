@@ -8,7 +8,7 @@ public class SendKeyCommand extends Command {
 	private Selector selector = new Selector();
 	
 	public SendKeyCommand() {
-		super(CommandType.SendKey);
+		super(CommandType.SEND_KEY);
 	}
 
 	public SeltzerKeys getKey() {

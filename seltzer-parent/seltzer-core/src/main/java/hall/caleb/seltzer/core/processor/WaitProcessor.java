@@ -81,7 +81,7 @@ public class WaitProcessor {
 		}
 		
 		switch (command.getWaitType()) {
-		case AlertIsPresent:
+		case ALERT_PRESENT:
 			condition = alertIsPresent(driver, command);
 			break;
 		default:
@@ -95,7 +95,7 @@ public class WaitProcessor {
 		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
-		case Refreshed:
+		case REFRESHED:
 			condition = refreshed(driver, command);
 			break;
 		default:
@@ -117,13 +117,13 @@ public class WaitProcessor {
 		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
-		case And:
+		case AND:
 			condition = andOr(driver, (LogicalAndOrWaitCommand) command);
 			break;
-		case Or:
+		case OR:
 			condition = andOr(driver, (LogicalAndOrWaitCommand) command);
 			break;
-		case Not:
+		case NOT:
 			condition = not(driver, (LogicalNotWaitCommand) command);
 			break;
 		default:
@@ -170,9 +170,9 @@ public class WaitProcessor {
 		}
 		
 		
-		if (command.getWaitType() == WaitType.And) { 
+		if (command.getWaitType() == WaitType.AND) { 
 			condition = ExpectedConditions.and(conditions);
-		} else if (command.getWaitType() == WaitType.Or) {
+		} else if (command.getWaitType() == WaitType.OR) {
 			condition = ExpectedConditions.or(conditions);
 		}
 		
@@ -183,16 +183,16 @@ public class WaitProcessor {
 		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
-		case NumberOfElementsToBe:
+		case ELEMENT_COUNT_IS:
 			condition = elementCount(driver, command);
 			break;
-		case NumberOfElementsToBeLessThan:
+		case ELEMENT_COUNT_LESS_THAN:
 			condition = elementCountLessThan(driver, command);
 			break;
-		case NumberOfElementsToBeMoreThan:
+		case ELEMENT_COUNT_GREATER_THAN:
 			condition = elementCountMoreThan(driver, command);
 			break;
-		case NumberOfWindowsToBe:
+		case WINDOW_COUNT_IS:
 			condition = windowCount(driver, command);
 			break;
 		default:
@@ -210,19 +210,19 @@ public class WaitProcessor {
 		}
 
 		switch (command.getWaitType()) {
-		case ElementToBeClickable:
+		case ELEMENT_CLICKABLE:
 			condition = elementClickable(driver, command);
 			break;
-		case FrameToBeAvailableAndSwitchToIt:
+		case SWITCH_TO_FRAME_WHEN_AVAILABLE:
 			condition = frameToBeAvailableSwitch(driver, command);
 			break;
-		case PresenceOfAllElementsLocatedBy:
+		case ALL_ELEMENTS_PRESENT:
 			condition = presenceOfAllElements(driver, command);
 			break;
-		case PresenceOfElementLocated:
+		case ELEMENT_PRESENT:
 			condition = presenceOfElement(driver, command);
 			break;
-		case StalenessOf:
+		case IS_STALE:
 			condition = staleness(driver, command);
 			break;
 		default:
@@ -237,10 +237,10 @@ public class WaitProcessor {
 		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
-		case PresenceOfNestedElementLocatedBy:
+		case NESTED_ELEMENT_PRESENT:
 			condition = presenceOfNestedElement(driver, command);
 			break;
-		case PresenceOfNestedElementsLocatedBy:
+		case NESTED_ELEMENTS_PRESENT:
 			condition = presenceOfAllNestedElements(driver, command);
 			break;
 		default:
@@ -255,13 +255,13 @@ public class WaitProcessor {
 		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
-		case InvisibilityOf:
+		case ELEMENT_INVISIBLE:
 			condition = invisibilityOf(driver, command);
 			break;
-		case InvisibilityOfAllElements:
+		case ALL_ELEMENTS_INVISBLE:
 			condition = invisibilityOfAll(driver, command);
 			break;
-		case InvisibilityOfElementWithText:
+		case ELEMENT_WITH_TEXT_INVISIBLE:
 			condition = invisibilityOfElementWithText(driver, command);
 			break;
 		default:
@@ -275,10 +275,10 @@ public class WaitProcessor {
 		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
-		case JavascriptReturnsValue:
+		case JAVASCRIPT_RETURNS_STRING:
 			condition = javascriptReturns(driver, command);
 			break;
-		case JavascriptThrowsNoExceptions:
+		case JAVASCRIPT_THROWS_NO_EXCEPTIONS:
 			condition = javascriptCompletes(driver, command);
 			break;
 		default:
@@ -293,7 +293,7 @@ public class WaitProcessor {
 		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
-		case ElementSelectionStateToBe:
+		case ELEMENT_SELECTION_STATE_IS:
 			condition = elementSelectionState(driver, command);
 			break;
 		default:
@@ -314,19 +314,19 @@ public class WaitProcessor {
 		}
 
 		switch (command.getWaitType()) {
-		case TitleContains:
+		case TITLE_CONTAINS:
 			condition = titleContains(driver, command);
 			break;
-		case TitleIs:
+		case TITLE_IS:
 			condition = titleIs(driver, command);
 			break;
-		case UrlContains:
+		case URL_CONTAINS:
 			condition = urlContains(driver, command);
 			break;
-		case UrlMatches:
+		case URL_MATCHES:
 			condition = urlMatches(driver, command);
 			break;
-		case UrlToBe:
+		case URL_IS:
 			condition = urlToBe(driver, command);
 			break;
 		default:
@@ -341,16 +341,16 @@ public class WaitProcessor {
 		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
-		case TextMatches:
+		case TEXT_MATCHES:
 			condition = textMatches(driver, command);
 			break;
-		case TextToBe:
+		case TEXT_IS:
 			condition = textIs(driver, command);
 			break;
-		case TextToBePresentInElementLocated:
+		case TEXT_PRESENT_IN_ELEMENT:
 			condition = textPresent(driver, command);
 			break;
-		case TextToBePresentInElementValue:
+		case TEXT_IN_ELEMENT_VALUE:
 			condition = textPresentInValue(driver, command);
 			break;
 		default:
@@ -365,13 +365,13 @@ public class WaitProcessor {
 		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
-		case AttributeContains:
+		case ATTRIBUTE_CONTAINS:
 			condition = attributeContains(driver, command);
 			break;
-		case AttributeToBe:
+		case ATTRIBUTE_IS:
 			condition = attributeIs(driver, command);
 			break;
-		case AttributeToBeNotEmpty:
+		case ATTRIBUTE_IS_NOT_EMPTY:
 			condition = attributeIsNotEmpty(driver, command);
 			break;
 		default:
@@ -389,10 +389,10 @@ public class WaitProcessor {
 		}
 
 		switch (command.getWaitType()) {
-		case VisibilityOf:
+		case ELEMENT_VISIBLE:
 			condition = visibilityOf(driver, command);
 			break;
-		case VisibilityOfAllElements:
+		case ALL_ELEMENTS_VISIBLE:
 			condition = visibilityOfAll(driver, command);
 			break;
 		default:
@@ -407,7 +407,7 @@ public class WaitProcessor {
 		ExpectedCondition<?> condition = null;
 
 		switch (command.getWaitType()) {
-		case VisibilityOfNestedElementsLocatedBy:
+		case NESTED_ELEMENTS_VISIBLE:
 			condition = visibilityOfAllNested(driver, command);
 			break;
 		default:

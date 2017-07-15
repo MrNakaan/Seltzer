@@ -11,18 +11,18 @@ public class WaitCommand extends Command {
 	protected Integer seconds;
 	
 	public WaitCommand(Integer seconds) {
-		super(CommandType.Wait);
+		super(CommandType.WAIT);
 		this.seconds = seconds;
 	}
 
 	public WaitCommand(Integer seconds, WaitType waitType) {
-		super(CommandType.Wait);
+		super(CommandType.WAIT);
 		this.seconds = seconds;
 		this.waitType = waitType;
 	}
 
 	public WaitCommand(Integer seconds, WaitType waitType, UUID id) {
-		super(CommandType.Wait, id);
+		super(CommandType.WAIT, id);
 		this.seconds = seconds;
 		this.waitType = waitType;
 	}
