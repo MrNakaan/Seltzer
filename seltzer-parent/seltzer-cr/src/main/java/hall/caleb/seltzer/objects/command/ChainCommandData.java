@@ -6,16 +6,16 @@ import java.util.UUID;
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.objects.SerializableCR;
 
-public class ChainCommand<C extends Command> extends Command implements SerializableCR {
+public class ChainCommandData<C extends CommandData> extends CommandData implements SerializableCR {
 	protected boolean usesCommandList = true;
 	
 	private CommandList<C> commands = new CommandList<>();
 
-	public ChainCommand() {
+	public ChainCommandData() {
 		super(CommandType.CHAIN);
 	}
 
-	public ChainCommand(UUID id) {
+	public ChainCommandData(UUID id) {
 		super(CommandType.CHAIN, id);
 	}
 
@@ -57,7 +57,7 @@ public class ChainCommand<C extends Command> extends Command implements Serializ
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ChainCommand other = (ChainCommand) obj;
+		ChainCommandData other = (ChainCommandData) obj;
 		if (usesCommandList != other.usesCommandList)
 			return false;
 		if (commands == null) {

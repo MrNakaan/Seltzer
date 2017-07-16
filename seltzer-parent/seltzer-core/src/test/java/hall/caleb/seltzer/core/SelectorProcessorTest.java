@@ -17,9 +17,9 @@ import org.openqa.selenium.WebElement;
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.ResponseType;
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.objects.command.Command;
-import hall.caleb.seltzer.objects.command.selector.FillFieldCommand;
-import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
+import hall.caleb.seltzer.objects.command.CommandData;
+import hall.caleb.seltzer.objects.command.selector.FillFieldCommandData;
+import hall.caleb.seltzer.objects.command.selector.SelectorCommandData;
 import hall.caleb.seltzer.objects.response.Response;
 import hall.caleb.seltzer.objects.response.SingleResultResponse;
 import hall.caleb.seltzer.util.CommandFactory;
@@ -47,7 +47,7 @@ public class SelectorProcessorTest {
 
 	@AfterClass
 	public static void cleanDriver() {
-		session.executeCommand(new Command(CommandType.EXIT, session.getId()));
+		session.executeCommand(new CommandData(CommandType.EXIT, session.getId()));
 	}
 
 	@Before
@@ -57,7 +57,7 @@ public class SelectorProcessorTest {
 
 	@Test
 	public void testClick() throws Exception {
-		SelectorCommand command = CommandFactory.newClickCommand(session.getId(), SelectorType.LINK_TEXT, "Page 1");
+		SelectorCommandData command = CommandFactory.newClickCommand(session.getId(), SelectorType.LINK_TEXT, "Page 1");
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());
@@ -70,7 +70,7 @@ public class SelectorProcessorTest {
 	public void testCount() throws Exception {
 		session.getDriver().findElement(By.linkText("Page 1")).click();
 
-		SelectorCommand command = CommandFactory.newCountCommand(session.getId(), SelectorType.XPATH,
+		SelectorCommandData command = CommandFactory.newCountCommand(session.getId(), SelectorType.XPATH,
 				"//div[@id='count']/span");
 		Response response = session.executeCommand(command);
 
@@ -87,7 +87,7 @@ public class SelectorProcessorTest {
 	public void testDelete() throws Exception {
 		session.getDriver().findElement(By.linkText("Page 1")).click();
 
-		SelectorCommand command = CommandFactory.newDeleteCommand(session.getId(), "//div[@id='count']/span");
+		SelectorCommandData command = CommandFactory.newDeleteCommand(session.getId(), "//div[@id='count']/span");
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());
@@ -102,7 +102,7 @@ public class SelectorProcessorTest {
 	public void testFillField() throws Exception {
 		session.getDriver().findElement(By.linkText("Page 1")).click();
 
-		FillFieldCommand command = CommandFactory.newFillFieldCommand(session.getId(), SelectorType.XPATH, "//input[1]",
+		FillFieldCommandData command = CommandFactory.newFillFieldCommand(session.getId(), SelectorType.XPATH, "//input[1]",
 				"TEXT, BRO!");
 		Response response = session.executeCommand(command);
 
@@ -121,7 +121,7 @@ public class SelectorProcessorTest {
 		input.sendKeys("MORE TEXT, BRO!");
 		assertEquals("Make sure the initial text got sent.", "MORE TEXT, BRO!", input.getAttribute("value"));
 
-		SelectorCommand command = CommandFactory.newFormSubmitCommand(session.getId(), SelectorType.XPATH, "//form[1]");
+		SelectorCommandData command = CommandFactory.newFormSubmitCommand(session.getId(), SelectorType.XPATH, "//form[1]");
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());

@@ -8,5 +8,6 @@ public enum SelectorType {
 	NAME,
 	PARTIAL_LINK_TEXT,
 	TAG_NAME,
-	XPATH
+	XPATH,
+	NONE;
 }

@@ -3,11 +3,11 @@ package hall.caleb.seltzer.objects.command;
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SeltzerKeys;
 
-public class SendKeyCommand extends Command {
+public class SendKeyCommandData extends CommandData {
 	private SeltzerKeys key;
 	private Selector selector = new Selector();
 	
-	public SendKeyCommand() {
+	public SendKeyCommandData() {
 		super(CommandType.SEND_KEY);
 	}
 
@@ -44,7 +44,7 @@ public class SendKeyCommand extends Command {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SendKeyCommand other = (SendKeyCommand) obj;
+		SendKeyCommandData other = (SendKeyCommandData) obj;
 		if (key != other.key)
 			return false;
 		if (selector == null) {

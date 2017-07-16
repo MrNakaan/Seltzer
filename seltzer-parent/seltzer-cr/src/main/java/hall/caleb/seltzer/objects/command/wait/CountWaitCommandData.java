@@ -1,24 +1,24 @@
-package hall.caleb.seltzer.objects.command.wait.visibility;
+package hall.caleb.seltzer.objects.command.wait;
 
 import java.util.UUID;
 
-import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SelectorType;
+import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.objects.command.Selector;
-import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 
-public class VisibilityWaitCommand extends WaitCommand {
-protected Selector selector = new Selector();
+public class CountWaitCommandData extends WaitCommandData {
+	Integer bound;
+	Selector selector = new Selector();
 	
-	public VisibilityWaitCommand(Integer seconds) {
+	public CountWaitCommandData(Integer seconds) {
 		super(seconds);
 	}
 
-	public VisibilityWaitCommand(Integer seconds, CommandType waitType) {
+	public CountWaitCommandData(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 	}
 
-	public VisibilityWaitCommand(Integer seconds, CommandType waitType, UUID id) {
+	public CountWaitCommandData(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 	}
 	
@@ -28,14 +28,15 @@ protected Selector selector = new Selector();
 
 	@Override
 	public String toString() {
-		return "VisibilityWaitCommand [selector=" + selector + ", seconds=" + seconds + ", hasCommandList="
-				+ hasCommandList + ", type=" + type + ", id=" + id + "]";
+		return "CountWaitCommand [bound=" + bound + ", selector=" + selector + ", seconds=" + seconds
+				+ ", hasCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + ((bound == null) ? 0 : bound.hashCode());
 		result = prime * result + ((selector == null) ? 0 : selector.hashCode());
 		return result;
 	}
@@ -48,13 +49,26 @@ protected Selector selector = new Selector();
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		VisibilityWaitCommand other = (VisibilityWaitCommand) obj;
+		CountWaitCommandData other = (CountWaitCommandData) obj;
+		if (bound == null) {
+			if (other.bound != null)
+				return false;
+		} else if (!bound.equals(other.bound))
+			return false;
 		if (selector == null) {
 			if (other.selector != null)
 				return false;
 		} else if (!selector.equals(other.selector))
 			return false;
 		return true;
+	}
+
+	public Integer getBound() {
+		return bound;
+	}
+
+	public void setBound(Integer bound) {
+		this.bound = bound;
 	}
 
 	public Selector getSelector() {

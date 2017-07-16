@@ -1,25 +1,24 @@
-package hall.caleb.seltzer.objects.command.wait.visibility;
+package hall.caleb.seltzer.objects.command.wait;
 
 import java.util.UUID;
 
-import hall.caleb.seltzer.enums.SelectorType;
 import hall.caleb.seltzer.enums.CommandType;
+import hall.caleb.seltzer.enums.SelectorType;
 import hall.caleb.seltzer.objects.command.Selector;
-import hall.caleb.seltzer.objects.command.wait.WaitCommand;
 
-public class InvisibilityWaitCommand extends WaitCommand {
-	protected Selector selector = new Selector();
-	protected String text;
+public class SelectionStateWaitCommandData extends WaitCommandData {
+	Boolean selected;
+	Selector selector = new Selector();
 	
-	public InvisibilityWaitCommand(Integer seconds) {
+	public SelectionStateWaitCommandData(Integer seconds) {
 		super(seconds);
 	}
 
-	public InvisibilityWaitCommand(Integer seconds, CommandType waitType) {
+	public SelectionStateWaitCommandData(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 	}
 
-	public InvisibilityWaitCommand(Integer seconds, CommandType waitType, UUID id) {
+	public SelectionStateWaitCommandData(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 	}
 	
@@ -29,7 +28,7 @@ public class InvisibilityWaitCommand extends WaitCommand {
 
 	@Override
 	public String toString() {
-		return "InvisibilityWaitCommand [selector=" + selector + ", text=" + text + ", seconds=" + seconds
+		return "SelectionStateWaitCommand [selected=" + selected + ", selector=" + selector + ", seconds=" + seconds
 				+ ", hasCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
@@ -37,6 +36,7 @@ public class InvisibilityWaitCommand extends WaitCommand {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + ((selected == null) ? 0 : selected.hashCode());
 		result = prime * result + ((selector == null) ? 0 : selector.hashCode());
 		return result;
 	}
@@ -49,7 +49,12 @@ public class InvisibilityWaitCommand extends WaitCommand {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		InvisibilityWaitCommand other = (InvisibilityWaitCommand) obj;
+		SelectionStateWaitCommandData other = (SelectionStateWaitCommandData) obj;
+		if (selected == null) {
+			if (other.selected != null)
+				return false;
+		} else if (!selected.equals(other.selected))
+			return false;
 		if (selector == null) {
 			if (other.selector != null)
 				return false;
@@ -58,19 +63,19 @@ public class InvisibilityWaitCommand extends WaitCommand {
 		return true;
 	}
 
+	public Boolean getSelected() {
+		return selected;
+	}
+
+	public void setSelected(Boolean selected) {
+		this.selected = selected;
+	}
+
 	public Selector getSelector() {
 		return selector;
 	}
 
 	public void setSelector(Selector selector) {
 		this.selector = selector;
-	}
-	
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
 	}
 }

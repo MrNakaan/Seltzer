@@ -15,7 +15,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import hall.caleb.seltzer.core.processor.BaseProcessor;
-import hall.caleb.seltzer.objects.command.Command;
+import hall.caleb.seltzer.objects.command.CommandData;
 import hall.caleb.seltzer.objects.response.Response;
 
 public class SeltzerSession implements Closeable {
@@ -115,7 +115,7 @@ public class SeltzerSession implements Closeable {
 		FileUtils.deleteDirectory(dataDir.toFile());
 	}
 	
-	public Response executeCommand(Command command) {
+	public Response executeCommand(CommandData command) {
 		this.lastUsed = System.currentTimeMillis();
 		
 		return BaseProcessor.processCommand(driver, command);

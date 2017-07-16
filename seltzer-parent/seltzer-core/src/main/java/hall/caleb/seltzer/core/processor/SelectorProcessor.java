@@ -9,9 +9,9 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.objects.command.selector.FillFieldCommand;
-import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
-import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommand;
+import hall.caleb.seltzer.objects.command.selector.FillFieldCommandData;
+import hall.caleb.seltzer.objects.command.selector.SelectorCommandData;
+import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommandData;
 import hall.caleb.seltzer.objects.response.ExceptionResponse;
 import hall.caleb.seltzer.objects.response.Response;
 import hall.caleb.seltzer.objects.response.SingleResultResponse;
@@ -19,11 +19,11 @@ import hall.caleb.seltzer.objects.response.SingleResultResponse;
 public class SelectorProcessor {
 	static Logger logger = LogManager.getLogger(SelectorProcessor.class);
 
-	static Response processCommand(WebDriver driver, SelectorCommand command) {
+	static Response processCommand(WebDriver driver, SelectorCommandData command) {
 		Response response = new Response(command.getId(), false);
 
-		if (command instanceof MultiResultSelectorCommand) {
-			response = MultiResultSelectorProcessor.processCommand(driver, (MultiResultSelectorCommand) command);
+		if (command instanceof MultiResultSelectorCommandData) {
+			response = MultiResultSelectorProcessor.processCommand(driver, (MultiResultSelectorCommandData) command);
 		} else {
 			int tryNumber = 0;
 			while (tryNumber < BaseProcessor.RETRIES) {
@@ -39,7 +39,7 @@ public class SelectorProcessor {
 						response = delete(driver, command);
 						break;
 					case FILL_FIELD:
-						response = fillField(driver, (FillFieldCommand) command);
+						response = fillField(driver, (FillFieldCommandData) command);
 						break;
 					case FORM_SUBMIT:
 						response = formSubmit(driver, command);
@@ -71,7 +71,7 @@ public class SelectorProcessor {
 		return response;
 	}
 
-	private static Response click(WebDriver driver, SelectorCommand command) throws WebDriverException {
+	private static Response click(WebDriver driver, SelectorCommandData command) throws WebDriverException {
 		Response response = new Response(command.getId(), false);
 
 		driver.findElement(BaseProcessor.getBy(command.getSelector())).click();
@@ -80,7 +80,7 @@ public class SelectorProcessor {
 		return response;
 	}
 
-	private static SingleResultResponse count(WebDriver driver, SelectorCommand command) throws NoSuchElementException {
+	private static SingleResultResponse count(WebDriver driver, SelectorCommandData command) throws NoSuchElementException {
 		SingleResultResponse response = new SingleResultResponse(command.getId());
 
 		Integer size = driver.findElements(BaseProcessor.getBy(command.getSelector())).size();
@@ -90,10 +90,10 @@ public class SelectorProcessor {
 		return response;
 	}
 
-	private static Response delete(WebDriver driver, SelectorCommand command) {
+	private static Response delete(WebDriver driver, SelectorCommandData command) {
 		Response response = new Response(command.getId(), false);
-		if (command.getSelector().getSelectorType() == SelectorType.XPATH && driver instanceof JavascriptExecutor) {
-			String selector = command.getSelector().getSelector().replace("\"", "\\\"");
+		if (command.getSelector().getType() == SelectorType.XPATH && driver instanceof JavascriptExecutor) {
+			String selector = command.getSelector().getPath().replace("\"", "\\\"");
 
 			StringBuilder removeScript = new StringBuilder();
 			removeScript.append(Messages.getString("SelectorProcessor.js1"));
@@ -116,7 +116,7 @@ public class SelectorProcessor {
 		return response;
 	}
 
-	private static Response fillField(WebDriver driver, FillFieldCommand command) throws WebDriverException {
+	private static Response fillField(WebDriver driver, FillFieldCommandData command) throws WebDriverException {
 		Response response = new Response(command.getId(), false);
 
 		WebElement field = driver.findElement(BaseProcessor.getBy(command.getSelector()));
@@ -127,7 +127,7 @@ public class SelectorProcessor {
 		return response;
 	}
 
-	private static Response formSubmit(WebDriver driver, SelectorCommand command) throws WebDriverException {
+	private static Response formSubmit(WebDriver driver, SelectorCommandData command) throws WebDriverException {
 		Response response = new Response(command.getId(), false);
 
 		WebElement form = driver.findElement(BaseProcessor.getBy(command.getSelector()));

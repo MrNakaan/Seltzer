@@ -1,35 +1,35 @@
-package hall.caleb.seltzer.objects.command.selector;
+package hall.caleb.seltzer.objects.command.wait.visibility;
 
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.objects.command.Command;
 import hall.caleb.seltzer.objects.command.Selector;
+import hall.caleb.seltzer.objects.command.wait.WaitCommandData;
 
-public class SelectorCommand extends Command {
-	protected Selector selector = new Selector();
+public class VisibilityWaitCommandData extends WaitCommandData {
+protected Selector selector = new Selector();
 	
-	public SelectorCommand() {
-		super();
+	public VisibilityWaitCommandData(Integer seconds) {
+		super(seconds);
 	}
 
-	public SelectorCommand(CommandType commandType) {
-		super(commandType);
+	public VisibilityWaitCommandData(Integer seconds, CommandType waitType) {
+		super(seconds, waitType);
+	}
+
+	public VisibilityWaitCommandData(Integer seconds, CommandType waitType, UUID id) {
+		super(seconds, waitType, id);
 	}
 	
-	public SelectorCommand(CommandType commandType, UUID id) {
-		super(commandType, id);
-	}
-
 	public void setSelector(String selector, SelectorType selectorType) {
 		this.selector.setSelector(selectorType, selector);
 	}
-	
+
 	@Override
 	public String toString() {
-		return "SelectorCommand [selector=" + selector + ", usesCommandList=" + hasCommandList + ", type=" + type
-				+ ", id=" + id + "]";
+		return "VisibilityWaitCommand [selector=" + selector + ", seconds=" + seconds + ", hasCommandList="
+				+ hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class SelectorCommand extends Command {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SelectorCommand other = (SelectorCommand) obj;
+		VisibilityWaitCommandData other = (VisibilityWaitCommandData) obj;
 		if (selector == null) {
 			if (other.selector != null)
 				return false;

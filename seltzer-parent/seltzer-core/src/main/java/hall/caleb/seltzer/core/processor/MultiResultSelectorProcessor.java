@@ -10,8 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
-import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommand;
-import hall.caleb.seltzer.objects.command.selector.multiresult.ReadAttributeCommand;
+import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommandData;
+import hall.caleb.seltzer.objects.command.selector.multiresult.ReadAttributeCommandData;
 import hall.caleb.seltzer.objects.response.ExceptionResponse;
 import hall.caleb.seltzer.objects.response.MultiResultResponse;
 import hall.caleb.seltzer.objects.response.Response;
@@ -20,7 +20,7 @@ import hall.caleb.seltzer.objects.response.SingleResultResponse;
 public class MultiResultSelectorProcessor {
 	static Logger logger = LogManager.getLogger(MultiResultSelectorProcessor.class);
 
-	static Response processCommand(WebDriver driver, MultiResultSelectorCommand command) {
+	static Response processCommand(WebDriver driver, MultiResultSelectorCommandData command) {
 		Response response = new Response(command.getId(), false);
 
 		int tryNumber = 0;
@@ -28,7 +28,7 @@ public class MultiResultSelectorProcessor {
 			try {
 				switch (command.getType()) {
 				case READ_ATTRIBUTE:
-					response = readAttribute(driver, (ReadAttributeCommand) command);
+					response = readAttribute(driver, (ReadAttributeCommandData) command);
 					break;
 				case READ_TEXT:
 					response = readText(driver, command);
@@ -59,7 +59,7 @@ public class MultiResultSelectorProcessor {
 		return response;
 	}
 
-	private static Response readAttribute(WebDriver driver, ReadAttributeCommand command)
+	private static Response readAttribute(WebDriver driver, ReadAttributeCommandData command)
 			throws WebDriverException, Exception {
 		List<String> attributes = Arrays.asList(command.getAttribute().split("/"));
 
@@ -114,7 +114,7 @@ public class MultiResultSelectorProcessor {
 		}
 	}
 
-	private static Response readText(WebDriver driver, MultiResultSelectorCommand command)
+	private static Response readText(WebDriver driver, MultiResultSelectorCommandData command)
 			throws WebDriverException, Exception {
 		MultiResultResponse mrResponse = new MultiResultResponse(command.getId(), true);
 		SingleResultResponse srResponse = new SingleResultResponse(command.getId(), true);

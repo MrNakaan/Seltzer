@@ -6,19 +6,19 @@ import hall.caleb.seltzer.enums.SelectorType;
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.objects.command.Selector;
 
-public class TextMatchAttributeSelectorWaitCommand extends TextMatchWaitCommand {
+public class TextMatchAttributeSelectorWaitCommandData extends TextMatchWaitCommandData {
 	protected Selector selector = new Selector();
 	String attribute = "";
 	
-	public TextMatchAttributeSelectorWaitCommand(Integer seconds) {
+	public TextMatchAttributeSelectorWaitCommandData(Integer seconds) {
 		super(seconds);
 	}
 
-	public TextMatchAttributeSelectorWaitCommand(Integer seconds, CommandType waitType) {
+	public TextMatchAttributeSelectorWaitCommandData(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 	}
 
-	public TextMatchAttributeSelectorWaitCommand(Integer seconds, CommandType waitType, UUID id) {
+	public TextMatchAttributeSelectorWaitCommandData(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 	}
 	
@@ -49,7 +49,7 @@ public class TextMatchAttributeSelectorWaitCommand extends TextMatchWaitCommand 
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TextMatchAttributeSelectorWaitCommand other = (TextMatchAttributeSelectorWaitCommand) obj;
+		TextMatchAttributeSelectorWaitCommandData other = (TextMatchAttributeSelectorWaitCommandData) obj;
 		if (attribute == null) {
 			if (other.attribute != null)
 				return false;

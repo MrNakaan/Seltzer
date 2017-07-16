@@ -1,4 +1,4 @@
-package hall.caleb.seltzer.objects.command.wait.visibility;
+package hall.caleb.seltzer.objects.command.wait.existence;
 
 import java.util.UUID;
 
@@ -6,18 +6,18 @@ import hall.caleb.seltzer.enums.SelectorType;
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.objects.command.Selector;
 
-public class NestedVisibilityWaitCommand extends VisibilityWaitCommand {
+public class NestedExistenceWaitCommandData extends ExistenceWaitCommandData {
 	protected Selector childSelector = new Selector();
 	
-	public NestedVisibilityWaitCommand(Integer seconds) {
+	public NestedExistenceWaitCommandData(Integer seconds) {
 		super(seconds);
 	}
 
-	public NestedVisibilityWaitCommand(Integer seconds, CommandType waitType) {
+	public NestedExistenceWaitCommandData(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 	}
 
-	public NestedVisibilityWaitCommand(Integer seconds, CommandType waitType, UUID id) {
+	public NestedExistenceWaitCommandData(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 	}
 	
@@ -32,7 +32,7 @@ public class NestedVisibilityWaitCommand extends VisibilityWaitCommand {
 
 	@Override
 	public String toString() {
-		return "NestedVisibilityWaitCommand [childSelector=" + childSelector + ", selector=" + selector + ", seconds="
+		return "NestedExistenceWaitCommand [childSelector=" + childSelector + ", selector=" + selector + ", seconds="
 				+ seconds + ", hasCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
 
@@ -52,7 +52,7 @@ public class NestedVisibilityWaitCommand extends VisibilityWaitCommand {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		NestedVisibilityWaitCommand other = (NestedVisibilityWaitCommand) obj;
+		NestedExistenceWaitCommandData other = (NestedExistenceWaitCommandData) obj;
 		if (childSelector == null) {
 			if (other.childSelector != null)
 				return false;

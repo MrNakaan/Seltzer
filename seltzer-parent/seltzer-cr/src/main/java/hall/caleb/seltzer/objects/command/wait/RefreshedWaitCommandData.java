@@ -4,14 +4,14 @@ import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 
-public final class RefreshedWaitCommand extends WaitCommand {
-WaitCommand waitCommand;
+public final class RefreshedWaitCommandData extends WaitCommandData {
+WaitCommandData waitCommand;
 	
-	public RefreshedWaitCommand(Integer seconds) {
+	public RefreshedWaitCommandData(Integer seconds) {
 		super(seconds, CommandType.REFRESHED_WAIT);
 	}
 
-	public RefreshedWaitCommand(Integer seconds, UUID id) {
+	public RefreshedWaitCommandData(Integer seconds, UUID id) {
 		super(seconds, CommandType.REFRESHED_WAIT, id);
 	}
 
@@ -37,7 +37,7 @@ WaitCommand waitCommand;
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		RefreshedWaitCommand other = (RefreshedWaitCommand) obj;
+		RefreshedWaitCommandData other = (RefreshedWaitCommandData) obj;
 		if (waitCommand == null) {
 			if (other.waitCommand != null)
 				return false;
@@ -46,11 +46,11 @@ WaitCommand waitCommand;
 		return true;
 	}
 
-	public WaitCommand getWaitCommand() {
+	public WaitCommandData getWaitCommand() {
 		return waitCommand;
 	}
 
-	public void setWaitCommand(WaitCommand waitCommand) {
+	public void setWaitCommand(WaitCommandData waitCommand) {
 		this.waitCommand = waitCommand;
 	}
 }

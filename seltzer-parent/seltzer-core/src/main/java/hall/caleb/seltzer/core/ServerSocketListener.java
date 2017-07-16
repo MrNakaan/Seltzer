@@ -22,7 +22,7 @@ import hall.caleb.seltzer.core.processor.BaseProcessor;
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.ResponseType;
 import hall.caleb.seltzer.objects.SerializableCR;
-import hall.caleb.seltzer.objects.command.Command;
+import hall.caleb.seltzer.objects.command.CommandData;
 import hall.caleb.seltzer.objects.response.ChainResponse;
 import hall.caleb.seltzer.objects.response.MultiResultResponse;
 import hall.caleb.seltzer.objects.response.Response;
@@ -88,9 +88,9 @@ public class ServerSocketListener implements Runnable {
 			System.out.println(Messages.getString("ServerSocketListener.received"));
 			System.out.println("\t" + json);
 
-			Command command;
+			CommandData command;
 
-			command = new Gson().fromJson(json, Command.class);
+			command = new Gson().fromJson(json, CommandData.class);
 			command = new Gson().fromJson(json, command.getType().getCommandClass());
 
 			if (command.getType() == CommandType.CHAIN) {

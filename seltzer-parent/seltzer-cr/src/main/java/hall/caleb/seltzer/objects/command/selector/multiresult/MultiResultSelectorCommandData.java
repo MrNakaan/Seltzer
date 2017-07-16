@@ -3,20 +3,20 @@ package hall.caleb.seltzer.objects.command.selector.multiresult;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
-import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
+import hall.caleb.seltzer.objects.command.selector.SelectorCommandData;
 
-public class MultiResultSelectorCommand extends SelectorCommand {
+public class MultiResultSelectorCommandData extends SelectorCommandData {
 	protected int maxResults;
 	
-	public MultiResultSelectorCommand() {
+	public MultiResultSelectorCommandData() {
 		super();
 	}
 
-	public MultiResultSelectorCommand(CommandType commandType) {
+	public MultiResultSelectorCommandData(CommandType commandType) {
 		super(commandType);
 	}
 	
-	public MultiResultSelectorCommand(CommandType commandType, UUID id) {
+	public MultiResultSelectorCommandData(CommandType commandType, UUID id) {
 		super(commandType, id);
 	}
 
@@ -42,7 +42,7 @@ public class MultiResultSelectorCommand extends SelectorCommand {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MultiResultSelectorCommand other = (MultiResultSelectorCommand) obj;
+		MultiResultSelectorCommandData other = (MultiResultSelectorCommandData) obj;
 		if (maxResults != other.maxResults)
 			return false;
 		return true;

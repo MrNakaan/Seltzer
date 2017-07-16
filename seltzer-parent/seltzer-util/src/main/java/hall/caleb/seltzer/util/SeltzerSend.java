@@ -13,13 +13,13 @@ import com.google.gson.Gson;
 
 import hall.caleb.seltzer.enums.ResponseType;
 import hall.caleb.seltzer.objects.SerializableCR;
-import hall.caleb.seltzer.objects.command.Command;
+import hall.caleb.seltzer.objects.command.CommandData;
 import hall.caleb.seltzer.objects.exception.SeltzerException;
 import hall.caleb.seltzer.objects.response.ExceptionResponse;
 import hall.caleb.seltzer.objects.response.Response;
 
 public class SeltzerSend {
-	public static Response send(Command command) throws SeltzerException {
+	public static Response send(CommandData command) throws SeltzerException {
 		if (command instanceof SerializableCR) {
 			((SerializableCR) command).serialize();
 		}

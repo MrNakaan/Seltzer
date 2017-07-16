@@ -16,9 +16,9 @@ import org.openqa.selenium.By;
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.ResponseType;
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.objects.command.Command;
-import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommand;
-import hall.caleb.seltzer.objects.command.selector.multiresult.ReadAttributeCommand;
+import hall.caleb.seltzer.objects.command.CommandData;
+import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommandData;
+import hall.caleb.seltzer.objects.command.selector.multiresult.ReadAttributeCommandData;
 import hall.caleb.seltzer.objects.response.MultiResultResponse;
 import hall.caleb.seltzer.objects.response.Response;
 import hall.caleb.seltzer.util.CommandFactory;
@@ -46,7 +46,7 @@ public class MultiResultSelectorProcessorTest {
 
 	@AfterClass
 	public static void cleanDriver() {
-		session.executeCommand(new Command(CommandType.EXIT, session.getId()));
+		session.executeCommand(new CommandData(CommandType.EXIT, session.getId()));
 	}
 
 	@Before
@@ -60,7 +60,7 @@ public class MultiResultSelectorProcessorTest {
 
 		String xpath = "//div[@id='read']/span";
 		String attr = "data-attr1";
-		ReadAttributeCommand command = CommandFactory.newReadAttributeCommand(session.getId(), SelectorType.XPATH,
+		ReadAttributeCommandData command = CommandFactory.newReadAttributeCommand(session.getId(), SelectorType.XPATH,
 				xpath, 0, attr);
 		Response response = session.executeCommand(command);
 
@@ -107,7 +107,7 @@ public class MultiResultSelectorProcessorTest {
 	public void testReadText() throws Exception {
 		session.getDriver().findElement(By.linkText("Page 1")).click();
 
-		MultiResultSelectorCommand command = CommandFactory.newReadTextCommand(session.getId(), SelectorType.XPATH,
+		MultiResultSelectorCommandData command = CommandFactory.newReadTextCommand(session.getId(), SelectorType.XPATH,
 				"//div[@id='read']/span", 0);
 		Response response = session.executeCommand(command);
 

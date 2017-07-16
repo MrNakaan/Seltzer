@@ -5,112 +5,112 @@ import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.objects.command.Command;
-import hall.caleb.seltzer.objects.command.GetCookieCommand;
-import hall.caleb.seltzer.objects.command.GetCookiesCommand;
-import hall.caleb.seltzer.objects.command.GoToCommand;
-import hall.caleb.seltzer.objects.command.selector.FillFieldCommand;
-import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
-import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommand;
-import hall.caleb.seltzer.objects.command.selector.multiresult.ReadAttributeCommand;
+import hall.caleb.seltzer.objects.command.CommandData;
+import hall.caleb.seltzer.objects.command.GetCookieCommandData;
+import hall.caleb.seltzer.objects.command.GetCookiesCommandData;
+import hall.caleb.seltzer.objects.command.GoToCommandData;
+import hall.caleb.seltzer.objects.command.selector.FillFieldCommandData;
+import hall.caleb.seltzer.objects.command.selector.SelectorCommandData;
+import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommandData;
+import hall.caleb.seltzer.objects.command.selector.multiresult.ReadAttributeCommandData;
 
 public class CommandFactory {
 	@Deprecated
-	public static Command newStartCommand() {
-		return new Command(CommandType.START);
+	public static CommandData newStartCommand() {
+		return new CommandData(CommandType.START);
 	}
 	
 	@Deprecated
-	public static Command newExitCommand(UUID id) {
-		return new Command(CommandType.EXIT, id);
+	public static CommandData newExitCommand(UUID id) {
+		return new CommandData(CommandType.EXIT, id);
 	}
 	@Deprecated
-	public static Command newBackCommand(UUID id) {
-		return new Command(CommandType.BACK, id);
-	}
-	
-	@Deprecated
-	public static Command newForwardCommand(UUID id) {
-		return new Command(CommandType.FORWARD, id);
+	public static CommandData newBackCommand(UUID id) {
+		return new CommandData(CommandType.BACK, id);
 	}
 	
 	@Deprecated
-	public static Command newGetUrlCommand(UUID id) {
-		return new Command(CommandType.GET_URL, id);
+	public static CommandData newForwardCommand(UUID id) {
+		return new CommandData(CommandType.FORWARD, id);
 	}
 	
 	@Deprecated
-	public static GoToCommand newGoToCommand(UUID id, String url) {
-		return new GoToCommand(id, url);
+	public static CommandData newGetUrlCommand(UUID id) {
+		return new CommandData(CommandType.GET_URL, id);
 	}
 	
 	@Deprecated
-	public static SelectorCommand newClickCommand(UUID id, SelectorType type, String selector) {
-		SelectorCommand command = new SelectorCommand(CommandType.CLICK, id);
+	public static GoToCommandData newGoToCommand(UUID id, String url) {
+		return new GoToCommandData(id, url);
+	}
+	
+	@Deprecated
+	public static SelectorCommandData newClickCommand(UUID id, SelectorType type, String selector) {
+		SelectorCommandData command = new SelectorCommandData(CommandType.CLICK, id);
 		command.setSelector(selector, type);
 		return command;
 	}
 	
 	@Deprecated
-	public static SelectorCommand newCountCommand(UUID id, SelectorType type, String selector) {
-		SelectorCommand command = new SelectorCommand(CommandType.COUNT, id);
+	public static SelectorCommandData newCountCommand(UUID id, SelectorType type, String selector) {
+		SelectorCommandData command = new SelectorCommandData(CommandType.COUNT, id);
 		command.setSelector(selector, type);
 		return command;
 	}
 	
 	@Deprecated
-	public static SelectorCommand newFormSubmitCommand(UUID id, SelectorType type, String selector) {
-		SelectorCommand command = new SelectorCommand(CommandType.FORM_SUBMIT, id);
+	public static SelectorCommandData newFormSubmitCommand(UUID id, SelectorType type, String selector) {
+		SelectorCommandData command = new SelectorCommandData(CommandType.FORM_SUBMIT, id);
 		command.setSelector(selector, type);
 		return command;
 	}
 
 	@Deprecated
-	public static SelectorCommand newDeleteCommand(UUID id, String selector) {
-		SelectorCommand command = new SelectorCommand(CommandType.DELETE, id);
+	public static SelectorCommandData newDeleteCommand(UUID id, String selector) {
+		SelectorCommandData command = new SelectorCommandData(CommandType.DELETE, id);
 		command.setSelector(selector, SelectorType.XPATH);
 		return command;
 	}
 
 	@Deprecated
-	public static FillFieldCommand newFillFieldCommand(UUID id, SelectorType type, String selector, String text) {
-		FillFieldCommand command = new FillFieldCommand(id);
+	public static FillFieldCommandData newFillFieldCommand(UUID id, SelectorType type, String selector, String text) {
+		FillFieldCommandData command = new FillFieldCommandData(id);
 		command.setSelector(selector, type);
 		command.setText(text);
 		return command;
 	}
 	
 	@Deprecated
-	public static Command newGetCookieFileCommand(UUID id) {
-		Command command = new Command(CommandType.GET_COOKIE_FILE, id);
+	public static CommandData newGetCookieFileCommand(UUID id) {
+		CommandData command = new CommandData(CommandType.GET_COOKIE_FILE, id);
 		return command;
 	}
 	
 	@Deprecated
-	public static GetCookieCommand newGetCookieCommand(UUID id, String cookieName) {
-		GetCookieCommand command = new GetCookieCommand(id);
+	public static GetCookieCommandData newGetCookieCommand(UUID id, String cookieName) {
+		GetCookieCommandData command = new GetCookieCommandData(id);
 		command.setCookieName(cookieName);
 		return command;
 	}
 	
 	@Deprecated
-	public static GetCookiesCommand newGetCookiesCommand(UUID id, List<String> cookieNames) {
-		GetCookiesCommand command = new GetCookiesCommand(id);
+	public static GetCookiesCommandData newGetCookiesCommand(UUID id, List<String> cookieNames) {
+		GetCookiesCommandData command = new GetCookiesCommandData(id);
 		command.setCookieNames(cookieNames);
 		return command;
 	}
 	
 	@Deprecated
-	public static MultiResultSelectorCommand newReadTextCommand(UUID id, SelectorType type, String selector, int maxResults) {
-		MultiResultSelectorCommand command = new MultiResultSelectorCommand(CommandType.READ_TEXT, id);
+	public static MultiResultSelectorCommandData newReadTextCommand(UUID id, SelectorType type, String selector, int maxResults) {
+		MultiResultSelectorCommandData command = new MultiResultSelectorCommandData(CommandType.READ_TEXT, id);
 		command.setSelector(selector, type);
 		command.setMaxResults(maxResults);
 		return command;
 	}
 
 	@Deprecated
-	public static ReadAttributeCommand newReadAttributeCommand(UUID id, SelectorType type, String selector, int maxResults, String attribute) {
-		ReadAttributeCommand command = new ReadAttributeCommand(id);
+	public static ReadAttributeCommandData newReadAttributeCommand(UUID id, SelectorType type, String selector, int maxResults, String attribute) {
+		ReadAttributeCommandData command = new ReadAttributeCommandData(id);
 		command.setSelector(selector, type);
 		command.setMaxResults(maxResults);
 		command.setAttribute(attribute);

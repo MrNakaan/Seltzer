@@ -3,63 +3,91 @@ package hall.caleb.seltzer.objects.response;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import com.google.gson.Gson;
 
 import hall.caleb.seltzer.objects.SerializableCR;
 
 public class ResponseList<R extends Response> {
+	public static final int HASH_PRIME = 31;
+	
 	private List<R> responses;
 	private List<String> serializedResponses;
 	
 	public ResponseList() {
-		responses = new ArrayList<>();
-		serializedResponses = new ArrayList<>();
+		responses = null;
+		serializedResponses = null;
 	}
 	
 	public void serialize() {
-		Gson gson = new Gson();
-		
-		for (Response subResponse : responses) {
-			if (subResponse instanceof SerializableCR) {
-				((SerializableCR) subResponse).serialize();
-			}
-			
-			serializedResponses.add(gson.toJson(subResponse, subResponse.getType().getResponseClass()));
+		if (serializedResponses == null) {
+			serializedResponses = new ArrayList<>();
 		}
 		
-		responses.clear();
+		Gson gson = new Gson();
+		
+		if (!CollectionUtils.isEmpty(responses)) { 
+			for (Response subResponse : responses) {
+				if (subResponse instanceof SerializableCR) {
+					((SerializableCR) subResponse).serialize();
+				}
+				
+				serializedResponses.add(gson.toJson(subResponse, subResponse.getType().getResponseClass()));
+			}
+			
+			responses.clear();
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public void deserialize() {
+		if (responses == null) {
+			responses = new ArrayList<>();
+		}
+		
 		Gson gson = new Gson();
 		Response subResponse;
 		
-		for (String serializedResponse : serializedResponses) {
-			subResponse = gson.fromJson(serializedResponse, Response.class);
-			
-			subResponse = gson.fromJson(serializedResponse, subResponse.getType().getResponseClass());
-			
-			if (subResponse instanceof SerializableCR) {
-				((SerializableCR) subResponse).deserialize();
+		if (!CollectionUtils.isEmpty(serializedResponses)) {
+			for (String serializedResponse : serializedResponses) {
+				subResponse = gson.fromJson(serializedResponse, Response.class);
+				
+				subResponse = gson.fromJson(serializedResponse, subResponse.getType().getResponseClass());
+				
+				if (subResponse instanceof SerializableCR) {
+					((SerializableCR) subResponse).deserialize();
+				}
+				
+				responses.add((R) subResponse);
 			}
 			
-			responses.add((R) subResponse);
+			serializedResponses.clear();
 		}
-		
-		serializedResponses.clear();
 	}
 	
 	public void addResponse(R response) {
+		if (responses == null) {
+			responses = new ArrayList<>();
+		}
+		
 		responses.add(response);
 	}
 	
 	public int getSize() {
-		return responses.size();
+		if (responses == null) {
+			return 0;
+		} else {
+			return responses.size();
+		}
 	}
 
 	public int getSerializedSize() {
-		return serializedResponses.size();
+		if (serializedResponses == null) {
+			return 0;
+		} else {
+			return serializedResponses.size();
+		}
 	}
 	
 	@Override
@@ -69,10 +97,9 @@ public class ResponseList<R extends Response> {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((responses == null) ? 0 : responses.hashCode());
-		result = prime * result + ((serializedResponses == null) ? 0 : serializedResponses.hashCode());
+		result = HASH_PRIME * result + ((responses == null) ? 0 : responses.hashCode());
+		result = HASH_PRIME * result + ((serializedResponses == null) ? 0 : serializedResponses.hashCode());
 		return result;
 	}
 
@@ -100,10 +127,18 @@ public class ResponseList<R extends Response> {
 	}
 
 	public List<R> getResponses() {
+		if (responses == null) {
+			responses = new ArrayList<>();
+		}
+		
 		return responses;
 	}
 
 	public void setResponses(List<R> responses) {
-		this.responses = responses;
+		if (responses == null) {
+			this.responses.clear();
+		} else {
+			this.responses = responses;
+		}
 	}
 }

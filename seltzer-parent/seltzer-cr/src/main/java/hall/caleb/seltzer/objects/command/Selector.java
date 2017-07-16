@@ -3,34 +3,34 @@ package hall.caleb.seltzer.objects.command;
 import hall.caleb.seltzer.enums.SelectorType;
 
 public class Selector {
-	protected SelectorType selectorType = SelectorType.XPATH;
-	protected String selector = "";
+	public static final int HASH_PRIME = 31;
+	
+	protected SelectorType type;
+	protected String path;
 	
 	public Selector() {
-		
+		setSelector(SelectorType.NONE, "");
 	}
 	
 	public Selector(SelectorType selectorType, String selector) {
-		this.selectorType = selectorType;
-		this.selector = selector;
+		setSelector(selectorType, selector);
 	}
 	
 	public void setSelector(SelectorType selectorType, String selector) {
-		this.selector = selector;
-		this.selectorType = selectorType;
+		this.path = selector;
+		this.type = selectorType;
 	}
 
 	@Override
 	public String toString() {
-		return "Selector [selectorType=" + selectorType + ", selector=" + selector + "]";
+		return "Selector [selectorType=" + type + ", selector=" + path + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((selector == null) ? 0 : selector.hashCode());
-		result = prime * result + ((selectorType == null) ? 0 : selectorType.hashCode());
+		result = HASH_PRIME * result + ((path == null) ? 0 : path.hashCode());
+		result = HASH_PRIME * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
 
@@ -43,29 +43,29 @@ public class Selector {
 		if (getClass() != obj.getClass())
 			return false;
 		Selector other = (Selector) obj;
-		if (selector == null) {
-			if (other.selector != null)
+		if (path == null) {
+			if (other.path != null)
 				return false;
-		} else if (!selector.equals(other.selector))
+		} else if (!path.equals(other.path))
 			return false;
-		if (selectorType != other.selectorType)
+		if (type != other.type)
 			return false;
 		return true;
 	}
 
-	public SelectorType getSelectorType() {
-		return selectorType;
+	public SelectorType getType() {
+		return type;
 	}
 
-	public void setSelectorType(SelectorType selectorType) {
-		this.selectorType = selectorType;
+	public void setType(SelectorType type) {
+		this.type = type;
 	}
 
-	public String getSelector() {
-		return selector;
+	public String getPath() {
+		return path;
 	}
 
-	public void setSelector(String selector) {
-		this.selector = selector;
+	public void setPath(String path) {
+		this.path = path;
 	}
 }

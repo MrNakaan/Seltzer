@@ -1,23 +1,24 @@
-package hall.caleb.seltzer.objects.command.wait.textmatch;
+package hall.caleb.seltzer.objects.command.wait.existence;
 
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.SelectorType;
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.objects.command.Selector;
+import hall.caleb.seltzer.objects.command.wait.WaitCommandData;
 
-public class TextMatchSelectorWaitCommand extends TextMatchWaitCommand {
+public class ExistenceWaitCommandData extends WaitCommandData {
 	protected Selector selector = new Selector();
 	
-	public TextMatchSelectorWaitCommand(Integer seconds) {
+	public ExistenceWaitCommandData(Integer seconds) {
 		super(seconds);
 	}
 
-	public TextMatchSelectorWaitCommand(Integer seconds, CommandType waitType) {
+	public ExistenceWaitCommandData(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 	}
 
-	public TextMatchSelectorWaitCommand(Integer seconds, CommandType waitType, UUID id) {
+	public ExistenceWaitCommandData(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 	}
 	
@@ -27,10 +28,10 @@ public class TextMatchSelectorWaitCommand extends TextMatchWaitCommand {
 
 	@Override
 	public String toString() {
-		return "TextMatchSelectorWaitCommand [selector=" + selector + ", seconds=" + seconds + ", hasCommandList="
+		return "ExistenceWaitCommand [selector=" + selector + ", seconds=" + seconds + ", hasCommandList="
 				+ hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -47,7 +48,7 @@ public class TextMatchSelectorWaitCommand extends TextMatchWaitCommand {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TextMatchSelectorWaitCommand other = (TextMatchSelectorWaitCommand) obj;
+		ExistenceWaitCommandData other = (ExistenceWaitCommandData) obj;
 		if (selector == null) {
 			if (other.selector != null)
 				return false;
@@ -55,7 +56,7 @@ public class TextMatchSelectorWaitCommand extends TextMatchWaitCommand {
 			return false;
 		return true;
 	}
-	
+
 	public Selector getSelector() {
 		return selector;
 	}

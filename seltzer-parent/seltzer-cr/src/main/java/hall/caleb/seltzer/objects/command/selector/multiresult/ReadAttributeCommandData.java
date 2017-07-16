@@ -4,14 +4,14 @@ import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 
-public final class ReadAttributeCommand extends MultiResultSelectorCommand {
+public final class ReadAttributeCommandData extends MultiResultSelectorCommandData {
 	protected String attribute;
 	
-	public ReadAttributeCommand() {
+	public ReadAttributeCommandData() {
 		super(CommandType.READ_ATTRIBUTE);
 	}
 
-	public ReadAttributeCommand(UUID id) {
+	public ReadAttributeCommandData(UUID id) {
 		super(CommandType.READ_ATTRIBUTE, id);
 	}
 
@@ -37,7 +37,7 @@ public final class ReadAttributeCommand extends MultiResultSelectorCommand {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ReadAttributeCommand other = (ReadAttributeCommand) obj;
+		ReadAttributeCommandData other = (ReadAttributeCommandData) obj;
 		if (attribute == null) {
 			if (other.attribute != null)
 				return false;

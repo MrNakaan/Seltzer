@@ -4,10 +4,10 @@ import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 
-public final class GetCookieCommand extends Command {
+public final class GetCookieCommandData extends CommandData {
 	private String cookieName;
 	
-	public GetCookieCommand(UUID seleniumId) {
+	public GetCookieCommandData(UUID seleniumId) {
 		super(CommandType.GET_COOKIE, seleniumId);
 	}
 
@@ -32,7 +32,7 @@ public final class GetCookieCommand extends Command {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		GetCookieCommand other = (GetCookieCommand) obj;
+		GetCookieCommandData other = (GetCookieCommandData) obj;
 		if (cookieName == null) {
 			if (other.cookieName != null)
 				return false;

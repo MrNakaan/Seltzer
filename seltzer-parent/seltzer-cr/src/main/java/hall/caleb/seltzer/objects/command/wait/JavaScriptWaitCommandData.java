@@ -4,18 +4,18 @@ import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 
-public class JavaScriptWaitCommand extends WaitCommand {
+public class JavaScriptWaitCommandData extends WaitCommandData {
 	private String javaScript;
 	
-	public JavaScriptWaitCommand(Integer seconds) {
+	public JavaScriptWaitCommandData(Integer seconds) {
 		super(seconds);
 	}
 
-	public JavaScriptWaitCommand(Integer seconds, CommandType waitType) {
+	public JavaScriptWaitCommandData(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 	}
 
-	public JavaScriptWaitCommand(Integer seconds, CommandType waitType, UUID id) {
+	public JavaScriptWaitCommandData(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 	}
 
@@ -41,7 +41,7 @@ public class JavaScriptWaitCommand extends WaitCommand {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		JavaScriptWaitCommand other = (JavaScriptWaitCommand) obj;
+		JavaScriptWaitCommandData other = (JavaScriptWaitCommandData) obj;
 		if (javaScript == null) {
 			if (other.javaScript != null)
 				return false;

@@ -20,16 +20,16 @@ import com.google.gson.GsonBuilder;
 
 import hall.caleb.seltzer.core.SeltzerSession;
 import hall.caleb.seltzer.enums.CommandType;
-import hall.caleb.seltzer.objects.command.ChainCommand;
-import hall.caleb.seltzer.objects.command.Command;
-import hall.caleb.seltzer.objects.command.GetCookieCommand;
-import hall.caleb.seltzer.objects.command.GetCookiesCommand;
-import hall.caleb.seltzer.objects.command.GoToCommand;
+import hall.caleb.seltzer.objects.command.ChainCommandData;
+import hall.caleb.seltzer.objects.command.CommandData;
+import hall.caleb.seltzer.objects.command.GetCookieCommandData;
+import hall.caleb.seltzer.objects.command.GetCookiesCommandData;
+import hall.caleb.seltzer.objects.command.GoToCommandData;
 import hall.caleb.seltzer.objects.command.Selector;
-import hall.caleb.seltzer.objects.command.SendKeyCommand;
-import hall.caleb.seltzer.objects.command.SendKeysCommand;
-import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
-import hall.caleb.seltzer.objects.command.wait.WaitCommand;
+import hall.caleb.seltzer.objects.command.SendKeyCommandData;
+import hall.caleb.seltzer.objects.command.SendKeysCommandData;
+import hall.caleb.seltzer.objects.command.selector.SelectorCommandData;
+import hall.caleb.seltzer.objects.command.wait.WaitCommandData;
 import hall.caleb.seltzer.objects.response.ChainResponse;
 import hall.caleb.seltzer.objects.response.ExceptionResponse;
 import hall.caleb.seltzer.objects.response.MultiResultResponse;
@@ -43,7 +43,7 @@ public class BaseProcessor {
 	static final int RETRIES = 4;
 	private static final int RETRY_WAIT = 8;
 
-	public static Response processCommand(WebDriver driver, Command command) {
+	public static Response processCommand(WebDriver driver, CommandData command) {
 		if (command.getType() != CommandType.CHAIN) {
 			logger.info(Messages.getString("BaseProcessor.command"));
 			logger.info(gson.toJson(command));
@@ -51,10 +51,10 @@ public class BaseProcessor {
 
 		Response response = new Response(command.getId(), false);
 
-		if (command instanceof SelectorCommand) {
-			response = SelectorProcessor.processCommand(driver, (SelectorCommand) command);
-		} else if (command instanceof WaitCommand) {
-			response = WaitProcessor.processCommand(driver, (WaitCommand) command);
+		if (command instanceof SelectorCommandData) {
+			response = SelectorProcessor.processCommand(driver, (SelectorCommandData) command);
+		} else if (command instanceof WaitCommandData) {
+			response = WaitProcessor.processCommand(driver, (WaitCommandData) command);
 		} else {
 			int tryNumber = 0;
 			while (tryNumber < BaseProcessor.RETRIES) {
@@ -70,31 +70,31 @@ public class BaseProcessor {
 						response = back(driver, command);
 						break;
 					case CHAIN:
-						response = BaseProcessor.processChain(driver, (ChainCommand<?>) command);
+						response = BaseProcessor.processChain(driver, (ChainCommandData<?>) command);
 						break;
 					case FORWARD:
 						response = forward(driver, command);
 						break;
 					case GET_COOKIE:
-						response = getCookie(driver, (GetCookieCommand) command);
+						response = getCookie(driver, (GetCookieCommandData) command);
 						break;
 					case GET_COOKIE_FILE:
 						response = getCookieFile(command);
 						break;
 					case GET_COOKIES:
-						response = getCookies(driver, (GetCookiesCommand) command);
+						response = getCookies(driver, (GetCookiesCommandData) command);
 						break;
 					case GET_URL:
 						response = getUrl(driver, command);
 						break;
 					case GO_TO:
-						response = goTo(driver, (GoToCommand) command);
+						response = goTo(driver, (GoToCommandData) command);
 						break;
 					case SEND_KEY:
-						response = sendKey(driver, (SendKeyCommand) command);
+						response = sendKey(driver, (SendKeyCommandData) command);
 						break;
 					case SEND_KEYS:
-						response = sendKeys(driver, (SendKeysCommand) command);
+						response = sendKeys(driver, (SendKeysCommandData) command);
 						break;
 					default:
 						response.setSuccess(false);
@@ -126,7 +126,7 @@ public class BaseProcessor {
 		return response;
 	}
 
-	private static Response sendKey(WebDriver driver, SendKeyCommand command) {
+	private static Response sendKey(WebDriver driver, SendKeyCommandData command) {
 		Response response = new Response(command.getId(), true);
 
 		By by = getBy(command.getSelector());
@@ -136,7 +136,7 @@ public class BaseProcessor {
 		return response;
 	}
 
-	private static Response sendKeys(WebDriver driver, SendKeysCommand command) {
+	private static Response sendKeys(WebDriver driver, SendKeysCommandData command) {
 		Response response = new Response(command.getId(), true);
 
 		By by = getBy(command.getSelector());
@@ -148,30 +148,30 @@ public class BaseProcessor {
 	static By getBy(Selector selector) {
 		By by;
 
-		switch (selector.getSelectorType()) {
+		switch (selector.getType()) {
 		case CLASS_NAME:
-			by = By.className(selector.getSelector());
+			by = By.className(selector.getPath());
 			break;
 		case CSS_SELECTOR:
-			by = By.cssSelector(selector.getSelector());
+			by = By.cssSelector(selector.getPath());
 			break;
 		case ID:
-			by = By.id(selector.getSelector());
+			by = By.id(selector.getPath());
 			break;
 		case LINK_TEXT:
-			by = By.linkText(selector.getSelector());
+			by = By.linkText(selector.getPath());
 			break;
 		case NAME:
-			by = By.name(selector.getSelector());
+			by = By.name(selector.getPath());
 			break;
 		case PARTIAL_LINK_TEXT:
-			by = By.partialLinkText(selector.getSelector());
+			by = By.partialLinkText(selector.getPath());
 			break;
 		case TAG_NAME:
-			by = By.tagName(selector.getSelector());
+			by = By.tagName(selector.getPath());
 			break;
 		case XPATH:
-			by = By.xpath(selector.getSelector());
+			by = By.xpath(selector.getPath());
 			break;
 		default:
 			by = null;
@@ -180,14 +180,14 @@ public class BaseProcessor {
 		return by;
 	}
 
-	static ChainResponse<?> processChain(WebDriver driver, ChainCommand<?> command) throws WebDriverException, Exception {
+	static ChainResponse<?> processChain(WebDriver driver, ChainCommandData<?> command) throws WebDriverException, Exception {
 		logger.info(Messages.getString("BaseProcessor.chain"));
 		logger.info(gson.toJson(command));
 
 		ChainResponse<Response> response = new ChainResponse<>();
 
 		Response tempResponse;
-		for (Command subCommand : command.getCommands()) {
+		for (CommandData subCommand : command.getCommands()) {
 			if (!subCommand.getId().equals(command.getId())) {
 				tempResponse = new Response(command.getId(), false);
 			} else {
@@ -214,7 +214,7 @@ public class BaseProcessor {
 		return response;
 	}
 
-	private static Response exit(WebDriver driver, Command command) throws WebDriverException, Exception {
+	private static Response exit(WebDriver driver, CommandData command) throws WebDriverException, Exception {
 		Response response = new Response();
 
 		SeltzerSession.findSession(command.getId()).close();
@@ -224,19 +224,19 @@ public class BaseProcessor {
 		return response;
 	}
 
-	private static Response back(WebDriver driver, Command command) throws WebDriverException, Exception {
+	private static Response back(WebDriver driver, CommandData command) throws WebDriverException, Exception {
 		driver.navigate().back();
 
 		return new Response(command.getId(), true);
 	}
 
-	private static Response forward(WebDriver driver, Command command) throws WebDriverException, Exception {
+	private static Response forward(WebDriver driver, CommandData command) throws WebDriverException, Exception {
 		driver.navigate().forward();
 
 		return new Response(command.getId(), true);
 	}
 
-	private static SingleResultResponse getUrl(WebDriver driver, Command command) throws WebDriverException, Exception {
+	private static SingleResultResponse getUrl(WebDriver driver, CommandData command) throws WebDriverException, Exception {
 		SingleResultResponse response = new SingleResultResponse(command.getId(), true);
 
 		response.setResult(driver.getCurrentUrl());
@@ -244,7 +244,7 @@ public class BaseProcessor {
 		return response;
 	}
 
-	private static SingleResultResponse getCookie(WebDriver driver, GetCookieCommand command)
+	private static SingleResultResponse getCookie(WebDriver driver, GetCookieCommandData command)
 			throws WebDriverException, Exception {
 		String value = driver.manage().getCookieNamed(command.getCookieName()).getValue();
 		SingleResultResponse response = null;
@@ -257,7 +257,7 @@ public class BaseProcessor {
 		return response;
 	}
 
-	private static SingleResultResponse getCookieFile(Command command) throws WebDriverException, Exception {
+	private static SingleResultResponse getCookieFile(CommandData command) throws WebDriverException, Exception {
 		SingleResultResponse response = new SingleResultResponse(command.getId(), true);
 
 		Path dataDir = SeltzerSession.findSession(command.getId()).getDataDir();
@@ -273,7 +273,7 @@ public class BaseProcessor {
 		return response;
 	}
 
-	private static MultiResultResponse getCookies(WebDriver driver, GetCookiesCommand command)
+	private static MultiResultResponse getCookies(WebDriver driver, GetCookiesCommandData command)
 			throws WebDriverException, Exception {
 		MultiResultResponse response = new MultiResultResponse(command.getId(), false);
 		String value = null;
@@ -290,7 +290,7 @@ public class BaseProcessor {
 		return response;
 	}
 
-	private static Response goTo(WebDriver driver, GoToCommand command) throws WebDriverException, Exception {
+	private static Response goTo(WebDriver driver, GoToCommandData command) throws WebDriverException, Exception {
 		driver.get(command.getUrl());
 
 		return new Response(command.getId(), true);

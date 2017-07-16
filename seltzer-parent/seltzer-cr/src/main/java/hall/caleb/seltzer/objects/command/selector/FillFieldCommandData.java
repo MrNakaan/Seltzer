@@ -4,14 +4,14 @@ import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 
-public final class FillFieldCommand extends SelectorCommand {
+public final class FillFieldCommandData extends SelectorCommandData {
 	protected String text;
 	
-	public FillFieldCommand() {
+	public FillFieldCommandData() {
 		super(CommandType.FILL_FIELD);
 	}
 
-	public FillFieldCommand(UUID id) {
+	public FillFieldCommandData(UUID id) {
 		super(CommandType.FILL_FIELD, id);
 	}
 
@@ -37,7 +37,7 @@ public final class FillFieldCommand extends SelectorCommand {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		FillFieldCommand other = (FillFieldCommand) obj;
+		FillFieldCommandData other = (FillFieldCommandData) obj;
 		if (text == null) {
 			if (other.text != null)
 				return false;

@@ -4,18 +4,18 @@ import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 
-public final class GoToCommand extends Command {
+public final class GoToCommandData extends CommandData {
 	protected String url;
 	
-	public GoToCommand() {
+	public GoToCommandData() {
 		super(CommandType.GO_TO);
 	}
 
-	public GoToCommand(UUID id) {
+	public GoToCommandData(UUID id) {
 		super(CommandType.GO_TO, id);
 	}
 
-	public GoToCommand(UUID id, String url) {
+	public GoToCommandData(UUID id, String url) {
 		super(CommandType.GO_TO, id);
 		this.url = url;
 	}
@@ -41,7 +41,7 @@ public final class GoToCommand extends Command {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		GoToCommand other = (GoToCommand) obj;
+		GoToCommandData other = (GoToCommandData) obj;
 		if (url == null) {
 			if (other.url != null)
 				return false;

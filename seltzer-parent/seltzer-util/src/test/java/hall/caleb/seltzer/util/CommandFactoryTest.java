@@ -9,19 +9,19 @@ import org.junit.Test;
 
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.objects.command.Command;
-import hall.caleb.seltzer.objects.command.GoToCommand;
-import hall.caleb.seltzer.objects.command.selector.FillFieldCommand;
-import hall.caleb.seltzer.objects.command.selector.SelectorCommand;
-import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommand;
-import hall.caleb.seltzer.objects.command.selector.multiresult.ReadAttributeCommand;
+import hall.caleb.seltzer.objects.command.CommandData;
+import hall.caleb.seltzer.objects.command.GoToCommandData;
+import hall.caleb.seltzer.objects.command.selector.FillFieldCommandData;
+import hall.caleb.seltzer.objects.command.selector.SelectorCommandData;
+import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommandData;
+import hall.caleb.seltzer.objects.command.selector.multiresult.ReadAttributeCommandData;
 import hall.caleb.seltzer.util.CommandFactory;
 
 @Generated(value = "org.junit-tools-1.0.5")
 public class CommandFactoryTest {
 	@Test
 	public void testNewStartCommand() throws Exception {
-		Command result;
+		CommandData result;
 
 		result = CommandFactory.newStartCommand();
 		
@@ -32,7 +32,7 @@ public class CommandFactoryTest {
 	@Test
 	public void testNewExitCommand() throws Exception {
 		UUID id = UUID.randomUUID();
-		Command result;
+		CommandData result;
 
 		result = CommandFactory.newExitCommand(id);
 		
@@ -43,7 +43,7 @@ public class CommandFactoryTest {
 	@Test
 	public void testNewBackCommand() throws Exception {
 		UUID id = UUID.randomUUID();
-		Command result;
+		CommandData result;
 
 		result = CommandFactory.newBackCommand(id);
 		
@@ -54,7 +54,7 @@ public class CommandFactoryTest {
 	@Test
 	public void testNewForwardCommand() throws Exception {
 		UUID id = UUID.randomUUID();
-		Command result;
+		CommandData result;
 
 		result = CommandFactory.newForwardCommand(id);
 		
@@ -65,7 +65,7 @@ public class CommandFactoryTest {
 	@Test
 	public void testNewGetUrlCommand() throws Exception {
 		UUID id = UUID.randomUUID();
-		Command result;
+		CommandData result;
 
 		result = CommandFactory.newGetUrlCommand(id);
 		
@@ -77,7 +77,7 @@ public class CommandFactoryTest {
 	public void testNewGoToCommand() throws Exception {
 		UUID id = UUID.randomUUID();
 		String url = "http://www.example.org/";
-		GoToCommand result;
+		GoToCommandData result;
 
 		result = CommandFactory.newGoToCommand(id, url);
 		
@@ -91,13 +91,13 @@ public class CommandFactoryTest {
 		UUID id = UUID.randomUUID();
 		SelectorType type = SelectorType.CLASS_NAME;
 		String selector = "link";
-		SelectorCommand result;
+		SelectorCommandData result;
 
 		result = CommandFactory.newClickCommand(id, type, selector);
 		
 		Assert.assertEquals("Make sure the command type is Click.", result.getType(), CommandType.CLICK);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
-		Assert.assertEquals("Make sure the selector type is ClassName.", result.getSelector().getSelectorType(), type);
+		Assert.assertEquals("Make sure the selector type is ClassName.", result.getSelector().getType(), type);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
 	}
 
@@ -106,13 +106,13 @@ public class CommandFactoryTest {
 		UUID id = UUID.randomUUID();
 		SelectorType type = SelectorType.CSS_SELECTOR;
 		String selector = ".className";
-		SelectorCommand result;
+		SelectorCommandData result;
 
 		result = CommandFactory.newCountCommand(id, type, selector);
 		
 		Assert.assertEquals("Make sure the command type is Count.", result.getType(), CommandType.COUNT);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
-		Assert.assertEquals("Make sure the selector type is CssSelector.", result.getSelector().getSelectorType(), type);
+		Assert.assertEquals("Make sure the selector type is CssSelector.", result.getSelector().getType(), type);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
 	}
 
@@ -121,13 +121,13 @@ public class CommandFactoryTest {
 		UUID id = UUID.randomUUID();
 		SelectorType type = SelectorType.ID;
 		String selector = "loginForm";
-		SelectorCommand result;
+		SelectorCommandData result;
 
 		result = CommandFactory.newFormSubmitCommand(id, type, selector);
 		
 		Assert.assertEquals("Make sure the command type is FormSubmit.", result.getType(), CommandType.FORM_SUBMIT);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
-		Assert.assertEquals("Make sure the selector type is Id.", result.getSelector().getSelectorType(), type);
+		Assert.assertEquals("Make sure the selector type is Id.", result.getSelector().getType(), type);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
 	}
 
@@ -135,13 +135,13 @@ public class CommandFactoryTest {
 	public void testNewDeleteCommand() throws Exception {
 		UUID id = UUID.randomUUID();
 		String selector = "//body";
-		SelectorCommand result;
+		SelectorCommandData result;
 
 		result = CommandFactory.newDeleteCommand(id, selector);
 		
 		Assert.assertEquals("Make sure the command type is Delete.", result.getType(), CommandType.DELETE);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
-		Assert.assertEquals("Make sure the selector type is Xpath.", result.getSelector().getSelectorType(), SelectorType.XPATH);
+		Assert.assertEquals("Make sure the selector type is Xpath.", result.getSelector().getType(), SelectorType.XPATH);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
 	}
 
@@ -151,13 +151,13 @@ public class CommandFactoryTest {
 		SelectorType type = SelectorType.NAME;
 		String selector = "username";
 		String text = "SOME INPUT";
-		FillFieldCommand result;
+		FillFieldCommandData result;
 
 		result = CommandFactory.newFillFieldCommand(id, type, selector, text);
 		
 		Assert.assertEquals("Make sure the command type is FillField.", result.getType(), CommandType.FILL_FIELD);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
-		Assert.assertEquals("Make sure the selector type is Name.", result.getSelector().getSelectorType(), SelectorType.NAME);
+		Assert.assertEquals("Make sure the selector type is Name.", result.getSelector().getType(), SelectorType.NAME);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
 		Assert.assertEquals("Make sure the text matches.", result.getText(), text);
 	}
@@ -168,13 +168,13 @@ public class CommandFactoryTest {
 		SelectorType type = SelectorType.LINK_TEXT;
 		String selector = "Link!";
 		int maxResults = 6;
-		MultiResultSelectorCommand result;
+		MultiResultSelectorCommandData result;
 
 		result = CommandFactory.newReadTextCommand(id, type, selector, maxResults);
 		
 		Assert.assertEquals("Make sure the command type is ReadText.", result.getType(), CommandType.READ_TEXT);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
-		Assert.assertEquals("Make sure the selector type is LinkText.", result.getSelector().getSelectorType(), SelectorType.LINK_TEXT);
+		Assert.assertEquals("Make sure the selector type is LinkText.", result.getSelector().getType(), SelectorType.LINK_TEXT);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
 		Assert.assertEquals("Make sure max results matches.", result.getMaxResults(), maxResults);
 	}
@@ -186,13 +186,13 @@ public class CommandFactoryTest {
 		String selector = "span";
 		int maxResults = 1;
 		String attribute = "style";
-		ReadAttributeCommand result;
+		ReadAttributeCommandData result;
 
 		result = CommandFactory.newReadAttributeCommand(id, type, selector, maxResults, attribute);
 		
 		Assert.assertEquals("Make sure the command type is ReadAttribute.", result.getType(), CommandType.READ_ATTRIBUTE);
 		Assert.assertEquals("Make sure the ID matches.", result.getId(), id);
-		Assert.assertEquals("Make sure the selector type is TagName.", result.getSelector().getSelectorType(), SelectorType.TAG_NAME);
+		Assert.assertEquals("Make sure the selector type is TagName.", result.getSelector().getType(), SelectorType.TAG_NAME);
 		Assert.assertEquals("Make sure the selector matches.", result.getSelector(), selector);
 		Assert.assertEquals("Make sure max results matches.", result.getMaxResults(), maxResults);
 		Assert.assertEquals("Make sure the attribute matches.", result.getAttribute(), attribute);

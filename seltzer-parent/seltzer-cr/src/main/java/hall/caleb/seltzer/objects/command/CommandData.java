@@ -4,22 +4,22 @@ import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 
-public class Command {
+public class CommandData {
 	protected boolean hasCommandList = false;
 	
-	protected CommandType type;
+	protected CommandType type = CommandType.NONE;
 	protected UUID id;
 	
-	public Command() {
+	public CommandData() {
 		super();
 	}
 
-	public Command(CommandType commandType) {
+	public CommandData(CommandType commandType) {
 		super();
 		this.type = commandType;
 	}
 
-	public Command(CommandType commandType, UUID id) {
+	public CommandData(CommandType commandType, UUID id) {
 		super();
 		this.type = commandType;
 		this.id = id;
@@ -47,7 +47,7 @@ public class Command {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Command other = (Command) obj;
+		CommandData other = (CommandData) obj;
 		if (type != other.type)
 			return false;
 		if (id == null) {

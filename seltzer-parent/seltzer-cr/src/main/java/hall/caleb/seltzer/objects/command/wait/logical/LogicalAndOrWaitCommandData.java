@@ -6,21 +6,21 @@ import java.util.UUID;
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.objects.SerializableCR;
 import hall.caleb.seltzer.objects.command.CommandList;
-import hall.caleb.seltzer.objects.command.wait.WaitCommand;
+import hall.caleb.seltzer.objects.command.wait.WaitCommandData;
 
-public final class LogicalAndOrWaitCommand extends LogicalWaitCommand implements SerializableCR {
+public final class LogicalAndOrWaitCommandData extends LogicalWaitCommandData implements SerializableCR {
 	private boolean usesCommandList = false;
 	
-	private CommandList<WaitCommand> waitCommands = new CommandList<>();
+	private CommandList<WaitCommandData> waitCommands = new CommandList<>();
 	
-	public LogicalAndOrWaitCommand(Integer seconds, CommandType waitType) {
+	public LogicalAndOrWaitCommandData(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 		if (waitType != CommandType.AND_WAIT && waitType != CommandType.OR_WAIT) {
 			throw new IllegalArgumentException("Supplied CommandType is '" + waitType.name() + "'; must be 'And' or 'Or'.");
 		}
 	}
 
-	public LogicalAndOrWaitCommand(Integer seconds, CommandType waitType, UUID id) {
+	public LogicalAndOrWaitCommandData(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 		
 		if (waitType != CommandType.AND_WAIT && waitType != CommandType.OR_WAIT) {
@@ -38,7 +38,7 @@ public final class LogicalAndOrWaitCommand extends LogicalWaitCommand implements
 		waitCommands.deserialize();
 	}
 	
-	public void addCommand(WaitCommand command) {
+	public void addCommand(WaitCommandData command) {
 		waitCommands.addCommand(command);
 	}
 
@@ -65,7 +65,7 @@ public final class LogicalAndOrWaitCommand extends LogicalWaitCommand implements
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		LogicalAndOrWaitCommand other = (LogicalAndOrWaitCommand) obj;
+		LogicalAndOrWaitCommandData other = (LogicalAndOrWaitCommandData) obj;
 		if (usesCommandList != other.usesCommandList)
 			return false;
 		if (waitCommands == null) {
@@ -76,19 +76,19 @@ public final class LogicalAndOrWaitCommand extends LogicalWaitCommand implements
 		return true;
 	}
 
-	public CommandList<WaitCommand> getCommandList() {
+	public CommandList<WaitCommandData> getCommandList() {
 		return waitCommands;
 	}
 
-	public List<WaitCommand> getCommands() {
+	public List<WaitCommandData> getCommands() {
 		return waitCommands.getCommands();
 	}
 
-	public void setCommandList(CommandList<WaitCommand> commands) {
+	public void setCommandList(CommandList<WaitCommandData> commands) {
 		this.waitCommands = commands;
 	}
 	
-	public void setCommands(List<WaitCommand> commands) {
+	public void setCommands(List<WaitCommandData> commands) {
 		this.waitCommands.setCommands(commands);
 	}
 }

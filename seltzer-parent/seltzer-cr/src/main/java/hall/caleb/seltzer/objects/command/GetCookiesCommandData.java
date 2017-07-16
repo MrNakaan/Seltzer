@@ -6,10 +6,10 @@ import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 
-public final class GetCookiesCommand extends Command {
+public final class GetCookiesCommandData extends CommandData {
 	private List<String> cookieNames;
 	
-	public GetCookiesCommand(UUID seleniumId) {
+	public GetCookiesCommandData(UUID seleniumId) {
 		super(CommandType.GET_COOKIES, seleniumId);
 		cookieNames = new ArrayList<>();
 	}
@@ -39,7 +39,7 @@ public final class GetCookiesCommand extends Command {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		GetCookiesCommand other = (GetCookiesCommand) obj;
+		GetCookiesCommandData other = (GetCookiesCommandData) obj;
 		if (cookieNames == null) {
 			if (other.cookieNames != null)
 				return false;

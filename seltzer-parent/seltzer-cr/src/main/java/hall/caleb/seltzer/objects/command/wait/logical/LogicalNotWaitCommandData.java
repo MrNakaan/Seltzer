@@ -3,16 +3,16 @@ package hall.caleb.seltzer.objects.command.wait.logical;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
-import hall.caleb.seltzer.objects.command.wait.WaitCommand;
+import hall.caleb.seltzer.objects.command.wait.WaitCommandData;
 
-public final class LogicalNotWaitCommand extends LogicalWaitCommand {
-	WaitCommand waitCommand;
+public final class LogicalNotWaitCommandData extends LogicalWaitCommandData {
+	WaitCommandData waitCommand;
 	
-	public LogicalNotWaitCommand(Integer seconds) {
+	public LogicalNotWaitCommandData(Integer seconds) {
 		super(seconds, CommandType.NOT_WAIT);
 	}
 
-	public LogicalNotWaitCommand(Integer seconds, UUID id) {
+	public LogicalNotWaitCommandData(Integer seconds, UUID id) {
 		super(seconds, CommandType.NOT_WAIT, id);
 	}
 
@@ -38,7 +38,7 @@ public final class LogicalNotWaitCommand extends LogicalWaitCommand {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		LogicalNotWaitCommand other = (LogicalNotWaitCommand) obj;
+		LogicalNotWaitCommandData other = (LogicalNotWaitCommandData) obj;
 		if (waitCommand == null) {
 			if (other.waitCommand != null)
 				return false;
@@ -47,11 +47,11 @@ public final class LogicalNotWaitCommand extends LogicalWaitCommand {
 		return true;
 	}
 
-	public WaitCommand getWaitCommand() {
+	public WaitCommandData getWaitCommand() {
 		return waitCommand;
 	}
 
-	public void setWaitCommand(WaitCommand waitCommand) {
+	public void setWaitCommand(WaitCommandData waitCommand) {
 		this.waitCommand = waitCommand;
 	}
 }

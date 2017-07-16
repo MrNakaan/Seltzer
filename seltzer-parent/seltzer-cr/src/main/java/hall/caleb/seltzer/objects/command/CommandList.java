@@ -3,63 +3,91 @@ package hall.caleb.seltzer.objects.command;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import com.google.gson.Gson;
 
 import hall.caleb.seltzer.objects.SerializableCR;
 
-public class CommandList<C extends Command> {
+public class CommandList<C extends CommandData> {
+	public static final int HASH_PRIME = 31;
+	
 	private List<C> commands;
 	private List<String> serializedCommands;
 	
 	public CommandList() {
-		commands = new ArrayList<>();
-		serializedCommands = new ArrayList<>();
+		commands = null;
+		serializedCommands = null;
 	}
 	
 	public void serialize() {
-		Gson gson = new Gson();
-		
-		for (Command subCommand : commands) {
-			if (subCommand instanceof SerializableCR) {
-				((SerializableCR) subCommand).serialize();
-			}
-			
-			serializedCommands.add(gson.toJson(subCommand, subCommand.getType().getCommandClass()));
+		if (serializedCommands == null) {
+			serializedCommands = new ArrayList<>();
 		}
 		
-		commands.clear();
+		Gson gson = new Gson();
+		
+		if (!CollectionUtils.isEmpty(commands)) {
+			for (CommandData subCommand : commands) {
+				if (subCommand instanceof SerializableCR) {
+					((SerializableCR) subCommand).serialize();
+				}
+				
+				serializedCommands.add(gson.toJson(subCommand, subCommand.getType().getCommandClass()));
+			}
+			
+			commands.clear();
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public void deserialize() {
-		Gson gson = new Gson();
-		Command subCommand;
-		
-		for (String serializedCommand : serializedCommands) {
-			subCommand = gson.fromJson(serializedCommand, Command.class);
-			
-			subCommand = gson.fromJson(serializedCommand, subCommand.getType().getCommandClass());
-			
-			if (subCommand instanceof SerializableCR) {
-				((SerializableCR) subCommand).deserialize();
-			}
-			
-			commands.add((C) subCommand);
+		if (commands == null) {
+			commands = new ArrayList<>();
 		}
 		
-		serializedCommands.clear();
+		Gson gson = new Gson();
+		CommandData subCommand;
+		
+		if (!CollectionUtils.isEmpty(serializedCommands)) {
+			for (String serializedCommand : serializedCommands) {
+				subCommand = gson.fromJson(serializedCommand, CommandData.class);
+				
+				subCommand = gson.fromJson(serializedCommand, subCommand.getType().getCommandClass());
+				
+				if (subCommand instanceof SerializableCR) {
+					((SerializableCR) subCommand).deserialize();
+				}
+				
+				commands.add((C) subCommand);
+			}
+			
+			serializedCommands.clear();
+		}
 	}
 	
 	public void addCommand(C command) {
+		if (commands == null) {
+			commands = new ArrayList<>();
+		}
+		
 		commands.add(command);
 	}
 	
 	public int getSize() {
-		return commands.size();
+		if (commands == null) {
+			return 0;
+		} else {
+			return commands.size();
+		}
 	}
 	
 	public int getSerializedSize() {
-		return serializedCommands.size();
+		if (serializedCommands == null) {
+			return 0;
+		} else {
+			return serializedCommands.size();
+		}
 	}
 
 	@Override
@@ -69,10 +97,9 @@ public class CommandList<C extends Command> {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((commands == null) ? 0 : commands.hashCode());
-		result = prime * result + ((serializedCommands == null) ? 0 : serializedCommands.hashCode());
+		result = HASH_PRIME * result + ((commands == null) ? 0 : commands.hashCode());
+		result = HASH_PRIME * result + ((serializedCommands == null) ? 0 : serializedCommands.hashCode());
 		return result;
 	}
 
@@ -100,10 +127,18 @@ public class CommandList<C extends Command> {
 	}
 
 	public List<C> getCommands() {
+		if (commands == null) {
+			commands = new ArrayList<>();
+		}
+		
 		return commands;
 	}
 
 	public void setCommands(List<C> commands) {
-		this.commands = commands;
+		if (commands == null) {
+			this.commands.clear();
+		} else {
+			this.commands = commands;
+		}
 	}
 }

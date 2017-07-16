@@ -3,22 +3,22 @@ package hall.caleb.seltzer.objects.command.wait;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
-import hall.caleb.seltzer.objects.command.Command;
+import hall.caleb.seltzer.objects.command.CommandData;
 
-public class WaitCommand extends Command {
+public class WaitCommandData extends CommandData {
 	protected Integer seconds;
 	
-	public WaitCommand(Integer seconds) {
+	public WaitCommandData(Integer seconds) {
 		super(CommandType.WAIT);
 		this.seconds = seconds;
 	}
 
-	public WaitCommand(Integer seconds, CommandType commandType) {
+	public WaitCommandData(Integer seconds, CommandType commandType) {
 		super(CommandType.WAIT);
 		this.seconds = seconds;
 	}
 
-	public WaitCommand(Integer seconds, CommandType commandType, UUID id) {
+	public WaitCommandData(Integer seconds, CommandType commandType, UUID id) {
 		super(CommandType.WAIT, id);
 		this.seconds = seconds;
 	}
@@ -45,7 +45,7 @@ public class WaitCommand extends Command {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		WaitCommand other = (WaitCommand) obj;
+		WaitCommandData other = (WaitCommandData) obj;
 		if (seconds == null) {
 			if (other.seconds != null)
 				return false;

@@ -16,8 +16,8 @@ import org.openqa.selenium.By;
 import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.ResponseType;
 import hall.caleb.seltzer.enums.SelectorType;
-import hall.caleb.seltzer.objects.command.ChainCommand;
-import hall.caleb.seltzer.objects.command.Command;
+import hall.caleb.seltzer.objects.command.ChainCommandData;
+import hall.caleb.seltzer.objects.command.CommandData;
 import hall.caleb.seltzer.objects.response.ChainResponse;
 import hall.caleb.seltzer.objects.response.Response;
 import hall.caleb.seltzer.objects.response.SingleResultResponse;
@@ -44,7 +44,7 @@ public class BaseProcessorTest {
 
 	@AfterClass
 	public static void cleanDriver() {
-		session.executeCommand(new Command(CommandType.EXIT, session.getId()));
+		session.executeCommand(new CommandData(CommandType.EXIT, session.getId()));
 	}
 
 	@Before
@@ -56,7 +56,7 @@ public class BaseProcessorTest {
 	public void testBack() throws Exception {
 		session.getDriver().findElement(By.linkText("Page 1")).click();
 
-		Command command = CommandFactory.newBackCommand(session.getId());
+		CommandData command = CommandFactory.newBackCommand(session.getId());
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());
@@ -67,7 +67,7 @@ public class BaseProcessorTest {
 
 	@Test
 	public void testChain() throws Exception {
-		ChainCommand<Command> command = new ChainCommand<>(session.getId());
+		ChainCommandData<CommandData> command = new ChainCommandData<>(session.getId());
 		command.addCommand(CommandFactory.newClickCommand(session.getId(), SelectorType.LINK_TEXT, "Page 1"));
 		command.addCommand(CommandFactory.newBackCommand(session.getId()));
 		command.addCommand(CommandFactory.newForwardCommand(session.getId()));
@@ -97,7 +97,7 @@ public class BaseProcessorTest {
 		session.getDriver().findElement(By.linkText("Test Home")).click();
 		session.getDriver().navigate().back();
 
-		Command command = CommandFactory.newForwardCommand(session.getId());
+		CommandData command = CommandFactory.newForwardCommand(session.getId());
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());
@@ -108,7 +108,7 @@ public class BaseProcessorTest {
 
 	@Test
 	public void testGetUrl() throws Exception {
-		Command command = CommandFactory.newGetUrlCommand(session.getId());
+		CommandData command = CommandFactory.newGetUrlCommand(session.getId());
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());
@@ -126,7 +126,7 @@ public class BaseProcessorTest {
 		session.getDriver().findElement(By.linkText("Page 1")).click();
 		assertTrue("Make sure we're not at the test home.", session.getDriver().getTitle().equals("Test Page 1"));
 
-		Command command = CommandFactory.newGoToCommand(session.getId(), homeUrl);
+		CommandData command = CommandFactory.newGoToCommand(session.getId(), homeUrl);
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());

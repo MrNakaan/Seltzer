@@ -3,20 +3,20 @@ package hall.caleb.seltzer.objects.command.wait.textmatch;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
-import hall.caleb.seltzer.objects.command.wait.WaitCommand;
+import hall.caleb.seltzer.objects.command.wait.WaitCommandData;
 
-public class TextMatchWaitCommand extends WaitCommand {
+public class TextMatchWaitCommandData extends WaitCommandData {
 	private String text;
 	
-	public TextMatchWaitCommand(Integer seconds) {
+	public TextMatchWaitCommandData(Integer seconds) {
 		super(seconds);
 	}
 
-	public TextMatchWaitCommand(Integer seconds, CommandType waitType) {
+	public TextMatchWaitCommandData(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 	}
 
-	public TextMatchWaitCommand(Integer seconds, CommandType waitType, UUID id) {
+	public TextMatchWaitCommandData(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 	}
 
@@ -42,7 +42,7 @@ public class TextMatchWaitCommand extends WaitCommand {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TextMatchWaitCommand other = (TextMatchWaitCommand) obj;
+		TextMatchWaitCommandData other = (TextMatchWaitCommandData) obj;
 		if (text == null) {
 			if (other.text != null)
 				return false;

@@ -1,24 +1,23 @@
-package hall.caleb.seltzer.objects.command.wait;
+package hall.caleb.seltzer.objects.command.wait.textmatch;
 
 import java.util.UUID;
 
-import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.enums.SelectorType;
+import hall.caleb.seltzer.enums.CommandType;
 import hall.caleb.seltzer.objects.command.Selector;
 
-public class SelectionStateWaitCommand extends WaitCommand {
-	Boolean selected;
-	Selector selector = new Selector();
+public class TextMatchSelectorWaitCommandData extends TextMatchWaitCommandData {
+	protected Selector selector = new Selector();
 	
-	public SelectionStateWaitCommand(Integer seconds) {
+	public TextMatchSelectorWaitCommandData(Integer seconds) {
 		super(seconds);
 	}
 
-	public SelectionStateWaitCommand(Integer seconds, CommandType waitType) {
+	public TextMatchSelectorWaitCommandData(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
 	}
 
-	public SelectionStateWaitCommand(Integer seconds, CommandType waitType, UUID id) {
+	public TextMatchSelectorWaitCommandData(Integer seconds, CommandType waitType, UUID id) {
 		super(seconds, waitType, id);
 	}
 	
@@ -28,15 +27,14 @@ public class SelectionStateWaitCommand extends WaitCommand {
 
 	@Override
 	public String toString() {
-		return "SelectionStateWaitCommand [selected=" + selected + ", selector=" + selector + ", seconds=" + seconds
-				+ ", hasCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
+		return "TextMatchSelectorWaitCommand [selector=" + selector + ", seconds=" + seconds + ", hasCommandList="
+				+ hasCommandList + ", type=" + type + ", id=" + id + "]";
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((selected == null) ? 0 : selected.hashCode());
 		result = prime * result + ((selector == null) ? 0 : selector.hashCode());
 		return result;
 	}
@@ -49,12 +47,7 @@ public class SelectionStateWaitCommand extends WaitCommand {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SelectionStateWaitCommand other = (SelectionStateWaitCommand) obj;
-		if (selected == null) {
-			if (other.selected != null)
-				return false;
-		} else if (!selected.equals(other.selected))
-			return false;
+		TextMatchSelectorWaitCommandData other = (TextMatchSelectorWaitCommandData) obj;
 		if (selector == null) {
 			if (other.selector != null)
 				return false;
@@ -62,15 +55,7 @@ public class SelectionStateWaitCommand extends WaitCommand {
 			return false;
 		return true;
 	}
-
-	public Boolean getSelected() {
-		return selected;
-	}
-
-	public void setSelected(Boolean selected) {
-		this.selected = selected;
-	}
-
+	
 	public Selector getSelector() {
 		return selector;
 	}

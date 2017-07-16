@@ -4,15 +4,15 @@ import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
 
-public class SendKeysCommand extends Command {
+public class SendKeysCommandData extends CommandData {
 	private String keys;
 	private Selector selector = new Selector();
 	
-	public SendKeysCommand() {
+	public SendKeysCommandData() {
 		super(CommandType.SEND_KEYS);
 	}
 
-	public SendKeysCommand(UUID id) {
+	public SendKeysCommandData(UUID id) {
 		super(CommandType.SEND_KEYS, id);
 	}
 
@@ -39,7 +39,7 @@ public class SendKeysCommand extends Command {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SendKeysCommand other = (SendKeysCommand) obj;
+		SendKeysCommandData other = (SendKeysCommandData) obj;
 		if (keys == null) {
 			if (other.keys != null)
 				return false;
