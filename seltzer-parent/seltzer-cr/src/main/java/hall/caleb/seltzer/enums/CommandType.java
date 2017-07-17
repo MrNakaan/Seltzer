@@ -27,7 +27,7 @@ import hall.caleb.seltzer.objects.command.wait.visibility.InvisibilityWaitComman
 import hall.caleb.seltzer.objects.command.wait.visibility.NestedVisibilityWaitCommandData;
 import hall.caleb.seltzer.objects.command.wait.visibility.VisibilityWaitCommandData;
 
-public enum CommandType {
+public enum CommandType implements CrType {
 	NONE(CommandData.class),
 	BACK(CommandData.class),
 	CHAIN(ChainCommandData.class),
@@ -93,7 +93,8 @@ public enum CommandType {
 		this.commandClass = commandClass;
 	}
 
-	public Class<? extends CommandData> getCommandClass() {
+	@Override
+	public Class<? extends CommandData> getCrClass() {
 		return commandClass;
 	}
 }

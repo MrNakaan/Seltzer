@@ -24,7 +24,7 @@ public class SeltzerSend {
 			((SerializableCR) command).serialize();
 		}
 		
-		String jsonOut = new Gson().toJson(command, command.getType().getCommandClass());
+		String jsonOut = new Gson().toJson(command, command.getType().getCrClass());
 		String jsonIn = sendAndReceive(jsonOut);
 		return parseResponse(jsonIn);
 	}
@@ -63,7 +63,7 @@ public class SeltzerSend {
 		Gson gson = new Gson();
 
 		Response response = gson.fromJson(json, Response.class);
-		response = gson.fromJson(json, response.getType().getResponseClass());
+		response = gson.fromJson(json, response.getType().getCrClass());
 		
 		if (response.getType() == ResponseType.EXCEPTION) {
 			ExceptionResponse e = (ExceptionResponse) response;

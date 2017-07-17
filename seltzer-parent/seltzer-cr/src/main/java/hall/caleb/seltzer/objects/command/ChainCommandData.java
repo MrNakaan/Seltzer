@@ -4,12 +4,13 @@ import java.util.List;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
+import hall.caleb.seltzer.objects.CrList;
 import hall.caleb.seltzer.objects.SerializableCR;
 
 public class ChainCommandData<C extends CommandData> extends CommandData implements SerializableCR {
 	protected boolean usesCommandList = true;
 	
-	private CommandList<C> commands = new CommandList<>();
+	private CrList<C> commands = new CrList<>();
 
 	public ChainCommandData() {
 		super(CommandType.CHAIN);
@@ -30,7 +31,7 @@ public class ChainCommandData<C extends CommandData> extends CommandData impleme
 	}
 
 	public void addCommand(C command) {
-		commands.addCommand(command);
+		commands.addCr(command);
 	}
 
 	@Override
@@ -68,19 +69,19 @@ public class ChainCommandData<C extends CommandData> extends CommandData impleme
 		return true;
 	}
 
-	public CommandList<C> getCommandList() {
+	public CrList<C> getCommandList() {
 		return commands;
 	}
 
 	public List<C> getCommands() {
-		return commands.getCommands();
+		return commands.getCrs();
 	}
 
-	public void setCommandList(CommandList<C> commands) {
+	public void setCommandList(CrList<C> commands) {
 		this.commands = commands;
 	}
 	
 	public void setCommands(List<C> commands) {
-		this.commands.setCommands(commands);
+		this.commands.setCrs(commands);
 	}
 }

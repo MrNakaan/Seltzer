@@ -1,4 +1,4 @@
-package hall.caleb.seltzer.objects.command;
+package hall.caleb.seltzer.objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -11,34 +11,37 @@ import java.util.UUID;
 import org.junit.Test;
 
 import hall.caleb.seltzer.enums.CommandType;
+import hall.caleb.seltzer.objects.CrList;
+import hall.caleb.seltzer.objects.command.ChainCommandData;
+import hall.caleb.seltzer.objects.command.CommandData;
 
-public class CommandListTest {
+public class CrListTest {
 	@Test
 	public void testConstructors() {
-		CommandList<?> list = new CommandList<>();
+		CrList<?> list = new CrList<>();
 		assertEquals("Commands should be empty on creation!", 0, list.getSize());
 		assertEquals("Serialized Commands should be empty on creation!", 0, list.getSerializedSize());
 	}
 	
 	@Test
 	public void testSerialization() {
-		CommandList<CommandData> list1 = new CommandList<>();
-		CommandList<CommandData> list2 = new CommandList<>();
+		CrList<CommandData> list1 = new CrList<>();
+		CrList<CommandData> list2 = new CrList<>();
 		list1.serialize();
 		list1.deserialize();
 		list2.serialize();
 		list2.deserialize();
 		
-		list1.addCommand(new CommandData());
-		list2.addCommand(new CommandData());
+		list1.addCr(new CommandData());
+		list2.addCr(new CommandData());
 		list1.serialize();
 		list1.deserialize();
 		assertEquals("Lists are not equal!", list2, list1);
 		
 		UUID id1 = UUID.randomUUID();
 		UUID id2 = UUID.fromString(id1.toString());
-		list1.addCommand(new CommandData(CommandType.START, id1));
-		list2.addCommand(new CommandData(CommandType.START, id2));
+		list1.addCr(new CommandData(CommandType.START, id1));
+		list2.addCr(new CommandData(CommandType.START, id2));
 		list1.serialize();
 		list1.deserialize();
 		assertEquals("Lists are not equal!", list2, list1);
@@ -49,8 +52,8 @@ public class CommandListTest {
 		cr = new ChainCommandData<CommandData>(id2);
 		cr.serialize();
 		cr.deserialize();
-		list1.addCommand(cr);
-		list2.addCommand(cr);
+		list1.addCr(cr);
+		list2.addCr(cr);
 		list1.serialize();
 		list1.deserialize();
 		assertEquals("Lists are not equal!", list2, list1);
@@ -58,91 +61,91 @@ public class CommandListTest {
 
 	@Test
 	public void testAddCommand() {
-		CommandList<CommandData> list = new CommandList<>();
+		CrList<CommandData> list = new CrList<>();
 		assertEquals("Commands should be empty on creation!", 0, list.getSize());
 		
-		list.addCommand(new CommandData());
+		list.addCr(new CommandData());
 		assertEquals("Commands should contain a single element!", 1, list.getSize());
 		
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
 		assertEquals("Commands should contain 8 elements!", 8, list.getSize());	
 	}
 
 	@Test
 	public void testGetSize() {
-		CommandList<CommandData> list = new CommandList<>();
+		CrList<CommandData> list = new CrList<>();
 		assertEquals("Commands should be empty on creation!", 0, list.getSize());
 		
-		list.addCommand(new CommandData());
+		list.addCr(new CommandData());
 		assertEquals("Commands should contain a single element!", 1, list.getSize());
 		
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
 		assertEquals("Commands should contain 8 elements!", 8, list.getSize());
 	}
 
 	@Test
 	public void testGetSerializedSize() {
-		CommandList<CommandData> list = new CommandList<>();
+		CrList<CommandData> list = new CrList<>();
 		list.serialize();
 		assertEquals("Commands should be empty on creation!", 0, list.getSerializedSize());
 		
-		list.addCommand(new CommandData());
+		list.addCr(new CommandData());
 		list.serialize();
 		assertEquals("Serialized Commands should contain a single element!", 1, list.getSerializedSize());
 		
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
 		list.serialize();
 		assertEquals("Serialized Commands should contain 8 elements!", 8, list.getSerializedSize());
 	}
 
 	@Test
 	public void testGetCommands() {
-		CommandList<CommandData> list = new CommandList<>();
-		List<CommandData> Commands = list.getCommands();
+		CrList<CommandData> list = new CrList<>();
+		List<CommandData> Commands = list.getCrs();
 		assertEquals("Commands should be empty on creation!", 0, Commands.size());
 		
-		list.addCommand(new CommandData());
-		Commands = list.getCommands();
+		list.addCr(new CommandData());
+		Commands = list.getCrs();
 		assertEquals("Commands should contain a single element!", 1, Commands.size());
 		
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		list.addCommand(new CommandData());
-		Commands = list.getCommands();
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		list.addCr(new CommandData());
+		Commands = list.getCrs();
 		assertEquals("Commands should contain 8 elements!", 8, Commands.size());
 	}
 
 	@Test
 	public void testSetCommands() {
-		CommandList<CommandData> list = new CommandList<>();
+		CrList<CommandData> list = new CrList<>();
 		List<CommandData> Commands = new ArrayList<>();
-		list.setCommands(Commands);
+		list.setCrs(Commands);
 		assertEquals("Commands should be empty on creation!", 0, Commands.size());
 		
 		Commands.add(new CommandData());
-		list.setCommands(Commands);
+		list.setCrs(Commands);
 		assertEquals("Commands should contain a single element!", 1, Commands.size());
 		
 		Commands.add(new CommandData());
@@ -152,10 +155,10 @@ public class CommandListTest {
 		Commands.add(new CommandData());
 		Commands.add(new CommandData());
 		Commands.add(new CommandData());
-		list.setCommands(Commands);
+		list.setCrs(Commands);
 		assertEquals("Commands should contain 8 elements!", 8, Commands.size());
 		
-		list.setCommands(null);
+		list.setCrs(null);
 		assertEquals("Commands should contain 0 elements!", 0, Commands.size());
 	}
 	
@@ -164,30 +167,30 @@ public class CommandListTest {
 		String expectedString = "CommandList [commands=null, serializedCommands=null]";
 		String message = "CommandList.toString() expected to return \"" + expectedString + "\"!";
 		
-		CommandList<CommandData> list = new CommandList<>();
+		CrList<CommandData> list = new CrList<>();
 		String value = list.toString();
 		assertEquals(message, expectedString, value);
 		
 		expectedString = "CommandList [commands=[" + new CommandData().toString() + "], serializedCommands=null]";
 		message = "CommandList.toString() expected to return \"" + expectedString + "\"!";
-		list.addCommand(new CommandData());
+		list.addCr(new CommandData());
 		value = list.toString();
 		assertEquals(message, expectedString, value);
 	}
 	
 	@Test
 	public void testHashCode() {
-		int prime = CommandList.HASH_PRIME;
+		int prime = CrList.HASH_PRIME;
 		int baseHash = prime * prime;
 		int hash;
 		String message = "Hash code didn't match!";
 		
-		CommandList<CommandData> list = new CommandList<>();
+		CrList<CommandData> list = new CrList<>();
 		assertEquals("Hash code should have been " + prime + "^2!", baseHash, list.hashCode());
 		
 		List<CommandData> singleCommandList = new ArrayList<>();
 		singleCommandList.add(new CommandData());
-		list.addCommand(new CommandData());
+		list.addCr(new CommandData());
 		list.serialize();
 		list.deserialize();
 		hash = prime * 1 + singleCommandList.hashCode();
@@ -198,8 +201,8 @@ public class CommandListTest {
 	@SuppressWarnings("unlikely-arg-type")
 	@Test
 	public void testEquals() {
-		CommandList<CommandData> baseList = new CommandList<>();
-		CommandList<CommandData> otherList = new CommandList<>();
+		CrList<CommandData> baseList = new CrList<>();
+		CrList<CommandData> otherList = new CrList<>();
 		
 		assertTrue("Object doesn't equal itself!", baseList.equals(baseList));
 		assertFalse("Object equals null!", baseList.equals(null));
@@ -207,11 +210,11 @@ public class CommandListTest {
 		
 		assertTrue("Object inequal to equal object", baseList.equals(otherList));
 		
-		otherList.setCommands(new ArrayList<CommandData>());
+		otherList.setCrs(new ArrayList<CommandData>());
 		assertFalse("Object equals inequal object!", baseList.equals(otherList));
 		
-		baseList.setCommands(new ArrayList<CommandData>());
-		otherList.addCommand(new CommandData());
+		baseList.setCrs(new ArrayList<CommandData>());
+		otherList.addCr(new CommandData());
 		assertFalse("Object equals inequal object!", baseList.equals(otherList));
 		
 		otherList.serialize();

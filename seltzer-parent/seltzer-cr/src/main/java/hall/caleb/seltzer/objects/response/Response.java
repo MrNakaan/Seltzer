@@ -3,9 +3,9 @@ package hall.caleb.seltzer.objects.response;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.ResponseType;
+import hall.caleb.seltzer.objects.CrDataBase;
 
-public class Response {
-	protected UUID id;
+public class Response extends CrDataBase {
 	protected boolean success;
 	protected ResponseType type;
 	
@@ -61,14 +61,6 @@ public class Response {
 		return true;
 	}
 
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
-	}
-
 	public boolean isSuccess() {
 		return success;
 	}
@@ -77,6 +69,7 @@ public class Response {
 		this.success = success;
 	}
 
+	@Override
 	public ResponseType getType() {
 		return type;
 	}

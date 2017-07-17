@@ -6,7 +6,7 @@ import hall.caleb.seltzer.objects.response.MultiResultResponse;
 import hall.caleb.seltzer.objects.response.Response;
 import hall.caleb.seltzer.objects.response.SingleResultResponse;
 
-public enum ResponseType {
+public enum ResponseType implements CrType {
 	BASIC(Response.class),
 	SINGLE_RESULT(SingleResultResponse.class),
 	MULTI_RESULT(MultiResultResponse.class),
@@ -19,7 +19,8 @@ public enum ResponseType {
 		this.responseClass = responseClass;
 	}
 
-	public Class<? extends Response> getResponseClass() {
+	@Override
+	public Class<? extends Response> getCrClass() {
 		return responseClass;
 	}
 }

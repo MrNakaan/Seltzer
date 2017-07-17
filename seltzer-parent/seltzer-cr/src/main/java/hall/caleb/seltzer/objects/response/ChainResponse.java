@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.ResponseType;
+import hall.caleb.seltzer.objects.CrList;
 import hall.caleb.seltzer.objects.SerializableCR;
 
 public class ChainResponse<R extends Response> extends Response implements SerializableCR {
-	private ResponseList<R> responses = new ResponseList<>();
+	private CrList<R> responses = new CrList<>();
 
 	public ChainResponse() {
 		super();
@@ -38,7 +39,7 @@ public class ChainResponse<R extends Response> extends Response implements Seria
 
 	public boolean addResponse(R response) {
 		if (this.id.equals(response.getId())) {
-			responses.addResponse(response);
+			responses.addCr(response);
 			return true;
 		} else {
 			return false;
@@ -76,19 +77,19 @@ public class ChainResponse<R extends Response> extends Response implements Seria
 		return true;
 	}
 
-	public ResponseList<R> getResponseList() {
+	public CrList<R> getResponseList() {
 		return responses;
 	}
 
 	public List<R> getResponses() {
-		return responses.getResponses();
+		return responses.getCrs();
 	}
 
-	public void setResponseList(ResponseList<R> responses) {
+	public void setResponseList(CrList<R> responses) {
 		this.responses = responses;
 	}
 	
 	public void setResponses(List<R> responses) {
-		this.responses.setResponses(responses);
+		this.responses.setCrs(responses);
 	}
 }

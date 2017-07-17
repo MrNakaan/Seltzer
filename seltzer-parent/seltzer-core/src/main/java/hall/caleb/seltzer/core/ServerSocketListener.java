@@ -91,7 +91,7 @@ public class ServerSocketListener implements Runnable {
 			CommandData command;
 
 			command = new Gson().fromJson(json, CommandData.class);
-			command = new Gson().fromJson(json, command.getType().getCommandClass());
+			command = new Gson().fromJson(json, command.getType().getCrClass());
 
 			if (command.getType() == CommandType.CHAIN) {
 				((SerializableCR) command).deserialize();
@@ -112,7 +112,7 @@ public class ServerSocketListener implements Runnable {
 			if (response.getType() == ResponseType.CHAIN) {
 				((SerializableCR) response).serialize();
 			}
-			System.out.println("\t" + new Gson().toJson(response, response.getType().getResponseClass()));
+			System.out.println("\t" + new Gson().toJson(response, response.getType().getCrClass()));
 
 			writeResponse(socket, response);
 

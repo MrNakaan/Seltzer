@@ -3,12 +3,12 @@ package hall.caleb.seltzer.objects.command;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
+import hall.caleb.seltzer.objects.CrDataBase;
 
-public class CommandData {
+public class CommandData extends CrDataBase {
 	protected boolean hasCommandList = false;
 	
 	protected CommandType type = CommandType.NONE;
-	protected UUID id;
 	
 	public CommandData() {
 		super();
@@ -58,20 +58,13 @@ public class CommandData {
 		return true;
 	}
 
+	@Override
 	public CommandType getType() {
 		return type;
 	}
 
 	public void setType(CommandType type) {
 		this.type = type;
-	}
-
-	public UUID getId() {
-		return id;
-	}
-
-	public void setId(UUID id) {
-		this.id = id;
 	}
 
 	public boolean hasCommandList() {

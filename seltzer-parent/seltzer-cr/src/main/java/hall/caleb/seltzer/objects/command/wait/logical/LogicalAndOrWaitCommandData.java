@@ -4,14 +4,14 @@ import java.util.List;
 import java.util.UUID;
 
 import hall.caleb.seltzer.enums.CommandType;
+import hall.caleb.seltzer.objects.CrList;
 import hall.caleb.seltzer.objects.SerializableCR;
-import hall.caleb.seltzer.objects.command.CommandList;
 import hall.caleb.seltzer.objects.command.wait.WaitCommandData;
 
 public final class LogicalAndOrWaitCommandData extends LogicalWaitCommandData implements SerializableCR {
 	private boolean usesCommandList = false;
 	
-	private CommandList<WaitCommandData> waitCommands = new CommandList<>();
+	private CrList<WaitCommandData> waitCommands = new CrList<>();
 	
 	public LogicalAndOrWaitCommandData(Integer seconds, CommandType waitType) {
 		super(seconds, waitType);
@@ -39,7 +39,7 @@ public final class LogicalAndOrWaitCommandData extends LogicalWaitCommandData im
 	}
 	
 	public void addCommand(WaitCommandData command) {
-		waitCommands.addCommand(command);
+		waitCommands.addCr(command);
 	}
 
 	@Override
@@ -76,19 +76,19 @@ public final class LogicalAndOrWaitCommandData extends LogicalWaitCommandData im
 		return true;
 	}
 
-	public CommandList<WaitCommandData> getCommandList() {
+	public CrList<WaitCommandData> getCommandList() {
 		return waitCommands;
 	}
 
 	public List<WaitCommandData> getCommands() {
-		return waitCommands.getCommands();
+		return waitCommands.getCrs();
 	}
 
-	public void setCommandList(CommandList<WaitCommandData> commands) {
+	public void setCommandList(CrList<WaitCommandData> commands) {
 		this.waitCommands = commands;
 	}
 	
 	public void setCommands(List<WaitCommandData> commands) {
-		this.waitCommands.setCommands(commands);
+		this.waitCommands.setCrs(commands);
 	}
 }
