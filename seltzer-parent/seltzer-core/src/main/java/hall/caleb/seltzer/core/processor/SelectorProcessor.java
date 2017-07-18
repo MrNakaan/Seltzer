@@ -2,7 +2,9 @@ package hall.caleb.seltzer.core.processor;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -11,6 +13,8 @@ import org.openqa.selenium.WebElement;
 import hall.caleb.seltzer.enums.SelectorType;
 import hall.caleb.seltzer.objects.command.selector.FillFieldCommandData;
 import hall.caleb.seltzer.objects.command.selector.SelectorCommandData;
+import hall.caleb.seltzer.objects.command.selector.SendKeyCommandData;
+import hall.caleb.seltzer.objects.command.selector.SendKeysCommandData;
 import hall.caleb.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommandData;
 import hall.caleb.seltzer.objects.response.ExceptionResponse;
 import hall.caleb.seltzer.objects.response.Response;
@@ -44,10 +48,17 @@ public class SelectorProcessor {
 					case FORM_SUBMIT:
 						response = formSubmit(driver, command);
 						break;
+					case SEND_KEY:
+						response = sendKey(driver, (SendKeyCommandData) command);
+						break;
+					case SEND_KEYS:
+						response = sendKeys(driver, (SendKeysCommandData) command);
+						break;
 					default:
 						response = new Response(command.getId(), false);
 						break;
 					}
+					break;
 				} catch (WebDriverException e) {
 					logger.error(e);
 					tryNumber++;
@@ -133,6 +144,25 @@ public class SelectorProcessor {
 		WebElement form = driver.findElement(BaseProcessor.getBy(command.getSelector()));
 		form.submit();
 		response.setSuccess(true);
+
+		return response;
+	}
+	
+	private static Response sendKey(WebDriver driver, SendKeyCommandData command) {
+		Response response = new Response(command.getId(), true);
+
+		By by = BaseProcessor.getBy(command.getSelector());
+		String keyName = command.getKey().toString().toUpperCase();
+		driver.findElement(by).sendKeys(Keys.valueOf(keyName));
+
+		return response;
+	}
+
+	private static Response sendKeys(WebDriver driver, SendKeysCommandData command) {
+		Response response = new Response(command.getId(), true);
+
+		By by = BaseProcessor.getBy(command.getSelector());
+		driver.findElement(by).sendKeys(command.getKeys());
 
 		return response;
 	}

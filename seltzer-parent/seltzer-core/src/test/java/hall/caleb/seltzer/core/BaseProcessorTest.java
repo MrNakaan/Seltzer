@@ -4,10 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Generated;
 
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,10 +19,15 @@ import hall.caleb.seltzer.enums.ResponseType;
 import hall.caleb.seltzer.enums.SelectorType;
 import hall.caleb.seltzer.objects.command.ChainCommandData;
 import hall.caleb.seltzer.objects.command.CommandData;
+import hall.caleb.seltzer.objects.command.GetCookieCommandData;
+import hall.caleb.seltzer.objects.command.GetCookiesCommandData;
+import hall.caleb.seltzer.objects.command.GoToCommandData;
+import hall.caleb.seltzer.objects.command.Selector;
+import hall.caleb.seltzer.objects.command.selector.SelectorCommandData;
 import hall.caleb.seltzer.objects.response.ChainResponse;
+import hall.caleb.seltzer.objects.response.MultiResultResponse;
 import hall.caleb.seltzer.objects.response.Response;
 import hall.caleb.seltzer.objects.response.SingleResultResponse;
-import hall.caleb.seltzer.util.CommandFactory;
 
 @Generated(value = "org.junit-tools-1.0.5")
 public class BaseProcessorTest {
@@ -32,8 +38,6 @@ public class BaseProcessorTest {
 	public static void prepareClass() throws FileNotFoundException {
 		SeltzerServer.configureBase();
 
-		session = new SeltzerSession();
-		
 		String repoPath = System.getProperty("repo.path");
         if (repoPath == null) {
             throw new IllegalArgumentException("Property repo.path not found!");
@@ -42,13 +46,15 @@ public class BaseProcessorTest {
 		homeUrl = "file:///" + repoPath.replace(" ", "%20") + "/seltzer-parent/seltzer-core/src/test/resources/testHome.htm";
 	}
 
-	@AfterClass
-	public static void cleanDriver() {
+	@After
+	public void cleanDriver() {
 		session.executeCommand(new CommandData(CommandType.EXIT, session.getId()));
 	}
 
 	@Before
-	public void goToTestHome() {
+	public void startSession() {
+		session = new SeltzerSession();
+		session.getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		session.getDriver().navigate().to(homeUrl);
 	}
 
@@ -56,7 +62,7 @@ public class BaseProcessorTest {
 	public void testBack() throws Exception {
 		session.getDriver().findElement(By.linkText("Page 1")).click();
 
-		CommandData command = CommandFactory.newBackCommand(session.getId());
+		CommandData command = new CommandData(CommandType.BACK, session.getId());
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());
@@ -68,10 +74,18 @@ public class BaseProcessorTest {
 	@Test
 	public void testChain() throws Exception {
 		ChainCommandData<CommandData> command = new ChainCommandData<>(session.getId());
-		command.addCommand(CommandFactory.newClickCommand(session.getId(), SelectorType.LINK_TEXT, "Page 1"));
-		command.addCommand(CommandFactory.newBackCommand(session.getId()));
-		command.addCommand(CommandFactory.newForwardCommand(session.getId()));
-		command.addCommand(CommandFactory.newCountCommand(session.getId(), SelectorType.XPATH, "//div[@id='count']/span"));
+		CommandData subCommand;
+		
+		subCommand = new SelectorCommandData(CommandType.CLICK, session.getId());
+		((SelectorCommandData) subCommand).setSelector(new Selector(SelectorType.LINK_TEXT, "Page 1"));
+		command.addCommand(subCommand);
+		
+		command.addCommand(new CommandData(CommandType.BACK, session.getId()));
+		command.addCommand(new CommandData(CommandType.FORWARD, session.getId()));
+		
+		subCommand = new SelectorCommandData(CommandType.COUNT, session.getId());
+		((SelectorCommandData) subCommand).setSelector(new Selector(SelectorType.XPATH, "//div[@id='count']/span"));
+		command.addCommand(subCommand);
 		Response response = session.executeCommand(command);
 		
 		assertTrue("Was the command a success?", response.isSuccess());
@@ -97,7 +111,7 @@ public class BaseProcessorTest {
 		session.getDriver().findElement(By.linkText("Test Home")).click();
 		session.getDriver().navigate().back();
 
-		CommandData command = CommandFactory.newForwardCommand(session.getId());
+		CommandData command = new CommandData(CommandType.FORWARD, session.getId());
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());
@@ -108,7 +122,7 @@ public class BaseProcessorTest {
 
 	@Test
 	public void testGetUrl() throws Exception {
-		CommandData command = CommandFactory.newGetUrlCommand(session.getId());
+		CommandData command = new CommandData(CommandType.GET_URL, session.getId());
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());
@@ -126,12 +140,49 @@ public class BaseProcessorTest {
 		session.getDriver().findElement(By.linkText("Page 1")).click();
 		assertTrue("Make sure we're not at the test home.", session.getDriver().getTitle().equals("Test Page 1"));
 
-		CommandData command = CommandFactory.newGoToCommand(session.getId(), homeUrl);
+		GoToCommandData command = new GoToCommandData(session.getId());
+		command.setUrl(homeUrl);
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
 		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
 		assertEquals("Is the URL right?", homeUrl, session.getDriver().getCurrentUrl());
+	}
+	
+	@Test
+	public void testGetCookie() {
+		session.getDriver().findElement(By.linkText("Page 1")).click();
+		GetCookieCommandData command = new GetCookieCommandData(session.getId());
+		command.setCookieName("cookie1");
+		Response response = session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
+		assertEquals("Is the cookie value right?", "Games ", ((SingleResultResponse) response).getResult());
+	}
+	
+	@Test
+	public void testGetCookies() {
+		session.getDriver().findElement(By.linkText("Page 1")).click();
+		GetCookiesCommandData command = new GetCookiesCommandData(session.getId());
+		command.addCookie("cookie1");
+		command.addCookie("cookie2");
+		Response response = session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.MULTI_RESULT, response.getType());
+		String name = "";
+		for (String c : ((MultiResultResponse) response).getResults()) {
+			name += c;
+		}
+		assertEquals("Is the completed name right?", "Games Done Quick", name);
+	}
+	
+	@Test
+	public void testGetCookieFile() {
+		
 	}
 }

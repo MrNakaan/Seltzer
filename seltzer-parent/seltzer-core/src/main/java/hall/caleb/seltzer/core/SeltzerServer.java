@@ -54,7 +54,7 @@ public class SeltzerServer {
 		readConfig();
 		
 		Boolean headless = Boolean.valueOf(config.getString("seltzer.headless"));
-		if (headless != null) {
+		if (headless != null && headless) {
 			SeltzerSession.setHeadless(headless, true);
 		}
 		

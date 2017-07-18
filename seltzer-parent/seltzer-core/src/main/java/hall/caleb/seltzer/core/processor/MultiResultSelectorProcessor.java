@@ -37,6 +37,7 @@ public class MultiResultSelectorProcessor {
 					response = new MultiResultResponse(command.getId(), false);
 					break;
 				}
+				break;
 			} catch (WebDriverException e) {
 				logger.error(e);
 				tryNumber++;

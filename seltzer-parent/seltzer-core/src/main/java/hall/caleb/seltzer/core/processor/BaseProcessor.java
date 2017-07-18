@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 
@@ -26,8 +25,6 @@ import hall.caleb.seltzer.objects.command.GetCookieCommandData;
 import hall.caleb.seltzer.objects.command.GetCookiesCommandData;
 import hall.caleb.seltzer.objects.command.GoToCommandData;
 import hall.caleb.seltzer.objects.command.Selector;
-import hall.caleb.seltzer.objects.command.SendKeyCommandData;
-import hall.caleb.seltzer.objects.command.SendKeysCommandData;
 import hall.caleb.seltzer.objects.command.selector.SelectorCommandData;
 import hall.caleb.seltzer.objects.command.wait.WaitCommandData;
 import hall.caleb.seltzer.objects.response.ChainResponse;
@@ -90,12 +87,6 @@ public class BaseProcessor {
 					case GO_TO:
 						response = goTo(driver, (GoToCommandData) command);
 						break;
-					case SEND_KEY:
-						response = sendKey(driver, (SendKeyCommandData) command);
-						break;
-					case SEND_KEYS:
-						response = sendKeys(driver, (SendKeysCommandData) command);
-						break;
 					default:
 						response.setSuccess(false);
 						break;
@@ -123,25 +114,6 @@ public class BaseProcessor {
 		}
 
 		response.setId(command.getId());
-		return response;
-	}
-
-	private static Response sendKey(WebDriver driver, SendKeyCommandData command) {
-		Response response = new Response(command.getId(), true);
-
-		By by = getBy(command.getSelector());
-		String keyName = command.getKey().toString().toUpperCase();
-		driver.findElement(by).sendKeys(Keys.valueOf(keyName));
-
-		return response;
-	}
-
-	private static Response sendKeys(WebDriver driver, SendKeysCommandData command) {
-		Response response = new Response(command.getId(), true);
-
-		By by = getBy(command.getSelector());
-		driver.findElement(by).sendKeys(command.getKeys());
-
 		return response;
 	}
 
