@@ -1,1 +1,1 @@
-mvn -Drepo.path=C:/Absolute/Path/To/Seltzer clean install
+mvn -Dseltzer.path=C:/Absolute/Path/To/Seltzer clean install

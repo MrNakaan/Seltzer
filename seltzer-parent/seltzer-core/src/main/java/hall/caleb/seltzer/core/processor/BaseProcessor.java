@@ -254,7 +254,6 @@ public class BaseProcessor {
 			value = driver.manage().getCookieNamed(cookieName).getValue();
 
 			if (StringUtils.isNotEmpty(value)) {
-				response = new MultiResultResponse(command.getId(), true);
 				response.getResults().add(value);
 				response.setSuccess(true);
 			}

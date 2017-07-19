@@ -43,6 +43,8 @@ public class WaitProcessor {
 			if (condition != null) {
 				WebDriverWait wait = new WebDriverWait(driver, command.getSeconds());
 				wait.until(condition);
+			} else {
+				throw new WebDriverException();				
 			}
 		} catch (WebDriverException e) {
 			response.setSuccess(false);
@@ -80,7 +82,7 @@ public class WaitProcessor {
 			condition = processRefreshedWaitCommand(driver, (RefreshedWaitCommandData) command);
 		}
 		
-		switch (command.getType()) {
+		switch ((CommandType) command.getType()) {
 		case ALERT_PRESENT_WAIT:
 			condition = alertIsPresent(driver, command);
 			break;
@@ -94,7 +96,7 @@ public class WaitProcessor {
 	private static ExpectedCondition<?> processRefreshedWaitCommand(WebDriver driver, RefreshedWaitCommandData command) {
 		ExpectedCondition<?> condition = null;
 
-		switch (command.getType()) {
+		switch ((CommandType) command.getType()) {
 		case REFRESHED_WAIT:
 			condition = refreshed(driver, command);
 			break;
@@ -116,7 +118,7 @@ public class WaitProcessor {
 	private static ExpectedCondition<?> processLogicalWaitCommand(WebDriver driver, LogicalWaitCommandData command) {
 		ExpectedCondition<?> condition = null;
 
-		switch (command.getType()) {
+		switch ((CommandType) command.getType()) {
 		case AND_WAIT:
 			condition = andOr(driver, (LogicalAndOrWaitCommandData) command);
 			break;
@@ -182,7 +184,7 @@ public class WaitProcessor {
 	private static ExpectedCondition<?> processCountWaitCommand(WebDriver driver, CountWaitCommandData command) {
 		ExpectedCondition<?> condition = null;
 
-		switch (command.getType()) {
+		switch ((CommandType) command.getType()) {
 		case ELEMENT_COUNT_IS_WAIT:
 			condition = elementCount(driver, command);
 			break;
@@ -209,7 +211,7 @@ public class WaitProcessor {
 			condition = processNestedExistenceWaitCommand(driver, (NestedExistenceWaitCommandData) command);
 		}
 
-		switch (command.getType()) {
+		switch ((CommandType) command.getType()) {
 		case ELEMENT_CLICKABLE_WAIT:
 			condition = elementClickable(driver, command);
 			break;
@@ -236,7 +238,7 @@ public class WaitProcessor {
 			NestedExistenceWaitCommandData command) {
 		ExpectedCondition<?> condition = null;
 
-		switch (command.getType()) {
+		switch ((CommandType) command.getType()) {
 		case NESTED_ELEMENT_PRESENT_WAIT:
 			condition = presenceOfNestedElement(driver, command);
 			break;
@@ -254,7 +256,7 @@ public class WaitProcessor {
 			InvisibilityWaitCommandData command) {
 		ExpectedCondition<?> condition = null;
 
-		switch (command.getType()) {
+		switch ((CommandType) command.getType()) {
 		case ELEMENT_INVISIBLE_WAIT:
 			condition = invisibilityOf(driver, command);
 			break;
@@ -274,7 +276,7 @@ public class WaitProcessor {
 	private static ExpectedCondition<?> processJavaScriptWaitCommand(WebDriver driver, JavaScriptWaitCommandData command) {
 		ExpectedCondition<?> condition = null;
 
-		switch (command.getType()) {
+		switch ((CommandType) command.getType()) {
 		case JAVASCRIPT_RETURNS_STRING_WAIT:
 			condition = javascriptReturns(driver, command);
 			break;
@@ -292,7 +294,7 @@ public class WaitProcessor {
 			SelectionStateWaitCommandData command) {
 		ExpectedCondition<?> condition = null;
 
-		switch (command.getType()) {
+		switch ((CommandType) command.getType()) {
 		case ELEMENT_SELECTION_STATE_IS_WAIT:
 			condition = elementSelectionState(driver, command);
 			break;
@@ -311,28 +313,27 @@ public class WaitProcessor {
 					(TextMatchAttributeSelectorWaitCommandData) command);
 		} else if (command instanceof TextMatchSelectorWaitCommandData) {
 			condition = processTextMatchSelectorWaitCommand(driver, (TextMatchSelectorWaitCommandData) command);
+		} else {
+			switch ((CommandType) command.getType()) {
+			case TITLE_CONTAINS_WAIT:
+				condition = titleContains(driver, command);
+				break;
+			case TITLE_IS_WAIT:
+				condition = titleIs(driver, command);
+				break;
+			case URL_CONTAINS_WAIT:
+				condition = urlContains(driver, command);
+				break;
+			case URL_MATCHES_WAIT:
+				condition = urlMatches(driver, command);
+				break;
+			case URL_IS_WAIT:
+				condition = urlToBe(driver, command);
+				break;
+			default:
+				break;
+			}
 		}
-
-		switch (command.getType()) {
-		case TITLE_CONTAINS_WAIT:
-			condition = titleContains(driver, command);
-			break;
-		case TITLE_IS_WAIT:
-			condition = titleIs(driver, command);
-			break;
-		case URL_CONTAINS_WAIT:
-			condition = urlContains(driver, command);
-			break;
-		case URL_MATCHES_WAIT:
-			condition = urlMatches(driver, command);
-			break;
-		case URL_IS_WAIT:
-			condition = urlToBe(driver, command);
-			break;
-		default:
-			break;
-		}
-
 		return condition;
 	}
 
@@ -340,7 +341,7 @@ public class WaitProcessor {
 			TextMatchSelectorWaitCommandData command) {
 		ExpectedCondition<?> condition = null;
 
-		switch (command.getType()) {
+		switch ((CommandType) command.getType()) {
 		case TEXT_MATCHES_WAIT:
 			condition = textMatches(driver, command);
 			break;
@@ -364,7 +365,7 @@ public class WaitProcessor {
 			TextMatchAttributeSelectorWaitCommandData command) {
 		ExpectedCondition<?> condition = null;
 
-		switch (command.getType()) {
+		switch ((CommandType) command.getType()) {
 		case ATTRIBUTE_CONTAINS_WAIT:
 			condition = attributeContains(driver, command);
 			break;
@@ -388,7 +389,7 @@ public class WaitProcessor {
 			condition = processNestedVisibilityWaitCommand(driver, (NestedVisibilityWaitCommandData) command);
 		}
 
-		switch (command.getType()) {
+		switch ((CommandType) command.getType()) {
 		case ELEMENT_VISIBLE_WAIT:
 			condition = visibilityOf(driver, command);
 			break;
@@ -406,7 +407,7 @@ public class WaitProcessor {
 			NestedVisibilityWaitCommandData command) {
 		ExpectedCondition<?> condition = null;
 
-		switch (command.getType()) {
+		switch ((CommandType) command.getType()) {
 		case NESTED_ELEMENTS_VISIBLE_WAIT:
 			condition = visibilityOfAllNested(driver, command);
 			break;

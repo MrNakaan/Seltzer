@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -53,20 +54,29 @@ public class SeltzerServer {
 		
 		readConfig();
 		
-		Boolean headless = Boolean.valueOf(config.getString("seltzer.headless"));
+		Boolean headless = Boolean.valueOf(config.getString("seltzer.headless.enabled"));
+		Boolean locked = Boolean.valueOf(config.getString("seltzer.headless.locked"));
 		if (headless != null && headless) {
-			SeltzerSession.setHeadless(headless, true);
+			SeltzerSession.setHeadless(headless, (locked == null ? true : locked));
 		}
 		
 		logger.debug(Messages.getString("SeltzerServer.configuringDriver")); 
 		
-		String repoPath = System.getProperty(Messages.getString("SeltzerServer.pathEnv")); 
+		String repoPath = System.getProperty("seltzer.path");
+		if (StringUtils.isEmpty(repoPath)) {
+			repoPath = config.getString("seltzer.path");
+			if (StringUtils.isEmpty(repoPath)) {
+				logger.warn(Messages.getString("SeltzerServer.pathNotFound"));
+				repoPath = "~/";
+			}
+		}
+		
 		String driverPath;
 		if (repoPath == null) {
 			logger.warn(Messages.getString("SeltzerServer.pathNotFound")); 
-			driverPath = Messages.getString("SeltzerServer.chromeDriverRelative"); 
+			driverPath = repoPath + "web_drivers/chromedriver.exe"; 
 		} else {
-			driverPath = repoPath + Messages.getString("SeltzerServer.chromeDriver"); 
+			driverPath = repoPath + "/seltzer-parent/web_drivers/chromedriver.exe"; 
 		}
 		
 		logger.debug(MessageFormat.format(Messages.getString("SeltzerServer.driverDebug"), driverPath));

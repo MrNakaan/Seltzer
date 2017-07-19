@@ -4,7 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Generated;
 
@@ -38,9 +42,9 @@ public class BaseProcessorTest {
 	public static void prepareClass() throws FileNotFoundException {
 		SeltzerServer.configureBase();
 
-		String repoPath = System.getProperty("repo.path");
+		String repoPath = System.getProperty("seltzer.path");
         if (repoPath == null) {
-            throw new IllegalArgumentException("Property repo.path not found!");
+            throw new IllegalArgumentException("Property seltzer.path not found!");
         }
         	
 		homeUrl = "file:///" + repoPath.replace(" ", "%20") + "/seltzer-parent/seltzer-core/src/test/resources/testHome.htm";
@@ -151,38 +155,50 @@ public class BaseProcessorTest {
 	}
 	
 	@Test
-	public void testGetCookie() {
-		session.getDriver().findElement(By.linkText("Page 1")).click();
+	public void testGetCookie() throws UnsupportedEncodingException {
+		session.getDriver().navigate().to("http://www.whatarecookies.com/cookietest.asp");
 		GetCookieCommandData command = new GetCookieCommandData(session.getId());
-		command.setCookieName("cookie1");
+		command.setCookieName("dta");
 		Response response = session.executeCommand(command);
 		
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
 		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
-		assertEquals("Is the cookie value right?", "Games ", ((SingleResultResponse) response).getResult());
+		
+		SingleResultResponse sResponse = (SingleResultResponse) response;
+		sResponse.setResult(URLDecoder.decode(sResponse.getResult(), "UTF-8"));
+		
+		Pattern pattern = Pattern.compile("^vcount=.*?,prev=.*$");
+		Matcher matcher = pattern.matcher(sResponse.getResult());
+		
+		assertTrue("Does the cookie contain the right value?", matcher.matches());
 	}
 	
 	@Test
-	public void testGetCookies() {
-		session.getDriver().findElement(By.linkText("Page 1")).click();
+	public void testGetCookies() throws UnsupportedEncodingException {
+		session.getDriver().navigate().to("http://www.whatarecookies.com/cookietest.asp");
 		GetCookiesCommandData command = new GetCookiesCommandData(session.getId());
-		command.addCookie("cookie1");
-		command.addCookie("cookie2");
+		command.addCookie("dta");
+		command.addCookie("dta");
 		Response response = session.executeCommand(command);
 		
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
 		assertEquals("Is this the right response type?", ResponseType.MULTI_RESULT, response.getType());
-		String name = "";
+		
+		String value = "";
 		for (String c : ((MultiResultResponse) response).getResults()) {
-			name += c;
+			value += URLDecoder.decode(c, "UTF-8");
 		}
-		assertEquals("Is the completed name right?", "Games Done Quick", name);
+		
+		Pattern pattern = Pattern.compile("^(vcount=.*?,prev=.*?){2}$");
+		Matcher matcher = pattern.matcher(value);
+		
+		assertTrue("Does the cookie contain the right value?", matcher.matches());
 	}
 	
 	@Test
 	public void testGetCookieFile() {
-		
+		// I'm sorry, I haven't determined the best way to test this yet.
 	}
 }

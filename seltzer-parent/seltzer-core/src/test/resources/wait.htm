@@ -47,7 +47,7 @@
 			}
 			
 			async function run() {
-				await new Promise(resolve => setTimeout(resolve, 5000));
+				await new Promise(resolve => setTimeout(resolve, 2500));
 				revealHeader();
 				addHeader();
 				hideHeaders();
@@ -60,19 +60,19 @@
 			}
 			
 			async function showAlert() {
-				await new Promise(resolve => setTimeout(resolve, 5000));
+				await new Promise(resolve => setTimeout(resolve, 2500));
 				alert("Alert!");
 			}
 			
 			async function changeUrl() {
-				await new Promise(resolve => setTimeout(resolve, 5000));
+				await new Promise(resolve => setTimeout(resolve, 2500));
 				var url = window.location.href;
 				url = url + "?changed=true";
 				window.location.href = url;
 			}
 			
 			async function openWindow() {
-				await new Promise(resolve => setTimeout(resolve, 5000));
+				await new Promise(resolve => setTimeout(resolve, 2500));
 				window.open("about:blank", "_blank");
 			}
 			

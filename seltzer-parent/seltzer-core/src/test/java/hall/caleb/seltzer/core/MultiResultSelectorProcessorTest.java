@@ -33,9 +33,9 @@ public class MultiResultSelectorProcessorTest {
 	public static void prepareClass() throws FileNotFoundException {
 		SeltzerServer.configureBase();
 
-		String repoPath = System.getProperty("repo.path");
+		String repoPath = System.getProperty("seltzer.path");
         if (repoPath == null) {
-            throw new IllegalArgumentException("Property repo.path not found!");
+            throw new IllegalArgumentException("Property seltzer.path not found!");
         }
         	
 		homeUrl = "file:///" + repoPath.replace(" ", "%20") + "/seltzer-parent/seltzer-core/src/test/resources/testHome.htm";
