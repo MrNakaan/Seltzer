@@ -47,7 +47,7 @@
 			}
 			
 			async function run() {
-				await new Promise(resolve => setTimeout(resolve, 2500));
+				await new Promise(resolve => setTimeout(resolve, 2000));
 				revealHeader();
 				addHeader();
 				hideHeaders();
@@ -60,19 +60,19 @@
 			}
 			
 			async function showAlert() {
-				await new Promise(resolve => setTimeout(resolve, 2500));
+				await new Promise(resolve => setTimeout(resolve, 2000));
 				alert("Alert!");
 			}
 			
 			async function changeUrl() {
-				await new Promise(resolve => setTimeout(resolve, 2500));
+				await new Promise(resolve => setTimeout(resolve, 2000));
 				var url = window.location.href;
 				url = url + "?changed=true";
 				window.location.href = url;
 			}
 			
 			async function openWindow() {
-				await new Promise(resolve => setTimeout(resolve, 2500));
+				await new Promise(resolve => setTimeout(resolve, 2000));
 				window.open("about:blank", "_blank");
 			}
 			
@@ -116,8 +116,11 @@
 		</div>
 		<div id="addIframe">
 		</div>
-		<div style="display:hidden" id="hidden">
+		<div style="display:none" id="hidden">
 			<h2>Some Permanently Hidden Element</h2>
+		</div>
+		<div id="visible">
+			<h2>Some Permanently Visible Element</h2>
 		</div>
 	</body>
 </html>

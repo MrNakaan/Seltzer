@@ -14,12 +14,12 @@ public class WaitCommandData extends CommandData {
 	}
 
 	public WaitCommandData(Integer seconds, CommandType commandType) {
-		super(CommandType.WAIT);
+		super(commandType);
 		this.seconds = seconds;
 	}
 
 	public WaitCommandData(Integer seconds, CommandType commandType, UUID id) {
-		super(CommandType.WAIT, id);
+		super(commandType, id);
 		this.seconds = seconds;
 	}
 
