@@ -238,17 +238,15 @@ public class WaitProcessor {
 			NestedExistenceWaitCommandData command) {
 		ExpectedCondition<?> condition = null;
 
-//		switch ((CommandType) command.getType()) {
-//		case NESTED_ELEMENT_PRESENT_WAIT:
-		if (command.getType() == CommandType.NESTED_ELEMENT_PRESENT_WAIT) {
+		switch ((CommandType) command.getType()) {
+		case NESTED_ELEMENT_PRESENT_WAIT:
 			condition = presenceOfNestedElement(driver, command);
-		} else if (command.getType() == CommandType.NESTED_ELEMENTS_PRESENT_WAIT) {
-//			break;
-//		case NESTED_ELEMENTS_PRESENT_WAIT:
+			break;
+		case NESTED_ELEMENTS_PRESENT_WAIT:
 			condition = presenceOfAllNestedElements(driver, command);
-//			break;
-//		default:
-//			break;
+			break;
+		default:
+			break;
 		}
 
 		return condition;
