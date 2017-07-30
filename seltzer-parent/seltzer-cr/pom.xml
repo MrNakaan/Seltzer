@@ -124,4 +124,5 @@
 	<description>The command/response project for Seltzer. This project contains the command data, response data, exceptions, and enums that Seltzer accepts and returns. 
 
 This project is OSGi compatible.</description>
+	<url>http://seltzer.tech</url>
 </project>

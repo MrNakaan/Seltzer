@@ -151,4 +151,5 @@ This project is not OSGi compatible.</description>
 			<version>2.7</version>
 		</dependency>
 	</dependencies>
+	<url>http://seltzer.tech</url>
 </project>

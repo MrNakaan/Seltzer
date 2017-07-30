@@ -124,4 +124,5 @@
 	<description>A Utility project for Seltzer. This project contains utilities such as a send/receive method and a command factory.
 
 This project is OSGi compatible.</description>
+	<url>http://seltzer.tech</url>
 </project>
