@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
+		<link type="text/css" rel="stylesheet" href="css/seltzer.css"  media="screen,projection"/>
+		
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+		<link rel="manifest" href="/manifest.json">
+		<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+		<meta name="theme-color" content="#ffffff">
+		
+		<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="js/materialize.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$(".button-collapse").sideNav();
+				$(".modal").modal();
+				$("#underConstructionModal").modal("open");
+			});
+		</script>
+	</head>
+	<body>
+		<div id="header" wicket:id="headerPanel">header</div>
+		<main>
+			<div id="underConstructionModal" class="modal">
+				<div class="modal-content">
+					<h4>Under Construction!</h4>
+					<p>seltzer.tech is currently under construction. It's ugly, bare, and the Github link is the only one that works. Come back on August 14th!</p>
+				</div>
+				<div class="modal-footer">
+					<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">I Understand</a>
+				</div>
+			</div>
+		</main>
+		<div id="footer" wicket:id="footerPanel">footer</div>
+	</body>
+</html>
