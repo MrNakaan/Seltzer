@@ -1,4 +1,4 @@
-package tech.seltzer;
+package tech.seltzer.common;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;

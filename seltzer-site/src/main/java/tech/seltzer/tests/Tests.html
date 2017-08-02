@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+	<head>
+	</head>
+	<body>
+		<wicket:extend>
+			<div id="testWarningModal" class="modal">
+				<div class="modal-content">
+					<h4>Warning</h4>
+					<p>
+						All links on this page lead to test pages for use while building Seltzer 
+						itself. These pages don't look good, have no functionality, and may set 
+						generic cookies in your browser. By dismissing this modal and/or visiting 
+						any of the pages linked to by this page, you acknowledge and accept any 
+						behaviors these pages exhibit.
+					</p>
+				</div>
+				<div class="modal-footer">
+					<a href="#!" class="modal-action modal-close waves-effect btn-flat">I Understand</a>
+				</div>
+			</div>
+			<script type="text/javascript">
+			$(document).ready(function() {
+				$(".modal").modal();
+				$("#testWarningModal").modal("open");
+			});
+		</script>
+		<h4 class="center-align"><em>Tests coming soon...</em></h4>
+		</wicket:extend>
+	</body>
+</html>

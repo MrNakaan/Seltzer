@@ -7,18 +7,52 @@
 <body>
 	<wicket:panel>
 		<header>
-			<nav class="indigo">
+			<nav class="light-blue lighten-2">
 				<div class="nav-wrapper">
-					<a href="index.htm" class="logo">
-						<img src="images/bottle_1.svg"/>
-					</a>
-					<a href="index.htm" class="brand-logo">
+					<a wicket:id="homeTop" class="brand-logo black-text">
 						Seltzer
 					</a>
-					<a href="#" data-activates="side-nav" class="button-collapse">
+					<a href="#" data-activates="side-nav" class="button-collapse black-text">
 						<i class="material-icons">menu</i>
 					</a>
 					<ul class="right hide-on-med-and-down">
+						<li class="nav-github">
+							<a href="https://github.com/MrNakaan/Seltzer" target="_blank" class="black-text">
+								<i class="material-icons left">code</i>
+								Github
+							</a>
+						</li>
+						<li class="nav-modules">
+							<a wicket:id="modulesTop" class="black-text">
+								<i class="material-icons left">list</i>
+								Modules
+							</a>
+						</li>
+						<li class="nav-testhome">
+							<a wicket:id="scheduleTop" class="black-text">
+								<i class="material-icons left">date_range</i>
+								Schedule
+							</a>
+						</li>
+						<li class="nav-documentation">
+							<a wicket:id="documentationTop" class="black-text">
+								<i class="material-icons left">library_books</i>
+								Documentation
+							</a>
+						</li>
+						<li class="nav-testhome">
+							<a wicket:id="testsTop" class="black-text">
+								<i class="material-icons left">assessment</i>
+								Test Pages
+							</a>
+						</li>
+					</ul>
+					<ul class="side-nav" id="side-nav">
+						<li class="logo">
+							<a wicket:id="homeSide" id="logo-container" class="center-align">
+								<img src="images/bottle_1.svg"/>
+							</a>
+						</li>
 						<li class="nav-github">
 							<a href="https://github.com/MrNakaan/Seltzer" target="_blank">
 								<i class="material-icons left">code</i>
@@ -26,45 +60,25 @@
 							</a>
 						</li>
 						<li class="nav-modules">
-							<a href="modules.htm">
+							<a wicket:id="modulesSide">
 								<i class="material-icons left">list</i>
-								Seltzer Modules
+								Modules
+							</a>
+						</li>
+						<li class="nav-testhome">
+							<a wicket:id="scheduleSide">
+								<i class="material-icons left">date_range</i>
+								Schedule
 							</a>
 						</li>
 						<li class="nav-documentation">
-							<a href="documentationHome.htm">
+							<a wicket:id="documentationSide">
 								<i class="material-icons left">library_books</i>
 								Documentation
 							</a>
 						</li>
 						<li class="nav-testhome">
-							<a href="testHome.htm">
-								<i class="material-icons left">assessment</i>
-								Test Pages
-							</a>
-						</li>
-					</ul>
-					<ul class="side-nav" id="side-nav">
-						<li class="nav-github">
-							<a href="https://github.com/MrNakaan/Seltzer">
-								<i class="material-icons left">code</i>
-								Github Repo
-							</a>
-						</li>
-						<li class="nav-modules">
-							<a href="modules.htm">
-								<i class="material-icons left">list</i>
-								Seltzer Modules
-							</a>
-						</li>
-						<li class="nav-documentation">
-							<a href="documentationHome.htm">
-								<i class="material-icons left">library_books</i>
-								Documentation
-							</a>
-						</li>
-						<li class="nav-testhome">
-							<a href="testHome.htm">
+							<a wicket:id="testsSide">
 								<i class="material-icons left">assessment</i>
 								Test Pages
 							</a>

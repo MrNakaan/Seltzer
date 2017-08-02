@@ -9,11 +9,15 @@ main {
 }
 
 .logo {
-    display: inline-block;
-    height: 100%;
+    display: block;
+    height: 200px;
 }
 
-.logo>img {
+.logo>a>img {
     vertical-align: middle;
-    height: 95%;
+    height: 200px;
+}
+
+.collapseSection {
+	font-weight: bold;
 }

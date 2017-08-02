@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:wicket="http://wicket.apache.org">
 	<head>
+		<title>Seltzer</title>
+		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
@@ -18,22 +20,14 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 				$(".button-collapse").sideNav();
-				$(".modal").modal();
-				$("#underConstructionModal").modal("open");
 			});
 		</script>
 	</head>
 	<body>
 		<div id="header" wicket:id="headerPanel">header</div>
 		<main>
-			<div id="underConstructionModal" class="modal">
-				<div class="modal-content">
-					<h4>Under Construction!</h4>
-					<p>seltzer.tech is currently under construction. It's ugly, bare, and the Github link is the only one that works. Come back on August 14th!</p>
-				</div>
-				<div class="modal-footer">
-					<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">I Understand</a>
-				</div>
+			<div class="container">
+				<wicket:child/>
 			</div>
 		</main>
 		<div id="footer" wicket:id="footerPanel">footer</div>

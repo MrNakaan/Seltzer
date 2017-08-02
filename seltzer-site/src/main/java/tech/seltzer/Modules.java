@@ -4,11 +4,10 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import tech.seltzer.common.BasePage;
 
-public class Index extends BasePage {
-	private static final long serialVersionUID = 7146561197795644314L;
+public class Modules extends BasePage {
+	private static final long serialVersionUID = -3794925557659701855L;
 
-	public Index(PageParameters parameters) {
+	public Modules(PageParameters parameters) {
 		super(parameters);
 	}
-
 }
