@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>hall.caleb.seltzer</groupId>
+	<groupId>tech.seltzer</groupId>
 	<artifactId>seltzer-cr</artifactId>
 	<version>1.0.0-RC2</version>
 	<packaging>bundle</packaging>
@@ -68,7 +68,7 @@
 				<configuration>
 					<instructions>
 						<Import-Package>*</Import-Package>
-						<Export-Package>hall.caleb.seltzer.objects.command,hall.caleb.seltzer.objects.response,hall.caleb.seltzer.enums</Export-Package>
+						<Export-Package>tech.seltzer.enums,tech.seltzer.objects.command,tech.seltzer.objects.command.selector,tech.seltzer.objects.command.selector.multiresult,tech.seltzer.objects.command.wait,tech.seltzer.objects.command.wait.existence,tech.seltzer.objects.command.wait.logical,tech.seltzer.objects.command.wait.textmatch,tech.seltzer.objects.command.wait.visibility,tech.seltzer.objects.exception,tech.seltzer.objects.response</Export-Package>
 						<Bundle-SymbolicName>seltzer-cr</Bundle-SymbolicName>
 					</instructions>
 				</configuration>

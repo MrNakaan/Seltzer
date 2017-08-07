@@ -1,18 +1,21 @@
 package tech.seltzer.common;
 
-import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.Component;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.panel.Panel;
-
-import tech.seltzer.Index;
-import tech.seltzer.Modules;
-import tech.seltzer.Schedule;
-import tech.seltzer.documentation.Documentation;
-import tech.seltzer.tests.Tests;
 
 public class Header extends Panel {
 	private static final long serialVersionUID = 5197492705200971546L;
 
+	private Component modulesTop;
+	private Component modulesLeft;
+	private Component scheduleTop;
+	private Component scheduleLeft;
+	private Component docsTop;
+	private Component docsLeft;
+	private Component testsTop;
+	private Component testsLeft;
+	
 	public Header(String id) {
 		super(id);
 	}
@@ -21,31 +24,61 @@ public class Header extends Panel {
 	protected void onInitialize() {
 		super.onInitialize();
 		
-		add(new navLink("homeTop", Index.class));
-		add(new navLink("homeSide", Index.class));
-		add(new navLink("modulesTop", Modules.class));
-		add(new navLink("modulesSide", Modules.class));
-		add(new navLink("scheduleTop", Schedule.class));
-		add(new navLink("scheduleSide", Schedule.class));
-		add(new navLink("documentationTop", Documentation.class));
-		add(new navLink("documentationSide", Documentation.class));
-		add(new navLink("testsTop", Tests.class));
-		add(new navLink("testsSide", Tests.class));
+		createComponents();
+		addComponents();
 	}
 	
-	private static class navLink extends Link<WebPage> {
-		private static final long serialVersionUID = 4280585915062494994L;
-		
-		private Class<? extends WebPage> page;
-		
-		public navLink(String id, Class<? extends WebPage> page) {
-			super(id);
-			this.page = page;
-		}
+	private void createComponents() {
+		modulesTop = new WebMarkupContainer("modulesTop");
+		modulesLeft = new WebMarkupContainer("modulesLeft");
+		scheduleTop = new WebMarkupContainer("scheduleTop");
+		scheduleLeft= new WebMarkupContainer("scheduleLeft");
+		docsTop = new WebMarkupContainer("docsTop");
+		docsLeft = new WebMarkupContainer("docsLeft");
+		testsTop = new WebMarkupContainer("testsTop");
+		testsLeft= new WebMarkupContainer("testsLeft");
+	}
+	
+	private void addComponents() {
+		add(modulesTop);
+		add(modulesLeft);
+		add(scheduleTop);
+		add(scheduleLeft);
+		add(docsTop);
+		add(docsLeft);
+		add(testsTop);
+		add(testsLeft);
+	}
 
-		@Override
-		public void onClick() {
-			setResponsePage(page);
-		}
+	public Component getModulesTop() {
+		return modulesTop;
+	}
+
+	public Component getModulesLeft() {
+		return modulesLeft;
+	}
+
+	public Component getScheduleTop() {
+		return scheduleTop;
+	}
+
+	public Component getScheduleLeft() {
+		return scheduleLeft;
+	}
+
+	public Component getDocsTop() {
+		return docsTop;
+	}
+
+	public Component getDocsLeft() {
+		return docsLeft;
+	}
+
+	public Component getTestsTop() {
+		return testsTop;
+	}
+
+	public Component getTestsLeft() {
+		return testsLeft;
 	}
 }

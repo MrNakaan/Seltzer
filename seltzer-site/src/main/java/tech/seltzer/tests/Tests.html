@@ -20,12 +20,22 @@
 				</div>
 			</div>
 			<script type="text/javascript">
-			$(document).ready(function() {
-				$(".modal").modal();
-				$("#testWarningModal").modal("open");
-			});
-		</script>
-		<h4 class="center-align"><em>Tests coming soon...</em></h4>
+				$(document).ready(function() {
+					$(".modal").modal();
+					$("#testWarningModal").modal("open");
+				});
+			</script>
+			<div class="container">
+				<div class="row center-align">
+					<div class="col offset-l3 offset-m2 l2 m4 s12">
+						<a href="/tests/main1">Main Tests 1</a>
+					</div>
+					<div class="col l2 m4 s12">
+						<a href="/tests/wait">Wait Tests</a>
+					</div>
+				</div>
+			</div>
+			<wicket:child/>
 		</wicket:extend>
 	</body>
 </html>

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:wicket="http://wicket.apache.org">
 	<head>
-		<title>Seltzer</title>
+		<title wicket:id="title">Seltzer</title>
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<link type="text/css" rel="stylesheet" href="css/materialize.css"  media="screen,projection"/>
-		<link type="text/css" rel="stylesheet" href="css/seltzer.css"  media="screen,projection"/>
+		<link type="text/css" rel="stylesheet" href="css/materialize.css" media="screen,projection"/>
+		<link type="text/css" rel="stylesheet" href="css/seltzer.css" media="screen,projection"/>
 		
 		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -26,9 +26,7 @@
 	<body>
 		<div id="header" wicket:id="headerPanel">header</div>
 		<main>
-			<div class="container">
-				<wicket:child/>
-			</div>
+			<wicket:child/>
 		</main>
 		<div id="footer" wicket:id="footerPanel">footer</div>
 	</body>

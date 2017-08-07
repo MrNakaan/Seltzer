@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>hall.caleb.seltzer</groupId>
+	<groupId>tech.seltzer</groupId>
 	<artifactId>seltzer-util</artifactId>
 	<version>1.0.0-RC2</version>
 	<packaging>bundle</packaging>
@@ -42,9 +42,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>hall.caleb.seltzer</groupId>
+			<groupId>tech.seltzer</groupId>
 			<artifactId>seltzer-cr</artifactId>
-			<version>[0.10.0,1.0.0)</version>
+			<version>1.0.0-RC2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -68,7 +68,7 @@
 				<configuration>
 					<instructions>
 						<Import-Package>*</Import-Package>
-						<Export-Package>hall.caleb.seltzer.util</Export-Package>
+						<Export-Package>tech.seltzer.util</Export-Package>
 						<Bundle-SymbolicName>seltzer-util</Bundle-SymbolicName>
 					</instructions>
 				</configuration>

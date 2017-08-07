@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+	<head>
+	</head>
+	<body>
+		<wicket:extend>
+			<div class="container">
+				<h4>Getting Started: Running Seltzer</h4>
+				Running Seltzer is very simple. There are 4 things you need:
+				<ul class="browser-default">
+					<li>Seltzer Core</li>
+					<li>A 1.7+ Java installation</li>
+					<li>A Google Chrome installation</li>
+					<li>
+						The Chrome web driver 
+						(<a href="https://sites.google.com/a/chromium.org/chromedriver/">here</a>)
+					</li>
+				</ul>
+				<p>
+					To prepare, make your Seltzer directory. It's recommended it be somewhere easy 
+					to get to with your shell/command line. Take your copy of Seltzer Core, 
+					probably named something like 
+					<code>seltzer-core-x.y.z-jar-with-dependencies.jar</code>, where x.y.z 
+					represents the version you've downloaded/compiled. For brevity, the rest of 
+					this document will call it seltzer-core.jar.Also, make a subfolder called 
+					<code>web_drivers</code> and put your Chrome web driver in there.
+				</p>
+				<p>
+					In order to actually start Seltzer, navigate a shell/command prompt to your 
+					Seltzer directory. Then you simply run it with the command 
+					<code>java -jar seltzer-core.jar -Dseltzer.path=/absolute/path/to/seltzer/dir</code>. 
+					The <code>seltzer.path</code> property that is set in the command is 
+					absolutely required (unless you set it in your config file), and it must be an 
+					absolute path. This is the directory that Seltzer will place the new browser 
+					profiles in, as well as look for the web driver.  
+				</p>
+			</div>
+		</wicket:extend>
+	</body>
+</html>

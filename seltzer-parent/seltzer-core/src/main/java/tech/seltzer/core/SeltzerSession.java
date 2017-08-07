@@ -92,8 +92,8 @@ public class SeltzerSession implements Closeable {
 		options.addArguments(Messages.getString("SeltzerSession.dataDir") + dataDir);
 
 		if (headless) {
-			options.addArguments("headless");
-			options.addArguments("disable-gpu");
+			//options.addArguments("headless");
+			//options.addArguments("disable-gpu");
 		}
 		
 		driver = new ChromeDriver(options);

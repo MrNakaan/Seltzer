@@ -1,5 +1,6 @@
 package tech.seltzer;
 
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import tech.seltzer.common.BasePage;
@@ -9,5 +10,16 @@ public class Schedule extends BasePage {
 
 	public Schedule(PageParameters parameters) {
 		super(parameters);
+	}
+
+	@Override
+	protected void markActiveNavSection() {
+		header.getScheduleTop().add(new MarkActiveBehavior());
+		header.getScheduleLeft().add(new MarkActiveBehavior());
+	}
+
+	@Override
+	protected void setTitle() {
+		add(new Label("title", "Schedule | Seltzer"));
 	}
 }

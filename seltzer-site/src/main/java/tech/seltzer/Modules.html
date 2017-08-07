@@ -4,101 +4,103 @@
 	</head>
 	<body>
 		<wicket:extend>
-			<h4>Modules</h4>
-			Below is a list of all the modules within the Seltzer project.
-			<ul class="collapsible" data-collapsible="accordion">
-				<li>
-					<div class="collapsible-header">Parent</div>
-					<div class="collapsible-body">
-						<span class="collapseSection">Type: </span>
-						Aggregate
-						<br/>
-						<span class="collapseSection">Path: </span>
-						<code>/seltzer-parent</code>
-						<br/>
-						<span class="collapseSection">Description: </span>
-						This is simply the parent element to all the Java modules, and should not 
-						be used as a dependency.
-						<br/>
-						<span class="collapseSection">Documentation: </span>
-						<em>Coming soon...</em>
-					</div>
-				</li>
-				<li>
-					<div class="collapsible-header">Core</div>
-					<div class="collapsible-body">
-						<span class="collapseSection">Type: </span>
-						Standalone Application
-						<br/>
-						<span class="collapseSection">Path: </span>
-						<code>/seltzer-parent/seltzer-core</code>
-						<br/>
-						<span class="collapseSection">Description: </span>
-						Core is the Seltzer server application. It is run separately from any 
-						applications that include any of the <code>library</code> modules listed 
-						on this page.
-						<br/>
-						<span class="collapseSection">Documentation: </span>
-						<em>Coming soon...</em>
-					</div>
-				</li>
-				<li>
-					<div class="collapsible-header">Command/Response</div>
-					<div class="collapsible-body">
-						<span class="collapseSection">Type: </span>
-						Library
-						<br/>
-						<span class="collapseSection">Path: </span>
-						<code>/seltzer-parent/seltzer-cr</code>
-						<br/>
-						<span class="collapseSection">Description: </span>
-						Command/Response is the module responsible for providing a common 
-						interface between Seltzer Core and any application needing to communicate 
-						with it. Command/Response provides the command data classes that are sent 
-						to a Seltzer server, as well as the response classes that the server will 
-						return. Along with this are enumerations used to provide important 
-						metadata and exceptions. 
-						<br/>
-						<span class="collapseSection">Documentation: </span>
-						<em>Coming soon...</em>
-					</div>
-				</li>
-				<li>
-					<div class="collapsible-header">Util</div>
-					<div class="collapsible-body">
-						<span class="collapseSection">Type: </span>
-						Library
-						<br/>
-						<span class="collapseSection">Path: </span>
-						<code>/seltzer-parent/seltzer-util</code>
-						<br/>
-						<span class="collapseSection">Description: </span>
-						Util is exactly what the name implies, a module providing utility classes 
-						and methods. Currently available are a send/receive implementation and a 
-						[deprecated] command data factory. A more fluent command builder is 
-						planned for a future release.
-						<br/>
-						<span class="collapseSection">Documentation: </span>
-						<em>Coming soon...</em>
-					</div>
-				</li>
-				<li>
-					<div class="collapsible-header">Site</div>
-					<div class="collapsible-body">
-						<span class="collapseSection">Type: </span>
-						Website
-						<br/>
-						<span class="collapseSection">Path: </span>
-						<code>/seltzer-site</code>
-						<br/>
-						<span class="collapseSection">Description: </span>
-						This module is simply the site that you're currently viewing.
-						<br/>
-						<span class="collapseSection">Documentation: </span>
-						<em>Coming soon...</em>
-					</div>
-				</li>
-			</ul>
+			<div class="container">
+				<h4>Modules</h4>
+				Below is a list of all the modules within the Seltzer project.
+				<ul class="collapsible" data-collapsible="accordion">
+					<li>
+						<div class="collapsible-header">Parent</div>
+						<div class="collapsible-body">
+							<span class="collapseSection">Type: </span>
+							Aggregate
+							<br/>
+							<span class="collapseSection">Path: </span>
+							<code>/seltzer-parent</code>
+							<br/>
+							<span class="collapseSection">Description: </span>
+							This is simply the parent element to all the Java modules, and should not 
+							be used as a dependency.
+							<br/>
+							<span class="collapseSection">Documentation: </span>
+							<em>Coming soon...</em>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">Core</div>
+						<div class="collapsible-body">
+							<span class="collapseSection">Type: </span>
+							Standalone Application
+							<br/>
+							<span class="collapseSection">Path: </span>
+							<code>/seltzer-parent/seltzer-core</code>
+							<br/>
+							<span class="collapseSection">Description: </span>
+							Core is the Seltzer server application. It is run separately from any 
+							applications that include any of the <code>library</code> modules listed 
+							on this page.
+							<br/>
+							<span class="collapseSection">Documentation: </span>
+							<em>Coming soon...</em>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">Command/Response</div>
+						<div class="collapsible-body">
+							<span class="collapseSection">Type: </span>
+							Library
+							<br/>
+							<span class="collapseSection">Path: </span>
+							<code>/seltzer-parent/seltzer-cr</code>
+							<br/>
+							<span class="collapseSection">Description: </span>
+							Command/Response is the module responsible for providing a common 
+							interface between Seltzer Core and any application needing to communicate 
+							with it. Command/Response provides the command data classes that are sent 
+							to a Seltzer server, as well as the response classes that the server will 
+							return. Along with this are enumerations used to provide important 
+							metadata and exceptions. 
+							<br/>
+							<span class="collapseSection">Documentation: </span>
+							<em>Coming soon...</em>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">Util</div>
+						<div class="collapsible-body">
+							<span class="collapseSection">Type: </span>
+							Library
+							<br/>
+							<span class="collapseSection">Path: </span>
+							<code>/seltzer-parent/seltzer-util</code>
+							<br/>
+							<span class="collapseSection">Description: </span>
+							Util is exactly what the name implies, a module providing utility classes 
+							and methods. Currently available are a send/receive implementation and a 
+							[deprecated] command data factory. A more fluent command builder is 
+							planned for a future release.
+							<br/>
+							<span class="collapseSection">Documentation: </span>
+							<em>Coming soon...</em>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header">Site</div>
+						<div class="collapsible-body">
+							<span class="collapseSection">Type: </span>
+							Website
+							<br/>
+							<span class="collapseSection">Path: </span>
+							<code>/seltzer-site</code>
+							<br/>
+							<span class="collapseSection">Description: </span>
+							This module is simply the site that you're currently viewing.
+							<br/>
+							<span class="collapseSection">Documentation: </span>
+							<em>Coming soon...</em>
+						</div>
+					</li>
+				</ul>
+			</div>
 		</wicket:extend>
 	</body>
 </html>

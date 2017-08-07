@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>hall.caleb.seltzer</groupId>
+	<groupId>tech.seltzer</groupId>
 	<artifactId>seltzer-parent</artifactId>
 	<version>1.0.0-RC2</version>
 	<packaging>pom</packaging>

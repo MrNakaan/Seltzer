@@ -5,10 +5,10 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import tech.seltzer.common.BasePage;
 
-public class Documentation extends BasePage {
-	private static final long serialVersionUID = -6432018292542900978L;
+public class ModulesQuick extends BasePage {
+	private static final long serialVersionUID = 1439636669797824218L;
 
-	public Documentation(PageParameters parameters) {
+	public ModulesQuick(PageParameters parameters) {
 		super(parameters);
 	}
 	
@@ -20,6 +20,6 @@ public class Documentation extends BasePage {
 	
 	@Override
 	protected void setTitle() {
-		add(new Label("title", "Documentation | Seltzer"));
+		add(new Label("title", "Using Seltzer | Seltzer"));
 	}
 }

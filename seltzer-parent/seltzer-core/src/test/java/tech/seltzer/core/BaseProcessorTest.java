@@ -49,7 +49,7 @@ public class BaseProcessorTest {
             throw new IllegalArgumentException("Property seltzer.path not found!");
         }
         	
-		homeUrl = "file:///" + repoPath.replace(" ", "%20") + "/seltzer-parent/seltzer-core/src/test/resources/testHome.htm";
+        homeUrl = "http://seltzer.tech/tests/";
 	}
 
 	@After

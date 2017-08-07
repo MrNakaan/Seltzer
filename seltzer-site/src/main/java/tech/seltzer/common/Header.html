@@ -7,41 +7,41 @@
 <body>
 	<wicket:panel>
 		<header>
-			<nav class="light-blue lighten-2">
-				<div class="nav-wrapper">
-					<a wicket:id="homeTop" class="brand-logo black-text">
+			<nav class="light-blue darken-2">
+				<div class="nav-wrapper z-depth-2">
+					<a href="/" class="brand-logo">
 						Seltzer
 					</a>
-					<a href="#" data-activates="side-nav" class="button-collapse black-text">
+					<a href="#" data-activates="side-nav" class="button-collapse">
 						<i class="material-icons">menu</i>
 					</a>
 					<ul class="right hide-on-med-and-down">
 						<li class="nav-github">
-							<a href="https://github.com/MrNakaan/Seltzer" target="_blank" class="black-text">
+							<a href="https://github.com/MrNakaan/Seltzer" target="_blank">
 								<i class="material-icons left">code</i>
 								Github
 							</a>
 						</li>
-						<li class="nav-modules">
-							<a wicket:id="modulesTop" class="black-text">
+						<li wicket:id="modulesTop" class="nav-modules">
+							<a href="/modules">
 								<i class="material-icons left">list</i>
 								Modules
 							</a>
 						</li>
-						<li class="nav-testhome">
-							<a wicket:id="scheduleTop" class="black-text">
+						<li wicket:id="scheduleTop" class="nav-testhome">
+							<a href="/schedule">
 								<i class="material-icons left">date_range</i>
 								Schedule
 							</a>
 						</li>
-						<li class="nav-documentation">
-							<a wicket:id="documentationTop" class="black-text">
+						<li wicket:id="docsTop" class="nav-documentation">
+							<a href="/docs">
 								<i class="material-icons left">library_books</i>
 								Documentation
 							</a>
 						</li>
-						<li class="nav-testhome">
-							<a wicket:id="testsTop" class="black-text">
+						<li wicket:id="testsTop" class="nav-testhome">
+							<a href="/tests">
 								<i class="material-icons left">assessment</i>
 								Test Pages
 							</a>
@@ -49,7 +49,7 @@
 					</ul>
 					<ul class="side-nav" id="side-nav">
 						<li class="logo">
-							<a wicket:id="homeSide" id="logo-container" class="center-align">
+							<a href="/" id="logo-container" class="center-align">
 								<img src="images/bottle_1.svg"/>
 							</a>
 						</li>
@@ -59,26 +59,26 @@
 								Github
 							</a>
 						</li>
-						<li class="nav-modules">
-							<a wicket:id="modulesSide">
+						<li wicket:id="modulesLeft" class="nav-modules">
+							<a href="/modules">
 								<i class="material-icons left">list</i>
 								Modules
 							</a>
 						</li>
-						<li class="nav-testhome">
-							<a wicket:id="scheduleSide">
+						<li wicket:id="scheduleLeft" class="nav-testhome">
+							<a href="/schedule">
 								<i class="material-icons left">date_range</i>
 								Schedule
 							</a>
 						</li>
-						<li class="nav-documentation">
-							<a wicket:id="documentationSide">
+						<li wicket:id="docsLeft" class="nav-documentation">
+							<a href="/docs">
 								<i class="material-icons left">library_books</i>
 								Documentation
 							</a>
 						</li>
-						<li class="nav-testhome">
-							<a wicket:id="testsSide">
+						<li wicket:id="testsLeft" class="nav-testhome">
+							<a href="/tests">
 								<i class="material-icons left">assessment</i>
 								Test Pages
 							</a>
