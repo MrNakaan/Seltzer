@@ -9,14 +9,13 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Generated;
 
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import tech.seltzer.core.SeltzerServer;
-import tech.seltzer.core.SeltzerSession;
 import tech.seltzer.enums.CommandType;
 import tech.seltzer.enums.ResponseType;
 import tech.seltzer.enums.SelectorType;
@@ -57,7 +56,12 @@ public class SelectorProcessorTest {
 		session = new SeltzerSession();
 		session.getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		session.getDriver().navigate().to(homeUrl);
-		session.getDriver().findElement(By.xpath("//div[@class=\"modal-footer\"]/a")).click();
+		
+		try {
+			BaseProcessorTest.dismissModal(session.getDriver());
+		} catch (InterruptedException e) {
+			Assume.assumeNoException(e);
+		}
 	}
 
 	@Test
@@ -75,7 +79,7 @@ public class SelectorProcessorTest {
 	@Test
 	public void testCount() throws Exception {
 		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
-		session.getDriver().findElement(By.xpath("//div[@class=\"modal-footer\"]/a")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
 		
 		SelectorCommandData command = new SelectorCommandData(CommandType.COUNT, session.getId());
 		command.setSelector("//div[@id='count']/span", SelectorType.XPATH);
@@ -93,7 +97,7 @@ public class SelectorProcessorTest {
 	@Test
 	public void testDelete() throws Exception {
 		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
-		session.getDriver().findElement(By.xpath("//div[@class=\"modal-footer\"]/a")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
 		
 		SelectorCommandData command = new SelectorCommandData(CommandType.DELETE, session.getId());
 		command.setSelector("//div[@id='count']/span", SelectorType.XPATH);
@@ -110,7 +114,7 @@ public class SelectorProcessorTest {
 	@Test
 	public void testFillField() throws Exception {
 		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
-		session.getDriver().findElement(By.xpath("//div[@class=\"modal-footer\"]/a")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
 		
 		FillFieldCommandData command = new FillFieldCommandData(session.getId());
 		command.setSelector("//input[1]", SelectorType.XPATH);
@@ -128,7 +132,7 @@ public class SelectorProcessorTest {
 	@Test
 	public void testFormSubmit() throws Exception {
 		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
-		session.getDriver().findElement(By.xpath("//div[@class=\"modal-footer\"]/a")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
 		WebElement input = session.getDriver().findElement(By.xpath("//input[1]"));
 		input.sendKeys("MORE TEXT, BRO!");
 		assertEquals("Make sure the initial text got sent.", "MORE TEXT, BRO!", input.getAttribute("value"));
@@ -147,7 +151,7 @@ public class SelectorProcessorTest {
 	@Test
 	public void testSendKey() throws Exception {
 		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
-		session.getDriver().findElement(By.xpath("//div[@class=\"modal-footer\"]/a")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
 		session.getDriver().findElement(By.xpath("//input[1]")).click();
 		session.getDriver().findElement(By.xpath("//input[1]")).sendKeys("DUDE, KEYS!");
 		
@@ -173,7 +177,7 @@ public class SelectorProcessorTest {
 	@Test
 	public void testSendKeys() throws Exception {
 		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
-		session.getDriver().findElement(By.xpath("//div[@class=\"modal-footer\"]/a")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
 		session.getDriver().findElement(By.xpath("//input[1]")).click();
 
 		SendKeysCommandData command = new SendKeysCommandData(session.getId());

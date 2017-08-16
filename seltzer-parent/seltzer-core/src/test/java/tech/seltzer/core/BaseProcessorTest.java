@@ -13,13 +13,13 @@ import java.util.regex.Pattern;
 import javax.annotation.Generated;
 
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 
-import tech.seltzer.core.SeltzerServer;
-import tech.seltzer.core.SeltzerSession;
 import tech.seltzer.enums.CommandType;
 import tech.seltzer.enums.ResponseType;
 import tech.seltzer.enums.SelectorType;
@@ -62,18 +62,37 @@ public class BaseProcessorTest {
 		session = new SeltzerSession();
 		session.getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		session.getDriver().navigate().to(homeUrl);
+		
+		try {
+			BaseProcessorTest.dismissModal(session.getDriver());
+		} catch (InterruptedException e) {
+			Assume.assumeNoException(e);
+		}
 	}
 
 	@Test
 	public void testBack() throws Exception {
-		session.getDriver().findElement(By.linkText("Page 1")).click();
-
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
+		
 		CommandData command = new CommandData(CommandType.BACK, session.getId());
+		
+		// Multiple back commands due to how Materialize works
 		Response response = session.executeCommand(command);
-
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
 		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
+		
+		response = session.executeCommand(command);
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
+		
+		response = session.executeCommand(command);
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
+		
 		assertEquals("Is the URL right?", homeUrl, session.getDriver().getCurrentUrl());
 	}
 
@@ -83,7 +102,7 @@ public class BaseProcessorTest {
 		CommandData subCommand;
 		
 		subCommand = new SelectorCommandData(CommandType.CLICK, session.getId());
-		((SelectorCommandData) subCommand).setSelector(new Selector(SelectorType.LINK_TEXT, "Page 1"));
+		((SelectorCommandData) subCommand).setSelector(new Selector(SelectorType.LINK_TEXT, "Main Tests 1"));
 		command.addCommand(subCommand);
 		
 		command.addCommand(new CommandData(CommandType.BACK, session.getId()));
@@ -113,8 +132,10 @@ public class BaseProcessorTest {
 
 	@Test
 	public void testForward() throws Exception {
-		session.getDriver().findElement(By.linkText("Page 1")).click();
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
 		session.getDriver().findElement(By.linkText("Test Home")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
 		session.getDriver().navigate().back();
 
 		CommandData command = new CommandData(CommandType.FORWARD, session.getId());
@@ -123,7 +144,7 @@ public class BaseProcessorTest {
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
 		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
-		assertEquals("Is the URL right?", homeUrl, session.getDriver().getCurrentUrl());
+		assertEquals("Is the URL right?", homeUrl + "main1#!", session.getDriver().getCurrentUrl());
 	}
 
 	@Test
@@ -143,8 +164,9 @@ public class BaseProcessorTest {
 
 	@Test
 	public void testGoTo() throws Exception {
-		session.getDriver().findElement(By.linkText("Page 1")).click();
-		assertTrue("Make sure we're not at the test home.", session.getDriver().getTitle().equals("Test Page 1"));
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
+		assertTrue("Make sure we're not at the test home.", session.getDriver().getTitle().equals("Main Tests 1 | Seltzer"));
 
 		GoToCommandData command = new GoToCommandData(session.getId());
 		command.setUrl(homeUrl);
@@ -202,5 +224,11 @@ public class BaseProcessorTest {
 	@Test
 	public void testGetCookieFile() {
 		// I'm sorry, I haven't determined the best way to test this yet.
+	}
+	
+	public static void dismissModal(WebDriver driver) throws InterruptedException {
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("//div[@class=\"modal-footer\"]/a")).click();
+		Thread.sleep(1000);
 	}
 }

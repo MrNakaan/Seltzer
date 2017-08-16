@@ -6,13 +6,13 @@ import static org.junit.Assert.assertTrue;
 import java.io.FileNotFoundException;
 
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
-import tech.seltzer.core.SeltzerServer;
-import tech.seltzer.core.SeltzerSession;
+import org.junit.Assert;
 import tech.seltzer.enums.CommandType;
 import tech.seltzer.enums.SelectorType;
 import tech.seltzer.objects.command.CommandData;
@@ -40,6 +40,8 @@ public class WaitProcessorTest {
 	private static final int WAIT_SECONDS = 5;
 	private static final int JS_DELAY = 2;
 	
+	private long startTime = 0;
+	
 	@BeforeClass
 	public static void prepareClass() throws FileNotFoundException {
 		SeltzerServer.configureBase();
@@ -62,7 +64,22 @@ public class WaitProcessorTest {
 		session = new SeltzerSession();
 		
 		session.getDriver().navigate().to(homeUrl);
-		session.getDriver().findElement(By.id("waitLink")).click();
+		
+		try {
+			BaseProcessorTest.dismissModal(session.getDriver());
+		} catch (InterruptedException e) {
+			Assume.assumeNoException(e);
+		}
+		
+		session.getDriver().findElement(By.linkText("Wait Tests")).click();
+		
+		try {
+			startTime = System.currentTimeMillis();
+			Thread.sleep(1000);
+			session.getDriver().findElement(By.xpath("//div[@class=\"modal-footer\"]/a")).click();
+		} catch (InterruptedException e) {
+			Assume.assumeNoException(e);
+		}
 	}
 	
 	@Test
@@ -71,8 +88,6 @@ public class WaitProcessorTest {
 		
 		session.getDriver().findElement(By.id("alertLink")).click();
 
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -87,8 +102,6 @@ public class WaitProcessorTest {
 		InvisibilityWaitCommandData wait = new InvisibilityWaitCommandData(WAIT_SECONDS, CommandType.ELEMENT_INVISIBLE_WAIT, session.getId());
 		wait.setSelector("//h2[@id=\"visible1\"]", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -102,8 +115,6 @@ public class WaitProcessorTest {
 	public void testInvisibilityOfAllPass() {
 		InvisibilityWaitCommandData wait = new InvisibilityWaitCommandData(WAIT_SECONDS, CommandType.ALL_ELEMENTS_INVISBLE_WAIT, session.getId());
 		wait.setSelector("//h2[@id=\"visible1\"] | //h2[@id=\"visible2\"]", SelectorType.XPATH);
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -120,8 +131,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//h2[@id=\"visible1\"]", SelectorType.XPATH);
 		wait.setText("Some Visible Element");
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -136,8 +145,6 @@ public class WaitProcessorTest {
 		VisibilityWaitCommandData wait = new VisibilityWaitCommandData(WAIT_SECONDS, CommandType.ELEMENT_VISIBLE_WAIT, session.getId());
 		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -151,8 +158,6 @@ public class WaitProcessorTest {
 	public void testVisibilityOfAllElementsPass() {
 		VisibilityWaitCommandData wait = new VisibilityWaitCommandData(WAIT_SECONDS, CommandType.ALL_ELEMENTS_VISIBLE_WAIT, session.getId());
 		wait.setSelector("//h2[@id=\"invisible1\"] | //h2[@id=\"invisible2\"]", SelectorType.XPATH);
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -169,8 +174,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//h2[@id=\"invisible1\"] | //h2[@id=\"invisible2\"]", SelectorType.XPATH);
 		wait.setChildSelector("./span", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -184,8 +187,6 @@ public class WaitProcessorTest {
 	public void testTitleContainsPass() {
 		TextMatchWaitCommandData wait = new TextMatchWaitCommandData(WAIT_SECONDS, CommandType.TITLE_CONTAINS_WAIT, session.getId());
 		wait.setText("Change");
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -201,8 +202,6 @@ public class WaitProcessorTest {
 		TextMatchWaitCommandData wait = new TextMatchWaitCommandData(WAIT_SECONDS, CommandType.TITLE_IS_WAIT, session.getId());
 		wait.setText("Title Changed!");
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -217,9 +216,13 @@ public class WaitProcessorTest {
 		TextMatchWaitCommandData wait = new TextMatchWaitCommandData(WAIT_SECONDS, CommandType.URL_CONTAINS_WAIT, session.getId());
 		wait.setText("changed=");
 		
-		session.getDriver().findElement(By.id("urlLink")).click();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			Assert.fail();
+		}
 		
-		long startTime = System.currentTimeMillis();
+		session.getDriver().findElement(By.id("urlLink")).click();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -237,8 +240,6 @@ public class WaitProcessorTest {
 		
 		session.getDriver().findElement(By.id("urlLink")).click();
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -253,9 +254,13 @@ public class WaitProcessorTest {
 		TextMatchWaitCommandData wait = new TextMatchWaitCommandData(WAIT_SECONDS, CommandType.URL_IS_WAIT, session.getId());
 		wait.setText(session.getDriver().getCurrentUrl() + "?changed=true");
 		
-		session.getDriver().findElement(By.id("urlLink")).click();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			Assert.fail();
+		}
 		
-		long startTime = System.currentTimeMillis();
+		session.getDriver().findElement(By.id("urlLink")).click();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -277,8 +282,6 @@ public class WaitProcessorTest {
 		wait.addCommand(subWait1);
 		wait.addCommand(subWait2);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -294,8 +297,6 @@ public class WaitProcessorTest {
 		TextMatchWaitCommandData subWait = new TextMatchWaitCommandData(WAIT_SECONDS, CommandType.TITLE_IS_WAIT, session.getId());
 		subWait.setText("Wait Home");
 		wait.setWaitCommand(subWait);
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -317,8 +318,6 @@ public class WaitProcessorTest {
 		wait.addCommand(subWait1);
 		wait.addCommand(subWait2);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -335,8 +334,6 @@ public class WaitProcessorTest {
 		subWait.setText("Title Changed!");
 		wait.setWaitCommand(subWait);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -351,8 +348,6 @@ public class WaitProcessorTest {
 		CountWaitCommandData wait = new CountWaitCommandData(WAIT_SECONDS, CommandType.ELEMENT_COUNT_IS_WAIT, session.getId());
 		wait.setSelector("//div[@id=\"startEmpty\"]/h2", SelectorType.XPATH);
 		wait.setBound(2);
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -369,8 +364,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//div[@id=\"endEmpty\"]/h2", SelectorType.XPATH);
 		wait.setBound(1);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -386,8 +379,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//div[@id=\"startEmpty\"]/h2", SelectorType.XPATH);
 		wait.setBound(0);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -402,9 +393,13 @@ public class WaitProcessorTest {
 		CountWaitCommandData wait = new CountWaitCommandData(WAIT_SECONDS, CommandType.WINDOW_COUNT_IS_WAIT, session.getId());
 		wait.setBound(2);
 		
-		session.getDriver().findElement(By.id("windowLink")).click();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			Assert.fail();
+		}
 		
-		long startTime = System.currentTimeMillis();
+		session.getDriver().findElement(By.id("windowLink")).click();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -420,8 +415,6 @@ public class WaitProcessorTest {
 		JavaScriptWaitCommandData wait = new JavaScriptWaitCommandData(WAIT_SECONDS, CommandType.JAVASCRIPT_RETURNS_STRING_WAIT, session.getId());
 		wait.setJavaScript("return \"Wait.\";");
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -434,8 +427,6 @@ public class WaitProcessorTest {
 	public void testJavascriptThrowsNoExceptionsPass() {
 		JavaScriptWaitCommandData wait = new JavaScriptWaitCommandData(WAIT_SECONDS, CommandType.JAVASCRIPT_THROWS_NO_EXCEPTIONS_WAIT, session.getId());
 		wait.setJavaScript("return \"Wait.\";");
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -452,8 +443,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.XPATH);
 		wait.setAttribute("data-wait");
 		wait.setText("wait");
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -472,8 +461,6 @@ public class WaitProcessorTest {
 		wait.setAttribute("data-wait");
 		wait.setText("wait-attr");
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -489,8 +476,6 @@ public class WaitProcessorTest {
 		
 		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.XPATH);
 		wait.setAttribute("data-wait");
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -508,8 +493,6 @@ public class WaitProcessorTest {
 		wait.setSelected(true);
 		wait.setSelector("//div/form/select/option[4]", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -526,8 +509,6 @@ public class WaitProcessorTest {
 		wait.setSelected(false);
 		wait.setSelector("//div/form/select/option[1]", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -542,8 +523,6 @@ public class WaitProcessorTest {
 		ExistenceWaitCommandData wait = new ExistenceWaitCommandData(WAIT_SECONDS, CommandType.SWITCH_TO_FRAME_WHEN_AVAILABLE_WAIT, session.getId());
 		wait.setSelector("//iframe", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -557,8 +536,6 @@ public class WaitProcessorTest {
 	public void testElementClickablePass() {
 		ExistenceWaitCommandData wait = new ExistenceWaitCommandData(WAIT_SECONDS, CommandType.ELEMENT_CLICKABLE_WAIT, session.getId());
 		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.XPATH);
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -575,8 +552,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//div[@id=\"startEmpty\"]", SelectorType.XPATH);
 		wait.setChildSelector("./h2", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -592,8 +567,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//div[@id=\"startEmpty\"]", SelectorType.XPATH);
 		wait.setChildSelector("./h2[1]", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -607,8 +580,6 @@ public class WaitProcessorTest {
 	public void testPresenceOfElementPass() {
 		ExistenceWaitCommandData wait = new ExistenceWaitCommandData(WAIT_SECONDS, CommandType.ELEMENT_PRESENT_WAIT, session.getId());
 		wait.setSelector("//h2[@id=\"invisible4\"]", SelectorType.XPATH);
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -624,8 +595,6 @@ public class WaitProcessorTest {
 		ExistenceWaitCommandData wait = new ExistenceWaitCommandData(WAIT_SECONDS, CommandType.ALL_ELEMENTS_PRESENT_WAIT, session.getId());
 		wait.setSelector("//h2[@id=\"invisible3\"] | //h2[@id=\"invisible4\"]", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -639,8 +608,6 @@ public class WaitProcessorTest {
 	public void testStalenessPass() {
 		ExistenceWaitCommandData wait = new ExistenceWaitCommandData(WAIT_SECONDS, CommandType.IS_STALE_WAIT, session.getId());
 		wait.setSelector("//h2[@id=\"endEmpty1\"]", SelectorType.XPATH);
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -657,8 +624,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.XPATH);
 		wait.setText(".*Changed!");
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -673,8 +638,6 @@ public class WaitProcessorTest {
 		TextMatchSelectorWaitCommandData wait = new TextMatchSelectorWaitCommandData(WAIT_SECONDS, CommandType.TEXT_IS_WAIT, session.getId());
 		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.XPATH);
 		wait.setText("Text Changed!");
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -691,8 +654,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//input[@id=\"changeTextInput\"]", SelectorType.XPATH);
 		wait.setText("Text Changed!");
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -708,8 +669,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.XPATH);
 		wait.setText("Changed!");
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -722,8 +681,6 @@ public class WaitProcessorTest {
 	@Test
 	public void testAlertIsPresentFail() {
 		WaitCommandData wait = new WaitCommandData(WAIT_SECONDS, CommandType.ALERT_PRESENT_WAIT, session.getId());
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -738,8 +695,6 @@ public class WaitProcessorTest {
 		InvisibilityWaitCommandData wait = new InvisibilityWaitCommandData(WAIT_SECONDS, CommandType.ELEMENT_INVISIBLE_WAIT, session.getId());
 		wait.setSelector("//body", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -752,8 +707,6 @@ public class WaitProcessorTest {
 	public void testInvisibilityOfAllFail() {
 		InvisibilityWaitCommandData wait = new InvisibilityWaitCommandData(WAIT_SECONDS, CommandType.ALL_ELEMENTS_INVISBLE_WAIT, session.getId());
 		wait.setSelector("//body", SelectorType.XPATH);
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -769,8 +722,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//div[@id=\"visible\"]/h2", SelectorType.XPATH);
 		wait.setText("Some Permanently Visible Element");
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -784,8 +735,6 @@ public class WaitProcessorTest {
 		VisibilityWaitCommandData wait = new VisibilityWaitCommandData(WAIT_SECONDS, CommandType.ELEMENT_VISIBLE_WAIT, session.getId());
 		wait.setSelector("//div[@id=\"hidden\"]", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -798,8 +747,6 @@ public class WaitProcessorTest {
 	public void testVisibilityOfAllElementsFail() {
 		VisibilityWaitCommandData wait = new VisibilityWaitCommandData(WAIT_SECONDS, CommandType.ALL_ELEMENTS_VISIBLE_WAIT, session.getId());
 		wait.setSelector("//div[@id=\"hidden\"]", SelectorType.XPATH);
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -815,8 +762,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//div[@id=\"hidden\"]", SelectorType.XPATH);
 		wait.setChildSelector("./h3", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -829,8 +774,6 @@ public class WaitProcessorTest {
 	public void testTitleContainsFail() {
 		TextMatchWaitCommandData wait = new TextMatchWaitCommandData(WAIT_SECONDS, CommandType.TITLE_CONTAINS_WAIT, session.getId());
 		wait.setText("Fail");
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -845,8 +788,6 @@ public class WaitProcessorTest {
 		TextMatchWaitCommandData wait = new TextMatchWaitCommandData(WAIT_SECONDS, CommandType.TITLE_IS_WAIT, session.getId());
 		wait.setText("Fail");
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -859,8 +800,6 @@ public class WaitProcessorTest {
 	public void testUrlContainsFail() {
 		TextMatchWaitCommandData wait = new TextMatchWaitCommandData(WAIT_SECONDS, CommandType.URL_CONTAINS_WAIT, session.getId());
 		wait.setText("changed=");
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -875,8 +814,6 @@ public class WaitProcessorTest {
 		TextMatchWaitCommandData wait = new TextMatchWaitCommandData(WAIT_SECONDS, CommandType.URL_MATCHES_WAIT, session.getId());
 		wait.setText(".*\\?changed=false");
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -889,8 +826,6 @@ public class WaitProcessorTest {
 	public void testUrlToBeFail() {
 		TextMatchWaitCommandData wait = new TextMatchWaitCommandData(WAIT_SECONDS, CommandType.URL_IS_WAIT, session.getId());
 		wait.setText(session.getDriver().getCurrentUrl() + "?changed=true");
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -911,8 +846,6 @@ public class WaitProcessorTest {
 		wait.addCommand(subWait1);
 		wait.addCommand(subWait2);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -928,8 +861,6 @@ public class WaitProcessorTest {
 		subWait.setSelector("//body", SelectorType.XPATH);
 		subWait.setText("Some Visible Element");
 		wait.setWaitCommand(subWait);
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -950,8 +881,6 @@ public class WaitProcessorTest {
 		wait.addCommand(subWait1);
 		wait.addCommand(subWait2);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -967,8 +896,6 @@ public class WaitProcessorTest {
 		subWait.setText("Title Not Changed!");
 		wait.setWaitCommand(subWait);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -982,8 +909,6 @@ public class WaitProcessorTest {
 		CountWaitCommandData wait = new CountWaitCommandData(WAIT_SECONDS, CommandType.ELEMENT_COUNT_IS_WAIT, session.getId());
 		wait.setSelector("//div[@id=\"startEmpty\"]/h2", SelectorType.XPATH);
 		wait.setBound(4);
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -999,8 +924,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//div[@id=\"endEmpty\"]/h2", SelectorType.XPATH);
 		wait.setBound(0);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -1015,8 +938,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//div[@id=\"startEmpty\"]/h2", SelectorType.XPATH);
 		wait.setBound(8);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -1030,9 +951,13 @@ public class WaitProcessorTest {
 		CountWaitCommandData wait = new CountWaitCommandData(WAIT_SECONDS, CommandType.WINDOW_COUNT_IS_WAIT, session.getId());
 		wait.setBound(8);
 		
-		session.getDriver().findElement(By.id("windowLink")).click();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			Assert.fail();
+		}
 		
-		long startTime = System.currentTimeMillis();
+		session.getDriver().findElement(By.id("windowLink")).click();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -1047,8 +972,6 @@ public class WaitProcessorTest {
 		JavaScriptWaitCommandData wait = new JavaScriptWaitCommandData(WAIT_SECONDS, CommandType.JAVASCRIPT_RETURNS_STRING_WAIT, session.getId());
 		wait.setJavaScript("//Comment;");
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -1061,8 +984,6 @@ public class WaitProcessorTest {
 	public void testJavascriptThrowsNoExceptionsFail() {
 		JavaScriptWaitCommandData wait = new JavaScriptWaitCommandData(WAIT_SECONDS, CommandType.JAVASCRIPT_THROWS_NO_EXCEPTIONS_WAIT, session.getId());
 		wait.setJavaScript("throw \"Wait.\";");
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -1080,8 +1001,6 @@ public class WaitProcessorTest {
 		wait.setAttribute("data-wait");
 		wait.setText("gogogogogo");
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -1098,8 +1017,6 @@ public class WaitProcessorTest {
 		wait.setAttribute("data-wait");
 		wait.setText("nowait-attr");
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -1114,8 +1031,6 @@ public class WaitProcessorTest {
 		
 		wait.setSelector("//h2[@id=\"invisible1\"]", SelectorType.XPATH);
 		wait.setAttribute("data-nowait");
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -1132,8 +1047,6 @@ public class WaitProcessorTest {
 		wait.setSelected(true);
 		wait.setSelector("//div/form/select/option[2]", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -1149,8 +1062,6 @@ public class WaitProcessorTest {
 		wait.setSelected(true);
 		wait.setSelector("//div/form/select/option[2]", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -1164,8 +1075,6 @@ public class WaitProcessorTest {
 		ExistenceWaitCommandData wait = new ExistenceWaitCommandData(WAIT_SECONDS, CommandType.SWITCH_TO_FRAME_WHEN_AVAILABLE_WAIT, session.getId());
 		wait.setSelector("//iframe[2]", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -1178,8 +1087,6 @@ public class WaitProcessorTest {
 	public void testElementClickableFail() {
 		ExistenceWaitCommandData wait = new ExistenceWaitCommandData(WAIT_SECONDS, CommandType.ELEMENT_CLICKABLE_WAIT, session.getId());
 		wait.setSelector("//div[@id=\"hidden\"]/h2", SelectorType.XPATH);
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -1195,8 +1102,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//div[@id=\"startEmpty\"]", SelectorType.XPATH);
 		wait.setChildSelector("./h3", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -1211,8 +1116,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//div[@id=\"startEmpty\"]", SelectorType.XPATH);
 		wait.setChildSelector("./h3[1]", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -1225,8 +1128,6 @@ public class WaitProcessorTest {
 	public void testPresenceOfElementFail() {
 		ExistenceWaitCommandData wait = new ExistenceWaitCommandData(WAIT_SECONDS, CommandType.ELEMENT_PRESENT_WAIT, session.getId());
 		wait.setSelector("//h3[@id=\"invisible4\"]", SelectorType.XPATH);
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -1241,8 +1142,6 @@ public class WaitProcessorTest {
 		ExistenceWaitCommandData wait = new ExistenceWaitCommandData(WAIT_SECONDS, CommandType.ALL_ELEMENTS_PRESENT_WAIT, session.getId());
 		wait.setSelector("//h3[@id=\"invisible3\"] | //h3[@id=\"invisible4\"]", SelectorType.XPATH);
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -1255,8 +1154,6 @@ public class WaitProcessorTest {
 	public void testStalenessFail() {
 		ExistenceWaitCommandData wait = new ExistenceWaitCommandData(WAIT_SECONDS, CommandType.IS_STALE_WAIT, session.getId());
 		wait.setSelector("//body[1]", SelectorType.XPATH);
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -1272,8 +1169,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.XPATH);
 		wait.setText(".* Not Changed!");
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -1287,8 +1182,6 @@ public class WaitProcessorTest {
 		TextMatchSelectorWaitCommandData wait = new TextMatchSelectorWaitCommandData(WAIT_SECONDS, CommandType.TEXT_IS_WAIT, session.getId());
 		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.XPATH);
 		wait.setText("Text Not Changed!");
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		
@@ -1304,8 +1197,6 @@ public class WaitProcessorTest {
 		wait.setSelector("//input[@id=\"changeTextInput\"]", SelectorType.XPATH);
 		wait.setText("Text Not Changed!");
 		
-		long startTime = System.currentTimeMillis();
-		
 		Response response = session.executeCommand(wait);
 		
 		long endTime = System.currentTimeMillis();
@@ -1319,8 +1210,6 @@ public class WaitProcessorTest {
 		TextMatchSelectorWaitCommandData wait = new TextMatchSelectorWaitCommandData(WAIT_SECONDS, CommandType.TEXT_PRESENT_IN_ELEMENT_WAIT, session.getId());
 		wait.setSelector("//h2[@id=\"changeText\"]", SelectorType.XPATH);
 		wait.setText("Not Changed!");
-		
-		long startTime = System.currentTimeMillis();
 		
 		Response response = session.executeCommand(wait);
 		

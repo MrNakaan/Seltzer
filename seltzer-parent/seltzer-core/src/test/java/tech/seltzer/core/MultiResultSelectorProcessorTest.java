@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Generated;
 
 import org.junit.After;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -53,12 +54,19 @@ public class MultiResultSelectorProcessorTest {
 		session = new SeltzerSession();
 		session.getDriver().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		session.getDriver().navigate().to(homeUrl);
+		
+		try {
+			BaseProcessorTest.dismissModal(session.getDriver());
+		} catch (InterruptedException e) {
+			Assume.assumeNoException(e);
+		}
 	}
 
 	@Test
 	public void testReadAttribute() throws Exception {
-		session.getDriver().findElement(By.linkText("Page 1")).click();
-
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
+		
 		String xpath = "//div[@id='read']/span";
 		String attr = "data-attr1";
 		ReadAttributeCommandData command = new ReadAttributeCommandData(session.getId());
@@ -108,8 +116,9 @@ public class MultiResultSelectorProcessorTest {
 
 	@Test
 	public void testReadText() throws Exception {
-		session.getDriver().findElement(By.linkText("Page 1")).click();
-
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
+		
 		MultiResultSelectorCommandData command = new MultiResultSelectorCommandData(CommandType.READ_TEXT, session.getId());
 		command.setSelector("//div[@id='read']/span", SelectorType.XPATH);
 		command.setMaxResults(0);
