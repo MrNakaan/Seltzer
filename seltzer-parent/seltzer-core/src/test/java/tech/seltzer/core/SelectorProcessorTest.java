@@ -43,7 +43,8 @@ public class SelectorProcessorTest {
             throw new IllegalArgumentException("Property seltzer.path not found!");
         }
         	
-        homeUrl = "http://seltzer.tech/tests/";
+        homeUrl = "file:///" + repoPath + "/seltzer-parent/seltzer-core/src/test/resources/testHome.htm";
+        homeUrl = homeUrl.replace(" ", "%20");
 	}
 
 	@After
@@ -67,18 +68,21 @@ public class SelectorProcessorTest {
 	@Test
 	public void testClick() throws Exception {
 		SelectorCommandData command = new SelectorCommandData(CommandType.CLICK, session.getId());
-		command.setSelector(new Selector(SelectorType.LINK_TEXT, "Main Tests 1"));
+//		command.setSelector(new Selector(SelectorType.LINK_TEXT, "Main Tests 1"));
+		command.setSelector(new Selector(SelectorType.LINK_TEXT, "Page 1"));
 		Response response = session.executeCommand(command);
 
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
 		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
-		assertTrue("Is the new page title correct?", session.getDriver().getTitle().equals("Main Tests 1 | Seltzer"));
+//		assertTrue("Is the new page title correct?", session.getDriver().getTitle().equals("Main Tests 1 | Seltzer"));
+		assertTrue("Is the new page title correct?", session.getDriver().getTitle().equals("Test Page 1"));
 	}
 
 	@Test
 	public void testCount() throws Exception {
-		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+		session.getDriver().findElement(By.linkText("Page 1")).click();
 		BaseProcessorTest.dismissModal(session.getDriver());
 		
 		SelectorCommandData command = new SelectorCommandData(CommandType.COUNT, session.getId());
@@ -96,7 +100,8 @@ public class SelectorProcessorTest {
 
 	@Test
 	public void testDelete() throws Exception {
-		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+		session.getDriver().findElement(By.linkText("Page 1")).click();
 		BaseProcessorTest.dismissModal(session.getDriver());
 		
 		SelectorCommandData command = new SelectorCommandData(CommandType.DELETE, session.getId());
@@ -113,7 +118,8 @@ public class SelectorProcessorTest {
 
 	@Test
 	public void testFillField() throws Exception {
-		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+		session.getDriver().findElement(By.linkText("Page 1")).click();
 		BaseProcessorTest.dismissModal(session.getDriver());
 		
 		FillFieldCommandData command = new FillFieldCommandData(session.getId());
@@ -131,7 +137,8 @@ public class SelectorProcessorTest {
 
 	@Test
 	public void testFormSubmit() throws Exception {
-		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+		session.getDriver().findElement(By.linkText("Page 1")).click();
 		BaseProcessorTest.dismissModal(session.getDriver());
 		WebElement input = session.getDriver().findElement(By.xpath("//input[1]"));
 		input.sendKeys("MORE TEXT, BRO!");
@@ -150,7 +157,8 @@ public class SelectorProcessorTest {
 	
 	@Test
 	public void testSendKey() throws Exception {
-		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+		session.getDriver().findElement(By.linkText("Page 1")).click();
 		BaseProcessorTest.dismissModal(session.getDriver());
 		session.getDriver().findElement(By.xpath("//input[1]")).click();
 		session.getDriver().findElement(By.xpath("//input[1]")).sendKeys("DUDE, KEYS!");
@@ -176,7 +184,8 @@ public class SelectorProcessorTest {
 	
 	@Test
 	public void testSendKeys() throws Exception {
-		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+		session.getDriver().findElement(By.linkText("Page 1")).click();
 		BaseProcessorTest.dismissModal(session.getDriver());
 		session.getDriver().findElement(By.xpath("//input[1]")).click();
 

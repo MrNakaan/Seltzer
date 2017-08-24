@@ -5,6 +5,11 @@
 
 	<display-name>seltzer-site</display-name>
 
+	<context-param>
+		<param-name>configuration</param-name>
+		<param-value>deployment</param-value>
+	</context-param>
+
 	<!--
 		There are three means to configure Wickets configuration mode and they 
 		are tested in the order given.

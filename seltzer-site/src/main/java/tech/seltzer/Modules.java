@@ -4,6 +4,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 import tech.seltzer.common.BasePage;
+import tech.seltzer.common.MarkActiveBehavior;
 
 public class Modules extends BasePage {
 	private static final long serialVersionUID = -3794925557659701855L;

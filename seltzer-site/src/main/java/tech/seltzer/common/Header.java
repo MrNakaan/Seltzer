@@ -28,15 +28,29 @@ public class Header extends Panel {
 		addComponents();
 	}
 	
+	@Override
+	protected void onDetach() {
+		modulesTop = null;
+		modulesLeft = null;
+		scheduleTop = null;
+		scheduleLeft= null;
+		docsTop = null;
+		docsLeft = null;
+		testsTop = null;
+		testsLeft= null;
+		
+		super.onDetach();
+	}
+	
 	private void createComponents() {
 		modulesTop = new WebMarkupContainer("modulesTop");
 		modulesLeft = new WebMarkupContainer("modulesLeft");
 		scheduleTop = new WebMarkupContainer("scheduleTop");
-		scheduleLeft= new WebMarkupContainer("scheduleLeft");
+		scheduleLeft = new WebMarkupContainer("scheduleLeft");
 		docsTop = new WebMarkupContainer("docsTop");
 		docsLeft = new WebMarkupContainer("docsLeft");
 		testsTop = new WebMarkupContainer("testsTop");
-		testsLeft= new WebMarkupContainer("testsLeft");
+		testsLeft = new WebMarkupContainer("testsLeft");
 	}
 	
 	private void addComponents() {

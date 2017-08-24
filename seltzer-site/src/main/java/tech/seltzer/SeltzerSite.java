@@ -2,6 +2,7 @@ package tech.seltzer;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.util.lang.Bytes;
 
 import tech.seltzer.documentation.Apple;
 import tech.seltzer.documentation.Compilation;
@@ -33,7 +34,10 @@ public class SeltzerSite extends WebApplication {
 	@Override
 	public void init() {
 		super.init();
-
+		
+		getStoreSettings().setMaxSizePerSession(Bytes.kilobytes(64));
+		getStoreSettings().setInmemoryCacheSize(0);
+		
 		mountPages();
 	}
 

@@ -15,8 +15,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
-import tech.seltzer.core.SeltzerServer;
-import tech.seltzer.core.SeltzerSession;
 import tech.seltzer.enums.CommandType;
 import tech.seltzer.enums.ResponseType;
 import tech.seltzer.enums.SelectorType;
@@ -41,7 +39,8 @@ public class MultiResultSelectorProcessorTest {
             throw new IllegalArgumentException("Property seltzer.path not found!");
         }
         	
-        homeUrl = "http://seltzer.tech/tests/";
+        homeUrl = "file:///" + repoPath + "/seltzer-parent/seltzer-core/src/test/resources/testHome.htm";
+        homeUrl = homeUrl.replace(" ", "%20");
 	}
 
 	@After
@@ -64,7 +63,8 @@ public class MultiResultSelectorProcessorTest {
 
 	@Test
 	public void testReadAttribute() throws Exception {
-		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+		session.getDriver().findElement(By.linkText("Page 1")).click();
 		BaseProcessorTest.dismissModal(session.getDriver());
 		
 		String xpath = "//div[@id='read']/span";
@@ -116,7 +116,8 @@ public class MultiResultSelectorProcessorTest {
 
 	@Test
 	public void testReadText() throws Exception {
-		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+		session.getDriver().findElement(By.linkText("Page 1")).click();
 		BaseProcessorTest.dismissModal(session.getDriver());
 		
 		MultiResultSelectorCommandData command = new MultiResultSelectorCommandData(CommandType.READ_TEXT, session.getId());

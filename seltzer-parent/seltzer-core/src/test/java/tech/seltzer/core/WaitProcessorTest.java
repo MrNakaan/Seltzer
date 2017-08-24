@@ -6,13 +6,13 @@ import static org.junit.Assert.assertTrue;
 import java.io.FileNotFoundException;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
-import org.junit.Assert;
 import tech.seltzer.enums.CommandType;
 import tech.seltzer.enums.SelectorType;
 import tech.seltzer.objects.command.CommandData;
@@ -51,7 +51,8 @@ public class WaitProcessorTest {
             throw new IllegalArgumentException("Property seltzer.path not found!");
         }
         	
-		homeUrl = "http://seltzer.tech/tests/";
+		homeUrl = "file:///" + repoPath + "/seltzer-parent/seltzer-core/src/test/resources/testHome.htm";
+		homeUrl = homeUrl.replace(" ", "%20");
 	}
 
 	@After
@@ -71,19 +72,29 @@ public class WaitProcessorTest {
 			Assume.assumeNoException(e);
 		}
 		
-		session.getDriver().findElement(By.linkText("Wait Tests")).click();
+//		session.getDriver().findElement(By.linkText("Wait Tests")).click();
+		session.getDriver().findElement(By.linkText("Wait Page")).click();
 		
-		try {
-			startTime = System.currentTimeMillis();
-			Thread.sleep(1000);
-			session.getDriver().findElement(By.xpath("//div[@class=\"modal-footer\"]/a")).click();
-		} catch (InterruptedException e) {
-			Assume.assumeNoException(e);
-		}
+//		try {
+//			startTime = System.currentTimeMillis();
+//			Thread.sleep(1000);
+//			session.getDriver().findElement(By.xpath("//div[@class=\"modal-footer\"]/a")).click();
+//		} catch (InterruptedException e) {
+//			Assume.assumeNoException(e);
+//		}
+		startTime = System.currentTimeMillis();
 	}
 	
 	@Test
 	public void testAlertIsPresentPass() {
+		Assume.assumeFalse(SeltzerSession.isHeadless());
+		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		WaitCommandData wait = new WaitCommandData(WAIT_SECONDS, CommandType.ALERT_PRESENT_WAIT, session.getId());
 		
 		session.getDriver().findElement(By.id("alertLink")).click();
@@ -235,6 +246,12 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testUrlMatchesPass() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		TextMatchWaitCommandData wait = new TextMatchWaitCommandData(WAIT_SECONDS, CommandType.URL_MATCHES_WAIT, session.getId());
 		wait.setText(".*\\?changed=true");
 		
@@ -295,7 +312,9 @@ public class WaitProcessorTest {
 	public void testNotPass() {
 		LogicalNotWaitCommandData wait = new LogicalNotWaitCommandData(10, session.getId());
 		TextMatchWaitCommandData subWait = new TextMatchWaitCommandData(WAIT_SECONDS, CommandType.TITLE_IS_WAIT, session.getId());
+//		subWait.setText("Tests | Seltzer");
 		subWait.setText("Wait Home");
+		
 		wait.setWaitCommand(subWait);
 		
 		Response response = session.executeCommand(wait);
@@ -680,6 +699,8 @@ public class WaitProcessorTest {
 	
 	@Test
 	public void testAlertIsPresentFail() {
+		Assume.assumeFalse(SeltzerSession.isHeadless());
+		
 		WaitCommandData wait = new WaitCommandData(WAIT_SECONDS, CommandType.ALERT_PRESENT_WAIT, session.getId());
 		
 		Response response = session.executeCommand(wait);

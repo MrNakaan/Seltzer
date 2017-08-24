@@ -1,9 +1,6 @@
 package tech.seltzer.common;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.apache.wicket.ClassAttributeModifier;
+import org.apache.wicket.devutils.debugbar.DebugBar;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
@@ -15,6 +12,8 @@ public abstract class BasePage extends WebPage {
 	
 	public BasePage(final PageParameters parameters) {
 		super(parameters);
+		
+		setStatelessHint(true);
     }
 	
 	@Override
@@ -27,29 +26,23 @@ public abstract class BasePage extends WebPage {
 		add(header);
 		add(footer);
 		
+		add(new DebugBar("debug"));
+		
 		markActiveNavSection();
 		setTitle();
+	}
+	
+	@Override
+	protected void onDetach() {
+		header.onDetach();
+		
+		header = null;
+		footer = null;
+		
+		super.onDetach();
 	}
 	
 	protected abstract void markActiveNavSection();
 	
 	protected abstract void setTitle();
-	
-	protected class MarkActiveBehavior extends ClassAttributeModifier {
-		private static final long serialVersionUID = 5319837675470506142L;
-
-		public MarkActiveBehavior() {
-			super();
-		}
-		
-		@Override
-		protected Set<String> update(Set<String> oldClasses) {
-			Set<String> newClasses = new HashSet<>();
-			
-			newClasses.addAll(oldClasses);
-			newClasses.add("active");
-			
-			return newClasses;
-		}
-	}
 }
