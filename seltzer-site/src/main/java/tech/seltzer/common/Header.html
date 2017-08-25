@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<wicket:panel>
+		<header>
+			<nav class="light-blue darken-2">
+				<div class="nav-wrapper z-depth-2">
+					<a href="/" class="brand-logo">
+						Seltzer
+					</a>
+					<a href="#" data-activates="side-nav" class="button-collapse">
+						<i class="material-icons">menu</i>
+					</a>
+					<ul class="right hide-on-med-and-down">
+						<li class="nav-github">
+							<a href="https://github.com/MrNakaan/Seltzer" target="_blank">
+								<i class="material-icons left">code</i>
+								Github
+							</a>
+						</li>
+						<li wicket:id="modulesTop" class="nav-modules">
+							<a href="/modules">
+								<i class="material-icons left">list</i>
+								Modules
+							</a>
+						</li>
+						<li wicket:id="scheduleTop" class="nav-testhome">
+							<a href="/schedule">
+								<i class="material-icons left">date_range</i>
+								Schedule
+							</a>
+						</li>
+						<li wicket:id="docsTop" class="nav-documentation">
+							<a href="/docs">
+								<i class="material-icons left">library_books</i>
+								Documentation
+							</a>
+						</li>
+						<li wicket:id="testsTop" class="nav-testhome">
+							<a href="/tests">
+								<i class="material-icons left">assessment</i>
+								Test Pages
+							</a>
+						</li>
+					</ul>
+					<ul class="side-nav" id="side-nav">
+						<li class="logo">
+							<a href="/" id="logo-container" class="center-align">
+								<img src="images/bottle_1.svg"/>
+							</a>
+						</li>
+						<li class="nav-github">
+							<a href="https://github.com/MrNakaan/Seltzer" target="_blank">
+								<i class="material-icons left">code</i>
+								Github
+							</a>
+						</li>
+						<li wicket:id="modulesLeft" class="nav-modules">
+							<a href="/modules">
+								<i class="material-icons left">list</i>
+								Modules
+							</a>
+						</li>
+						<li wicket:id="scheduleLeft" class="nav-testhome">
+							<a href="/schedule">
+								<i class="material-icons left">date_range</i>
+								Schedule
+							</a>
+						</li>
+						<li wicket:id="docsLeft" class="nav-documentation">
+							<a href="/docs">
+								<i class="material-icons left">library_books</i>
+								Documentation
+							</a>
+						</li>
+						<li wicket:id="testsLeft" class="nav-testhome">
+							<a href="/tests">
+								<i class="material-icons left">assessment</i>
+								Test Pages
+							</a>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</header>
+	</wicket:panel>
+</body>
+</html>

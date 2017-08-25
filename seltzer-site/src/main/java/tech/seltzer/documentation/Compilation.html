@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+	<head>
+	</head>
+	<body>
+		<wicket:extend>
+			<div class="container">
+				<h4>Getting Started: Compiling Seltzer</h4>
+				<p>
+					Seltzer is compiled using <a href="https://maven.apache.org/">Apache Maven</a>. 
+					Compilation is a very simple process. Using a shell/command line, navigate into 
+					the <code>seltzer-parent</code> directory and run 
+					<code>mvn install -Dseltzer.path=/absolute/path/to/seltzer/dir</code>. You can 
+					skip setting <code>seltzer.path</code> if you tell Maven not to run unit tests. 
+					Skipping unit tests isn't recommended, but the unit tests can take quite a 
+					long time (10+ minutes) so the option is good to have.
+				</p>
+			</div>
+		</wicket:extend>
+	</body>
+</html>

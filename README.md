@@ -1,6 +1,5 @@
-# **This README is a snapshot from June 12, 2017; All active development is in the 0.x branch at this time**
+# Seltzer
 
-## Seltzer
 Seltzer is a server meant for providing Selenium access and functionality to OSGi applications. Selenium does not provide a proper OSGi manifest and instead of rebundling it and any necessary dependencies, Seltzer was built. 
 
 When the server is running, it is accessed by sending it `Command` objects, and it will reply with `Response` objects. There are several currently available `Command` objects, and they are replied to with a small handful of appropriate `Response`s.

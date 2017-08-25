@@ -1,0 +1,23 @@
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.logo {
+    display: block;
+    height: 200px;
+}
+
+.logo>a>img {
+    vertical-align: middle;
+    height: 200px;
+}
+
+.collapseSection {
+	font-weight: bold;
+}

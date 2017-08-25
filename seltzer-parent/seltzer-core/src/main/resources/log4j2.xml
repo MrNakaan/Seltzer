@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="debug">
+	<Appenders>
+		<Console name="stdout" target="SYSTEM_OUT">
+			<PatternLayout>
+				<pattern>%level{length=3} - %m%n</pattern>
+			</PatternLayout>
+		</Console>
+		
+		<File name="server-top" fileName="logs/logging.log" append="false">
+			<PatternLayout>
+				<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %level{length=3} [%t] %C - %msg%n</pattern>
+			</PatternLayout>
+		</File>
+		
+		<File name="connection-handler" fileName="logs/connection-handler.log" append="false">
+			<PatternLayout>
+				<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %level{length=3} [%t] %C - %msg%n</pattern>
+			</PatternLayout>
+		</File>
+		
+		<File name="command-processor" fileName="logs/command-processor.log" append="false">
+			<PatternLayout>
+				<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %level{length=3} [%t] %C - %msg%n</pattern>
+			</PatternLayout>
+		</File>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="hall.caleb.selenium" level="warn" additivity="false">
+			<appender-ref ref="stdout" level="warn"/>
+		</Logger>
+		
+		<Logger name="hall.caleb.selenium.SeleniumServer" level="info" additivity="false">
+			<appender-ref ref="stdout" level="info"/>
+			<appender-ref ref="server-top" level="info" />
+		</Logger>
+		
+		<Logger name="hall.caleb.selenium.ServerSocketListener" level="info" additivity="false">
+			<appender-ref ref="connection-handler" level="info"/>
+		</Logger>
+		
+		<Logger name="hall.caleb.selenium.CommandProcessor" level="info" additivity="false">
+			<appender-ref ref="command-processor" level="info"/>
+		</Logger>
+	</Loggers>
+</Configuration>

@@ -1,3 +1,5 @@
+ChromeProfile/
+Servers/
 *.class
 
 # Emacs temporary files
@@ -24,4 +26,5 @@ RemoteSystemsTempFiles/
 target/
 .project
 *.log
+
 !Releases/**/*.jar

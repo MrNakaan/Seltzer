@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+	<head>
+	</head>
+	<body>
+		<wicket:extend>
+			<div class="container">
+				<h4>Getting Started: Using Seltzer</h4>
+				<p>
+					Using Seltzer is almost as easy as running it, but not quite. At the bare 
+					minimum, you must include <code>seltzer-cr</code> in your classpath (we 
+					recommend using Apache Maven to manage dependencies). Is is strongly encouraged 
+					that <code>seltzer-util</code> be included as well. For those sourcing their 
+					dependencies directly from Maven, here is the information you need:
+					<ul class="browser-default">
+						<li>Group ID (for both): <code>tech.seltzer</code></li>
+						<li>CR artifact ID: <code>seltzer-cr</code></li>
+						<li>Util artifact ID: <code>seltzer-util</code></li>
+					</ul>
+					These modules will have a version number matching that of 
+					<code>seltzer-core</code>.
+				</p>
+				<p>
+					Include those 2 modules and you're ready to start developing using Seltzer. 
+					Working with Seltzer requires that you send it command data, and it will shoot 
+					back a response object. Command data gets encoded into JSON before it's sent 
+					to a Seltzer server (we recommend Gson, which the util module uses).
+				</p>
+				<p>
+					To begin, a <span style="font-weight:bold">Seltzer session</span> must be 
+					started. To do so, you must send a Start command to Seltzer. The simplest way 
+					to do this is to call this:
+					<br/>
+					<code>SeltzerSend.send(new CommandData(CommandType.START))</code>
+					<br/>
+					Note: it will be assumed that you are using seltzer-util for communication. 
+					See <a href="#noUtil">"Using Seltzer Without seltzer-util"</a> for help 
+					writing your own solution or debugging another. The <code>send()</code> method 
+					returns a <code>Response</code> object. When starting a session, this object 
+					will have 2 pieces of relevant data: a success flag and an ID. This ID will be 
+					required for all communication with this Seltzer session. Other than start 
+					commands, Seltzer ignores commands that do not have an ID for a currently 
+					existing session.
+				</p>
+				<p>
+					Now that you have your ID, you can begin sending more substantial commands. 
+					To get an idea of what Seltzer is capable of handling, see the 
+					<code>CommandType</code> enum. This lists all the commands that Seltzer 
+					handles, as well as containing the <code>CommandData</code> class that those 
+					commands will require. Some commands are very specific and will be simple to 
+					instantiate. Take <code>FillFieldCommandData</code> for example. This is a 
+					non-generic command date class, so you're not allowed to set the command type 
+					on it. It knows its job. What it requires from you is a selector type (xpath, 
+					ID, class...see <code>SelectorType</code> for the list), the data for the 
+					selector (like the xpath expression), and what you want to put into that form 
+					field. Of course, it needs your session ID, as well. All commands do. Once you 
+					give it that info, Seltzer can handle the rest.
+				</p>
+				<p>
+					As for the less-specific ones, like the generic parent 
+					<code>CommandData</code>, You have to provide the command type that you want 
+					it to be. If you don't have the right command type assigned to the command 
+					you're building (like building a <code>CommandData</code> and calling it a 
+					<code>SelectorCommand</code>), Seltzer will spit an exception back at you. 
+					If in doubt, consult the <code>CommandType</code> enum. That list is always 
+					correct. 
+				</p>
+				<p>
+					When you're done with your session, you need to tell Seltzer to exit. To do so. 
+					build a <code>CommandData</code> object, give it your session ID, and set the 
+					command type to <code>CommandType.EXIT</code>. Seltzer will close the browser 
+					window, clean up any residual data, and forget your session ID. That session 
+					ID will no longer be acknowledged and no data can be retrieved from it, so 
+					make sure you get what you need before you close it.
+				</p>
+				<h4 id="noUtil">Using Seltzer Without seltzer-util</h4>
+				<p>
+					There are a couple of "gotchas" to watch out for if you roll your own code for 
+					sending and receiving. Following the guidelines below should keep you 
+					productive and bug-free.
+					<h5>Sending</h5>
+					<ul class="browser-default">
+						<li>
+							If your command is an instance of <code>SerializableCR</code>, make 
+							sure you call its <code>serialize()</code> method to make sure all the 
+							commands under it will make the encoding to JSON appropriately. This 
+							is a recursive method, so it will handle any 
+							<code>SerializableCR</code> objects that it contains. Do this before 
+							serializing the command you're handling!
+						</li>
+						<li>
+							Be sure to reference the class that your command type is holding on to 
+							when you serialize to JSON.
+						</li>
+					</ul>
+					<h5>Receiving</h5>
+					<ul class="browser-default">
+						<li>
+							Responses need to be decoded from JSON twice. The first time, they 
+							need to be decoded as basic <code>Response</code> objects. Use this to 
+							get the real <code>ResponseType</code> from it. The second time, use 
+							the <code>ResponseType</code> you got so that you can get the right 
+							data out of that JSON string. 
+						</li>
+						<li>
+							Commands that caused exceptions will have 
+							<code>ExceptionResponse</code> objects returned. These have a response 
+							type of EXCEPTION. They also contain a message and (if appropriate) a 
+							stack trace from the Seltzer server. Use this information to throw a 
+							<code>SeltzerException</code>, which is in the CR module. 
+						</li>
+						<li>
+							Similar to handling a <code>SerializableCR</code> command, you need to 
+							handle them in responses. In this instance, call the 
+							<code>deserialize()</code> method and all the responses will be built 
+							back up properly. This is recursive, just like 
+							<code>serialize()</code>. Make sure this is the last thing you do 
+							while handling responses.
+						</li>
+					</ul>
+				</p>
+			</div>
+		</wicket:extend>
+	</body>
+</html>
