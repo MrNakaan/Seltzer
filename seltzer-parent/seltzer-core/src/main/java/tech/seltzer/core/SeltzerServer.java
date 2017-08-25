@@ -2,8 +2,8 @@ package tech.seltzer.core;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.MessageFormat;
-import java.util.ResourceBundle;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -16,14 +16,13 @@ public class SeltzerServer {
 	private static SessionCleaner cleaner;
 	private static Thread listenerThread;
 	private static Thread cleanerThread;
-	private static ResourceBundle config;
 	
 	public static void main(String[] args) {
 		logger.info(Messages.getString("SeltzerServer.starting")); 
 		
 		try {
 			configureBase();
-		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
 			logger.fatal(e);
 			logger.fatal(Messages.getString("SeltzerServer.configException")); 
 			return;
@@ -49,13 +48,13 @@ public class SeltzerServer {
 		}
 	}
 	
-	public static void configureBase() throws FileNotFoundException {
+	public static void configureBase() throws IOException {
 		logger.info(Messages.getString("SeltzerServer.configuring")); 
 		
-		readConfig();
+		ConfigManager.loadConfiguration();
 		
-		Boolean headless = Boolean.valueOf(config.getString("seltzer.headless.enabled"));
-		Boolean locked = Boolean.valueOf(config.getString("seltzer.headless.locked"));
+		Boolean headless = Boolean.valueOf(ConfigManager.getConfigValue("seltzer.headless.enabled"));
+		Boolean locked = Boolean.valueOf(ConfigManager.getConfigValue("seltzer.headless.locked"));
 		if (headless != null && headless) {
 			SeltzerSession.setHeadless(headless, (locked == null ? true : locked));
 		}
@@ -64,7 +63,7 @@ public class SeltzerServer {
 		
 		String repoPath = System.getProperty("seltzer.path");
 		if (StringUtils.isEmpty(repoPath)) {
-			repoPath = config.getString("seltzer.path");
+			repoPath = ConfigManager.getConfigValue("seltzer.path");
 			if (StringUtils.isEmpty(repoPath)) {
 				logger.warn(Messages.getString("SeltzerServer.pathNotFound"));
 				repoPath = "~/";
@@ -88,13 +87,5 @@ public class SeltzerServer {
 		}
 		
 		logger.info(Messages.getString("SeltzerServer.configured")); 
-	}
-
-	private static void readConfig() {
-		config = ResourceBundle.getBundle("config");
-	}
-	
-	public static String getConfigValue(String key) {
-		return config.getString(key);
 	}
 }

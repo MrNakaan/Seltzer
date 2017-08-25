@@ -3,7 +3,7 @@ package tech.seltzer.core;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Generated;
@@ -35,7 +35,7 @@ public class SelectorProcessorTest {
 	private static String homeUrl;
 
 	@BeforeClass
-	public static void prepareClass() throws FileNotFoundException {
+	public static void prepareClass() throws IOException {
 		SeltzerServer.configureBase();
 
 		String repoPath = System.getProperty("seltzer.path");

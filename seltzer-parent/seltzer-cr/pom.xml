@@ -4,7 +4,7 @@
 
 	<groupId>tech.seltzer</groupId>
 	<artifactId>seltzer-cr</artifactId>
-	<version>1.0.0-RC2</version>
+	<version>1.0.0</version>
 	<packaging>bundle</packaging>
 
 	<name>Seltzer Command/Response</name>

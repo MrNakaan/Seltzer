@@ -3,7 +3,7 @@ package tech.seltzer.core;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -43,7 +43,7 @@ public class WaitProcessorTest {
 	private long startTime = 0;
 	
 	@BeforeClass
-	public static void prepareClass() throws FileNotFoundException {
+	public static void prepareClass() throws IOException {
 		SeltzerServer.configureBase();
 
 		String repoPath = System.getProperty("seltzer.path");
