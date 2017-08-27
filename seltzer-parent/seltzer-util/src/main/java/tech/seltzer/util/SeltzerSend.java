@@ -19,6 +19,23 @@ import tech.seltzer.objects.response.ExceptionResponse;
 import tech.seltzer.objects.response.Response;
 
 public class SeltzerSend {
+	private static String defaultIpAddress = "127.0.0.1";
+	
+	/**
+	 * Send a command to a Seltzer server at the default IP address and get back the response. 
+	 * This method takes care of serializing the command (and any sub commands) and will 
+	 * properly deserialize the response (and any sub responses) for you. The return type is 
+	 * simply <code>Response</code> but the actual object returned is properly typed and ready
+	 * to be cast as you need. 
+	 * 
+	 * @param command - any <code>CommandData</code> that needs to be sent to Seltzer
+	 * @return The response from Seltzer
+	 * @throws SeltzerException Thrown if the response is of type <code>ExceptionResponse</code>
+	 */
+	public static Response send(CommandData command) throws SeltzerException {
+		return send(getDefaultIpAddress(), command);
+	}
+	
 	/**
 	 * Send a command to a Seltzer server and get back the response. This method
 	 * takes care of serializing the command (and any sub commands) and will properly
@@ -27,23 +44,32 @@ public class SeltzerSend {
 	 * to be cast as you need. 
 	 * 
 	 * @param command - any <code>CommandData</code> that needs to be sent to Seltzer
+	 * @param ipAddress - the IP address to connect to
 	 * @return The response from Seltzer
 	 * @throws SeltzerException Thrown if the response is of type <code>ExceptionResponse</code>
 	 */
-	public static Response send(CommandData command) throws SeltzerException {
+	public static Response send(String ipAddress, CommandData command) throws SeltzerException {
 		if (command instanceof SerializableCR) {
 			((SerializableCR) command).serialize();
 		}
 		
 		String jsonOut = new Gson().toJson(command, command.getType().getCrClass());
-		String jsonIn = sendAndReceive(jsonOut);
+		String jsonIn = sendAndReceive(ipAddress, jsonOut);
 		return parseResponse(jsonIn);
 	}
 
-	private static String sendAndReceive(String json) {
+	public static String getDefaultIpAddress() {
+		return defaultIpAddress;
+	}
+
+	public static void setDefaultIpAddress(String defaultIpAddress) {
+		SeltzerSend.defaultIpAddress = defaultIpAddress;
+	}
+
+	private static String sendAndReceive(String ipAddress, String json) {
 		StringBuilder resultJson = new StringBuilder();
 
-		try (Socket socket = new Socket("127.0.0.1", 39948);
+		try (Socket socket = new Socket(ipAddress, 39948);
 				OutputStreamWriter writer = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
 				BufferedReader reader = new BufferedReader(
 						new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8))) {

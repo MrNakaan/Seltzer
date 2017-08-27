@@ -26,5 +26,6 @@ RemoteSystemsTempFiles/
 target/
 .project
 *.log
+config.properties
 
 !Releases/**/*.jar
