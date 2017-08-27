@@ -1,4 +1,8 @@
+![alt text](http://seltzer.tech/images/bottle_1.svg "Seltzer Logo")
+
 # Seltzer
+
+Main site: [http://seltzer.tech](http://seltzer.tech)
 
 Seltzer is a server meant for providing Selenium access and functionality to OSGi applications. Selenium does not provide a proper OSGi manifest and instead of rebundling it and any necessary dependencies, Seltzer was built. 
 
@@ -68,4 +72,4 @@ If you're using Maven, then `seltzer-cr` will have its OSGi manifest built for y
 * `Bundle-Name: Seltzer Command/Response`
 * `Export-Package: hall.caleb.seltzer.objects.command;uses:="hall.caleb.seltzer.enums,com.google.gson",hall.caleb.seltzer.objects.response;uses:="hall.caleb.seltzer.enums,com.google.gson",hall.caleb.seltzer.enums`
 
-Make sure to include `seltzer-cr-x.y.z.jar` in your OSGi's bundle list and your application will be able to import `Command` and `Response` objects. This README will be updated with instructions for communication between an OSGi application and Seltzer when the `seltzer-util` project is included and building.
+Make sure to include `seltzer-cr-x.y.z.jar` in your OSGi's bundle list and your application will be able to import `CommandData` and `Response` objects.
