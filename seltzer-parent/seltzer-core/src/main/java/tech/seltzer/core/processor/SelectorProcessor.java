@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
+import tech.seltzer.core.Messages;
 import tech.seltzer.enums.SelectorType;
 import tech.seltzer.objects.command.selector.FillFieldCommandData;
 import tech.seltzer.objects.command.selector.SelectorCommandData;
@@ -20,6 +21,10 @@ import tech.seltzer.objects.response.ExceptionResponse;
 import tech.seltzer.objects.response.Response;
 import tech.seltzer.objects.response.SingleResultResponse;
 
+/**
+ * Processor for <code>SelectorCommandData</code> and all subclasses. 
+ * Delegates to <code>MultiResultSelectorProcessor</code> as appropriate.
+ */
 public class SelectorProcessor {
 	static Logger logger = LogManager.getLogger(SelectorProcessor.class);
 

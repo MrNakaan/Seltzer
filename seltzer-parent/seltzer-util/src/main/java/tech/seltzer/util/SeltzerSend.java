@@ -19,6 +19,17 @@ import tech.seltzer.objects.response.ExceptionResponse;
 import tech.seltzer.objects.response.Response;
 
 public class SeltzerSend {
+	/**
+	 * Send a command to a Seltzer server and get back the response. This method
+	 * takes care of serializing the command (and any sub commands) and will properly
+	 * deserialize the response (and any sub responses) for you. The return type is simply
+	 * <code>Response</code> but the actual object returned is properly typed and ready
+	 * to be cast as you need. 
+	 * 
+	 * @param command - any <code>CommandData</code> that needs to be sent to Seltzer
+	 * @return The response from Seltzer
+	 * @throws SeltzerException Thrown if the response is of type <code>ExceptionResponse</code>
+	 */
 	public static Response send(CommandData command) throws SeltzerException {
 		if (command instanceof SerializableCR) {
 			((SerializableCR) command).serialize();

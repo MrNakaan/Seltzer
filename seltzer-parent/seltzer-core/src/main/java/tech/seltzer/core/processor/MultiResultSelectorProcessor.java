@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
+import tech.seltzer.core.Messages;
 import tech.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommandData;
 import tech.seltzer.objects.command.selector.multiresult.ReadAttributeCommandData;
 import tech.seltzer.objects.response.ExceptionResponse;
@@ -17,6 +18,10 @@ import tech.seltzer.objects.response.MultiResultResponse;
 import tech.seltzer.objects.response.Response;
 import tech.seltzer.objects.response.SingleResultResponse;
 
+/**
+ * Processor for <code>MultiResultSelectorCommandData</code> and all subclasses. 
+ * Does not delegate to other processors.
+ */
 public class MultiResultSelectorProcessor {
 	static Logger logger = LogManager.getLogger(MultiResultSelectorProcessor.class);
 

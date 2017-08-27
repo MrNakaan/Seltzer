@@ -6,6 +6,9 @@ import tech.seltzer.objects.response.MultiResultResponse;
 import tech.seltzer.objects.response.Response;
 import tech.seltzer.objects.response.SingleResultResponse;
 
+/**
+ * A list of response types that Seltzer can send back.
+ */
 public enum ResponseType implements CrType {
 	BASIC(Response.class),
 	SINGLE_RESULT(SingleResultResponse.class),
@@ -18,7 +21,7 @@ public enum ResponseType implements CrType {
 	private ResponseType(Class<? extends Response> responseClass) {
 		this.responseClass = responseClass;
 	}
-
+	
 	@Override
 	public Class<? extends Response> getCrClass() {
 		return responseClass;

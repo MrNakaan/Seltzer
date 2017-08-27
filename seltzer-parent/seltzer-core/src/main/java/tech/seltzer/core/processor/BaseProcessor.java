@@ -17,6 +17,7 @@ import org.openqa.selenium.WebDriverException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import tech.seltzer.core.Messages;
 import tech.seltzer.core.SeltzerSession;
 import tech.seltzer.enums.CommandType;
 import tech.seltzer.objects.command.ChainCommandData;
@@ -33,6 +34,11 @@ import tech.seltzer.objects.response.MultiResultResponse;
 import tech.seltzer.objects.response.Response;
 import tech.seltzer.objects.response.SingleResultResponse;
 
+/**
+ * Processor for <code>CommandData</code> and all subclasses. 
+ * Delegates to <code>SelectorProcessor</code> and 
+ * <code>WaitProcessor</code> as appropriate.
+ */
 public class BaseProcessor {
 	private static Logger logger = LogManager.getLogger(BaseProcessor.class);
 	private static Gson gson = new GsonBuilder().setPrettyPrinting().create();

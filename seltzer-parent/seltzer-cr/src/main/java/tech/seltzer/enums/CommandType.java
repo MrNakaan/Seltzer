@@ -27,6 +27,9 @@ import tech.seltzer.objects.command.wait.visibility.InvisibilityWaitCommandData;
 import tech.seltzer.objects.command.wait.visibility.NestedVisibilityWaitCommandData;
 import tech.seltzer.objects.command.wait.visibility.VisibilityWaitCommandData;
 
+/**
+ * A list of command data types that Seltzer can handle.
+ */
 public enum CommandType implements CrType {
 	NONE(CommandData.class),
 	BACK(CommandData.class),

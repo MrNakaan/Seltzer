@@ -9,6 +9,13 @@ import com.google.gson.Gson;
 
 import tech.seltzer.objects.command.CommandData;
 
+/**
+ * A list for holding multiple commands or responses. 
+ *
+ * @param <C> - The parent class of whatever this list will be holding. 
+ * This is intended to be <code>CommandData</code> or <code>Response</code> 
+ * but it does not hurt to be more specific.
+ */
 public class CrList<C extends CrDataBase> {
 	public static final int HASH_PRIME = 31;
 	
@@ -20,6 +27,9 @@ public class CrList<C extends CrDataBase> {
 		serializedCrs = null;
 	}
 	
+	/**
+	 * Serialize all items in this list.
+	 */
 	public void serialize() {
 		if (serializedCrs == null) {
 			serializedCrs = new ArrayList<>();
@@ -40,6 +50,9 @@ public class CrList<C extends CrDataBase> {
 		}
 	}
 
+	/**
+	 * Deserialize all items in this list.
+	 */
 	@SuppressWarnings("unchecked")
 	public void deserialize() {
 		if (crs == null) {
@@ -66,6 +79,10 @@ public class CrList<C extends CrDataBase> {
 		}
 	}
 	
+	/**
+	 * Add a new item to this list.
+	 * @param cr - the object to add
+	 */
 	public void addCr(C cr) {
 		if (crs == null) {
 			crs = new ArrayList<>();
@@ -74,6 +91,10 @@ public class CrList<C extends CrDataBase> {
 		crs.add(cr);
 	}
 	
+	/**
+	 * Get the size of this list, ignoring all serialized items.
+	 * @return the total number of deserialized items in this list
+	 */
 	public int getSize() {
 		if (crs == null) {
 			return 0;
@@ -82,6 +103,10 @@ public class CrList<C extends CrDataBase> {
 		}
 	}
 	
+	/**
+	 * Get the size of this list, ignoring all deserialized items.
+	 * @return the total number of serialized items in this list
+	 */
 	public int getSerializedSize() {
 		if (serializedCrs == null) {
 			return 0;
@@ -126,6 +151,10 @@ public class CrList<C extends CrDataBase> {
 		return true;
 	}
 
+	/**
+	 * Get the list of items that this wraps. Does not include serialized items.
+	 * @return The raw list of deserialized items.
+	 */
 	public List<C> getCrs() {
 		if (crs == null) {
 			crs = new ArrayList<>();
@@ -134,11 +163,20 @@ public class CrList<C extends CrDataBase> {
 		return crs;
 	}
 
+	/**
+	 * Set the list of items that this wraps. This will remove any currently serialized 
+	 * items in the list
+	 * @param crs - the new list of items 
+	 */
 	public void setCrs(List<C> crs) {
 		if (crs == null) {
 			this.crs.clear();
 		} else {
 			this.crs = crs;
+		}
+		
+		if (serializedCrs != null) {
+			this.serializedCrs.clear();
 		}
 	}
 }

@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import tech.seltzer.core.Messages;
 import tech.seltzer.enums.CommandType;
 import tech.seltzer.objects.command.wait.CountWaitCommandData;
 import tech.seltzer.objects.command.wait.JavaScriptWaitCommandData;
@@ -31,7 +32,11 @@ import tech.seltzer.objects.command.wait.visibility.VisibilityWaitCommandData;
 import tech.seltzer.objects.response.ExceptionResponse;
 import tech.seltzer.objects.response.Response;
 
-public class WaitProcessor {
+/**
+ * Processor for <code>WaitCommandData</code> and all subclasses. 
+ * Does not delegate to other processors.
+ */
+class WaitProcessor {
 	private static Logger logger = LogManager.getLogger(WaitProcessor.class);
 
 	static Response processCommand(WebDriver driver, WaitCommandData command) {

@@ -48,6 +48,10 @@ public class SeltzerServer {
 		}
 	}
 	
+	/**
+	 * Configure Seltzer. Initially called during startup but must be called before any unit tests
+	 * @throws IOException thrown if the internal configuration files cannot be found.
+	 */
 	public static void configureBase() throws IOException {
 		logger.info(Messages.getString("SeltzerServer.configuring")); 
 		

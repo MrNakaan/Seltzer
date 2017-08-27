@@ -2,6 +2,10 @@ package tech.seltzer.core;
 
 import java.text.MessageFormat;
 
+/**
+ * This class cleans unused and abandoned sessions automatically. It is started as its 
+ * own thread during startup.
+ */
 public class SessionCleaner implements Runnable {
 	private int sessionsCleaned = 0;
 	

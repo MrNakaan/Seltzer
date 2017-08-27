@@ -28,6 +28,9 @@ import tech.seltzer.objects.response.MultiResultResponse;
 import tech.seltzer.objects.response.Response;
 import tech.seltzer.objects.response.SingleResultResponse;
 
+/**
+ * The listener for incoming connections to the server.
+ */
 public class ServerSocketListener implements Runnable {
 	private static Logger logger = LogManager.getLogger(ServerSocketListener.class);
 
@@ -37,6 +40,11 @@ public class ServerSocketListener implements Runnable {
 	private int port;
 	private int connections;
 
+	/**
+	 * Build a new listener.
+	 * @param port - the port the listener should bind to
+	 * @param backlog - the connection backlog count
+	 */
 	public ServerSocketListener(int port, int backlog) {
 		logger.info(Messages.getString("ServerSocketListener.creating"));
 		String message = Messages.getString("ServerSocketListener.port");
@@ -64,6 +72,10 @@ public class ServerSocketListener implements Runnable {
 		}
 	}
 
+	/**
+	 * A class to handle commands including reading the raw JSON, deserializing it, sending it 
+	 * to be processed, serializing the response, and sending it back to the caller.
+	 */
 	private static class CommandHandlerThread implements Runnable {
 		private static Logger logger = LogManager.getLogger(CommandHandlerThread.class);
 
@@ -119,6 +131,12 @@ public class ServerSocketListener implements Runnable {
 			socket.close();
 		}
 
+		/**
+		 * Read the raw JSON from the socket.
+		 * @param socket - the socket to read from
+		 * @return The raw JSON
+		 * @throws IOException thrown if there is an issue reading from the socket
+		 */
 		private String readJson(Socket socket) throws IOException {
 			StringBuilder builder = new StringBuilder();
 
@@ -140,6 +158,12 @@ public class ServerSocketListener implements Runnable {
 			return builder.toString();
 		}
 
+		/**
+		 * Send the response object back to the caller.
+		 * @param socket - the socket to write to
+		 * @param response - the response object to write
+		 * @throws IOException thrown if there is an issue writing to the socket
+		 */
 		private void writeResponse(Socket socket, Response response) throws IOException {
 			OutputStreamWriter writer = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
 

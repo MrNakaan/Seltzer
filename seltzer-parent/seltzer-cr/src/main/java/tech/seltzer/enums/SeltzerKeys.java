@@ -1,5 +1,10 @@
 package tech.seltzer.enums;
 
+/**
+ * <code>SeltzerKeys</code> is a copy of the list of special keys that Selenium supports 
+ * sending to the browser and is provided to facilitate OSGi compatibility for 
+ * <code>seltzer-cr</code>.
+ */
 public enum SeltzerKeys {
 	ADD,
 	ALT,
