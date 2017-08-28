@@ -16,12 +16,23 @@ public class CommandData extends CrDataBase {
 
 	public CommandData(CommandType commandType) {
 		super();
-		this.type = commandType;
+		
+		if (this.getClass().equals(commandType.getCrClass())) {
+			this.type = commandType;
+		} else {
+			throw new IllegalArgumentException("Passed command type '" + commandType.toString() + "' does not match this command.");
+		}
 	}
 
 	public CommandData(CommandType commandType, UUID id) {
 		super();
-		this.type = commandType;
+		
+		if (this.getClass().equals(commandType.getCrClass())) {
+			this.type = commandType;
+		} else {
+			throw new IllegalArgumentException("Passed command type '" + commandType.toString() + "' does not match this command.");
+		}
+		
 		this.id = id;
 	}
 

@@ -30,7 +30,7 @@ public class InvisibilityWaitCommandData extends WaitCommandData {
 	@Override
 	public String toString() {
 		return "InvisibilityWaitCommand [selector=" + selector + ", text=" + text + ", seconds=" + seconds
-				+ ", hasCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
+				+ ", hasCommandList=" + hasCommandList + ", type=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override

@@ -29,7 +29,7 @@ public class TextMatchAttributeSelectorWaitCommandData extends TextMatchWaitComm
 	@Override
 	public String toString() {
 		return "TextMatchAttributeSelectorWaitCommand [selector=" + selector + ", attribute=" + attribute + ", seconds="
-				+ seconds + ", hasCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
+				+ seconds + ", hasCommandList=" + hasCommandList + ", type=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override

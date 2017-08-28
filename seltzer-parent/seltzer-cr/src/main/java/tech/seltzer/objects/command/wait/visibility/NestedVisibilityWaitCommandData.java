@@ -33,7 +33,7 @@ public class NestedVisibilityWaitCommandData extends VisibilityWaitCommandData {
 	@Override
 	public String toString() {
 		return "NestedVisibilityWaitCommand [childSelector=" + childSelector + ", selector=" + selector + ", seconds="
-				+ seconds + ", hasCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
+				+ seconds + ", hasCommandList=" + hasCommandList + ", type=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override

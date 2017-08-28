@@ -29,7 +29,7 @@ public class ExistenceWaitCommandData extends WaitCommandData {
 	@Override
 	public String toString() {
 		return "ExistenceWaitCommand [selector=" + selector + ", seconds=" + seconds + ", hasCommandList="
-				+ hasCommandList + ", type=" + type + ", id=" + id + "]";
+				+ hasCommandList + ", type=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override

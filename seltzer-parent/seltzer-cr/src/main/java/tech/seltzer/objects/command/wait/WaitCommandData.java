@@ -25,7 +25,7 @@ public class WaitCommandData extends CommandData {
 
 	@Override
 	public String toString() {
-		return "WaitCommand [seconds=" + seconds + ", hasCommandList=" + hasCommandList + ", type=" + type + ", id="
+		return "WaitCommand [seconds=" + seconds + ", hasCommandList=" + hasCommandList + ", type=" + commandType + ", id="
 				+ id + "]";
 	}
 
