@@ -37,7 +37,7 @@ public class SeltzerSend {
 	 * @throws SeltzerException Thrown if the response is of type <code>ExceptionResponse</code>
 	 */
 	public static Response send(CommandData command) throws SeltzerException {
-		return send(getDefaultIpAddress(), command);
+		return send(defaultIpAddress, defaultPort, command);
 	}
 	
 	/**
@@ -49,16 +49,17 @@ public class SeltzerSend {
 	 * 
 	 * @param command - any <code>CommandData</code> that needs to be sent to Seltzer
 	 * @param ipAddress - the IP address to connect to
+	 * @param port - the port to connect to
 	 * @return The response from Seltzer
 	 * @throws SeltzerException Thrown if the response is of type <code>ExceptionResponse</code>
 	 */
-	public static Response send(String ipAddress, CommandData command) throws SeltzerException {
+	public static Response send(String ipAddress, int port, CommandData command) throws SeltzerException {
 		if (command instanceof SerializableCR) {
 			((SerializableCR) command).serialize();
 		}
 		
 		String jsonOut = new Gson().toJson(command, command.getType().getCrClass());
-		String jsonIn = sendAndReceive(ipAddress, jsonOut);
+		String jsonIn = sendAndReceive(ipAddress, port, jsonOut);
 		return parseResponse(jsonIn);
 	}
 
@@ -80,10 +81,10 @@ public class SeltzerSend {
 		SeltzerSend.defaultPort = defaultPort;
 	}
 
-	private static String sendAndReceive(String ipAddress, String json) {
+	private static String sendAndReceive(String ipAddress, int port, String json) {
 		StringBuilder resultJson = new StringBuilder();
 
-		try (Socket socket = new Socket(ipAddress, 39948);
+		try (Socket socket = new Socket(ipAddress, port);
 				OutputStreamWriter writer = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
 				BufferedReader reader = new BufferedReader(
 						new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8))) {
