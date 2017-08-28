@@ -9,6 +9,8 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
+import org.apache.commons.validator.routines.InetAddressValidator;
+
 import com.google.gson.Gson;
 
 import tech.seltzer.enums.ResponseType;
@@ -19,7 +21,9 @@ import tech.seltzer.objects.response.ExceptionResponse;
 import tech.seltzer.objects.response.Response;
 
 public class SeltzerSend {
+	private static InetAddressValidator validator = InetAddressValidator.getInstance();;
 	private static String defaultIpAddress = "127.0.0.1";
+	private static int defaultPort = 39948;
 	
 	/**
 	 * Send a command to a Seltzer server at the default IP address and get back the response. 
@@ -63,7 +67,17 @@ public class SeltzerSend {
 	}
 
 	public static void setDefaultIpAddress(String defaultIpAddress) {
-		SeltzerSend.defaultIpAddress = defaultIpAddress;
+		if (validator.isValid(defaultIpAddress)) {
+			SeltzerSend.defaultIpAddress = defaultIpAddress;
+		}
+	}
+
+	public static int getDefaultPort() {
+		return defaultPort;
+	}
+
+	public static void setDefaultPort(int defaultPort) {
+		SeltzerSend.defaultPort = defaultPort;
 	}
 
 	private static String sendAndReceive(String ipAddress, String json) {
