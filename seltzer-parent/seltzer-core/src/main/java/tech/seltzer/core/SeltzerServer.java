@@ -28,7 +28,27 @@ public class SeltzerServer {
 			return;
 		}
 		
-		listener = new ServerSocketListener(39948, 1);
+		String portString = ConfigManager.getConfigValue("connection.port");
+		int port = 39948;
+		if (!StringUtils.isEmpty(portString)) {
+			try {
+				port = Integer.parseInt(portString);
+				if (port <= 1024 || port > 65535) {
+					throw new IllegalArgumentException();
+				}
+			} catch (NumberFormatException e) {
+				logger.error("Config value '" + portString + "' is not a valid port number.");
+			} catch (IllegalArgumentException e) {
+				if (port < 0) {
+					logger.error("Config value '" + port + "' is too low to be a valid port number.");
+				} else if (port <= 1024) {
+					logger.error("Config value '" + port + "' is too low, Seltzer will not run on well-known ports.");
+				} else {
+					logger.error("Config value '" + port + "' is too high to be a valid port number.");
+				}
+			}
+		}
+		listener = new ServerSocketListener(port, 1);
 		listenerThread = new Thread(listener);
 		listenerThread.start();
 		logger.info(Messages.getString("SeltzerServer.listenerStarted")); 
