@@ -111,4 +111,6 @@
 * seltzer-util
 
 This project contains modules that are not OSGi compatible.</description>
+
+	<url>http://seltzer.tech</url>
 </project>
