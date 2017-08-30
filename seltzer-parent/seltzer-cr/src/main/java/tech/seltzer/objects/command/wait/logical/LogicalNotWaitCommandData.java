@@ -19,7 +19,7 @@ public final class LogicalNotWaitCommandData extends LogicalWaitCommandData {
 	@Override
 	public String toString() {
 		return "LogicalNotWaitCommand [waitCommand=" + waitCommand + ", seconds=" + seconds + ", hasCommandList="
-				+ hasCommandList + ", type=" + type + ", id=" + id + "]";
+				+ hasCommandList + ", type=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override

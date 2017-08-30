@@ -18,7 +18,7 @@ WaitCommandData waitCommand;
 	@Override
 	public String toString() {
 		return "RefreshedWaitCommand [waitCommand=" + waitCommand + ", seconds=" + seconds + ", hasCommandList="
-				+ hasCommandList + ", type=" + type + ", id=" + id + "]";
+				+ hasCommandList + ", type=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override

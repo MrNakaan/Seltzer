@@ -29,7 +29,7 @@ protected Selector selector = new Selector();
 	@Override
 	public String toString() {
 		return "VisibilityWaitCommand [selector=" + selector + ", seconds=" + seconds + ", hasCommandList="
-				+ hasCommandList + ", type=" + type + ", id=" + id + "]";
+				+ hasCommandList + ", type=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override

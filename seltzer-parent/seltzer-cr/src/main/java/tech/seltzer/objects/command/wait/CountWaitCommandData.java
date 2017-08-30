@@ -29,7 +29,7 @@ public class CountWaitCommandData extends WaitCommandData {
 	@Override
 	public String toString() {
 		return "CountWaitCommand [bound=" + bound + ", selector=" + selector + ", seconds=" + seconds
-				+ ", hasCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
+				+ ", hasCommandList=" + hasCommandList + ", type=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override

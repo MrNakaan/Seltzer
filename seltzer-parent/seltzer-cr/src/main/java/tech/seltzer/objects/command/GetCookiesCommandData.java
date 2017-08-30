@@ -20,7 +20,7 @@ public final class GetCookiesCommandData extends CommandData {
 	
 	@Override
 	public String toString() {
-		return "GetCookiesCommand [cookieNames=" + cookieNames + ", type=" + type + ", id=" + id + "]";
+		return "GetCookiesCommand [cookieNames=" + cookieNames + ", type=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override

@@ -28,7 +28,7 @@ public class TextMatchSelectorWaitCommandData extends TextMatchWaitCommandData {
 	@Override
 	public String toString() {
 		return "TextMatchSelectorWaitCommand [selector=" + selector + ", seconds=" + seconds + ", hasCommandList="
-				+ hasCommandList + ", type=" + type + ", id=" + id + "]";
+				+ hasCommandList + ", type=" + commandType + ", id=" + id + "]";
 	}
 	
 	@Override

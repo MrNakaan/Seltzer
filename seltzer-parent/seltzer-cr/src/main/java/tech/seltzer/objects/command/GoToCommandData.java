@@ -22,7 +22,7 @@ public final class GoToCommandData extends CommandData {
 
 	@Override
 	public String toString() {
-		return "GoToCommand [url=" + url + ", commandType=" + type + ", id=" + id + "]";
+		return "GoToCommand [url=" + url + ", commandType=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override
