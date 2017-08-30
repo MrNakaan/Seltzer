@@ -7,7 +7,8 @@ import tech.seltzer.objects.CrDataBase;
 
 public class CommandData extends CrDataBase {
 	protected boolean hasCommandList = false;
-	
+	protected boolean takeScreenshotBefore = false;
+	protected boolean takeScreenshotAfter = false;
 	protected CommandType commandType = CommandType.NONE;
 	
 	public CommandData() {
@@ -81,6 +82,22 @@ public class CommandData extends CrDataBase {
 			throw new IllegalArgumentException("Passed command type '" + commandType.toString() + "' does not match this command.");
 		}
 		this.commandType = commandType;
+	}
+
+	public boolean isTakeScreenshotBefore() {
+		return takeScreenshotBefore;
+	}
+
+	public void setTakeScreenshotBefore(boolean takeScreenshotBefore) {
+		this.takeScreenshotBefore = takeScreenshotBefore;
+	}
+
+	public boolean isTakeScreenshotAfter() {
+		return takeScreenshotAfter;
+	}
+
+	public void setTakeScreenshotAfter(boolean takeScreenshotAfter) {
+		this.takeScreenshotAfter = takeScreenshotAfter;
 	}
 
 	public boolean hasCommandList() {
