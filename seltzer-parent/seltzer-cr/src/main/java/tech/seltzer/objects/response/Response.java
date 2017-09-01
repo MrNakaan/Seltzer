@@ -29,7 +29,8 @@ public class Response extends CrDataBase {
 
 	@Override
 	public String toString() {
-		return "Response [id=" + id + ", success=" + success + ", type=" + type + "]";
+		return "Response [success=" + success + ", type=" + type + ", screenshotBefore=" + screenshotBefore
+				+ ", screenshotAfter=" + screenshotAfter + ", id=" + id + "]";
 	}
 
 	@Override

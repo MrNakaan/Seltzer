@@ -28,8 +28,9 @@ public class ExistenceWaitCommandData extends WaitCommandData {
 
 	@Override
 	public String toString() {
-		return "ExistenceWaitCommand [selector=" + selector + ", seconds=" + seconds + ", hasCommandList="
-				+ hasCommandList + ", type=" + commandType + ", id=" + id + "]";
+		return "ExistenceWaitCommandData [selector=" + selector + ", seconds=" + seconds + ", hasCommandList="
+				+ hasCommandList + ", takeScreenshotBefore=" + takeScreenshotBefore + ", takeScreenshotAfter="
+				+ takeScreenshotAfter + ", commandType=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override

@@ -39,7 +39,8 @@ public class CommandData extends CrDataBase {
 
 	@Override
 	public String toString() {
-		return "SeleniumCommand [commandType=" + commandType + ", id=" + id + "]";
+		return "CommandData [hasCommandList=" + hasCommandList + ", takeScreenshotBefore=" + takeScreenshotBefore
+				+ ", takeScreenshotAfter=" + takeScreenshotAfter + ", commandType=" + commandType + "]";
 	}
 
 	@Override
@@ -47,7 +48,9 @@ public class CommandData extends CrDataBase {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((commandType == null) ? 0 : commandType.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + (hasCommandList ? 1231 : 1237);
+		result = prime * result + (takeScreenshotAfter ? 1231 : 1237);
+		result = prime * result + (takeScreenshotBefore ? 1231 : 1237);
 		return result;
 	}
 
@@ -62,10 +65,11 @@ public class CommandData extends CrDataBase {
 		CommandData other = (CommandData) obj;
 		if (commandType != other.commandType)
 			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
+		if (hasCommandList != other.hasCommandList)
+			return false;
+		if (takeScreenshotAfter != other.takeScreenshotAfter)
+			return false;
+		if (takeScreenshotBefore != other.takeScreenshotBefore)
 			return false;
 		return true;
 	}

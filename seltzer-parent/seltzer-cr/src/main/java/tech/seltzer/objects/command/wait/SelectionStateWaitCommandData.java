@@ -28,8 +28,9 @@ public class SelectionStateWaitCommandData extends WaitCommandData {
 
 	@Override
 	public String toString() {
-		return "SelectionStateWaitCommand [selected=" + selected + ", selector=" + selector + ", seconds=" + seconds
-				+ ", hasCommandList=" + hasCommandList + ", type=" + commandType + ", id=" + id + "]";
+		return "SelectionStateWaitCommandData [selected=" + selected + ", selector=" + selector + ", seconds=" + seconds
+				+ ", hasCommandList=" + hasCommandList + ", takeScreenshotBefore=" + takeScreenshotBefore
+				+ ", takeScreenshotAfter=" + takeScreenshotAfter + ", commandType=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override
