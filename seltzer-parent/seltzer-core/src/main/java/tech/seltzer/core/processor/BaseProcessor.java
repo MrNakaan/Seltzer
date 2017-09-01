@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 
@@ -28,6 +30,7 @@ import tech.seltzer.objects.command.GoToCommandData;
 import tech.seltzer.objects.command.Selector;
 import tech.seltzer.objects.command.selector.SelectorCommandData;
 import tech.seltzer.objects.command.wait.WaitCommandData;
+import tech.seltzer.objects.exception.SeltzerException;
 import tech.seltzer.objects.response.ChainResponse;
 import tech.seltzer.objects.response.ExceptionResponse;
 import tech.seltzer.objects.response.MultiResultResponse;
@@ -92,6 +95,9 @@ public class BaseProcessor {
 						break;
 					case GO_TO:
 						response = goTo(driver, (GoToCommandData) command);
+						break;
+					case TAKE_SCREENSHOT:
+						response = takeScreenshot(driver, command);
 						break;
 					default:
 						response.setSuccess(false);
@@ -192,6 +198,14 @@ public class BaseProcessor {
 		return response;
 	}
 
+	private static Response takeScreenshot(WebDriver driver, CommandData command) throws WebDriverException, Exception {
+		SingleResultResponse response = new SingleResultResponse(command.getId());
+		
+		response.setResult(getScreenshot(driver));
+		
+		return response;
+	}
+	
 	private static Response exit(WebDriver driver, CommandData command) throws WebDriverException, Exception {
 		Response response = new Response();
 
@@ -273,6 +287,19 @@ public class BaseProcessor {
 		return new Response(command.getId(), true);
 	}
 
+	private static String getScreenshot(WebDriver driver) throws SeltzerException {
+		String image = null;
+		
+		try {
+			TakesScreenshot screenshotDriver = (TakesScreenshot) driver;
+			image = screenshotDriver.getScreenshotAs(OutputType.BASE64);
+		} catch (Exception e) {
+			throw new SeltzerException(e.getMessage(), e.getStackTrace());
+		}
+		
+		return image;
+	}
+	
 	static void sleep(Exception e, int tryNumber) {
 		String message = Messages.getString("BaseProcessor.try");
 		message = MessageFormat.format(message, tryNumber, RETRIES);
