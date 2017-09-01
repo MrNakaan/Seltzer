@@ -1,0 +1,43 @@
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch SEL-21
+# Your branch is ahead of 'origin/SEL-21' by 1 commit.
+#   (use "git push" to publish your local commits)
+#
+# Changes to be committed:
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/CrDataBase.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/ChainCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/CommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/GetCookieCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/GetCookiesCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/selector/FillFieldCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/selector/SelectorCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/selector/SendKeyCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/selector/SendKeysCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/selector/multiresult/MultiResultSelectorCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/selector/multiresult/ReadAttributeCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/wait/CountWaitCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/wait/JavaScriptWaitCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/wait/RefreshedWaitCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/wait/SelectionStateWaitCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/wait/WaitCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/wait/existence/ExistenceWaitCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/wait/existence/NestedExistenceWaitCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/wait/logical/LogicalAndOrWaitCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/wait/logical/LogicalNotWaitCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/wait/textmatch/TextMatchAttributeSelectorWaitCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/wait/textmatch/TextMatchSelectorWaitCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/wait/textmatch/TextMatchWaitCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/wait/visibility/InvisibilityWaitCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/wait/visibility/NestedVisibilityWaitCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/command/wait/visibility/VisibilityWaitCommandData.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/response/ChainResponse.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/response/ExceptionResponse.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/response/MultiResultResponse.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/response/Response.java
+#	modified:   seltzer-parent/seltzer-cr/src/main/java/tech/seltzer/objects/response/SingleResultResponse.java
+#
+SEL-21
+
+Updated toString() on all commands and responses

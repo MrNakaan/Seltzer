@@ -51,6 +51,7 @@ public enum CommandType implements CrType {
 	SEND_KEY(SendKeyCommandData.class),
 	SEND_KEYS(SendKeysCommandData.class),
 	START(CommandData.class),
+	TAKE_SCREENSHOT(CommandData.class),
 	WAIT(WaitCommandData.class),
 	ALERT_PRESENT_WAIT(WaitCommandData.class),
 	AND_WAIT(LogicalAndOrWaitCommandData.class),
