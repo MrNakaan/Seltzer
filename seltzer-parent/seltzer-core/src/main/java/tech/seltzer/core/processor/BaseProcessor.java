@@ -50,7 +50,7 @@ public class BaseProcessor {
 
 	public static Response processCommand(WebDriver driver, CommandData command) {
 		String screenshotBefore = null;
-		if (command.takeScreenshotBefore()) {
+		if (command.takeScreenshotBefore() && !isScreenshotCommand(command)) {
 			screenshotBefore = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
 		}
 		
@@ -109,7 +109,7 @@ public class BaseProcessor {
 						break;
 					}
 					
-					if (command.takeScreenshotBefore()) {
+					if (command.takeScreenshotBefore() && !isScreenshotCommand(command)) {
 						String screenshotAfter = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
 						response.setScreenshotAfter(screenshotAfter);
 					}
@@ -140,6 +140,10 @@ public class BaseProcessor {
 		return response;
 	}
 
+	private static boolean isScreenshotCommand(CommandData command) {
+		return command.getType() == CommandType.SCREENSHOT_ELEMENT || command.getType() == CommandType.SCREENSHOT_PAGE;
+	}
+	
 	static By getBy(Selector selector) {
 		By by;
 
