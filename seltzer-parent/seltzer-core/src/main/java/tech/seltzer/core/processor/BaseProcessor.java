@@ -49,13 +49,19 @@ public class BaseProcessor {
 	private static final int RETRY_WAIT = 8;
 
 	public static Response processCommand(WebDriver driver, CommandData command) {
+		String screenshotBefore = null;
+		if (command.takeScreenshotBefore()) {
+			screenshotBefore = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
+		}
+		
 		if (command.getType() != CommandType.CHAIN) {
 			logger.info(Messages.getString("BaseProcessor.command"));
 			logger.info(gson.toJson(command));
 		}
 
 		Response response = new Response(command.getId(), false);
-
+		response.setScreenshotBefore(screenshotBefore);
+		
 		if (command instanceof SelectorCommandData) {
 			response = SelectorProcessor.processCommand(driver, (SelectorCommandData) command);
 		} else if (command instanceof WaitCommandData) {
@@ -102,6 +108,12 @@ public class BaseProcessor {
 						response.setSuccess(false);
 						break;
 					}
+					
+					if (command.takeScreenshotBefore()) {
+						String screenshotAfter = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
+						response.setScreenshotAfter(screenshotAfter);
+					}
+					
 					break;
 				} catch (WebDriverException | IOException e) {
 					logger.error(e);
