@@ -11,6 +11,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 
@@ -92,6 +94,9 @@ public class BaseProcessor {
 						break;
 					case GO_TO:
 						response = goTo(driver, (GoToCommandData) command);
+						break;
+					case SCREENSHOT_PAGE:
+						response = takeScreenshot(driver, command);
 						break;
 					default:
 						response.setSuccess(false);
@@ -271,6 +276,15 @@ public class BaseProcessor {
 		driver.get(command.getUrl());
 
 		return new Response(command.getId(), true);
+	}
+	
+	private static Response takeScreenshot(WebDriver driver, CommandData command) throws WebDriverException, Exception {
+		String screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
+
+		SingleResultResponse response = new SingleResultResponse(command.getId(), true);
+		response.setResult(screenshot);
+		
+		return response;
 	}
 
 	static void sleep(Exception e, int tryNumber) {
