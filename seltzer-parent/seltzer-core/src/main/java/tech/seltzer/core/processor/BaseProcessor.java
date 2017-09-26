@@ -303,19 +303,6 @@ public class BaseProcessor {
 		
 		return response;
 	}
-
-	private static String getScreenshot(WebDriver driver) throws SeltzerException {
-		String image = null;
-		
-		try {
-			TakesScreenshot screenshotDriver = (TakesScreenshot) driver;
-			image = screenshotDriver.getScreenshotAs(OutputType.BASE64);
-		} catch (Exception e) {
-			throw new SeltzerException(e.getMessage(), e.getStackTrace());
-		}
-		
-		return image;
-	}
 	
 	static void sleep(Exception e, int tryNumber) {
 		String message = Messages.getString("BaseProcessor.try");
