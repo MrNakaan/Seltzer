@@ -50,13 +50,19 @@ public class BaseProcessor {
 	private static final int RETRY_WAIT = 8;
 
 	public static Response processCommand(WebDriver driver, CommandData command) {
+		String screenshotBefore = null;
+		if (command.takeScreenshotBefore() && !isScreenshotCommand(command)) {
+			screenshotBefore = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
+		}
+		
 		if (command.getType() != CommandType.CHAIN) {
 			logger.info(Messages.getString("BaseProcessor.command"));
 			logger.info(gson.toJson(command));
 		}
 
 		Response response = new Response(command.getId(), false);
-
+		response.setScreenshotBefore(screenshotBefore);
+		
 		if (command instanceof SelectorCommandData) {
 			response = SelectorProcessor.processCommand(driver, (SelectorCommandData) command);
 		} else if (command instanceof WaitCommandData) {
@@ -96,13 +102,19 @@ public class BaseProcessor {
 					case GO_TO:
 						response = goTo(driver, (GoToCommandData) command);
 						break;
-					case TAKE_SCREENSHOT:
+					case SCREENSHOT_PAGE:
 						response = takeScreenshot(driver, command);
 						break;
 					default:
 						response.setSuccess(false);
 						break;
 					}
+					
+					if (command.takeScreenshotBefore() && !isScreenshotCommand(command)) {
+						String screenshotAfter = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
+						response.setScreenshotAfter(screenshotAfter);
+					}
+					
 					break;
 				} catch (WebDriverException | IOException e) {
 					logger.error(e);
@@ -129,6 +141,10 @@ public class BaseProcessor {
 		return response;
 	}
 
+	private static boolean isScreenshotCommand(CommandData command) {
+		return command.getType() == CommandType.SCREENSHOT_ELEMENT || command.getType() == CommandType.SCREENSHOT_PAGE;
+	}
+	
 	static By getBy(Selector selector) {
 		By by;
 
@@ -198,14 +214,6 @@ public class BaseProcessor {
 		return response;
 	}
 
-	private static Response takeScreenshot(WebDriver driver, CommandData command) throws WebDriverException, Exception {
-		SingleResultResponse response = new SingleResultResponse(command.getId());
-		
-		response.setResult(getScreenshot(driver));
-		
-		return response;
-	}
-	
 	private static Response exit(WebDriver driver, CommandData command) throws WebDriverException, Exception {
 		Response response = new Response();
 
@@ -285,6 +293,15 @@ public class BaseProcessor {
 		driver.get(command.getUrl());
 
 		return new Response(command.getId(), true);
+	}
+	
+	private static Response takeScreenshot(WebDriver driver, CommandData command) throws WebDriverException, Exception {
+		String screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
+
+		SingleResultResponse response = new SingleResultResponse(command.getId(), true);
+		response.setResult(screenshot);
+		
+		return response;
 	}
 
 	private static String getScreenshot(WebDriver driver) throws SeltzerException {

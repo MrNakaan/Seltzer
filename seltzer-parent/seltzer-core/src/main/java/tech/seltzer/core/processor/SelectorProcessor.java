@@ -6,6 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -58,6 +60,9 @@ public class SelectorProcessor {
 						break;
 					case SEND_KEYS:
 						response = sendKeys(driver, (SendKeysCommandData) command);
+						break;
+					case SCREENSHOT_ELEMENT:
+						response = takeScreenshot(driver, command);
 						break;
 					default:
 						response = new Response(command.getId(), false);
@@ -169,6 +174,18 @@ public class SelectorProcessor {
 		By by = BaseProcessor.getBy(command.getSelector());
 		driver.findElement(by).sendKeys(command.getKeys());
 
+		return response;
+	}
+	
+	private static Response takeScreenshot(WebDriver driver, SelectorCommandData command) throws WebDriverException, Exception {
+		By by = BaseProcessor.getBy(command.getSelector());
+		WebElement element = driver.findElement(by);
+		
+		String screenshot = ((TakesScreenshot) element).getScreenshotAs(OutputType.BASE64);
+
+		SingleResultResponse response = new SingleResultResponse(command.getId(), true);
+		response.setResult(screenshot);
+		
 		return response;
 	}
 }
