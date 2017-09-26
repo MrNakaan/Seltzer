@@ -28,27 +28,6 @@ public class SelectorTest {
 	}
 	
 	@Test
-	public void testHashCode() {
-		int prime = Selector.HASH_PRIME;
-		int baseHash = prime * prime;
-		int hash;
-		String message = "Hash code didn't match!";
-		
-		Selector selector = new Selector(null, null);
-		assertEquals("Hash code should have been " + prime + "^2!", baseHash, selector.hashCode());
-		
-		selector = new Selector();
-		hash = prime * 1 + "".hashCode();
-		hash = prime * hash + SelectorType.NONE.hashCode();
-		assertEquals(message, hash, selector.hashCode());
-		
-		selector = new Selector(SelectorType.XPATH, "foobar");
-		hash = prime * 1 + "foobar".hashCode();
-		hash = prime * hash + SelectorType.XPATH.hashCode();
-		assertEquals(message, hash, selector.hashCode());
-	}
-
-	@Test
 	public void testSetSelector() {
 		String selectorPath = "path";
 		String message = "Selector path should have been set to \"path\"!";
@@ -56,46 +35,6 @@ public class SelectorTest {
 		Selector selector = new Selector();
 		selector.setPath(selectorPath);
 		assertEquals(message, selectorPath, selector.getPath());
-	}
-
-	@Test
-	public void testToString() {
-		String selectorPath = "Unsubscribe";
-		String expectedString = "Selector [selectorType=PARTIAL_LINK_TEXT, selector=Unsubscribe]";
-		String message = "Selector.toString() expected to return \"" + expectedString + "\"!";
-		
-		Selector selector = new Selector(SelectorType.PARTIAL_LINK_TEXT, selectorPath);
-		String value = selector.toString();
-		assertEquals(message, expectedString, value);
-	}
-
-	@SuppressWarnings("unlikely-arg-type")
-	@Test
-	public void testEqualsObject() {
-		Selector baseSelector = new Selector(null, null);
-		Selector otherSelector = new Selector(null, null);
-		
-		assertTrue("Object doesn't equal itself!", baseSelector.equals(baseSelector));
-		assertFalse("Object equals null!", baseSelector.equals(null));
-		assertFalse("Object equals object of a different class!", baseSelector.equals(new String()));
-		
-		assertTrue("Object inequal to equal object", baseSelector.equals(otherSelector));
-		
-		otherSelector.setPath("");
-		assertFalse("Object equals inequal object!", baseSelector.equals(otherSelector));
-		
-		baseSelector.setPath("");
-		otherSelector.setPath(null);
-		assertFalse("Object equals inequal object!", baseSelector.equals(otherSelector));
-		
-		otherSelector.setPath("");
-		assertTrue("Object inequal to equal object", baseSelector.equals(otherSelector));
-		
-		baseSelector.setType(SelectorType.NONE);
-		assertFalse("Object equals inequal object!", baseSelector.equals(otherSelector));
-		
-		otherSelector.setSelector(baseSelector.getType(), baseSelector.getPath());
-		assertTrue("Object inequal to equal object!", baseSelector.equals(otherSelector));
 	}
 
 	@Test

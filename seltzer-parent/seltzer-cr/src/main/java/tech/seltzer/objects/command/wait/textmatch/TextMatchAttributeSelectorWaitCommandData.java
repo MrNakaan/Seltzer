@@ -28,8 +28,10 @@ public class TextMatchAttributeSelectorWaitCommandData extends TextMatchWaitComm
 
 	@Override
 	public String toString() {
-		return "TextMatchAttributeSelectorWaitCommand [selector=" + selector + ", attribute=" + attribute + ", seconds="
-				+ seconds + ", hasCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
+		return "TextMatchAttributeSelectorWaitCommandData [selector=" + selector + ", attribute=" + attribute
+				+ ", seconds=" + seconds + ", hasCommandList=" + hasCommandList + ", takeScreenshotBefore="
+				+ takeScreenshotBefore + ", takeScreenshotAfter=" + takeScreenshotAfter + ", commandType=" + commandType
+				+ ", id=" + id + "]";
 	}
 
 	@Override

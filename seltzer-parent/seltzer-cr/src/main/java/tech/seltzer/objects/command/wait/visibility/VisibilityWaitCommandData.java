@@ -28,8 +28,9 @@ protected Selector selector = new Selector();
 
 	@Override
 	public String toString() {
-		return "VisibilityWaitCommand [selector=" + selector + ", seconds=" + seconds + ", hasCommandList="
-				+ hasCommandList + ", type=" + type + ", id=" + id + "]";
+		return "VisibilityWaitCommandData [selector=" + selector + ", seconds=" + seconds + ", hasCommandList="
+				+ hasCommandList + ", takeScreenshotBefore=" + takeScreenshotBefore + ", takeScreenshotAfter="
+				+ takeScreenshotAfter + ", commandType=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override

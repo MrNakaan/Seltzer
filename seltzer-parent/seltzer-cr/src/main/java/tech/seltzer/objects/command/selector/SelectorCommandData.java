@@ -28,8 +28,9 @@ public class SelectorCommandData extends CommandData {
 	
 	@Override
 	public String toString() {
-		return "SelectorCommand [selector=" + selector + ", usesCommandList=" + hasCommandList + ", type=" + type
-				+ ", id=" + id + "]";
+		return "SelectorCommandData [selector=" + selector + ", hasCommandList=" + hasCommandList
+				+ ", takeScreenshotBefore=" + takeScreenshotBefore + ", takeScreenshotAfter=" + takeScreenshotAfter
+				+ ", commandType=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override

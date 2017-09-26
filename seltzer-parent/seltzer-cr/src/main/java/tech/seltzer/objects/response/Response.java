@@ -8,6 +8,8 @@ import tech.seltzer.objects.CrDataBase;
 public class Response extends CrDataBase {
 	protected boolean success;
 	protected ResponseType type;
+	protected String screenshotBefore = null;
+	protected String screenshotAfter = null;
 	
 	public Response() {
 		super();
@@ -27,7 +29,8 @@ public class Response extends CrDataBase {
 
 	@Override
 	public String toString() {
-		return "Response [id=" + id + ", success=" + success + ", type=" + type + "]";
+		return "Response [success=" + success + ", type=" + type + ", screenshotBefore=" + screenshotBefore
+				+ ", screenshotAfter=" + screenshotAfter + ", id=" + id + "]";
 	}
 
 	@Override
@@ -76,5 +79,21 @@ public class Response extends CrDataBase {
 
 	public void setType(ResponseType type) {
 		this.type = type;
+	}
+
+	public String getScreenshotBefore() {
+		return screenshotBefore;
+	}
+
+	public void setScreenshotBefore(String screenshotBefore) {
+		this.screenshotBefore = screenshotBefore;
+	}
+
+	public String getScreenshotAfter() {
+		return screenshotAfter;
+	}
+
+	public void setScreenshotAfter(String screenshotAfter) {
+		this.screenshotAfter = screenshotAfter;
 	}
 }

@@ -22,8 +22,9 @@ public class TextMatchWaitCommandData extends WaitCommandData {
 
 	@Override
 	public String toString() {
-		return "TextMatchWaitCommand [text=" + text + ", seconds=" + seconds + ", hasCommandList=" + hasCommandList
-				+ ", type=" + type + ", id=" + id + "]";
+		return "TextMatchWaitCommandData [text=" + text + ", seconds=" + seconds + ", hasCommandList=" + hasCommandList
+				+ ", takeScreenshotBefore=" + takeScreenshotBefore + ", takeScreenshotAfter=" + takeScreenshotAfter
+				+ ", commandType=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override

@@ -59,6 +59,9 @@ public class SelectorProcessor {
 					case SEND_KEYS:
 						response = sendKeys(driver, (SendKeysCommandData) command);
 						break;
+//					case SCREENSHOT_ELEMENT:
+//						response = takeScreenshot(driver, command);
+//						break;
 					default:
 						response = new Response(command.getId(), false);
 						break;
@@ -171,4 +174,16 @@ public class SelectorProcessor {
 
 		return response;
 	}
+	
+//	private static Response takeScreenshot(WebDriver driver, SelectorCommandData command) throws WebDriverException, Exception {
+//		By by = BaseProcessor.getBy(command.getSelector());
+//		WebElement element = driver.findElement(by);
+//		
+//		String screenshot = ((TakesScreenshot) element).getScreenshotAs(OutputType.BASE64);
+//
+//		SingleResultResponse response = new SingleResultResponse(command.getId(), true);
+//		response.setResult(screenshot);
+//		
+//		return response;
+//	}
 }

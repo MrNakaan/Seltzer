@@ -24,7 +24,8 @@ public class SingleResultResponse extends Response {
 
 	@Override
 	public String toString() {
-		return "SingleResultResponse [result=" + result + ", id=" + id + ", success=" + success + ", type=" + type
+		return "SingleResultResponse [result=" + result + ", success=" + success + ", type=" + type
+				+ ", screenshotBefore=" + screenshotBefore + ", screenshotAfter=" + screenshotAfter + ", id=" + id
 				+ "]";
 	}
 

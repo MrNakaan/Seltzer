@@ -1,6 +1,7 @@
 ChromeProfile/
 Servers/
 *.class
+seltzer-parent/seltzer-core/config.properties
 
 # Emacs temporary files
 \#*#

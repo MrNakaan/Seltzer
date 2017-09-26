@@ -22,8 +22,9 @@ public class ExceptionResponse extends Response {
 	
 	@Override
 	public String toString() {
-		return "ExceptionResponse [message=" + message + ", stackTrace=" + Arrays.toString(stackTrace) + ", id=" + id
-				+ ", success=" + success + ", type=" + type + "]";
+		return "ExceptionResponse [message=" + message + ", stackTrace=" + Arrays.toString(stackTrace) + ", success="
+				+ success + ", type=" + type + ", screenshotBefore=" + screenshotBefore + ", screenshotAfter="
+				+ screenshotAfter + ", id=" + id + "]";
 	}
 
 	@Override

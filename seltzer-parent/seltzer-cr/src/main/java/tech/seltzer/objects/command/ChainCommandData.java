@@ -36,8 +36,9 @@ public class ChainCommandData<C extends CommandData> extends CommandData impleme
 
 	@Override
 	public String toString() {
-		return "ChainCommand [usesCommandList=" + usesCommandList + ", commands=" + commands + ", type=" + type
-				+ ", id=" + id + "]";
+		return "ChainCommandData [usesCommandList=" + usesCommandList + ", commands=" + commands + ", hasCommandList="
+				+ hasCommandList + ", takeScreenshotBefore=" + takeScreenshotBefore + ", takeScreenshotAfter="
+				+ takeScreenshotAfter + ", commandType=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override

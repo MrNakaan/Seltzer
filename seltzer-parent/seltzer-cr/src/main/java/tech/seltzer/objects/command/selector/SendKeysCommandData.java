@@ -18,7 +18,8 @@ public class SendKeysCommandData extends SelectorCommandData {
 	@Override
 	public String toString() {
 		return "SendKeysCommandData [keys=" + keys + ", selector=" + selector + ", hasCommandList=" + hasCommandList
-				+ ", type=" + type + ", id=" + id + "]";
+				+ ", takeScreenshotBefore=" + takeScreenshotBefore + ", takeScreenshotAfter=" + takeScreenshotAfter
+				+ ", commandType=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override

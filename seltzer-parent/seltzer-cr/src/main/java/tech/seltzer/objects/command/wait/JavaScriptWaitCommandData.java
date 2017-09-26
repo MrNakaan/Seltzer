@@ -21,8 +21,9 @@ public class JavaScriptWaitCommandData extends WaitCommandData {
 
 	@Override
 	public String toString() {
-		return "JavaScriptWaitCommand [javaScript=" + javaScript + ", seconds=" + seconds + ", hasCommandList="
-				+ hasCommandList + ", type=" + type + ", id=" + id + "]";
+		return "JavaScriptWaitCommandData [javaScript=" + javaScript + ", seconds=" + seconds + ", hasCommandList="
+				+ hasCommandList + ", takeScreenshotBefore=" + takeScreenshotBefore + ", takeScreenshotAfter="
+				+ takeScreenshotAfter + ", commandType=" + commandType + ", id=" + id + "]";
 	}
 
 	@Override

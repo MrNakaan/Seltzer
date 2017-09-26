@@ -32,8 +32,10 @@ public class NestedExistenceWaitCommandData extends ExistenceWaitCommandData {
 
 	@Override
 	public String toString() {
-		return "NestedExistenceWaitCommand [childSelector=" + childSelector + ", selector=" + selector + ", seconds="
-				+ seconds + ", hasCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
+		return "NestedExistenceWaitCommandData [childSelector=" + childSelector + ", selector=" + selector
+				+ ", seconds=" + seconds + ", hasCommandList=" + hasCommandList + ", takeScreenshotBefore="
+				+ takeScreenshotBefore + ", takeScreenshotAfter=" + takeScreenshotAfter + ", commandType=" + commandType
+				+ ", id=" + id + "]";
 	}
 
 	@Override

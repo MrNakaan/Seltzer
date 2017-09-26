@@ -28,7 +28,8 @@ public class MultiResultResponse extends Response {
 
 	@Override
 	public String toString() {
-		return "MultiResultResponse [results=" + results + ", id=" + id + ", success=" + success + ", type=" + type
+		return "MultiResultResponse [results=" + results + ", success=" + success + ", type=" + type
+				+ ", screenshotBefore=" + screenshotBefore + ", screenshotAfter=" + screenshotAfter + ", id=" + id
 				+ "]";
 	}
 

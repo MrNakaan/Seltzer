@@ -44,8 +44,10 @@ public final class LogicalAndOrWaitCommandData extends LogicalWaitCommandData im
 
 	@Override
 	public String toString() {
-		return "LogicalAndOrWaitCommand [usesCommandList=" + usesCommandList + ", waitCommands=" + waitCommands
-				+ ", seconds=" + seconds + ", hasCommandList=" + hasCommandList + ", type=" + type + ", id=" + id + "]";
+		return "LogicalAndOrWaitCommandData [usesCommandList=" + usesCommandList + ", waitCommands=" + waitCommands
+				+ ", seconds=" + seconds + ", hasCommandList=" + hasCommandList + ", takeScreenshotBefore="
+				+ takeScreenshotBefore + ", takeScreenshotAfter=" + takeScreenshotAfter + ", commandType=" + commandType
+				+ ", id=" + id + "]";
 	}
 
 	@Override
