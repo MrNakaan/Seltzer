@@ -96,7 +96,7 @@ public class CommandData extends CrDataBase {
 		this.takeScreenshotBefore = takeScreenshotBefore;
 	}
 
-	public boolean isTakeScreenshotAfter() {
+	public boolean takeScreenshotAfter() {
 		return takeScreenshotAfter;
 	}
 

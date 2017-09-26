@@ -30,7 +30,6 @@ import tech.seltzer.objects.command.GoToCommandData;
 import tech.seltzer.objects.command.Selector;
 import tech.seltzer.objects.command.selector.SelectorCommandData;
 import tech.seltzer.objects.command.wait.WaitCommandData;
-import tech.seltzer.objects.exception.SeltzerException;
 import tech.seltzer.objects.response.ChainResponse;
 import tech.seltzer.objects.response.ExceptionResponse;
 import tech.seltzer.objects.response.MultiResultResponse;
@@ -61,7 +60,6 @@ public class BaseProcessor {
 		}
 
 		Response response = new Response(command.getId(), false);
-		response.setScreenshotBefore(screenshotBefore);
 		
 		if (command instanceof SelectorCommandData) {
 			response = SelectorProcessor.processCommand(driver, (SelectorCommandData) command);
@@ -110,7 +108,8 @@ public class BaseProcessor {
 						break;
 					}
 					
-					if (command.takeScreenshotBefore() && !isScreenshotCommand(command)) {
+					response.setScreenshotBefore(screenshotBefore);
+					if (command.takeScreenshotAfter() && !isScreenshotCommand(command)) {
 						String screenshotAfter = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
 						response.setScreenshotAfter(screenshotAfter);
 					}
@@ -142,7 +141,8 @@ public class BaseProcessor {
 	}
 
 	private static boolean isScreenshotCommand(CommandData command) {
-		return command.getType() == CommandType.SCREENSHOT_ELEMENT || command.getType() == CommandType.SCREENSHOT_PAGE;
+//		return command.getType() == CommandType.SCREENSHOT_ELEMENT || command.getType() == CommandType.SCREENSHOT_PAGE;
+		return command.getType() == CommandType.SCREENSHOT_PAGE;
 	}
 	
 	static By getBy(Selector selector) {
