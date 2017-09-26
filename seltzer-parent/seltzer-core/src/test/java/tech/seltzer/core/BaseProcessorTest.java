@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Generated;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
@@ -226,6 +227,32 @@ public class BaseProcessorTest {
 		Matcher matcher = pattern.matcher(value);
 		
 		assertTrue("Does the cookie contain the right value?", matcher.matches());
+	}
+	
+	@Test
+	public void testTakePageScreenshot() throws Exception {
+		CommandData command = new CommandData(CommandType.SCREENSHOT_PAGE, session.getId());
+		SingleResultResponse response = (SingleResultResponse) session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
+		assertTrue("Make sure the result that was returned is not empty.", StringUtils.isNotEmpty(response.getResult()));
+	}
+	
+	@Test
+	public void testBeforeAndAfterScreenshots() throws Exception {
+		CommandData command = new CommandData(CommandType.GET_URL, session.getId());
+		command.setTakeScreenshotBefore(true);
+		command.setTakeScreenshotAfter(true);
+		Response response = session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
+		assertTrue("Make sure the before screenshot that was returned is not empty.", StringUtils.isNotEmpty(response.getScreenshotBefore()));
+		assertTrue("Make sure the after screenshot that was returned is not empty.", StringUtils.isNotEmpty(response.getScreenshotAfter()));
+		assertEquals("Make sure the two screenshots are equal.", response.getScreenshotBefore(), response.getScreenshotAfter());
 	}
 	
 	@Test

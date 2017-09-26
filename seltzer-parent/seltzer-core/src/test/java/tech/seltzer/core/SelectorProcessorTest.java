@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Generated;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
@@ -200,5 +201,17 @@ public class SelectorProcessorTest {
 
 		String inputText = session.getDriver().findElement(By.xpath("//input[1]")).getAttribute("value");
 		assertEquals("Make sure the field has the right value now.", "DUDE, KEYS!", inputText);
+	}
+	
+	@Test
+	public void testTakeElementScreenshot() throws Exception {
+		SelectorCommandData command = new SelectorCommandData(CommandType.SCREENSHOT_ELEMENT, session.getId());
+		command.setSelector("//body", SelectorType.XPATH);
+		SingleResultResponse response = (SingleResultResponse) session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
+		assertTrue("Make sure the result that was returned is not empty.", StringUtils.isNotEmpty(response.getResult()));
 	}
 }
