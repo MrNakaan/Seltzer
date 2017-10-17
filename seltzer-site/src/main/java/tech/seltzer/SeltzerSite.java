@@ -5,6 +5,7 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.util.lang.Bytes;
 
 import tech.seltzer.documentation.Apple;
+import tech.seltzer.documentation.Blackberry;
 import tech.seltzer.documentation.Compilation;
 import tech.seltzer.documentation.Documentation;
 import tech.seltzer.documentation.ModulesQuick;
@@ -54,6 +55,7 @@ public class SeltzerSite extends WebApplication {
 		mountPage("/docs/quick/server", ServerQuick.class);
 		mountPage("/docs/quick/modules", ModulesQuick.class);
 		mountPage("/docs/apple", Apple.class);
+//		mountPage("/docs/blackberry", Blackberry.class);
 	}
 
 	private void mountTests() {
