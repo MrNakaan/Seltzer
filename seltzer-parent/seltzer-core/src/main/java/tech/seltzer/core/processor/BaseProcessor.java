@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -27,6 +28,7 @@ import tech.seltzer.objects.command.CommandData;
 import tech.seltzer.objects.command.GetCookieCommandData;
 import tech.seltzer.objects.command.GetCookiesCommandData;
 import tech.seltzer.objects.command.GoToCommandData;
+import tech.seltzer.objects.command.RunJavascriptCommandData;
 import tech.seltzer.objects.command.Selector;
 import tech.seltzer.objects.command.selector.SelectorCommandData;
 import tech.seltzer.objects.command.wait.WaitCommandData;
@@ -103,6 +105,8 @@ public class BaseProcessor {
 					case SCREENSHOT_PAGE:
 						response = takeScreenshot(driver, command);
 						break;
+					case RUN_JAVASCRIPT:
+						response = runJavascript(driver, (RunJavascriptCommandData) command);
 					default:
 						response.setSuccess(false);
 						break;
@@ -300,6 +304,26 @@ public class BaseProcessor {
 
 		SingleResultResponse response = new SingleResultResponse(command.getId(), true);
 		response.setResult(screenshot);
+		
+		return response;
+	}
+	
+	private static Response runJavascript(WebDriver driver, RunJavascriptCommandData command) {
+		Response response = new Response(command.getId(), true);
+		Response waitResponse;
+
+		if (command.getWaitBefore() != null) {
+			waitResponse = processCommand(driver, command.getWaitBefore());
+			response.setSuccess(response.isSuccess() && waitResponse.isSuccess());
+		}
+		
+		JavascriptExecutor executor = (JavascriptExecutor) driver;
+		executor.executeScript(command.getJavascript());
+		
+		if (command.getWaitAfter() != null) {
+			waitResponse = processCommand(driver, command.getWaitAfter());
+			response.setSuccess(response.isSuccess() && waitResponse.isSuccess());
+		}
 		
 		return response;
 	}
