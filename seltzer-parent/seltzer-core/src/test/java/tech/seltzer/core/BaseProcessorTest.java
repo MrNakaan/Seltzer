@@ -50,8 +50,9 @@ public class BaseProcessorTest {
             throw new IllegalArgumentException("Property seltzer.path not found!");
         }
         	
-        homeUrl = "file:///" + repoPath + "/seltzer-parent/seltzer-core/src/test/resources/testHome.htm";
-        homeUrl = homeUrl.replace(" ", "%20");
+        homeUrl = "http://seltzer.tech/tests";
+//        homeUrl = "file:///" + repoPath + "/seltzer-parent/seltzer-core/src/test/resources/testHome.htm";
+//        homeUrl = homeUrl.replace(" ", "%20");
 	}
 
 	@After
@@ -74,8 +75,8 @@ public class BaseProcessorTest {
 
 	@Test
 	public void testBack() throws Exception {
-//		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
-		session.getDriver().findElement(By.linkText("Page 1")).click();
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Page 1")).click();
 		BaseProcessorTest.dismissModal(session.getDriver());
 		
 		CommandData command = new CommandData(CommandType.BACK, session.getId());
@@ -86,15 +87,15 @@ public class BaseProcessorTest {
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
 		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
 		
-//		response = session.executeCommand(command);
-//		assertTrue("Was the command a success?", response.isSuccess());
-//		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-//		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
+		response = session.executeCommand(command);
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
 		
-//		response = session.executeCommand(command);
-//		assertTrue("Was the command a success?", response.isSuccess());
-//		assertEquals("Make sure IDs match.", session.getId(), response.getId());
-//		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
+		response = session.executeCommand(command);
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
 		
 		assertEquals("Is the URL right?", homeUrl, session.getDriver().getCurrentUrl());
 	}
@@ -105,8 +106,8 @@ public class BaseProcessorTest {
 		CommandData subCommand;
 		
 		subCommand = new SelectorCommandData(CommandType.CLICK, session.getId());
-//		((SelectorCommandData) subCommand).setSelector(new Selector(SelectorType.LINK_TEXT, "Main Tests 1"));
-		((SelectorCommandData) subCommand).setSelector(new Selector(SelectorType.LINK_TEXT, "Page 1"));
+		((SelectorCommandData) subCommand).setSelector(new Selector(SelectorType.LINK_TEXT, "Main Tests 1"));
+//		((SelectorCommandData) subCommand).setSelector(new Selector(SelectorType.LINK_TEXT, "Page 1"));
 		command.addCommand(subCommand);
 		
 		command.addCommand(new CommandData(CommandType.BACK, session.getId()));
@@ -136,8 +137,8 @@ public class BaseProcessorTest {
 
 	@Test
 	public void testForward() throws Exception {
-//		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
-		session.getDriver().findElement(By.linkText("Page 1")).click();
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Page 1")).click();
 		BaseProcessorTest.dismissModal(session.getDriver());
 		session.getDriver().findElement(By.linkText("Test Home")).click();
 		BaseProcessorTest.dismissModal(session.getDriver());
@@ -149,8 +150,8 @@ public class BaseProcessorTest {
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
 		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
-//		assertEquals("Is the URL right?", homeUrl + "main1#!", session.getDriver().getCurrentUrl());
-		assertEquals("Is the URL right?", homeUrl, session.getDriver().getCurrentUrl());
+		assertEquals("Is the URL right?", homeUrl + "/main1#!", session.getDriver().getCurrentUrl());
+//		assertEquals("Is the URL right?", homeUrl, session.getDriver().getCurrentUrl());
 	}
 
 	@Test
@@ -170,11 +171,11 @@ public class BaseProcessorTest {
 
 	@Test
 	public void testGoTo() throws Exception {
-//		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
-		session.getDriver().findElement(By.linkText("Page 1")).click();
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Page 1")).click();
 		BaseProcessorTest.dismissModal(session.getDriver());
-//		assertTrue("Make sure we're not at the test home.", session.getDriver().getTitle().equals("Main Tests 1 | Seltzer"));
-		assertTrue("Make sure we're not at the test home.", session.getDriver().getTitle().equals("Test Page 1"));
+		assertTrue("Make sure we're not at the test home.", session.getDriver().getTitle().equals("Main Tests 1 | Seltzer"));
+//		assertTrue("Make sure we're not at the test home.", session.getDriver().getTitle().equals("Test Page 1"));
 
 		GoToCommandData command = new GoToCommandData(session.getId());
 		command.setUrl(homeUrl);
@@ -261,8 +262,8 @@ public class BaseProcessorTest {
 	}
 	
 	public static void dismissModal(WebDriver driver) throws InterruptedException {
-//		Thread.sleep(1000);
-//		driver.findElement(By.xpath("//div[@class=\"modal-footer\"]/a")).click();
-//		Thread.sleep(1000);
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("//div[@class=\"modal-footer\"]/a")).click();
+		Thread.sleep(1000);
 	}
 }

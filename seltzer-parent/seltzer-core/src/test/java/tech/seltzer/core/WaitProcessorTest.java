@@ -51,8 +51,9 @@ public class WaitProcessorTest {
             throw new IllegalArgumentException("Property seltzer.path not found!");
         }
         	
-		homeUrl = "file:///" + repoPath + "/seltzer-parent/seltzer-core/src/test/resources/testHome.htm";
-		homeUrl = homeUrl.replace(" ", "%20");
+        homeUrl = "http://seltzer.tech/tests";
+//		homeUrl = "file:///" + repoPath + "/seltzer-parent/seltzer-core/src/test/resources/testHome.htm";
+//		homeUrl = homeUrl.replace(" ", "%20");
 	}
 
 	@After
@@ -72,17 +73,17 @@ public class WaitProcessorTest {
 			Assume.assumeNoException(e);
 		}
 		
-//		session.getDriver().findElement(By.linkText("Wait Tests")).click();
-		session.getDriver().findElement(By.linkText("Wait Page")).click();
+		session.getDriver().findElement(By.linkText("Wait Tests")).click();
+//		session.getDriver().findElement(By.linkText("Wait Page")).click();
 		
-//		try {
-//			startTime = System.currentTimeMillis();
-//			Thread.sleep(1000);
-//			session.getDriver().findElement(By.xpath("//div[@class=\"modal-footer\"]/a")).click();
-//		} catch (InterruptedException e) {
-//			Assume.assumeNoException(e);
-//		}
-		startTime = System.currentTimeMillis();
+		try {
+			startTime = System.currentTimeMillis();
+			Thread.sleep(1000);
+			session.getDriver().findElement(By.xpath("//div[@class=\"modal-footer\"]/a")).click();
+		} catch (InterruptedException e) {
+			Assume.assumeNoException(e);
+		}
+//		startTime = System.currentTimeMillis();
 	}
 	
 	@Test
@@ -312,8 +313,8 @@ public class WaitProcessorTest {
 	public void testNotPass() {
 		LogicalNotWaitCommandData wait = new LogicalNotWaitCommandData(10, session.getId());
 		TextMatchWaitCommandData subWait = new TextMatchWaitCommandData(WAIT_SECONDS, CommandType.TITLE_IS_WAIT, session.getId());
-//		subWait.setText("Tests | Seltzer");
-		subWait.setText("Wait Home");
+		subWait.setText("Tests | Seltzer");
+//		subWait.setText("Wait Home");
 		
 		wait.setWaitCommand(subWait);
 		
