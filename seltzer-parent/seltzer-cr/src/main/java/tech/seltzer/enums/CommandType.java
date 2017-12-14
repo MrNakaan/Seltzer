@@ -5,6 +5,7 @@ import tech.seltzer.objects.command.CommandData;
 import tech.seltzer.objects.command.GetCookieCommandData;
 import tech.seltzer.objects.command.GetCookiesCommandData;
 import tech.seltzer.objects.command.GoToCommandData;
+import tech.seltzer.objects.command.RunJavascriptCommandData;
 import tech.seltzer.objects.command.selector.FillFieldCommandData;
 import tech.seltzer.objects.command.selector.SelectorCommandData;
 import tech.seltzer.objects.command.selector.SendKeyCommandData;
@@ -52,6 +53,7 @@ public enum CommandType implements CrType {
 	SEND_KEYS(SendKeysCommandData.class),
 	START(CommandData.class),
 	SCREENSHOT_PAGE(CommandData.class),
+	RUN_JAVASCRIPT(RunJavascriptCommandData.class),
 //	SCREENSHOT_ELEMENT(SelectorCommandData.class),
 	WAIT(WaitCommandData.class),
 	ALERT_PRESENT_WAIT(WaitCommandData.class),
