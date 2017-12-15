@@ -115,16 +115,16 @@ public class SelectorProcessor {
 			String selector = command.getSelector().getPath().replace("\"", "\\\"");
 
 			StringBuilder removeScript = new StringBuilder();
-			removeScript.append(Messages.getString("SelectorProcessor.js1"));
-			removeScript.append(Messages.getString("SelectorProcessor.js2"));
+			removeScript.append(Messages.getString("SelectorProcessor.js.xpath1"));
+			removeScript.append(Messages.getString("SelectorProcessor.js.xpath2"));
 			removeScript.append(selector);
-			removeScript.append(Messages.getString("SelectorProcessor.js3"));
-			removeScript.append(Messages.getString("SelectorProcessor.js4"));
-			removeScript.append(Messages.getString("SelectorProcessor.js5"));
-			removeScript.append(Messages.getString("SelectorProcessor.js6"));
-			removeScript.append(Messages.getString("SelectorProcessor.js7"));
-			removeScript.append(Messages.getString("SelectorProcessor.js8"));
-			removeScript.append(Messages.getString("SelectorProcessor.js7"));
+			removeScript.append(Messages.getString("SelectorProcessor.js.xpath3"));
+			removeScript.append(Messages.getString("SelectorProcessor.js.xpath4"));
+			removeScript.append(Messages.getString("SelectorProcessor.js.xpath5"));
+			removeScript.append(Messages.getString("SelectorProcessor.js.xpath6"));
+			removeScript.append(Messages.getString("SelectorProcessor.js.xpath7"));
+			removeScript.append(Messages.getString("SelectorProcessor.js.xpath8"));
+			removeScript.append(Messages.getString("SelectorProcessor.js.xpath7"));
 
 			JavascriptExecutor executor = (JavascriptExecutor) driver;
 			executor.executeScript(removeScript.toString());
