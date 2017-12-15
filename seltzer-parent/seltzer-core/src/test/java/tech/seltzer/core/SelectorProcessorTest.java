@@ -100,7 +100,7 @@ public class SelectorProcessorTest {
 	}
 
 	@Test
-	public void testDelete() throws Exception {
+	public void testDeleteXpath() throws Exception {
 		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
 //		session.getDriver().findElement(By.linkText("Page 1")).click();
 		BaseProcessorTest.dismissModal(session.getDriver());
@@ -116,7 +116,151 @@ public class SelectorProcessorTest {
 		int numSpanElements = session.getDriver().findElements(By.xpath("//div[@id='count']/span")).size();
 		assertTrue("Are there 0 elements remaining?", numSpanElements == 0);
 	}
+	
+	@Test
+	public void testDeleteClassName() throws Exception {
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Page 1")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
+		
+		SelectorCommandData command = new SelectorCommandData(CommandType.DELETE, session.getId());
+		command.setSelector("container", SelectorType.CLASS_NAME);
+		Response response = session.executeCommand(command);
 
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
+
+		int numSpanElements = session.getDriver().findElements(By.xpath("//div[@class='container']")).size();
+		assertTrue("Are there 0 elements remaining?", numSpanElements == 0);
+	}
+	
+	@Test
+	public void testDeleteCssSelector() throws Exception {
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Page 1")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
+		
+		SelectorCommandData command = new SelectorCommandData(CommandType.DELETE, session.getId());
+		command.setSelector("div>span", SelectorType.CSS_SELECTOR);
+		Response response = session.executeCommand(command);
+
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
+
+		int numSpanElements = session.getDriver().findElements(By.xpath("//div[@id='count']/span")).size();
+		assertTrue("Are there 0 elements remaining?", numSpanElements == 0);
+	}
+	
+	@Test
+	public void testDeleteId() throws Exception {
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Page 1")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
+		
+		SelectorCommandData command = new SelectorCommandData(CommandType.DELETE, session.getId());
+		command.setSelector("read", SelectorType.ID);
+		Response response = session.executeCommand(command);
+
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
+
+		int numSpanElements = session.getDriver().findElements(By.xpath("//div[@id='read']")).size();
+		assertTrue("Are there 0 elements remaining?", numSpanElements == 0);
+	}
+	
+	@Test
+	public void testDeleteLinkText() throws Exception {
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Page 1")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
+		
+		SelectorCommandData command = new SelectorCommandData(CommandType.DELETE, session.getId());
+		command.setSelector("Test Home", SelectorType.LINK_TEXT);
+		Response response = session.executeCommand(command);
+
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
+
+		int numSpanElements = session.getDriver().findElements(By.xpath("//h1/../a")).size();
+		assertTrue("Are there 0 elements remaining?", numSpanElements == 0);
+	}
+	
+	@Test
+	public void testDeleteName() throws Exception {
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Page 1")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
+		
+		SelectorCommandData command = new SelectorCommandData(CommandType.DELETE, session.getId());
+		command.setSelector("deleteName", SelectorType.NAME);
+		Response response = session.executeCommand(command);
+
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
+
+		int numSpanElements = session.getDriver().findElements(By.xpath("//div[@id='delete']/a")).size();
+		assertTrue("Are there 0 elements remaining?", numSpanElements == 0);
+	}
+	
+	@Test
+	public void testDeletePartialLinkText() throws Exception {
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Page 1")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
+		
+		SelectorCommandData command = new SelectorCommandData(CommandType.DELETE, session.getId());
+		command.setSelector("t Hom", SelectorType.PARTIAL_LINK_TEXT);
+		Response response = session.executeCommand(command);
+
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
+
+		int numSpanElements = session.getDriver().findElements(By.xpath("//h1/../a")).size();
+		assertTrue("Are there 0 elements remaining?", numSpanElements == 0);
+	}
+	
+	@Test
+	public void testDeleteTagName() throws Exception {
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Page 1")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
+		
+		SelectorCommandData command = new SelectorCommandData(CommandType.DELETE, session.getId());
+		command.setSelector("h1", SelectorType.TAG_NAME);
+		Response response = session.executeCommand(command);
+
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
+
+		int numSpanElements = session.getDriver().findElements(By.xpath("//h1")).size();
+		assertTrue("Are there 0 elements remaining?", numSpanElements == 0);
+	}
+
+	@Test
+	public void testDeleteNone() throws Exception {
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Page 1")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
+		
+		SelectorCommandData command = new SelectorCommandData(CommandType.DELETE, session.getId());
+		command.setSelector("//div[@id='count']/span", SelectorType.XPATH);
+		Response response = session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.BASIC, response.getType());
+		
+		int numSpanElements = session.getDriver().findElements(By.xpath("//div[@id='count']/span")).size();
+		assertTrue("Are there 0 elements remaining?", numSpanElements == 0);
+	}
+	
 	@Test
 	public void testFillField() throws Exception {
 		session.getDriver().findElement(By.linkText("Main Tests 1")).click();

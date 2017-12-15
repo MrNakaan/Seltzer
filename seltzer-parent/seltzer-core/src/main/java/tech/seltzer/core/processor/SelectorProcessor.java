@@ -12,6 +12,7 @@ import org.openqa.selenium.WebElement;
 
 import tech.seltzer.core.Messages;
 import tech.seltzer.enums.SelectorType;
+import tech.seltzer.objects.command.Selector;
 import tech.seltzer.objects.command.selector.FillFieldCommandData;
 import tech.seltzer.objects.command.selector.SelectorCommandData;
 import tech.seltzer.objects.command.selector.SendKeyCommandData;
@@ -111,25 +112,42 @@ public class SelectorProcessor {
 
 	private static Response delete(WebDriver driver, SelectorCommandData command) {
 		Response response = new Response(command.getId(), false);
-		if (command.getSelector().getType() == SelectorType.XPATH && driver instanceof JavascriptExecutor) {
-			String selector = command.getSelector().getPath().replace("\"", "\\\"");
+		if(driver instanceof JavascriptExecutor) {
+			Selector convertedSelector = convert(command.getSelector());
 
-			StringBuilder removeScript = new StringBuilder();
-			removeScript.append(Messages.getString("SelectorProcessor.js.xpath1"));
-			removeScript.append(Messages.getString("SelectorProcessor.js.xpath2"));
-			removeScript.append(selector);
-			removeScript.append(Messages.getString("SelectorProcessor.js.xpath3"));
-			removeScript.append(Messages.getString("SelectorProcessor.js.xpath4"));
-			removeScript.append(Messages.getString("SelectorProcessor.js.xpath5"));
-			removeScript.append(Messages.getString("SelectorProcessor.js.xpath6"));
-			removeScript.append(Messages.getString("SelectorProcessor.js.xpath7"));
-			removeScript.append(Messages.getString("SelectorProcessor.js.xpath8"));
-			removeScript.append(Messages.getString("SelectorProcessor.js.xpath7"));
-
-			JavascriptExecutor executor = (JavascriptExecutor) driver;
-			executor.executeScript(removeScript.toString());
-
-			response.setSuccess(true);
+			if (convertedSelector.getType() == SelectorType.XPATH) {
+				String selector = convertedSelector.getPath().replace("\"", "\\\"");
+	
+				StringBuilder removeScript = new StringBuilder();
+				removeScript.append(Messages.getString("SelectorProcessor.js.xpath1"));
+				removeScript.append(Messages.getString("SelectorProcessor.js.xpath2"));
+				removeScript.append(selector);
+				removeScript.append(Messages.getString("SelectorProcessor.js.xpath3"));
+				removeScript.append(Messages.getString("SelectorProcessor.js.xpath4"));
+				removeScript.append(Messages.getString("SelectorProcessor.js.xpath5"));
+				removeScript.append(Messages.getString("SelectorProcessor.js.xpath6"));
+				removeScript.append(Messages.getString("SelectorProcessor.js.xpath7"));
+				removeScript.append(Messages.getString("SelectorProcessor.js.xpath8"));
+				removeScript.append(Messages.getString("SelectorProcessor.js.xpath7"));
+	
+				JavascriptExecutor executor = (JavascriptExecutor) driver;
+				executor.executeScript(removeScript.toString());
+	
+				response.setSuccess(true);
+			} else if (convertedSelector.getType() == SelectorType.CSS_SELECTOR) {
+				StringBuilder removeScript = new StringBuilder();
+				removeScript.append(Messages.getString("SelectorProcessor.js.css1"));
+				removeScript.append(convertedSelector.getPath());
+				removeScript.append(Messages.getString("SelectorProcessor.js.css2"));
+				removeScript.append(Messages.getString("SelectorProcessor.js.css3"));
+				removeScript.append(Messages.getString("SelectorProcessor.js.css4"));
+				removeScript.append(Messages.getString("SelectorProcessor.js.css5"));
+	
+				JavascriptExecutor executor = (JavascriptExecutor) driver;
+				executor.executeScript(removeScript.toString());
+	
+				response.setSuccess(true);
+			}
 		}
 
 		return response;
@@ -186,4 +204,65 @@ public class SelectorProcessor {
 //		
 //		return response;
 //	}
+	
+	private static Selector convert(Selector selector) {
+		if (selector.getType() == SelectorType.XPATH || selector.getType() == SelectorType.CSS_SELECTOR) {
+			return selector;
+		} else {
+			switch (selector.getType()) {
+			case TAG_NAME:
+			case ID:
+			case LINK_TEXT:
+			case PARTIAL_LINK_TEXT:
+			case NAME:
+				return convertToXpath(selector);
+			case CLASS_NAME:
+				return convertToCssSelector(selector);
+			default:
+				return new Selector();
+			}
+		}
+	}
+	
+	private static Selector convertToXpath(Selector selector) {
+		Selector convertedSelector = new Selector(SelectorType.XPATH, "");
+		
+		switch (selector.getType()) {
+			case TAG_NAME:
+				convertedSelector.setPath("//" + selector.getPath());
+				break;
+			case ID:
+				convertedSelector.setPath("//*[@id='" + selector.getPath() + "']");
+				break;
+			case LINK_TEXT:
+				convertedSelector.setPath("//a[text()='" + selector.getPath() + "']");
+				break;
+			case PARTIAL_LINK_TEXT:
+				convertedSelector.setPath("//a[contains(text(),'" + selector.getPath() + "')]");
+				break;
+			case NAME:
+				convertedSelector.setPath("//*[@name='" + selector.getPath() + "']");
+				break;
+			default:
+				convertedSelector.setType(SelectorType.NONE);
+				break;
+		}
+		
+		return convertedSelector;
+	}
+	
+	private static Selector convertToCssSelector(Selector selector) {
+		Selector convertedSelector = new Selector(SelectorType.CSS_SELECTOR, "");
+		
+		switch (selector.getType()) {
+			case CLASS_NAME:
+				convertedSelector.setPath("." + selector.getPath());
+				break;
+			default:
+				convertedSelector.setType(SelectorType.NONE);
+				break;
+		}
+		
+		return convertedSelector;
+	}
 }
