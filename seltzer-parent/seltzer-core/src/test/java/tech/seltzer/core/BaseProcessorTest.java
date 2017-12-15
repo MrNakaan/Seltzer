@@ -38,6 +38,7 @@ import tech.seltzer.objects.response.SingleResultResponse;
 
 @Generated(value = "org.junit-tools-1.0.5")
 public class BaseProcessorTest {
+	private static final String SQLITE_MAGIC_STRING = "SQLite format 3";
 	private static SeltzerSession session;
 	private static String homeUrl;
 
@@ -258,7 +259,15 @@ public class BaseProcessorTest {
 	
 	@Test
 	public void testGetCookieFile() {
-		// I'm sorry, I haven't determined the best way to test this yet.
+		CommandData command = new CommandData(CommandType.GET_COOKIE_FILE);
+		Response response = session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
+		
+		String magicString = ((SingleResultResponse) response).getResult().substring(0, 16);
+		assertTrue("Mag sure the file starts with the right magic string", magicString.startsWith(SQLITE_MAGIC_STRING));
 	}
 	
 	public static void dismissModal(WebDriver driver) throws InterruptedException {
