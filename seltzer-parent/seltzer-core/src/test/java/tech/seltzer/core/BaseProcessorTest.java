@@ -6,12 +6,14 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.Generated;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Assume;
@@ -258,16 +260,18 @@ public class BaseProcessorTest {
 	}
 	
 	@Test
-	public void testGetCookieFile() {
-		CommandData command = new CommandData(CommandType.GET_COOKIE_FILE);
+	public void testGetCookieFile() throws UnsupportedEncodingException {
+		session.getDriver().navigate().to("http://www.whatarecookies.com/cookietest.asp");
+		CommandData command = new CommandData(CommandType.GET_COOKIE_FILE, session.getId());
 		Response response = session.executeCommand(command);
 		
 		assertTrue("Was the command a success?", response.isSuccess());
 		assertEquals("Make sure IDs match.", session.getId(), response.getId());
 		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
 		
-		String magicString = ((SingleResultResponse) response).getResult().substring(0, 16);
-		assertTrue("Mag sure the file starts with the right magic string", magicString.startsWith(SQLITE_MAGIC_STRING));
+		String magicString = ((SingleResultResponse) response).getResult();
+		magicString = new String(ArrayUtils.subarray(Base64.getDecoder().decode(magicString), 0, 16));
+		assertTrue("Make sure the file starts with the right magic string", magicString.startsWith(SQLITE_MAGIC_STRING));
 	}
 	
 	public static void dismissModal(WebDriver driver) throws InterruptedException {
