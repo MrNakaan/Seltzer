@@ -261,6 +261,8 @@ public class BaseProcessorTest {
 	
 	@Test
 	public void testGetCookieFile() throws UnsupportedEncodingException {
+		Assume.assumeFalse(SeltzerSession.isHeadless());
+		
 		session.getDriver().navigate().to("http://www.whatarecookies.com/cookietest.asp");
 		CommandData command = new CommandData(CommandType.GET_COOKIE_FILE, session.getId());
 		Response response = session.executeCommand(command);
