@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.Base64;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,6 +17,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -107,6 +109,7 @@ public class BaseProcessor {
 						break;
 					case RUN_JAVASCRIPT:
 						response = runJavascript(driver, (RunJavascriptCommandData) command);
+						break;
 					default:
 						response.setSuccess(false);
 						break;
@@ -309,7 +312,7 @@ public class BaseProcessor {
 	}
 	
 	private static Response runJavascript(WebDriver driver, RunJavascriptCommandData command) {
-		Response response = new Response(command.getId(), true);
+		SingleResultResponse response = new SingleResultResponse(command.getId(), true);
 		Response waitResponse;
 
 		if (command.getWaitBefore() != null) {
@@ -318,7 +321,8 @@ public class BaseProcessor {
 		}
 		
 		JavascriptExecutor executor = (JavascriptExecutor) driver;
-		executor.executeScript(command.getJavascript());
+		Object returnValue = executor.executeScript(command.getJavascript());
+		parseReturnedValue(response, returnValue);
 		
 		if (command.getWaitAfter() != null) {
 			waitResponse = processCommand(driver, command.getWaitAfter());
@@ -338,6 +342,22 @@ public class BaseProcessor {
 			Thread.sleep(RETRY_WAIT * 1000);
 		} catch (InterruptedException e1) {
 			logger.error(Messages.getString("BaseProcessor.interrupted"));
+		}
+	}
+
+	private static void parseReturnedValue(SingleResultResponse response, Object returnValue) {
+		if (returnValue == null) {
+			response.setResult(null);
+		} else if (returnValue instanceof WebElement) {
+			// Coming in Seltzer 2.0
+			response.setResult(null);
+		} else {
+			// As per https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/5154, if a Map is returned it _must_ be case to Map<String, Object> to be worked with.
+			try {
+				response.setResult(new Gson().toJson((Map<Object, Object>) returnValue));
+			} catch (ClassCastException e) {
+				response.setResult(new Gson().toJson(returnValue));
+			}
 		}
 	}
 }

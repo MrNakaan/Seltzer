@@ -57,6 +57,4 @@ public final class GetCookiesCommandData extends CommandData {
 	public void setCookieNames(List<String> cookieNames) {
 		this.cookieNames = cookieNames;
 	}
-	
-	
 }

@@ -1,12 +1,15 @@
 package tech.seltzer.core;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Base64;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,6 +26,8 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import com.google.gson.Gson;
+
 import tech.seltzer.enums.CommandType;
 import tech.seltzer.enums.ResponseType;
 import tech.seltzer.enums.SelectorType;
@@ -31,6 +36,7 @@ import tech.seltzer.objects.command.CommandData;
 import tech.seltzer.objects.command.GetCookieCommandData;
 import tech.seltzer.objects.command.GetCookiesCommandData;
 import tech.seltzer.objects.command.GoToCommandData;
+import tech.seltzer.objects.command.RunJavascriptCommandData;
 import tech.seltzer.objects.command.Selector;
 import tech.seltzer.objects.command.selector.SelectorCommandData;
 import tech.seltzer.objects.response.ChainResponse;
@@ -274,6 +280,127 @@ public class BaseProcessorTest {
 		String magicString = ((SingleResultResponse) response).getResult();
 		magicString = new String(ArrayUtils.subarray(Base64.getDecoder().decode(magicString), 0, 16));
 		assertTrue("Make sure the file starts with the right magic string", magicString.startsWith(SQLITE_MAGIC_STRING));
+	}
+	
+	@Test
+	public void testRunJavascriptNoReturn() {
+		RunJavascriptCommandData command = new RunJavascriptCommandData(session.getId(), "var foo = 2;");
+		Response response = session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
+		
+		assertNull("Is the result null?", ((SingleResultResponse) response).getResult());
+	}
+	
+	@Test
+	public void testRunJavascriptReturnLong() {
+		RunJavascriptCommandData command = new RunJavascriptCommandData(session.getId(), "var foo = 2 + 2; return foo;");
+		Response response = session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
+		
+		assertEquals("Does the result parse to a Long with value 4?", Long.valueOf(4), Long.valueOf(((SingleResultResponse) response).getResult()));
+	}
+	
+	@Test
+	public void testRunJavascriptReturnDouble() {
+		RunJavascriptCommandData command = new RunJavascriptCommandData(session.getId(), "var foo = 2 + 0.5; return foo;");
+		Response response = session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
+		
+		assertEquals("Does the result parse to a Double with value 2.5?", Double.valueOf(2.5), Double.valueOf(((SingleResultResponse) response).getResult()));
+	}
+	
+	@Test
+	public void testRunJavascriptReturnString() {
+		RunJavascriptCommandData command = new RunJavascriptCommandData(session.getId(), "var foo = \"foo\"; var bar = \"bar\"; var Baz = \"Baz\"; return foo + bar + Baz;");
+		Response response = session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
+		
+		assertEquals("Does the result parse to a String with value 'foobarBaz?", "foobarBaz", new Gson().fromJson(((SingleResultResponse) response).getResult(), String.class));
+	}
+	
+	@Test
+	public void testRunJavascriptReturnTrue() {
+		RunJavascriptCommandData command = new RunJavascriptCommandData(session.getId(), "var foo = true; return foo;");
+		Response response = session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
+		
+		assertEquals("Does the result parse to a Boolean with value true?", true, Boolean.valueOf(((SingleResultResponse) response).getResult()));
+	}
+	
+	@Test
+	public void testRunJavascriptReturnFalse() {
+		RunJavascriptCommandData command = new RunJavascriptCommandData(session.getId(), "var foo = false; return foo;");
+		Response response = session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
+		
+		assertEquals("Does the result parse to a Boolean with value false?", false, Boolean.valueOf(((SingleResultResponse) response).getResult()));
+	}
+	
+	@Test
+	public void testRunJavascriptReturnArray() {
+		RunJavascriptCommandData command = new RunJavascriptCommandData(session.getId(), "var foo = [2, 4, 8, \"16\"]; return foo;");
+		Response response = session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
+		
+		assertTrue("Does the result parse to a List?", new Gson().fromJson(((SingleResultResponse) response).getResult(), List.class) instanceof List<?>);
+		List<?> results = new Gson().fromJson(((SingleResultResponse) response).getResult(), List.class);
+		assertEquals("Does the result list have a size of 4?", 4, results.size());
+		assertTrue("Is element 1 a Number?", results.get(0) instanceof Number);
+		assertTrue("Is element 2 a Number?", results.get(1) instanceof Number);
+		assertTrue("Is element 3 a Number?", results.get(2) instanceof Number);
+		assertTrue("Is element 4 a String?", results.get(3) instanceof String);
+		assertEquals("Is element 1 equal to 2?", 2, (long) Double.parseDouble(results.get(0).toString()));
+		assertEquals("Is element 1 equal to 4?", 4, (long) Double.parseDouble(results.get(1).toString()));
+		assertEquals("Is element 1 equal to 8?", 8, (long) Double.parseDouble(results.get(2).toString()));
+		assertEquals("Is element 1 equal to \"16\"?", "16", results.get(3).toString());
+	}
+	
+	// Okay, so, according to my testing, Selenium does not properly return maps...Removing this test pending a fix. Bug filed at https://github.com/SeleniumHQ/selenium/issues/5250
+	//@Test
+	public void testRunJavascriptReturnMap() {
+		RunJavascriptCommandData command = new RunJavascriptCommandData(session.getId(), "var foo = new Map(); foo.set('one', 2); foo.set('two', 4); foo.set('three', 8); foo.set('four', '16'); return foo;");
+		Response response = session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
+		
+		assertTrue("Does the result parse to a List?", new Gson().fromJson(((SingleResultResponse) response).getResult(), Map.class) instanceof Map<?, ?>);
+		Map<?, ?> results = new Gson().fromJson(((SingleResultResponse) response).getResult(), Map.class);
+		assertEquals("Does the result list have a size of 4?", 4, results.size());
+		assertTrue("Is 'one' in the key set?", results.keySet().contains("one"));
+		assertTrue("Is 'two' in the key set?", results.keySet().contains("two"));
+		assertTrue("Is 'three' in the key set?", results.keySet().contains("three"));
+		assertTrue("Is 'four' in the key set?", results.keySet().contains("four"));
+		assertTrue("Is element 1 a Number?", results.get("one") instanceof Number);
+		assertTrue("Is element 2 a Number?", results.get("two") instanceof Number);
+		assertTrue("Is element 3 a Number?", results.get("three") instanceof Number);
+		assertTrue("Is element 4 a String?", results.get("four") instanceof String);
+		assertEquals("Is element 1 equal to 2?", 2, (long) Double.parseDouble(results.get("one").toString()));
+		assertEquals("Is element 1 equal to 4?", 4, (long) Double.parseDouble(results.get("two").toString()));
+		assertEquals("Is element 1 equal to 8?", 8, (long) Double.parseDouble(results.get("three").toString()));
+		assertEquals("Is element 1 equal to \"16\"?", "16", results.get("four").toString());
 	}
 	
 	public static void dismissModal(WebDriver driver) throws InterruptedException {
