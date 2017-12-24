@@ -4,7 +4,7 @@
 
 	<groupId>tech.seltzer</groupId>
 	<artifactId>seltzer-util</artifactId>
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 	<packaging>bundle</packaging>
 
 	<name>Seltzer Utilities</name>
@@ -44,7 +44,7 @@
 		<dependency>
 			<groupId>tech.seltzer</groupId>
 			<artifactId>seltzer-cr</artifactId>
-			<version>1.1.0</version>
+			<version>1.2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
