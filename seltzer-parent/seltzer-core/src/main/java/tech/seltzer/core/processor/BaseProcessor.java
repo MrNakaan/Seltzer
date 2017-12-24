@@ -345,6 +345,7 @@ public class BaseProcessor {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private static void parseReturnedValue(SingleResultResponse response, Object returnValue) {
 		if (returnValue == null) {
 			response.setResult(null);
@@ -354,7 +355,12 @@ public class BaseProcessor {
 		} else {
 			// As per https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/5154, if a Map is returned it _must_ be case to Map<String, Object> to be worked with.
 			try {
-				response.setResult(new Gson().toJson((Map<Object, Object>) returnValue));
+				Map<String, Object> map = (Map<String, Object>) returnValue;
+				if (map.size() > 0) {
+					response.setResult(new Gson().toJson(map));
+				} else {
+					response.setResult(null);
+				}
 			} catch (ClassCastException e) {
 				response.setResult(new Gson().toJson(returnValue));
 			}
