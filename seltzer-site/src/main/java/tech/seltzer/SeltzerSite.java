@@ -55,7 +55,7 @@ public class SeltzerSite extends WebApplication {
 		mountPage("/docs/quick/server", ServerQuick.class);
 		mountPage("/docs/quick/modules", ModulesQuick.class);
 		mountPage("/docs/apple", Apple.class);
-//		mountPage("/docs/blackberry", Blackberry.class);
+		mountPage("/docs/blackberry", Blackberry.class);
 	}
 
 	private void mountTests() {
