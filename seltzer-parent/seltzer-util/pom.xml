@@ -2,12 +2,18 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>tech.seltzer</groupId>
+	<parent>
+		<groupId>tech.seltzer</groupId>
+		<artifactId>seltzer-parent</artifactId>
+		<version>2.0.0</version>
+	</parent>
+
 	<artifactId>seltzer-util</artifactId>
-	<version>1.2.0</version>
 	<packaging>bundle</packaging>
 
 	<name>Seltzer Utilities</name>
+	<url>http://seltzer.tech</url>
+	<description>A Utility project for Seltzer. This project contains utilities such as a send/receive method and a command factory. This project is OSGi compatible.</description>
 
 	<licenses>
 		<license>
@@ -61,7 +67,6 @@
 			<artifactId>commons-validator</artifactId>
 			<version>1.6</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -141,8 +146,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<description>A Utility project for Seltzer. This project contains utilities such as a send/receive method and a command factory.
-
-This project is OSGi compatible.</description>
-	<url>http://seltzer.tech</url>
 </project>

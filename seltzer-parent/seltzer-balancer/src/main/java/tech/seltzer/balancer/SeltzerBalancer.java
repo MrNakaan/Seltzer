@@ -1,0 +1,13 @@
+package tech.seltzer.balancer;
+
+/**
+ * Hello world!
+ *
+ */
+public class SeltzerBalancer 
+{
+    public static void main( String[] args )
+    {
+        System.out.println( "Hello World!" );
+    }
+}
