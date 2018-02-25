@@ -15,7 +15,7 @@
 
 	<name>seltzer-balancer</name>
 	<url>http://seltzer.tech</url>
-	<description>The load balancer project for Seltzer. This project runs as a standalone server that delegates tasks to different seltzer-core servers. This project is OSGi compatible.</description>
+	<description>The load balancer project for Seltzer. This project runs as a standalone server that delegates tasks to different seltzer-core servers, but is also used by seltzer-core for starting up as a balancer. This project is OSGi compatible.</description>
 	
 	<licenses>
 		<license>
