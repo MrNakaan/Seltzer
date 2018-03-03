@@ -6,10 +6,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import tech.seltzer.server.util.AbstractServerSocketListener;
+
 
 public class SeltzerBalancer {
 	private static Logger logger = LogManager.getLogger(SeltzerBalancer.class);
 	private static Thread listenerThread;
+	private static AbstractServerSocketListener listener;
 	
 	public static void main(String[] args) {
 		logger.info(Messages.getString("SeltzerBalancer.starting")); 
@@ -42,14 +45,13 @@ public class SeltzerBalancer {
 				}
 			}
 		}
-		listener = new ServerSocketListener(port, 1);
+		listener = new BalancerServerSocketListener(port, 1);
 		listenerThread = new Thread(listener);
 		listenerThread.start();
 		logger.info(Messages.getString("SeltzerServer.listenerStarted"));
 		
 		try {
 			listenerThread.join();
-			cleanerThread.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

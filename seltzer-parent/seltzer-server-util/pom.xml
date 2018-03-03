@@ -50,6 +50,11 @@
 	
 	<dependencies>
 		<dependency>
+			<groupId>tech.seltzer</groupId>
+			<artifactId>seltzer-cr</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
 			<version>2.7</version>
