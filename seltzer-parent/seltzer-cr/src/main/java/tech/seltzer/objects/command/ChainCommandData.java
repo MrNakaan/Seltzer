@@ -54,6 +54,10 @@ public class ChainCommandData<C extends CommandData> extends CommandData impleme
 		return true;
 	}
 	
+	public boolean removeCommand(int index) {
+		return commands.getCrs().remove(index) != null;
+	}
+	
 	public boolean removeCommand(C command) {
 		if (this.id.equals(command.getId())) {
 			commands.removeCr(command);

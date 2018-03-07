@@ -62,6 +62,10 @@ public final class LogicalAndOrWaitCommandData extends LogicalWaitCommandData im
 		return true;
 	}
 	
+	public boolean removeCommand(int index) {
+		return waitCommands.getCrs().remove(index) != null;
+	}
+
 	public boolean removeCommand(WaitCommandData command) {
 		if (this.id.equals(command.getId())) {
 			waitCommands.removeCr(command);

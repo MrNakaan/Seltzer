@@ -62,6 +62,10 @@ public class ChainResponse<R extends Response> extends Response implements Seria
 		return true;
 	}
 	
+	public boolean removeResponse(int index) {
+		return responses.getCrs().remove(index) != null;
+	}
+	
 	public boolean removeResponse(R response) {
 		if (this.id.equals(response.getId())) {
 			responses.removeCr(response);
