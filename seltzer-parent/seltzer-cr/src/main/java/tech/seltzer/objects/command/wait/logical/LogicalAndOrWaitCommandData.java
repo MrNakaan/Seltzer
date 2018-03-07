@@ -38,8 +38,52 @@ public final class LogicalAndOrWaitCommandData extends LogicalWaitCommandData im
 		waitCommands.deserialize();
 	}
 	
-	public void addCommand(WaitCommandData command) {
-		waitCommands.addCr(command);
+	public boolean addCommand(WaitCommandData command) {
+		if (this.id.equals(command.getId())) {
+			waitCommands.addCr(command);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean addCommand(List<WaitCommandData> commands) {
+		return addCommands(commands);
+	}
+	
+	public boolean addCommands(List<WaitCommandData> commands) {
+		for (WaitCommandData command : commands) {
+			if (!this.id.equals(command.getId())) {
+				return false;
+			}
+		}
+		
+		waitCommands.addCrs(commands);
+		return true;
+	}
+	
+	public boolean removeCommand(WaitCommandData command) {
+		if (this.id.equals(command.getId())) {
+			waitCommands.removeCr(command);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean removeCommand(List<WaitCommandData> commands) {
+		return removeCommands(commands);
+	}
+	
+	public boolean removeCommands(List<WaitCommandData> commands) {
+		for (WaitCommandData command : commands) {
+			if (!this.id.equals(command.getId())) {
+				return false;
+			}
+		}
+		
+		waitCommands.removeCrs(commands);
+		return true;
 	}
 
 	@Override
