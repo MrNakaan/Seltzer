@@ -46,6 +46,47 @@ public class ChainResponse<R extends Response> extends Response implements Seria
 		}
 	}
 	
+	public boolean addResponse(List<R> responses) {
+		return addResponses(responses);
+	}
+	
+	public boolean addResponses(List<R> responses) {
+		// Only allow bulk adding if all responses have the right ID
+		for (R response : responses) {
+			if (!this.id.equals(response.getId())) {
+				return false;
+			}
+		}
+		
+		this.responses.addCrs(responses);
+		return true;
+	}
+	
+	public boolean removeResponse(R response) {
+		if (this.id.equals(response.getId())) {
+			responses.removeCr(response);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean removeResponse(List<R> responses) {
+		return removeResponses(responses);
+	}
+	
+	public boolean removeResponses(List<R> responses) {
+		// Only allow bulk adding if all responses have the right ID
+		for (R response : responses) {
+			if (!this.id.equals(response.getId())) {
+				return false;
+			}
+		}
+		
+		this.responses.removeCrs(responses);
+		return true;
+	}
+	
 	@Override
 	public String toString() {
 		return "ChainResponse [responses=" + responses + ", success=" + success + ", type=" + type

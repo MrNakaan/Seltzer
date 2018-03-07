@@ -105,7 +105,7 @@ public class CrList<C extends CrDataBase> {
 
 	/**
 	 * A method to add a CrDataBase object meant to be called from  
-	 * withing the classes using CrList from a method with a more 
+	 * within the classes using CrList from a method with a more 
 	 * descriptive name.
 	 * @param cr - the object to add
 	 */
@@ -119,11 +119,21 @@ public class CrList<C extends CrDataBase> {
 	
 	/**
 	 * A method to add CrDataBase objects meant to be called from  
-	 * withing the classes using CrList from a method with a more 
+	 * within the classes using CrList from a method with a more 
 	 * descriptive name.
 	 * @param crs - the objects to add
 	 */
-	protected void addCr(List<C> crs) {
+	public void addCr(List<C> crs) {
+		addCrs(crs);
+	}
+	
+	/**
+	 * A method to add CrDataBase objects meant to be called from  
+	 * within the classes using CrList from a method with a more 
+	 * descriptive name.
+	 * @param crs - the objects to add
+	 */
+	public void addCrs(List<C> crs) {
 		if (crs == null) {
 			crs = new ArrayList<>();
 		}
@@ -133,11 +143,11 @@ public class CrList<C extends CrDataBase> {
 	
 	/**
 	 * A method to remove a CrDataBase object meant to be called from  
-	 * withing the classes using CrList from a method with a more 
+	 * within the classes using CrList from a method with a more 
 	 * descriptive name.
 	 * @param cr - the object to remove
 	 */
-	protected void removeCr(C cr) {
+	public void removeCr(C cr) {
 		if (crs == null) {
 			crs = new ArrayList<>();
 		} else {
@@ -147,11 +157,21 @@ public class CrList<C extends CrDataBase> {
 	
 	/**
 	 * A method to remove CrDataBase objects meant to be called from  
-	 * withing the classes using CrList from a method with a more 
+	 * within the classes using CrList from a method with a more 
 	 * descriptive name.
 	 * @param crs - the objects to remove
 	 */
-	protected void removeCr(List<C> crs) {
+	public void removeCr(List<C> crs) {
+		removeCrs(crs);
+	}
+	
+	/**
+	 * A method to remove CrDataBase objects meant to be called from  
+	 * within the classes using CrList from a method with a more 
+	 * descriptive name.
+	 * @param crs - the objects to remove
+	 */
+	public void removeCrs(List<C> crs) {
 		if (crs == null) {
 			crs = new ArrayList<>();
 		} else {
