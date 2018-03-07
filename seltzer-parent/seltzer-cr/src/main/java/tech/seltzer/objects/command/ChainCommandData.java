@@ -30,8 +30,52 @@ public class ChainCommandData<C extends CommandData> extends CommandData impleme
 		commands.deserialize();
 	}
 
-	public void addCommand(C command) {
-		commands.addCr(command);
+	public boolean addCommand(C command) {
+		if (this.id.equals(command.getId())) {
+			commands.addCr(command);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean addCommand(List<C> commands) {
+		return addCommands(commands);
+	}
+	
+	public boolean addCommands(List<C> commands) {
+		for (C command : commands) {
+			if (!this.id.equals(command.getId())) {
+				return false;
+			}
+		}
+
+		this.commands.addCrs(commands);
+		return true;
+	}
+	
+	public boolean removeCommand(C command) {
+		if (this.id.equals(command.getId())) {
+			commands.removeCr(command);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean removeCommand(List<C> commands) {
+		return removeCommands(commands);
+	}
+	
+	public boolean removeCommands(List<C> commands) {
+		for (C command : commands) {
+			if (!this.id.equals(command.getId())) {
+				return false;
+			}
+		}
+
+		this.commands.removeCrs(commands);
+		return true;
 	}
 
 	@Override
