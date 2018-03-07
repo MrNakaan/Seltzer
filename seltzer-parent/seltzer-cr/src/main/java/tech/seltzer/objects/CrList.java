@@ -80,18 +80,6 @@ public class CrList<C extends CrDataBase> {
 	}
 	
 	/**
-	 * Add a new item to this list.
-	 * @param cr - the object to add
-	 */
-	public void addCr(C cr) {
-		if (crs == null) {
-			crs = new ArrayList<>();
-		}
-		
-		crs.add(cr);
-	}
-	
-	/**
 	 * Get the size of this list, ignoring all serialized items.
 	 * @return the total number of deserialized items in this list
 	 */
@@ -115,6 +103,62 @@ public class CrList<C extends CrDataBase> {
 		}
 	}
 
+	/**
+	 * A method to add a CrDataBase object meant to be called from  
+	 * withing the classes using CrList from a method with a more 
+	 * descriptive name.
+	 * @param cr - the object to add
+	 */
+	public void addCr(C cr) {
+		if (crs == null) {
+			crs = new ArrayList<>();
+		}
+		
+		crs.add(cr);
+	}
+	
+	/**
+	 * A method to add CrDataBase objects meant to be called from  
+	 * withing the classes using CrList from a method with a more 
+	 * descriptive name.
+	 * @param crs - the objects to add
+	 */
+	protected void addCr(List<C> crs) {
+		if (crs == null) {
+			crs = new ArrayList<>();
+		}
+		
+		crs.addAll(crs);
+	}
+	
+	/**
+	 * A method to remove a CrDataBase object meant to be called from  
+	 * withing the classes using CrList from a method with a more 
+	 * descriptive name.
+	 * @param cr - the object to remove
+	 */
+	protected void removeCr(C cr) {
+		if (crs == null) {
+			crs = new ArrayList<>();
+		} else {
+			crs.remove(cr);
+		}
+	}
+	
+	/**
+	 * A method to remove CrDataBase objects meant to be called from  
+	 * withing the classes using CrList from a method with a more 
+	 * descriptive name.
+	 * @param crs - the objects to remove
+	 */
+	protected void removeCr(List<C> crs) {
+		if (crs == null) {
+			crs = new ArrayList<>();
+		} else {
+			crs.removeAll(crs);
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return "CommandList [commands=" + crs + ", serializedCommands=" + serializedCrs + "]";

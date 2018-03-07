@@ -45,7 +45,7 @@ public class ChainResponse<R extends Response> extends Response implements Seria
 			return false;
 		}
 	}
-
+	
 	@Override
 	public String toString() {
 		return "ChainResponse [responses=" + responses + ", success=" + success + ", type=" + type
