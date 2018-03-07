@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 public class SeltzerServer {
 	private static Logger logger = LogManager.getLogger(SeltzerServer.class);
 	
-	private static ServerSocketListener listener;
+	private static CoreServerSocketListener listener;
 	private static SessionCleaner cleaner;
 	private static Thread listenerThread;
 	private static Thread cleanerThread;
@@ -48,7 +48,7 @@ public class SeltzerServer {
 				}
 			}
 		}
-		listener = new ServerSocketListener(port, 1);
+		listener = new CoreServerSocketListener(port, 1);
 		listenerThread = new Thread(listener);
 		listenerThread.start();
 		logger.info(Messages.getString("SeltzerServer.listenerStarted")); 

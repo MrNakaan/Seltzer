@@ -14,12 +14,14 @@ import org.apache.logging.log4j.Logger;
 public abstract class AbstractServerSocketListener implements Runnable {
 	private static Logger logger = LogManager.getLogger(AbstractServerSocketListener.class);
 
-	private static ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 8, 3000, TimeUnit.SECONDS,
+	protected static ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 8, 3000, TimeUnit.SECONDS,
 			new LinkedBlockingQueue<Runnable>());
 
-	private int port;
-	private int connections;
-
+	protected int port;
+	protected int connections;
+	protected boolean sslEnabled;
+	protected boolean shutdown = false;
+	
 	/**
 	 * Build a new listener.
 	 * @param port - the port the listener should bind to
@@ -33,5 +35,9 @@ public abstract class AbstractServerSocketListener implements Runnable {
 
 		this.port = port;
 		this.connections = backlog;
+	}
+	
+	public void setShutdown(boolean shutdown) {
+		this.shutdown = shutdown;
 	}
 }
