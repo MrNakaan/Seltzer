@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
@@ -22,6 +24,7 @@ import org.openqa.selenium.WebElement;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import tech.seltzer.core.ConfigManager;
 import tech.seltzer.core.Messages;
 import tech.seltzer.core.SeltzerSession;
 import tech.seltzer.enums.CommandType;
@@ -49,10 +52,26 @@ public class BaseProcessor {
 	private static Logger logger = LogManager.getLogger(BaseProcessor.class);
 	private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
+	private static boolean headless = false;
+	private static boolean headlessLocked = false;
+	private static boolean headlessConfigured = false;
+	
 	static final int RETRIES = 4;
 	private static final int RETRY_WAIT = 8;
+	
+	private static List<CommandType> headlessFilteredCommands = new ArrayList<>();
 
 	public static Response processCommand(WebDriver driver, CommandData command) {
+		if (!headlessConfigured) {
+			configureHeadless();
+		}
+
+		Response response = new Response(command.getId(), false);
+		
+		if (filterHeadless(command)) {
+			return response;
+		}
+		
 		String screenshotBefore = null;
 		if (command.takeScreenshotBefore() && !isScreenshotCommand(command)) {
 			screenshotBefore = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
@@ -62,8 +81,6 @@ public class BaseProcessor {
 			logger.info(Messages.getString("BaseProcessor.command"));
 			logger.info(gson.toJson(command));
 		}
-
-		Response response = new Response(command.getId(), false);
 		
 		if (command instanceof SelectorCommandData) {
 			response = SelectorProcessor.processCommand(driver, (SelectorCommandData) command);
@@ -364,6 +381,33 @@ public class BaseProcessor {
 			} catch (ClassCastException e) {
 				response.setResult(new Gson().toJson(returnValue));
 			}
+		}
+	}
+
+	public static void configureHeadless() {
+		if (headlessFilteredCommands.isEmpty()) {
+			headlessFilteredCommands.add(CommandType.GET_COOKIE_FILE);
+			headlessFilteredCommands.add(CommandType.ALERT_PRESENT_WAIT);
+		}
+		
+		if (!headlessConfigured) {
+			headless = Boolean.valueOf(ConfigManager.getConfigValue("seltzer.headless.enabled"));
+			headlessLocked = Boolean.valueOf(ConfigManager.getConfigValue("seltzer.headless.locked"));
+			headlessConfigured = true;
+		} else if (headlessConfigured && !headlessLocked) {
+			headless = Boolean.valueOf(ConfigManager.getConfigValue("seltzer.headless.enabled"));
+		}
+	}
+	
+	private static boolean filterHeadless(CommandData command) {
+		if (!headlessLocked) {
+			configureHeadless();
+		}
+
+		if (headless) {
+			return headlessFilteredCommands.contains(command.getType());
+		} else {
+			return false;
 		}
 	}
 }
