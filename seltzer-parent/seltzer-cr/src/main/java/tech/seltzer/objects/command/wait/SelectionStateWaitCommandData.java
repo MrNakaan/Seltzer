@@ -51,6 +51,8 @@ public class SelectionStateWaitCommandData extends WaitCommandData {
 		if (getClass() != obj.getClass())
 			return false;
 		SelectionStateWaitCommandData other = (SelectionStateWaitCommandData) obj;
+		if (!super.equals(obj))
+			return false;
 		if (selected == null) {
 			if (other.selected != null)
 				return false;

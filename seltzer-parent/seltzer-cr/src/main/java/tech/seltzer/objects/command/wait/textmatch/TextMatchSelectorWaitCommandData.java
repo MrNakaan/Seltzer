@@ -49,6 +49,8 @@ public class TextMatchSelectorWaitCommandData extends TextMatchWaitCommandData {
 		if (getClass() != obj.getClass())
 			return false;
 		TextMatchSelectorWaitCommandData other = (TextMatchSelectorWaitCommandData) obj;
+		if (!super.equals(obj))
+			return false;
 		if (selector == null) {
 			if (other.selector != null)
 				return false;

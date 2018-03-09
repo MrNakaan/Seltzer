@@ -134,11 +134,11 @@ public class CrList<C extends CrDataBase> {
 	 * @param crs - the objects to add
 	 */
 	public void addCrs(List<C> crs) {
-		if (crs == null) {
-			crs = new ArrayList<>();
+		if (this.crs == null) {
+			this.crs = new ArrayList<>();
 		}
 		
-		crs.addAll(crs);
+		this.crs.addAll(crs);
 	}
 	
 	/**
@@ -152,6 +152,20 @@ public class CrList<C extends CrDataBase> {
 			crs = new ArrayList<>();
 		} else {
 			crs.remove(cr);
+		}
+	}
+	
+	/**
+	 * A method to remove a CrDataBase object meant to be called from  
+	 * within the classes using CrList from a method with a more 
+	 * descriptive name.
+	 * @param cr - the object to remove
+	 */
+	public void removeCr(int index) {
+		if (crs == null) {
+			crs = new ArrayList<>();
+		} else {
+			crs.remove(index);
 		}
 	}
 	
@@ -172,10 +186,10 @@ public class CrList<C extends CrDataBase> {
 	 * @param crs - the objects to remove
 	 */
 	public void removeCrs(List<C> crs) {
-		if (crs == null) {
-			crs = new ArrayList<>();
+		if (this.crs == null) {
+			this.crs = new ArrayList<>();
 		} else {
-			crs.removeAll(crs);
+			this.crs.removeAll(crs);
 		}
 	}
 	

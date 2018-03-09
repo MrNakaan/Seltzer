@@ -102,6 +102,7 @@ public class ChainResponse<R extends Response> extends Response implements Seria
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + super.hashCode();
 		result = prime * result + ((responses == null) ? 0 : responses.hashCode());
 		return result;
 	}
@@ -116,6 +117,8 @@ public class ChainResponse<R extends Response> extends Response implements Seria
 		if (getClass() != obj.getClass())
 			return false;
 		ChainResponse other = (ChainResponse) obj;
+		if (!super.equals(obj))
+			return false;
 		if (responses == null) {
 			if (other.responses != null)
 				return false;

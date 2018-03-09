@@ -37,6 +37,7 @@ public class MultiResultResponse extends Response {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + super.hashCode();
 		result = prime * result + ((results == null) ? 0 : results.hashCode());
 		return result;
 	}
@@ -50,6 +51,8 @@ public class MultiResultResponse extends Response {
 		if (getClass() != obj.getClass())
 			return false;
 		MultiResultResponse other = (MultiResultResponse) obj;
+		if (!super.equals(obj))
+			return false;
 		if (results == null) {
 			if (other.results != null)
 				return false;

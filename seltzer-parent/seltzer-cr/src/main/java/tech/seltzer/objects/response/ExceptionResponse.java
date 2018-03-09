@@ -31,6 +31,7 @@ public class ExceptionResponse extends Response {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + super.hashCode();
 		result = prime * result + ((message == null) ? 0 : message.hashCode());
 		result = prime * result + Arrays.hashCode(stackTrace);
 		return result;
@@ -45,6 +46,8 @@ public class ExceptionResponse extends Response {
 		if (getClass() != obj.getClass())
 			return false;
 		ExceptionResponse other = (ExceptionResponse) obj;
+		if (!super.equals(obj))
+			return false;
 		if (message == null) {
 			if (other.message != null)
 				return false;

@@ -36,7 +36,7 @@ public class Response extends CrDataBase {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + (success ? 1231 : 1237);
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
@@ -52,6 +52,8 @@ public class Response extends CrDataBase {
 		if (getClass() != obj.getClass())
 			return false;
 		Response other = (Response) obj;
+		if (!super.equals(obj))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;

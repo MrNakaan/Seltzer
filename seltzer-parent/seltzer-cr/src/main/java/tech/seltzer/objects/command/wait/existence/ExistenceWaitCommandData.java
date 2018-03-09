@@ -50,6 +50,8 @@ public class ExistenceWaitCommandData extends WaitCommandData {
 		if (getClass() != obj.getClass())
 			return false;
 		ExistenceWaitCommandData other = (ExistenceWaitCommandData) obj;
+		if (!super.equals(obj))
+			return false;
 		if (selector == null) {
 			if (other.selector != null)
 				return false;

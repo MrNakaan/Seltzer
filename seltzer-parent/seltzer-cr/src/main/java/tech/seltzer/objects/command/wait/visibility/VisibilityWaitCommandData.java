@@ -50,6 +50,8 @@ protected Selector selector = new Selector();
 		if (getClass() != obj.getClass())
 			return false;
 		VisibilityWaitCommandData other = (VisibilityWaitCommandData) obj;
+		if (!super.equals(obj))
+			return false;
 		if (selector == null) {
 			if (other.selector != null)
 				return false;

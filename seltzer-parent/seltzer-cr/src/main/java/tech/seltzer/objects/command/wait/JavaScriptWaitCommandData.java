@@ -43,6 +43,8 @@ public class JavaScriptWaitCommandData extends WaitCommandData {
 		if (getClass() != obj.getClass())
 			return false;
 		JavaScriptWaitCommandData other = (JavaScriptWaitCommandData) obj;
+		if (!super.equals(obj))
+			return false;
 		if (javaScript == null) {
 			if (other.javaScript != null)
 				return false;

@@ -44,6 +44,8 @@ public final class GoToCommandData extends CommandData {
 		if (getClass() != obj.getClass())
 			return false;
 		GoToCommandData other = (GoToCommandData) obj;
+		if (!super.equals(obj))
+			return false;
 		if (url == null) {
 			if (other.url != null)
 				return false;

@@ -46,7 +46,7 @@ public class CommandData extends CrDataBase {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((commandType == null) ? 0 : commandType.hashCode());
 		result = prime * result + (hasCommandList ? 1231 : 1237);
 		result = prime * result + (takeScreenshotAfter ? 1231 : 1237);
@@ -63,6 +63,8 @@ public class CommandData extends CrDataBase {
 		if (getClass() != obj.getClass())
 			return false;
 		CommandData other = (CommandData) obj;
+		if (!super.equals(obj))
+			return false;
 		if (commandType != other.commandType)
 			return false;
 		if (hasCommandList != other.hasCommandList)

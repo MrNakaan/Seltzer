@@ -33,6 +33,7 @@ public class SingleResultResponse extends Response {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + super.hashCode();
 		result = prime * result + ((this.result == null) ? 0 : this.result.hashCode());
 		return result;
 	}
@@ -46,6 +47,8 @@ public class SingleResultResponse extends Response {
 		if (getClass() != obj.getClass())
 			return false;
 		SingleResultResponse other = (SingleResultResponse) obj;
+		if (!super.equals(obj))
+			return false;
 		if (result == null) {
 			if (other.result != null)
 				return false;

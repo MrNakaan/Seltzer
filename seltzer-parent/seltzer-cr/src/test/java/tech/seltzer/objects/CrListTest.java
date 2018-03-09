@@ -76,7 +76,69 @@ public class CrListTest {
 		list.addCr(new CommandData());
 		assertEquals("Commands should contain 8 elements!", 8, list.getSize());	
 	}
+	
+	@Test
+	public void testAddCommands() {
+		CrList<CommandData> list = new CrList<>();
+		assertEquals("Commands should be empty on creation!", 0, list.getSize());
+		
+		List<CommandData> tmpList = new ArrayList<>(7);
+		
+		tmpList.add(new CommandData());
+		list.addCr(tmpList);
+		assertEquals("Commands should contain a single element!", 1, list.getSize());
+		
+		tmpList.clear();
+		tmpList.add(new CommandData());
+		tmpList.add(new CommandData());
+		tmpList.add(new CommandData());
+		tmpList.add(new CommandData());
+		tmpList.add(new CommandData());
+		tmpList.add(new CommandData());
+		tmpList.add(new CommandData());
+		list.addCrs(tmpList);
+		assertEquals("Commands should contain 8 elements!", 8, list.getSize());	
+	}
 
+	@Test
+	public void testRemoveCommand() {
+		CrList<CommandData> list = new CrList<>();
+		assertEquals("Commands should be empty on creation!", 0, list.getSize());
+		
+		List<CommandData> tmpList = new ArrayList<>(4);
+
+		tmpList.add(new CommandData(CommandType.GET_URL, UUID.fromString("00000001-0001-0001-0001-000000000001")));
+		tmpList.add(new CommandData(CommandType.GET_URL, UUID.fromString("00000002-0002-0002-0002-000000000002")));
+		list.addCrs(tmpList);
+		assertEquals("Commands should contain 2 elements!", 2, list.getSize());
+		list.removeCr(1);
+		assertEquals("Commands should contain a single element!", 1, list.getSize());
+		list.removeCr(tmpList.get(0));
+		assertEquals("Commands should contain no elements!", 0, list.getSize());
+	}
+	
+	@Test
+	public void testRemoveCommands() {
+		CrList<CommandData> list = new CrList<>();
+		assertEquals("Commands should be empty on creation!", 0, list.getSize());
+		
+		List<CommandData> tmpList = new ArrayList<>(4);
+
+		tmpList.add(new CommandData(CommandType.GET_URL, UUID.fromString("00000001-0001-0001-0001-000000000001")));
+		tmpList.add(new CommandData(CommandType.GET_URL, UUID.fromString("00000002-0002-0002-0002-000000000002")));
+		tmpList.add(new CommandData(CommandType.GET_URL, UUID.fromString("00000003-0003-0003-0003-000000000003")));
+		tmpList.add(new CommandData(CommandType.GET_URL, UUID.fromString("00000004-0004-0004-0004-000000000004")));
+		list.addCrs(tmpList);
+		assertEquals("Commands should contain 4 elements!", 4, list.getSize());
+		
+		list.removeCr(tmpList);
+		assertEquals("Commands should contain no elements!", 0, list.getSize());
+		
+		list.addCrs(tmpList);
+		list.removeCrs(tmpList.subList(0, 2));
+		assertEquals("Commands should contain 2 elements!", 2, list.getSize());
+	}
+	
 	@Test
 	public void testGetSize() {
 		CrList<CommandData> list = new CrList<>();

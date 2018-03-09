@@ -52,6 +52,8 @@ public class TextMatchAttributeSelectorWaitCommandData extends TextMatchWaitComm
 		if (getClass() != obj.getClass())
 			return false;
 		TextMatchAttributeSelectorWaitCommandData other = (TextMatchAttributeSelectorWaitCommandData) obj;
+		if (!super.equals(obj))
+			return false;
 		if (attribute == null) {
 			if (other.attribute != null)
 				return false;
