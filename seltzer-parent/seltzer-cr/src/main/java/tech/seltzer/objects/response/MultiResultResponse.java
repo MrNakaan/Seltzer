@@ -51,8 +51,6 @@ public class MultiResultResponse extends Response {
 		if (getClass() != obj.getClass())
 			return false;
 		MultiResultResponse other = (MultiResultResponse) obj;
-		if (!super.equals(obj))
-			return false;
 		if (results == null) {
 			if (other.results != null)
 				return false;

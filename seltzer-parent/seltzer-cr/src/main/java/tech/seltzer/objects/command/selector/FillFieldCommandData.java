@@ -39,8 +39,6 @@ public final class FillFieldCommandData extends SelectorCommandData {
 		if (getClass() != obj.getClass())
 			return false;
 		FillFieldCommandData other = (FillFieldCommandData) obj;
-		if (!super.equals(obj))
-			return false;
 		if (text == null) {
 			if (other.text != null)
 				return false;

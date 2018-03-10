@@ -117,8 +117,6 @@ public class ChainResponse<R extends Response> extends Response implements Seria
 		if (getClass() != obj.getClass())
 			return false;
 		ChainResponse other = (ChainResponse) obj;
-		if (!super.equals(obj))
-			return false;
 		if (responses == null) {
 			if (other.responses != null)
 				return false;

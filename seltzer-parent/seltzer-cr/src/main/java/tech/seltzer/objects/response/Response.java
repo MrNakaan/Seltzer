@@ -10,6 +10,7 @@ public class Response extends CrDataBase {
 	protected ResponseType type;
 	protected String screenshotBefore = null;
 	protected String screenshotAfter = null;
+	protected String message = "";
 	
 	public Response() {
 		super();
@@ -37,7 +38,9 @@ public class Response extends CrDataBase {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((message == null) ? 0 : message.hashCode());
+		result = prime * result + ((screenshotAfter == null) ? 0 : screenshotAfter.hashCode());
+		result = prime * result + ((screenshotBefore == null) ? 0 : screenshotBefore.hashCode());
 		result = prime * result + (success ? 1231 : 1237);
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
@@ -47,17 +50,25 @@ public class Response extends CrDataBase {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Response other = (Response) obj;
-		if (!super.equals(obj))
-			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (message == null) {
+			if (other.message != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!message.equals(other.message))
+			return false;
+		if (screenshotAfter == null) {
+			if (other.screenshotAfter != null)
+				return false;
+		} else if (!screenshotAfter.equals(other.screenshotAfter))
+			return false;
+		if (screenshotBefore == null) {
+			if (other.screenshotBefore != null)
+				return false;
+		} else if (!screenshotBefore.equals(other.screenshotBefore))
 			return false;
 		if (success != other.success)
 			return false;
@@ -97,5 +108,13 @@ public class Response extends CrDataBase {
 
 	public void setScreenshotAfter(String screenshotAfter) {
 		this.screenshotAfter = screenshotAfter;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
 	}
 }

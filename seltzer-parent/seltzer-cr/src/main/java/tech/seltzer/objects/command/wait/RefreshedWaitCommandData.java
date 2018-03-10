@@ -39,8 +39,6 @@ WaitCommandData waitCommand;
 		if (getClass() != obj.getClass())
 			return false;
 		RefreshedWaitCommandData other = (RefreshedWaitCommandData) obj;
-		if (!super.equals(obj))
-			return false;
 		if (waitCommand == null) {
 			if (other.waitCommand != null)
 				return false;

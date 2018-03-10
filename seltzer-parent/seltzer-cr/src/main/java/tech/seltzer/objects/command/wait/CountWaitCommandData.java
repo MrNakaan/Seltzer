@@ -51,8 +51,6 @@ public class CountWaitCommandData extends WaitCommandData {
 		if (getClass() != obj.getClass())
 			return false;
 		CountWaitCommandData other = (CountWaitCommandData) obj;
-		if (!super.equals(obj))
-			return false;
 		if (bound == null) {
 			if (other.bound != null)
 				return false;

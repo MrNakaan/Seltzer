@@ -116,8 +116,6 @@ public final class LogicalAndOrWaitCommandData extends LogicalWaitCommandData im
 		if (getClass() != obj.getClass())
 			return false;
 		LogicalAndOrWaitCommandData other = (LogicalAndOrWaitCommandData) obj;
-		if (!super.equals(obj))
-			return false;
 		if (usesCommandList != other.usesCommandList)
 			return false;
 		if (waitCommands == null) {

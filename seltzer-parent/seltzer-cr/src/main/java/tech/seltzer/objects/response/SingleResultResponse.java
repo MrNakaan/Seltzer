@@ -47,8 +47,6 @@ public class SingleResultResponse extends Response {
 		if (getClass() != obj.getClass())
 			return false;
 		SingleResultResponse other = (SingleResultResponse) obj;
-		if (!super.equals(obj))
-			return false;
 		if (result == null) {
 			if (other.result != null)
 				return false;

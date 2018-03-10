@@ -55,8 +55,6 @@ public class NestedVisibilityWaitCommandData extends VisibilityWaitCommandData {
 		if (getClass() != obj.getClass())
 			return false;
 		NestedVisibilityWaitCommandData other = (NestedVisibilityWaitCommandData) obj;
-		if (!super.equals(obj))
-			return false;
 		if (childSelector == null) {
 			if (other.childSelector != null)
 				return false;

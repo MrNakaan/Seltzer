@@ -40,8 +40,6 @@ public final class LogicalNotWaitCommandData extends LogicalWaitCommandData {
 		if (getClass() != obj.getClass())
 			return false;
 		LogicalNotWaitCommandData other = (LogicalNotWaitCommandData) obj;
-		if (!super.equals(obj))
-			return false;
 		if (waitCommand == null) {
 			if (other.waitCommand != null)
 				return false;

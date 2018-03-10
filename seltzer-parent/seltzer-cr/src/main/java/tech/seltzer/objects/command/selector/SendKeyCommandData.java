@@ -40,8 +40,6 @@ public class SendKeyCommandData extends SelectorCommandData {
 		if (getClass() != obj.getClass())
 			return false;
 		SendKeyCommandData other = (SendKeyCommandData) obj;
-		if (!super.equals(obj))
-			return false;
 		if (key != other.key)
 			return false;
 		return true;

@@ -44,8 +44,6 @@ public class MultiResultSelectorCommandData extends SelectorCommandData {
 		if (getClass() != obj.getClass())
 			return false;
 		MultiResultSelectorCommandData other = (MultiResultSelectorCommandData) obj;
-		if (!super.equals(obj))
-			return false;
 		if (maxResults != other.maxResults)
 			return false;
 		return true;

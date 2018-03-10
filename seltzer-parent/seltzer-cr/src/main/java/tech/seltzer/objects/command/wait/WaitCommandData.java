@@ -47,8 +47,6 @@ public class WaitCommandData extends CommandData {
 		if (getClass() != obj.getClass())
 			return false;
 		WaitCommandData other = (WaitCommandData) obj;
-		if (!super.equals(obj))
-			return false;
 		if (seconds == null) {
 			if (other.seconds != null)
 				return false;

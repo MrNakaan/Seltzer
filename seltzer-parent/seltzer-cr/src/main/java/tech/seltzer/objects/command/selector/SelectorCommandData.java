@@ -50,8 +50,6 @@ public class SelectorCommandData extends CommandData {
 		if (getClass() != obj.getClass())
 			return false;
 		SelectorCommandData other = (SelectorCommandData) obj;
-		if (!super.equals(obj))
-			return false;
 		if (selector == null) {
 			if (other.selector != null)
 				return false;

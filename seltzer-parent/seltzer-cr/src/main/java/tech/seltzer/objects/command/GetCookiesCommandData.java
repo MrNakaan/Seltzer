@@ -42,8 +42,6 @@ public final class GetCookiesCommandData extends CommandData {
 		if (getClass() != obj.getClass())
 			return false;
 		GetCookiesCommandData other = (GetCookiesCommandData) obj;
-		if (!super.equals(obj))
-			return false;
 		if (cookieNames == null) {
 			if (other.cookieNames != null)
 				return false;

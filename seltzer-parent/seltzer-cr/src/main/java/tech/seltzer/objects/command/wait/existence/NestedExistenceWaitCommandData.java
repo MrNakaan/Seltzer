@@ -55,8 +55,6 @@ public class NestedExistenceWaitCommandData extends ExistenceWaitCommandData {
 		if (getClass() != obj.getClass())
 			return false;
 		NestedExistenceWaitCommandData other = (NestedExistenceWaitCommandData) obj;
-		if (!super.equals(obj))
-			return false;
 		if (childSelector == null) {
 			if (other.childSelector != null)
 				return false;

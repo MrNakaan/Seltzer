@@ -39,8 +39,6 @@ public final class ReadAttributeCommandData extends MultiResultSelectorCommandDa
 		if (getClass() != obj.getClass())
 			return false;
 		ReadAttributeCommandData other = (ReadAttributeCommandData) obj;
-		if (!super.equals(obj))
-			return false;
 		if (attribute == null) {
 			if (other.attribute != null)
 				return false;

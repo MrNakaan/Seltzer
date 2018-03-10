@@ -108,8 +108,6 @@ public class ChainCommandData<C extends CommandData> extends CommandData impleme
 		if (getClass() != obj.getClass())
 			return false;
 		ChainCommandData other = (ChainCommandData) obj;
-		if (!super.equals(obj))
-			return false;
 		if (usesCommandList != other.usesCommandList)
 			return false;
 		if (commands == null) {

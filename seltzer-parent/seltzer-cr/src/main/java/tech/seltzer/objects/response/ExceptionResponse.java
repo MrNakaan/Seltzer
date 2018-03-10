@@ -46,8 +46,6 @@ public class ExceptionResponse extends Response {
 		if (getClass() != obj.getClass())
 			return false;
 		ExceptionResponse other = (ExceptionResponse) obj;
-		if (!super.equals(obj))
-			return false;
 		if (message == null) {
 			if (other.message != null)
 				return false;

@@ -63,8 +63,6 @@ public class RunJavascriptCommandData extends CommandData {
 		if (getClass() != obj.getClass())
 			return false;
 		RunJavascriptCommandData other = (RunJavascriptCommandData) obj;
-		if (!super.equals(obj))
-			return false;
 		if (arguments == null) {
 			if (other.arguments != null)
 				return false;

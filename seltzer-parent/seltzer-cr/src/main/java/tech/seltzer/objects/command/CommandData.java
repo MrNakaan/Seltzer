@@ -58,13 +58,13 @@ public class CommandData extends CrDataBase {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
+		if (!super.equals(obj))
+			return false;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		CommandData other = (CommandData) obj;
-		if (!super.equals(obj))
-			return false;
 		if (commandType != other.commandType)
 			return false;
 		if (hasCommandList != other.hasCommandList)
