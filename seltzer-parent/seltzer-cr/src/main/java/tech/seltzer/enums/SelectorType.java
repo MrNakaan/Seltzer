@@ -7,6 +7,7 @@ public enum SelectorType {
 	CLASS_NAME,
 	CSS_SELECTOR,
 	ID,
+	INDEX,
 	LINK_TEXT,
 	NAME,
 	PARTIAL_LINK_TEXT,
