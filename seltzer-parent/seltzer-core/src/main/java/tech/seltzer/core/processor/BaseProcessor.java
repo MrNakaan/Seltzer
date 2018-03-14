@@ -28,6 +28,7 @@ import tech.seltzer.core.ConfigManager;
 import tech.seltzer.core.Messages;
 import tech.seltzer.core.SeltzerSession;
 import tech.seltzer.enums.CommandType;
+import tech.seltzer.enums.SelectorType;
 import tech.seltzer.objects.command.ChainCommandData;
 import tech.seltzer.objects.command.CommandData;
 import tech.seltzer.objects.command.GetCookieCommandData;
@@ -202,6 +203,17 @@ public class BaseProcessor {
 		}
 
 		return by;
+	}
+	
+	static List<WebElement> getElements(CommandData command, Selector selector) {
+		SeltzerSession session = SeltzerSession.findSession(command.getId());
+		if (selector.getType() == SelectorType.INDEX) {
+			Integer index = Integer.valueOf(selector.getPath());
+			return session.getCachedSelection(index);
+		} else {
+			By by = getBy(selector);
+			return session.getDriver().findElements(by);
+		}
 	}
 
 	static ChainResponse<?> processChain(WebDriver driver, ChainCommandData<?> command) throws WebDriverException, Exception {

@@ -7,12 +7,16 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import tech.seltzer.core.Messages;
+import tech.seltzer.core.SeltzerSession;
 import tech.seltzer.enums.CommandType;
+import tech.seltzer.enums.SelectorType;
+import tech.seltzer.objects.command.Selector;
 import tech.seltzer.objects.command.wait.CountWaitCommandData;
 import tech.seltzer.objects.command.wait.JavaScriptWaitCommandData;
 import tech.seltzer.objects.command.wait.RefreshedWaitCommandData;
@@ -449,9 +453,9 @@ class WaitProcessor {
 	}
 
 	private static ExpectedCondition<?> elementClickable(WebDriver driver, ExistenceWaitCommandData command) {
-		By by = BaseProcessor.getBy(command.getSelector());
+		WebElement element = BaseProcessor.getElements(command, command.getSelector()).get(0);
 
-		return ExpectedConditions.elementToBeClickable(by);
+		return ExpectedConditions.elementToBeClickable(element);
 	}
 
 	private static ExpectedCondition<?> elementSelectionState(WebDriver driver, SelectionStateWaitCommandData command) {
@@ -489,22 +493,22 @@ class WaitProcessor {
 
 	private static ExpectedCondition<?> attributeContains(WebDriver driver,
 			TextMatchAttributeSelectorWaitCommandData command) {
-		By by = BaseProcessor.getBy(command.getSelector());
+		WebElement element = BaseProcessor.getElements(command, command.getSelector()).get(0);
 
-		return ExpectedConditions.attributeContains(by, command.getAttribute(), command.getText());
+		return ExpectedConditions.attributeContains(element, command.getAttribute(), command.getText());
 	}
 
 	private static ExpectedCondition<?> attributeIs(WebDriver driver, TextMatchAttributeSelectorWaitCommandData command) {
-		By by = BaseProcessor.getBy(command.getSelector());
+		WebElement element = BaseProcessor.getElements(command, command.getSelector()).get(0);
 
-		return ExpectedConditions.attributeToBe(by, command.getAttribute(), command.getText());
+		return ExpectedConditions.attributeToBe(element, command.getAttribute(), command.getText());
 	}
 
 	private static ExpectedCondition<?> attributeIsNotEmpty(WebDriver driver,
 			TextMatchAttributeSelectorWaitCommandData command) {
-		By by = BaseProcessor.getBy(command.getSelector());
+		WebElement element = BaseProcessor.getElements(command, command.getSelector()).get(0);
 
-		return ExpectedConditions.attributeToBeNotEmpty(driver.findElement(by), command.getAttribute());
+		return ExpectedConditions.attributeToBeNotEmpty(element, command.getAttribute());
 	}
 
 	private static ExpectedCondition<?> javascriptReturns(WebDriver driver, JavaScriptWaitCommandData command) {
@@ -516,7 +520,13 @@ class WaitProcessor {
 	}
 
 	private static ExpectedCondition<?> elementCount(WebDriver driver, CountWaitCommandData command) {
-		By by = BaseProcessor.getBy(command.getSelector());
+		Selector selector = command.getSelector();
+		if (selector.getType() == SelectorType.INDEX) {
+			SeltzerSession session = SeltzerSession.findSession(command.getId());
+			int index = Integer.valueOf(selector.getPath());
+			selector = session.getCachedSelectionSelector(index);
+		}
+		By by = BaseProcessor.getBy(selector);
 
 		return ExpectedConditions.numberOfElementsToBe(by, command.getBound());
 	}

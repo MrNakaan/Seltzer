@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -19,6 +20,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import tech.seltzer.core.processor.BaseProcessor;
 import tech.seltzer.enums.CacheClearStrategy;
 import tech.seltzer.objects.command.CommandData;
+import tech.seltzer.objects.command.Selector;
 import tech.seltzer.objects.response.Response;
 
 /**
@@ -35,16 +37,16 @@ public class SeltzerSession implements Closeable {
 	
 	private static boolean headless = false;
 	private static boolean headlessLocked = false;
-	private static boolean webElementCacheEnabled = false;
-	private static int webElementCacheSize = 0;
-	private static CacheClearStrategy webElementCacheClearStrategy = CacheClearStrategy.LEAST_RECENTLY_USED;
+	private static boolean selectionCacheEnabled = false;
+	private static int selectionCacheSize = -2;
+	private static CacheClearStrategy selectionCacheClearStrategy = CacheClearStrategy.LEAST_RECENTLY_USED;
 	
 	private UUID id = null;
 	private WebDriver driver = null;
 	private long startedTime = 0;
 	private long lastUsed = 0;
 	private Path dataDir;
-	private List<CachedWebElement> cachedWebElements = null;
+	private List<CachedSelection> cachedSelections = null;
 	
 	public SeltzerSession() {
 		start();
@@ -117,8 +119,12 @@ public class SeltzerSession implements Closeable {
 	 * </ul>
 	 */
 	public void start() {
-		if (Boolean.valueOf(ConfigManager.getConfigValue("session.cache.webelement.enabled"))) {
-			
+		if (Boolean.valueOf(ConfigManager.getConfigValue("session.cache.selection.enabled"))) {
+			if (selectionCacheSize < -1) {
+				selectionCacheSize = Integer.valueOf(ConfigManager.getConfigValue("session.cache.selection.enabled"));
+				selectionCacheSize = selectionCacheSize > 0 ? selectionCacheSize : 0;
+			}
+			this.cachedSelections = new ArrayList<>(selectionCacheSize);
 		}
 		
 		UUID id;
@@ -179,68 +185,84 @@ public class SeltzerSession implements Closeable {
 		return BaseProcessor.processCommand(driver, command);
 	}
 
-	public int cacheWebElement(WebElement element) {
-		if (webElementCacheSize > 0 && cachedWebElements.size() >= webElementCacheSize) {
-			while (cachedWebElements.size() >= webElementCacheSize) {
-				if (webElementCacheClearStrategy == CacheClearStrategy.NONE) {
+	public int cacheWebElement(Selector originalSelector, WebElement element) {
+		if (selectionCacheSize == -1 || (selectionCacheSize > 0 && cachedSelections.size() >= selectionCacheSize)) {
+			while (cachedSelections.size() >= selectionCacheSize) {
+				if (selectionCacheClearStrategy == CacheClearStrategy.NONE) {
 					return -1;
-				} else if (webElementCacheClearStrategy == CacheClearStrategy.FIFO) {
-					cachedWebElements.remove(0);
-				} else if (webElementCacheClearStrategy == CacheClearStrategy.LIFO) {
-					cachedWebElements.remove(cachedWebElements.size() - 1);
-				} else if (webElementCacheClearStrategy == CacheClearStrategy.LEAST_RECENTLY_USED) {
-					CachedWebElement toRemove = cachedWebElements.get(0);
-					for (CachedWebElement cwe : cachedWebElements) {
+				} else if (selectionCacheClearStrategy == CacheClearStrategy.FIFO) {
+					cachedSelections.remove(0);
+				} else if (selectionCacheClearStrategy == CacheClearStrategy.LIFO) {
+					cachedSelections.remove(cachedSelections.size() - 1);
+				} else if (selectionCacheClearStrategy == CacheClearStrategy.LEAST_RECENTLY_USED) {
+					CachedSelection toRemove = cachedSelections.get(0);
+					for (CachedSelection cwe : cachedSelections) {
 						if (cwe.getLastAccess() < toRemove.getLastAccess()) {
 							toRemove = cwe;
 						}
 					}
-					cachedWebElements.remove(toRemove);
+					cachedSelections.remove(toRemove);
 				}
 			}
 		}
 		
-		cachedWebElements.add(new CachedWebElement(System.currentTimeMillis(), element));
-		return cachedWebElements.size() - 1;
+		List<WebElement> elements = new ArrayList<>();
+		elements.add(element);
+		cachedSelections.add(new CachedSelection(System.currentTimeMillis(), elements, originalSelector));
+		return cachedSelections.size() - 1;
 	}
 	
-	public WebElement getCachedWebElement(int index) {
-		return getCachedWebElement(index, false);
+	public List<WebElement> getCachedSelection(int index) {
+		return getCachedSelection(index, false);
 	}
 	
-	public WebElement getCachedWebElement(int index, boolean check) {
-		if (cachedWebElements.size() > index) {
-			CachedWebElement cachedWebElement = cachedWebElements.get(index);
+	public List<WebElement> getCachedSelection(int index, boolean check) {
+		if (cachedSelections.size() > index) {
+			CachedSelection cachedWebElement = cachedSelections.get(index);
 			if (check) {
-				if (!checkCachedWebElement(cachedWebElement)) {
+				if (!checkCachedSelection(cachedWebElement)) {
 					return null;
 				}
 			}
-			return cachedWebElement.getElement();
+			return cachedWebElement.getElements();
 		} else {
 			return null;
 		}
 	}
 	
-	public void checkWebElementCache() {
-		for (CachedWebElement cwe : cachedWebElements) {
-			checkCachedWebElement(cwe);
+	public Selector getCachedSelectionSelector(int index) {
+		if (cachedSelections.size() > index) {
+			CachedSelection cachedWebElement = cachedSelections.get(index);
+			if (!checkCachedSelection(cachedWebElement)) {
+				return null;
+			}
+			return cachedWebElement.getOriginalSelector();
+		} else {
+			return null;
 		}
 	}
 	
-	public boolean checkCachedWebElement(int index) {
-		if (cachedWebElements.size() > index) {
-			return checkCachedWebElement(cachedWebElements.get(index));
+	public void checkSelectionCache() {
+		for (CachedSelection cwe : cachedSelections) {
+			checkCachedSelection(cwe);
+		}
+	}
+	
+	public boolean checkCachedSelection(int index) {
+		if (cachedSelections.size() > index) {
+			return checkCachedSelection(cachedSelections.get(index));
 		}
 		return false;
 	}
 	
-	public boolean checkCachedWebElement(CachedWebElement cachedWebElement) {
+	public boolean checkCachedSelection(CachedSelection cachedSelection) {
 		try {
-			cachedWebElement.getElement().isEnabled();
+			for (WebElement element : cachedSelection.getElements()) {
+				element.isEnabled();
+			}
 			return true;
 		} catch (StaleElementReferenceException e) {
-			cachedWebElements.remove(cachedWebElement);
+			cachedSelections.remove(cachedSelection);
 			return false;
 		}
 	}
@@ -248,14 +270,14 @@ public class SeltzerSession implements Closeable {
 	@Override
 	public String toString() {
 		return "SeltzerSession [id=" + id + ", driver=" + driver + ", startedTime=" + startedTime + ", lastUsed="
-				+ lastUsed + ", dataDir=" + dataDir + ", cachedWebElements=" + cachedWebElements + "]";
+				+ lastUsed + ", dataDir=" + dataDir + ", cachedWebElements=" + cachedSelections + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cachedWebElements == null) ? 0 : cachedWebElements.hashCode());
+		result = prime * result + ((cachedSelections == null) ? 0 : cachedSelections.hashCode());
 		result = prime * result + ((dataDir == null) ? 0 : dataDir.hashCode());
 		result = prime * result + ((driver == null) ? 0 : driver.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -273,10 +295,10 @@ public class SeltzerSession implements Closeable {
 		if (getClass() != obj.getClass())
 			return false;
 		SeltzerSession other = (SeltzerSession) obj;
-		if (cachedWebElements == null) {
-			if (other.cachedWebElements != null)
+		if (cachedSelections == null) {
+			if (other.cachedSelections != null)
 				return false;
-		} else if (!cachedWebElements.equals(other.cachedWebElements))
+		} else if (!cachedSelections.equals(other.cachedSelections))
 			return false;
 		if (dataDir == null) {
 			if (other.dataDir != null)
@@ -351,27 +373,27 @@ public class SeltzerSession implements Closeable {
 		}
 	}
 
-	public static boolean isWebElementCacheEnabled() {
-		return webElementCacheEnabled;
+	public static boolean isSelectionCacheEnabled() {
+		return selectionCacheEnabled;
 	}
 
-	public static void setWebElementCacheEnabled(boolean webElementCacheEnabled) {
-		SeltzerSession.webElementCacheEnabled = webElementCacheEnabled;
+	public static void setSelectionCacheEnabled(boolean selectionCacheEnabled) {
+		SeltzerSession.selectionCacheEnabled = selectionCacheEnabled;
 	}
 
-	public static int getWebElementCacheSize() {
-		return webElementCacheSize;
+	public static int getSelectionCacheSize() {
+		return selectionCacheSize;
 	}
 
-	public static void setWebElementCacheSize(int webElementCacheSize) {
-		SeltzerSession.webElementCacheSize = webElementCacheSize;
+	public static void setSelectionCacheSize(int selectionCacheSize) {
+		SeltzerSession.selectionCacheSize = selectionCacheSize;
 	}
 
-	public static CacheClearStrategy getWebElementCacheClearStrategy() {
-		return webElementCacheClearStrategy;
+	public static CacheClearStrategy getSelectionCacheClearStrategy() {
+		return selectionCacheClearStrategy;
 	}
 
-	public static void setWebElementCacheClearStrategy(CacheClearStrategy webElementCacheClearStrategy) {
-		SeltzerSession.webElementCacheClearStrategy = webElementCacheClearStrategy;
+	public static void setWebElementCacheClearStrategy(CacheClearStrategy selectionCacheClearStrategy) {
+		SeltzerSession.selectionCacheClearStrategy = selectionCacheClearStrategy;
 	}
 }

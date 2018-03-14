@@ -1,5 +1,7 @@
 package tech.seltzer.core.processor;
 
+import java.util.UUID;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -11,6 +13,7 @@ import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
 import tech.seltzer.core.Messages;
+import tech.seltzer.core.SeltzerSession;
 import tech.seltzer.enums.SelectorType;
 import tech.seltzer.objects.command.Selector;
 import tech.seltzer.objects.command.selector.FillFieldCommandData;
@@ -94,7 +97,7 @@ public class SelectorProcessor {
 	private static Response click(WebDriver driver, SelectorCommandData command) throws WebDriverException {
 		Response response = new Response(command.getId(), false);
 
-		driver.findElement(BaseProcessor.getBy(command.getSelector())).click();
+		BaseProcessor.getElements(command, command.getSelector()).get(0).click();
 		response.setSuccess(true);
 
 		return response;
@@ -103,7 +106,7 @@ public class SelectorProcessor {
 	private static SingleResultResponse count(WebDriver driver, SelectorCommandData command) throws NoSuchElementException {
 		SingleResultResponse response = new SingleResultResponse(command.getId());
 
-		Integer size = driver.findElements(BaseProcessor.getBy(command.getSelector())).size();
+		Integer size = BaseProcessor.getElements(command, command.getSelector()).size();
 		response.setResult(size.toString());
 		response.setSuccess(size.toString().equals(response.getResult()));
 
@@ -113,7 +116,7 @@ public class SelectorProcessor {
 	private static Response delete(WebDriver driver, SelectorCommandData command) {
 		Response response = new Response(command.getId(), false);
 		if(driver instanceof JavascriptExecutor) {
-			Selector convertedSelector = convert(command.getSelector());
+			Selector convertedSelector = convert(command.getId(), command.getSelector());
 
 			if (convertedSelector.getType() == SelectorType.XPATH) {
 				String selector = convertedSelector.getPath().replace("\"", "\\\"");
@@ -205,7 +208,11 @@ public class SelectorProcessor {
 //		return response;
 //	}
 	
-	private static Selector convert(Selector selector) {
+	private static Selector convert(UUID id, Selector selector) {
+		if (selector.getType() == SelectorType.INDEX) {
+			selector = SeltzerSession.findSession(id).getCachedSelectionSelector(Integer.valueOf(selector.getPath()));
+		}
+		
 		if (selector.getType() == SelectorType.XPATH || selector.getType() == SelectorType.CSS_SELECTOR) {
 			return selector;
 		} else {
