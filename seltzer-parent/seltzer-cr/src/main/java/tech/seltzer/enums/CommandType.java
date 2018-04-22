@@ -34,6 +34,8 @@ import tech.seltzer.objects.command.wait.visibility.VisibilityWaitCommandData;
 public enum CommandType implements CrType {
 	NONE(CommandData.class),
 	BACK(CommandData.class),
+	CACHE(SelectorCommandData.class),
+	CACHE_ALL(MultiResultSelectorCommandData.class),
 	CHAIN(ChainCommandData.class),
 	CLICK(SelectorCommandData.class),
 	COUNT(SelectorCommandData.class),
