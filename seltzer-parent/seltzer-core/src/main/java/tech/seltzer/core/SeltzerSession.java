@@ -121,7 +121,7 @@ public class SeltzerSession implements Closeable {
 	public void start() {
 		if (Boolean.valueOf(ConfigManager.getConfigValue("session.cache.selection.enabled"))) {
 			if (selectionCacheSize < -1) {
-				selectionCacheSize = Integer.valueOf(ConfigManager.getConfigValue("session.cache.selection.enabled"));
+				selectionCacheSize = Integer.valueOf(ConfigManager.getConfigValue("session.cache.selection.size"));
 				selectionCacheSize = selectionCacheSize > 0 ? selectionCacheSize : 0;
 			}
 			this.cachedSelections = new ArrayList<>(selectionCacheSize);
