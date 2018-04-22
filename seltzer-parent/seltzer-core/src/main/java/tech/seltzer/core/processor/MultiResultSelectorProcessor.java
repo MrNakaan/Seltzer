@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -19,7 +18,7 @@ import tech.seltzer.objects.response.Response;
 import tech.seltzer.objects.response.SingleResultResponse;
 
 /**
- * Processor for <code>MultiResultSelectorCommandData</code> and all subclasses. 
+ * Processor for <code>MultiResultSelectorCommandData</code> and all subclasses.
  * Does not delegate to other processors.
  */
 public class MultiResultSelectorProcessor {
@@ -61,7 +60,7 @@ public class MultiResultSelectorProcessor {
 				BaseProcessor.sleep(e, tryNumber);
 			}
 		}
-		
+
 		return response;
 	}
 
@@ -72,11 +71,8 @@ public class MultiResultSelectorProcessor {
 		MultiResultResponse mrResponse = new MultiResultResponse(command.getId(), true);
 		SingleResultResponse srResponse = new SingleResultResponse(command.getId(), true);
 
-		By selector = BaseProcessor.getBy(command.getSelector());
-		List<WebElement> elements = null;
+		List<WebElement> elements = BaseProcessor.getElements(command, command.getSelector());
 		int maxResults = -1;
-
-		elements = driver.findElements(selector);
 
 		if (elements == null) {
 			throw new WebDriverException(Messages.getString("MultiResultSelectorProcessor.nullList"));
@@ -125,11 +121,8 @@ public class MultiResultSelectorProcessor {
 		MultiResultResponse mrResponse = new MultiResultResponse(command.getId(), true);
 		SingleResultResponse srResponse = new SingleResultResponse(command.getId(), true);
 
-		By selector = BaseProcessor.getBy(command.getSelector());
-		List<WebElement> elements = null;
+		List<WebElement> elements = BaseProcessor.getElements(command, command.getSelector());
 		int maxResults = -1;
-
-		elements = driver.findElements(selector);
 
 		if (elements == null) {
 			throw new WebDriverException(Messages.getString("MultiResultSelectorProcessor.nullList"));
