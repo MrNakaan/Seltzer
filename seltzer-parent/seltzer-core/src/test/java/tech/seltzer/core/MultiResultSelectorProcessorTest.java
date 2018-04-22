@@ -1,9 +1,11 @@
 package tech.seltzer.core;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Generated;
@@ -14,6 +16,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.WebElement;
 
 import tech.seltzer.enums.CommandType;
 import tech.seltzer.enums.ResponseType;
@@ -179,5 +183,56 @@ public class MultiResultSelectorProcessorTest {
 		assertTrue("Is 'Span 1' in the results?", mResponse.getResults().contains("Span 1"));
 		assertTrue("Is 'Span 2' in the results?", mResponse.getResults().contains("Span 2"));
 		assertTrue("Is 'Span 3' in the results?", mResponse.getResults().contains("Span 3"));
+	}
+	
+	@Test
+	public void testCacheMultipleElements() throws Exception {
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Page 1")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
+		
+		MultiResultSelectorCommandData command = new MultiResultSelectorCommandData(CommandType.CACHE_ALL, session.getId());
+		command.setSelector("//div[@id='count']/span", SelectorType.XPATH);
+		command.setMaxResults(0);
+		Response response = session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
+		assertTrue("Is the response a SingleResultResponse?", response instanceof SingleResultResponse);
+		
+		List<WebElement> cachedElements = session.getCachedSelection(0);
+		assertEquals("Are there 9 cached elements?", 9, cachedElements.size());
+		
+		for (int i = 0; i < cachedElements.size(); i++) {
+			assertTrue("Is element " + Integer.valueOf(i + 1) + " enabled?", cachedElements.get(i).isEnabled());
+		}
+	}
+	
+	@Test(expected = StaleElementReferenceException.class)
+	public void testCacheMultipleElementsWithStaleElements() throws Exception {
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Page 1")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
+		
+		MultiResultSelectorCommandData command = new MultiResultSelectorCommandData(CommandType.CACHE_ALL, session.getId());
+		command.setSelector("//div[@id='count']/span", SelectorType.XPATH);
+		command.setMaxResults(0);
+		Response response = session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
+		assertTrue("Is the response a SingleResultResponse?", response instanceof SingleResultResponse);
+		
+		List<WebElement> cachedElements = session.getCachedSelection(0);
+		assertEquals("Are there 9 cached elements?", 9, cachedElements.size());
+		
+		for (int i = 0; i < cachedElements.size(); i++) {
+			assertTrue("Is element " + Integer.valueOf(i + 1) + " enabled?", cachedElements.get(i).isEnabled());
+		}
+		
+		session.getDriver().navigate().refresh();
+		assertTrue("Is the first element disabled?", !cachedElements.get(0).isEnabled());
 	}
 }
