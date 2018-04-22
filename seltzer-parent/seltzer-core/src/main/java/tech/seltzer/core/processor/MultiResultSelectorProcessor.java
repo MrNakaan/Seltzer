@@ -1,15 +1,18 @@
 package tech.seltzer.core.processor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
 import tech.seltzer.core.Messages;
+import tech.seltzer.core.SeltzerSession;
 import tech.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommandData;
 import tech.seltzer.objects.command.selector.multiresult.ReadAttributeCommandData;
 import tech.seltzer.objects.response.ExceptionResponse;
@@ -36,6 +39,9 @@ public class MultiResultSelectorProcessor {
 					break;
 				case READ_TEXT:
 					response = readText(driver, command);
+					break;
+				case CACHE_ALL:
+					response = cacheAll(driver, command);
 					break;
 				default:
 					response = new MultiResultResponse(command.getId(), false);
@@ -161,5 +167,49 @@ public class MultiResultSelectorProcessor {
 
 			return mrResponse;
 		}
+	}
+
+	private static Response cacheAll(WebDriver driver, MultiResultSelectorCommandData command)
+			throws WebDriverException, Exception {
+		SingleResultResponse response = new SingleResultResponse(command.getId(), true);
+
+		By by = BaseProcessor.getBy(command.getSelector());
+		int maxResults = -1;
+		List<WebElement> elements = driver.findElements(by);
+		
+		if (elements == null) {
+			throw new WebDriverException(Messages.getString("MultiResultSelectorProcessor.nullList"));
+		} else {
+			maxResults = elements.size();
+		}
+
+		maxResults = (command.getMaxResults() <= 0 ? maxResults : Math.min(maxResults, command.getMaxResults()));
+		if (maxResults < 0) {
+			return new MultiResultResponse(command.getId(), false);
+		}
+
+		List<WebElement> tmpResult = new ArrayList<WebElement>();
+		if (command.getMaxResults() == 1) {
+			tmpResult.add(elements.get(0));
+
+			if (tmpResult == null || tmpResult.get(0) == null) {
+				response.setSuccess(false);
+			}
+		} else {
+			for (int i = 0; i < maxResults; i++) {
+				tmpResult.add(elements.get(i));
+
+				if (tmpResult.get(i) == null) {
+					response.setSuccess(false);
+					break;
+				}
+			}
+		}
+
+		SeltzerSession session = SeltzerSession.findSession(command.getId());
+		Integer index = session.cacheWebElements(command.getSelector(), tmpResult);
+		response.setResult(index.toString());
+		
+		return response;
 	}
 }

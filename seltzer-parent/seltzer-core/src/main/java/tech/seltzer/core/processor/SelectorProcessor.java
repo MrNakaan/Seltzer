@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -63,6 +64,9 @@ public class SelectorProcessor {
 						break;
 					case SEND_KEYS:
 						response = sendKeys(driver, (SendKeysCommandData) command);
+						break;
+					case CACHE:
+						response = cache(driver, command);
 						break;
 					// Removed for now since only Edge supports it
 					// case SCREENSHOT_ELEMENT:
@@ -196,6 +200,19 @@ public class SelectorProcessor {
 		WebElement input = BaseProcessor.getElements(command, command.getSelector()).get(0);
 		input.sendKeys(command.getKeys());
 
+		return response;
+	}
+	
+	private static Response cache(WebDriver driver, SelectorCommandData command) {
+		SingleResultResponse response = new SingleResultResponse(command.getId(), true);
+
+		By by = BaseProcessor.getBy(command.getSelector());
+		WebElement element = driver.findElement(by);
+		
+		SeltzerSession session = SeltzerSession.findSession(command.getId());
+		Integer index = session.cacheWebElement(command.getSelector(), element);
+		response.setResult(index.toString());
+		
 		return response;
 	}
 
