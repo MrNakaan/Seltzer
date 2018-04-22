@@ -8,6 +8,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -63,6 +65,7 @@ public class SelectorProcessor {
 					case SEND_KEYS:
 						response = sendKeys(driver, (SendKeysCommandData) command);
 						break;
+//					Removed for now since only Edge supports it
 //					case SCREENSHOT_ELEMENT:
 //						response = takeScreenshot(driver, command);
 //						break;
@@ -159,7 +162,7 @@ public class SelectorProcessor {
 	private static Response fillField(WebDriver driver, FillFieldCommandData command) throws WebDriverException {
 		Response response = new Response(command.getId(), false);
 
-		WebElement field = driver.findElement(BaseProcessor.getBy(command.getSelector()));
+		WebElement field = BaseProcessor.getElements(command, command.getSelector()).get(0);
 		field.click();
 		field.sendKeys(command.getText());
 		response.setSuccess(true);
@@ -170,7 +173,7 @@ public class SelectorProcessor {
 	private static Response formSubmit(WebDriver driver, SelectorCommandData command) throws WebDriverException {
 		Response response = new Response(command.getId(), false);
 
-		WebElement form = driver.findElement(BaseProcessor.getBy(command.getSelector()));
+		WebElement form = BaseProcessor.getElements(command, command.getSelector()).get(0);
 		form.submit();
 		response.setSuccess(true);
 
@@ -180,9 +183,9 @@ public class SelectorProcessor {
 	private static Response sendKey(WebDriver driver, SendKeyCommandData command) {
 		Response response = new Response(command.getId(), true);
 
-		By by = BaseProcessor.getBy(command.getSelector());
+		WebElement input = BaseProcessor.getElements(command, command.getSelector()).get(0);
 		String keyName = command.getKey().toString().toUpperCase();
-		driver.findElement(by).sendKeys(Keys.valueOf(keyName));
+		input.sendKeys(Keys.valueOf(keyName));
 
 		return response;
 	}
@@ -190,23 +193,23 @@ public class SelectorProcessor {
 	private static Response sendKeys(WebDriver driver, SendKeysCommandData command) {
 		Response response = new Response(command.getId(), true);
 
-		By by = BaseProcessor.getBy(command.getSelector());
-		driver.findElement(by).sendKeys(command.getKeys());
+		WebElement input = BaseProcessor.getElements(command, command.getSelector()).get(0);
+		input.sendKeys(command.getKeys());
 
 		return response;
 	}
 	
-//	private static Response takeScreenshot(WebDriver driver, SelectorCommandData command) throws WebDriverException, Exception {
-//		By by = BaseProcessor.getBy(command.getSelector());
-//		WebElement element = driver.findElement(by);
-//		
-//		String screenshot = ((TakesScreenshot) element).getScreenshotAs(OutputType.BASE64);
-//
-//		SingleResultResponse response = new SingleResultResponse(command.getId(), true);
-//		response.setResult(screenshot);
-//		
-//		return response;
-//	}
+	@SuppressWarnings("unused")
+	private static Response takeScreenshot(WebDriver driver, SelectorCommandData command) throws WebDriverException, Exception {
+		WebElement element = BaseProcessor.getElements(command, command.getSelector()).get(0);
+		
+		String screenshot = ((TakesScreenshot) element).getScreenshotAs(OutputType.BASE64);
+
+		SingleResultResponse response = new SingleResultResponse(command.getId(), true);
+		response.setResult(screenshot);
+		
+		return response;
+	}
 	
 	private static Selector convert(UUID id, Selector selector) {
 		if (selector.getType() == SelectorType.INDEX) {
