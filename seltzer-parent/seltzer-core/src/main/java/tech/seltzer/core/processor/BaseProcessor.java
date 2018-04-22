@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -171,6 +172,10 @@ public class BaseProcessor {
 	}
 	
 	static By getBy(Selector selector) {
+		return getBy(selector, null);
+	}
+	
+	static By getBy(Selector selector, UUID id) {
 		By by;
 
 		switch (selector.getType()) {
@@ -197,6 +202,11 @@ public class BaseProcessor {
 			break;
 		case XPATH:
 			by = By.xpath(selector.getPath());
+			break;
+		case INDEX:
+			SeltzerSession session = SeltzerSession.findSession(id);
+			Integer index = Integer.valueOf(selector.getPath());
+			by = getBy(session.getCachedSelectionSelector(index));
 			break;
 		default:
 			by = null;
