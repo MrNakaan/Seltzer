@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Generated;
@@ -14,6 +15,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
 import tech.seltzer.enums.CommandType;
@@ -26,6 +28,7 @@ import tech.seltzer.objects.command.selector.FillFieldCommandData;
 import tech.seltzer.objects.command.selector.SelectorCommandData;
 import tech.seltzer.objects.command.selector.SendKeyCommandData;
 import tech.seltzer.objects.command.selector.SendKeysCommandData;
+import tech.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommandData;
 import tech.seltzer.objects.response.Response;
 import tech.seltzer.objects.response.SingleResultResponse;
 
@@ -345,6 +348,51 @@ public class SelectorProcessorTest {
 
 		String inputText = session.getDriver().findElement(By.xpath("//input[1]")).getAttribute("value");
 		assertEquals("Make sure the field has the right value now.", "DUDE, KEYS!", inputText);
+	}
+	
+	@Test
+	public void testCacheElement() throws Exception {
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Page 1")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
+		
+		SelectorCommandData command = new SelectorCommandData(CommandType.CACHE, session.getId());
+		command.setSelector("//div[@id='count']/span", SelectorType.XPATH);
+		Response response = session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
+		assertTrue("Is the response a SingleResultResponse?", response instanceof SingleResultResponse);
+		
+		List<WebElement> cachedElements = session.getCachedSelection(0);
+		assertEquals("Is there 1 cached element?", 1, cachedElements.size());
+		
+		assertTrue("Is the element enabled?", cachedElements.get(0).isEnabled());
+	}
+	
+	@Test(expected = StaleElementReferenceException.class)
+	public void testCacheElementWithStaleElement() throws Exception {
+		session.getDriver().findElement(By.linkText("Main Tests 1")).click();
+//		session.getDriver().findElement(By.linkText("Page 1")).click();
+		BaseProcessorTest.dismissModal(session.getDriver());
+		
+		SelectorCommandData command = new SelectorCommandData(CommandType.CACHE, session.getId());
+		command.setSelector("//div[@id='count']/span", SelectorType.XPATH);
+		Response response = session.executeCommand(command);
+		
+		assertTrue("Was the command a success?", response.isSuccess());
+		assertEquals("Make sure IDs match.", session.getId(), response.getId());
+		assertEquals("Is this the right response type?", ResponseType.SINGLE_RESULT, response.getType());
+		assertTrue("Is the response a SingleResultResponse?", response instanceof SingleResultResponse);
+		
+		List<WebElement> cachedElements = session.getCachedSelection(0);
+		assertEquals("Is there 1 cached element?", 1, cachedElements.size());
+		
+		assertTrue("Is the element enabled?", cachedElements.get(0).isEnabled());
+		
+		session.getDriver().navigate().refresh();
+		assertTrue("Is the first element disabled?", !cachedElements.get(0).isEnabled());
 	}
 	
 //	@Test

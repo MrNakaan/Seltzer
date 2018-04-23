@@ -29,7 +29,6 @@ import tech.seltzer.objects.response.MultiResultResponse;
 import tech.seltzer.objects.response.Response;
 import tech.seltzer.objects.response.SingleResultResponse;
 
-@Generated(value = "org.junit-tools-1.0.5")
 public class MultiResultSelectorProcessorTest {
 	private static SeltzerSession session;
 	private static String homeUrl;
