@@ -1,13 +1,10 @@
 package tech.seltzer.objects.command;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 import tech.seltzer.enums.SelectorType;
-import tech.seltzer.objects.command.Selector;
 
 public class SelectorTest {
 	@Test

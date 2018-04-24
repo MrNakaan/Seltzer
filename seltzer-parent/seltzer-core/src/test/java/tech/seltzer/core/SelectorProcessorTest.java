@@ -28,7 +28,6 @@ import tech.seltzer.objects.command.selector.FillFieldCommandData;
 import tech.seltzer.objects.command.selector.SelectorCommandData;
 import tech.seltzer.objects.command.selector.SendKeyCommandData;
 import tech.seltzer.objects.command.selector.SendKeysCommandData;
-import tech.seltzer.objects.command.selector.multiresult.MultiResultSelectorCommandData;
 import tech.seltzer.objects.response.Response;
 import tech.seltzer.objects.response.SingleResultResponse;
 
