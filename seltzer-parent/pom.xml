@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>tech.seltzer</groupId>
@@ -49,8 +51,8 @@
 		<module>seltzer-core</module>
 		<module>seltzer-util</module>
 		<module>seltzer-balancer</module>
-    <module>seltzer-server-util</module>
-  </modules>
+		<module>seltzer-server-util</module>
+	</modules>
 
 	<build>
 		<plugins>
@@ -109,8 +111,10 @@
 	</build>
 	<description>The parent project for all Seltzer projects. Currently these are:
 * seltzer-core
+* seltzer-balanacer
 * seltzer-cr
 * seltzer-util
+* seltzer-server-util
 
 This project contains modules that are not OSGi compatible.</description>
 

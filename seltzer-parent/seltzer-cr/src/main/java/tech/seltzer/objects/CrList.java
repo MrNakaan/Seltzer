@@ -159,7 +159,7 @@ public class CrList<C extends CrDataBase> {
 	 * A method to remove a CrDataBase object meant to be called from  
 	 * within the classes using CrList from a method with a more 
 	 * descriptive name.
-	 * @param cr - the object to remove
+	 * @param index - the index of the object to remove
 	 */
 	public void removeCr(int index) {
 		if (crs == null) {

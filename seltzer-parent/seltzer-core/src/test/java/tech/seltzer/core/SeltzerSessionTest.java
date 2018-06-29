@@ -160,7 +160,6 @@ public class SeltzerSessionTest {
 		SeltzerSession.setSelectionCacheSize(iterations);
 		SeltzerSession.setWebElementCacheClearStrategy(CacheClearStrategy.LIFO);
 		
-		fail("Code below not ready yet.");
 		// Load up the cache
 		for (int i = 0; i < iterations; i++) {
 			index = session.cacheWebElement(new Selector(SelectorType.XPATH, xpath), driver.findElement(By.xpath(xpath)));
@@ -171,12 +170,29 @@ public class SeltzerSessionTest {
 			assertNull("Make sure that asking for the next index returns null.", session.getCachedSelection(i + 1));
 		}
 		
-		assertEquals("Make sure the element is rejected.", -1, session.cacheWebElement(new Selector(SelectorType.XPATH, xpath), driver.findElement(By.xpath(xpath + "[4]"))));
+		assertEquals("Make sure the element is inserted last.", iterations - 1, session.cacheWebElement(new Selector(SelectorType.XPATH, xpath), driver.findElement(By.xpath(xpath + "[4]"))));
 
+		int outliers = 0;
+		int inliers = 0;
+		String inlierText = driver.findElement(By.xpath(xpath + "[1]")).getText();
+		String outlierText = driver.findElement(By.xpath(xpath + "[4]")).getText();
+		
+		String tmp;
 		for (int i = 0; i < iterations; i++) {
 			assertNotNull("Make sure element " + (i + 1) + " isn't null.", session.getCachedSelection(iterations - 1));
-			assertEquals("Make sure element " + (i + 1) + " is still the first element.", driver.findElement(By.xpath(xpath + "[1]")).getText(), session.getCachedSelection(iterations - 1).get(0).getText());
+			
+			tmp = session.getCachedSelection(iterations - 1).get(0).getText();
+			if (tmp.equals(inlierText)) {
+				inliers++;
+			} else if (tmp.equals(outlierText)) {
+				outliers++;
+			} else {
+				fail("We grabbed an element we shouldn't have! Element text: '" + tmp + "'");
+			}
 		}
+		
+		assertEquals("Make sure there's only 1 outlier", 1, outliers);
+		assertEquals("Make sure there's " + (iterations - 1) + " inliers", iterations - 1, inliers);
 	}
 	
 	@Test
